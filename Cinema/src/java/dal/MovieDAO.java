@@ -4,8 +4,10 @@
  */
 package dal;
 
+import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Movies;
@@ -18,15 +20,16 @@ public class MovieDAO extends DBContext{
     public List<Movies> getAllMoviesNowShowing() {
         List<Movies> mv = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Movies";
+            String sql = "SELECT * FROM Movies WHERE Status = N'Đang chiếu'";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
-                Movies m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
-
+                Movies m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
+                System.out.println(m.getMovName());
                 mv.add(m);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println(e);
         }
         return mv;
     }
