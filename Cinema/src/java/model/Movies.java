@@ -21,11 +21,12 @@ public class Movies {
     private String notes;
     private String status;
     private String studio;
+    private String img;
 
     public Movies() {
     }
 
-    public Movies(int movID, String movName, Date startDate, double time, String language, String origin, double avrRate, String notes, String status, String studio) {
+    public Movies(int movID, String movName, Date startDate, double time, String language, String origin, double avrRate, String notes, String status, String studio, String img) {
         this.movID = movID;
         this.movName = movName;
         this.startDate = startDate;
@@ -36,8 +37,19 @@ public class Movies {
         this.notes = notes;
         this.status = status;
         this.studio = studio;
+        this.img = img;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+    
+    
+    
     public int getMovID() {
         return movID;
     }

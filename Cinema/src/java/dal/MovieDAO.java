@@ -4,10 +4,45 @@
  */
 package dal;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import model.Movies;
+
 /**
  *
  * @author acer
  */
 public class MovieDAO extends DBContext{
+    public List<Movies> getAllMoviesNowShowing() {
+        List<Movies> mv = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Movies";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Movies m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
+
+                mv.add(m);
+            }
+        } catch (Exception e) {
+        }
+        return mv;
+    }
     
+    public List<Movies> getAllMoviesNotShownYet() {
+        List<Movies> mv = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Movies WHERE Status = N'Chưa chiếu'";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Movies m = new Movies(rs.getInt("movID"), rs.getString("movName"), rs.getDate("StartDate"), rs.getDouble("Time"), rs.getString("Language"), rs.getString("Origin"), rs.getDouble("AvrRate"), rs.getString("Notes"), rs.getString("Status"), rs.getString("Studio"), rs.getString("Img"));
+                mv.add(m);
+            }
+        } catch (Exception e) {
+        }
+        return mv;
+    }
 }
