@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Best Website</title>
+        <title>Cinema</title>
 
         <link rel="shortcut icon" href="images/cinemaFavIcon.png" />
 
@@ -23,78 +23,8 @@
     </head>
     <body>
 
-
-        <ul class="menu_ttinBenLe">
-            <li><a href="#">TUYỂN DỤNG</a></li>
-            <li><a href="#">TIN MỚI & ƯU ĐÃI</a></li>
-            <li><a href="#">VÉ CỦA TÔI</a></li>
-            <li><a href="#">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
-            <li><a href="#">CSKH</a></li>
-            <li><a href="#">EN</a></li>
-        </ul>
-
-        <div class="wrapper_menu">
-            <img class="cinemaLogo" src="images/logoCinema.png" />
-            <ul class="menu">
-                <li>
-                    <div class="dropdown">
-                        <div class="dropbtn">
-                            <img class="movieIcon" src="images/movieIcon.jpg" />
-                            <a href="#">PHIM</a>
-                        </div>
-                        <div class="dropdown-content">
-                            <div class=insidedropdown-content>
-                                <a href="#">Phim Đang Chiếu</a>
-                                <a href="#">Phim Sắp Chiếu</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="dropdown">
-                        <div class="dropbtn">
-                            <img class="cinemaIcon" src="images/cinemaIcon.png" />
-                            <a href="#">RẠP</a>
-                        </div>
-                        <div class="dropdown-content">
-                            <div class=insidedropdown-content>
-                                <a href="#">Tất Cả Các Rạp</a>
-                                <a href="#">Rạp Đặc Biệt</a>
-                                <a href="#">Rạp 3D</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="dropdown">
-                        <div class="dropbtn">
-                            <img class="memberIcon" src="images/memberIcon.avif" />
-                            <a href="#">THÀNH VIÊN</a>
-                        </div>
-                        <div class="dropdown-content">
-                            <div class=insidedropdown-content>
-                                <a href="#">Tài Khoản</a>
-                                <a href="#">Quyền Lợi</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="dropdown">
-                        <div class="dropbtn">
-                            <img class="culturePlexIcon" src="images/culturePlexIcon.png" />
-                            <a href="#">CULTUREPLEX</a>
-                        </div>
-                        <div class="dropdown-content">
-                            <div class=insidedropdown-content>
-                                <a href="#">Nội Quy</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <a href="#"><img class="storeLogo" src="images/storeiCON.png" /></a>
-
+        <div id = "header">
+            <%@include file = "header.jsp" %>
         </div>
         <div id = "wrapper">
             <div class = "movieContent">
@@ -480,36 +410,14 @@
                 </div>
             </div>
 
-            
+
 
         </div>
         
-        <div class = "footer">
-                <div class = "cskh">
-                    <div class = "tt">
-                        Chăm sóc khách hàng
-                    </div>
-                    <br/>
-                    Hotline: 1900 6017
-                    <br/>
-                    Giờ làm việc: 8:00 - 22:00 (Tất cả các ngày bao gồm cả Lễ Tết)
-                    <br/>
-                    Email hỗ trợ: tranhaibang665@gmail.com
-                    <br/>
-                </div>
-                
-                <div class = "lh">
-                    <div class = "tt">
-                        Kết nối với chúng tôi
-                    </div>
-                    <br/>
-                    <a href = "#"><img src ="images/facebookIcon.png"/></a>
-                    <a href = "#"><img src ="images/twitterIcon.jpg"/></a>
-                    <a href = "#"><img src ="images/instagramIcon.png"/></a>
-                    <a href = "#"><img src ="images/zaloIcon.png"/></a>
-
-                </div>
-            </div>
+        <div id = "footer">
+            <%@include file = "footer.jsp" %>
+        </div>
+        
 
 
         <script src="index.js"></script>

@@ -335,14 +335,18 @@ body {
     border: 1px solid white;
     padding-left: 80px;
     padding-right: 80px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 15px;
     font-size: 20px;
     justify-content: space-between;
+    margin-bottom: 0px;
 }
 
 .footer .tt{
     font-weight: bold;
+}
+
+.tt{
+    margin-bottom: -5px;
 }
 
 
@@ -350,4 +354,11 @@ body {
 .lh img{
     width: 50px;
     height: 50px;
+}
+
+.ct div{
+    margin-bottom:7px;}
+
+.ct{
+    margin-bottom: 0px;
 }
