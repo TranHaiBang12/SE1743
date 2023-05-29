@@ -328,3 +328,26 @@ body {
 .movieContent{
     margin: 55px;
 }
+
+.footer{
+    background-color: white;
+    display: flex;
+    border: 1px solid white;
+    padding-left: 80px;
+    padding-right: 80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
+    justify-content: space-between;
+}
+
+.footer .tt{
+    font-weight: bold;
+}
+
+
+
+.lh img{
+    width: 50px;
+    height: 50px;
+}
