@@ -8,6 +8,6 @@ package dal;
  *
  * @author acer
  */
-public class MovieDAO {
+public class MovieDAO extends DBContext{
     
 }

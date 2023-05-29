@@ -1,0 +1,284 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    font-family: poppins;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: poppins; 
+    background-color: black;
+}
+
+
+/*menu ttinBenLe*/
+.menu_ttinBenLe {
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+}
+
+.menu_ttinBenLe li {
+    list-style-type: none;
+}
+
+.menu_ttinBenLe li a {
+    margin: 20px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.menu_ttinBenLe li a:hover {
+    font-size: 20px;
+    color: rgb(215, 5, 5);
+    transition: all ease 0.3s;
+}
+
+/*menu*/
+.menu {
+    display: flex;
+    margin: 45px;
+}
+
+.menu li {
+    list-style-type: none;
+
+}
+
+.menu li a {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #080808;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+
+
+/*wrapper_menu*/
+.wrapper_menu {
+    background-color: white;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid black;
+}
+
+/*drop down*/
+.dropbtn {
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    color: white;
+    min-width: 220px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: red;
+    text-decoration: none;
+}
+
+.insidedropdown-content{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+
+    color: red;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/*icon*/
+.movieIcon{
+    position: absolute;
+    height:45px;
+}
+
+.cinemaIcon{
+    position: absolute;
+    height:28px;
+}
+
+.memberIcon{
+    position: absolute;
+    height:28px;
+}
+
+.culturePlexIcon{
+    position: absolute;
+    height:28px;
+}
+
+.cinemaLogo{
+    position: absolute;
+    height:95px;
+    width: 140px;
+    left:50px;
+}
+
+.storeLogo{
+    position: absolute;
+    height:95px;
+    width: 140px;
+    right:50px;
+    top:54px;
+}
+
+#main-slider{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    max-width: 1170px;
+    width: 100%;
+}
+
+.main-slider-box{
+    width:100%;
+    height:480px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #0e0e0ec2;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+}
+
+.main-slider-img{
+    width:100%;
+    height:100%;
+}
+
+.main-slider-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.insidemain-slider-text{
+    position: absolute;
+    left: 0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    background: linear-gradient(360deg, #161616b9 35%, rgba(73, 73, 73, 0.23) 64%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-slider-text{
+    display: none;
+}
+
+.main-slider-text .category{
+    color: #969696;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.main-slider-text .category a{
+    color: #e70634;
+    margin: 0px 3px;
+}
+
+/*khi tro chuot vao anh? thi hien ten*/
+.main-slider-box:hover .main-slider-text{
+    display: block;
+}
+
+.rating img{
+    height: 10px;
+    width: 20px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.rating {
+    font-size: 0.8rem;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.main-slider-text .category-rating{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.main-slider-overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top:100%;
+    background-color: rgba(27, 27, 27, 0.6);
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    align-items: center;
+    color: #ffffff;
+    transition: all ease 0.3s;
+    z-index: 2;
+}
+
+.main-slider-overlay i{
+    font-size: 2rem;
+}
+
+
+.main-slider-box:hover .main-slider-overlay{
+    top: 0px;
+    transition: all ease 0.3s;
+}
+
+.title {
+    margin: 5px;
+    color: red;
+    text-align: center;
+    font-size: 50px;
+    border: 4px solid white;
+    border-color: red;
+    border-radius: 15px;
+}
+
+
