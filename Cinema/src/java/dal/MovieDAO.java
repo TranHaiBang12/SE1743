@@ -20,11 +20,11 @@ public class MovieDAO extends DBContext{
     public List<Movies> getAllMoviesNowShowing() {
         List<Movies> mv = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Movies WHERE Status = N'Đang chiếu'";
+            String sql = "SELECT * FROM Movies WHERE movID = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
-                Movies m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
+                Movies m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
                 System.out.println(m.getMovName());
                 mv.add(m);
             }

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -351,6 +352,21 @@
             </section>
 
             <div class = "title">
+                PHIM ĐANG CHIẾU
+            </div>
+            <div class = "event">
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <c:forEach items = "${requestScope.mvNS}" var = "i">
+                            <div class="swiper-slide"><img class ="event1" src="${i.img}" alt="Event Poster" /></div>
+                        </c:forEach>
+                            <h2>${i.img}</h2>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <div class = "title">
                 EVENT
             </div>
             <div class = "event">
@@ -393,7 +409,7 @@
                     },
                 },
             });
-            
+
             var swiper = new Swiper(".mySwiperEvent", {
                 slidesPerView: 1,
                 spaceBetween: 10,
