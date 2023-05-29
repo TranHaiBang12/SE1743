@@ -97,287 +97,382 @@
 
             </div>
 
-            <div class = "title">
-                PHIM HOT
-            </div>
-
-            <!--slider-->
-            <section id="main-slider">
-
-                <!-- Swiper -->
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="main-slider-box">
-
-                                <!--overlayer-->
-                                <a href="#" class="main-slider-overlay">
-                                    <i class="fa fa-play"></i>
-                                </a>
-
-                                <div class="main-slider-img">
-                                    <img src="images/Avengers_Endgame_bia_teaser.jpg" alt="Poster" />
-                                </div>
-
-                                <div class="main-slider-text">
-                                    <div class="insidemain-slider-text">
-                                        <div class="bottom-text">
-                                            <!--name-->
-                                            <div class="movie-name">
-                                                <strong>Avengers: End Game</strong>
-
-                                            </div>
-
-                                            <!--Category-and-rating-->
-                                            <div class="category-rating">
-                                                <!--category-->
-                                                <div class="category">
-                                                    <a href="#">Fiction</a>, <a href="#">Action</a>
-                                                </div>
-
-                                                <!--rating-->
-                                                <div class="rating">
-                                                    5.2 <!-- img hinh nut like-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="main-slider-box">
-
-                                <!--overlayer-->
-                                <a href="#" class="main-slider-overlay">
-                                    <i class="fa fa-play"></i>
-                                </a>
-
-                                <div class="main-slider-img">
-                                    <img src="images/avatar.jpg" alt="Poster" />
-                                </div>
-
-                                <div class="main-slider-text">
-                                    <div class="insidemain-slider-text">
-                                        <div class="bottom-text">
-                                            <!--name-->
-                                            <div class="movie-name">
-                                                <strong>Avengers: End Game</strong>
-
-                                            </div>
-
-                                            <!--Category-and-rating-->
-                                            <div class="category-rating">
-                                                <!--category-->
-                                                <div class="category">
-                                                    <a href="#">Fiction</a>, <a href="#">Action</a>
-                                                </div>
-
-                                                <!--rating-->
-                                                <div class="rating">
-                                                    5.2 <!-- img hinh nut like-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="main-slider-box">
-
-                                <!--overlayer-->
-                                <a href="#" class="main-slider-overlay">
-                                    <i class="fa fa-play"></i>
-                                </a>
-
-                                <div class="main-slider-img">
-                                    <img src="images/Chua_te_Godzilla_bia_poster.jpg" alt="Poster" />
-                                </div>
-
-                                <div class="main-slider-text">
-                                    <div class="insidemain-slider-text">
-                                        <div class="bottom-text">
-                                            <!--name-->
-                                            <div class="movie-name">
-                                                <strong>Avengers: End Game</strong>
-
-                                            </div>
-
-                                            <!--Category-and-rating-->
-                                            <div class="category-rating">
-                                                <!--category-->
-                                                <div class="category">
-                                                    <a href="#">Fiction</a>, <a href="#">Action</a>
-                                                </div>
-
-                                                <!--rating-->
-                                                <div class="rating">
-                                                    5.2 <!-- img hinh nut like-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="main-slider-box">
-
-                                <!--overlayer-->
-                                <a href="#" class="main-slider-overlay">
-                                    <i class="fa fa-play"></i>
-                                </a>
-
-                                <div class="main-slider-img">
-                                    <img src="images/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg" alt="Poster" />
-                                </div>
-
-                                <div class="main-slider-text">
-                                    <div class="insidemain-slider-text">
-                                        <div class="bottom-text">
-                                            <!--name-->
-                                            <div class="movie-name">
-                                                <strong>Avengers: End Game</strong>
-
-                                            </div>
-
-                                            <!--Category-and-rating-->
-                                            <div class="category-rating">
-                                                <!--category-->
-                                                <div class="category">
-                                                    <a href="#">Fiction</a>, <a href="#">Action</a>
-                                                </div>
-
-                                                <!--rating-->
-                                                <div class="rating">
-                                                    5.2 <!-- img hinh nut like-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="main-slider-box">
-
-                                <!--overlayer-->
-                                <a href="#" class="main-slider-overlay">
-                                    <i class="fa fa-play"></i>
-                                </a>
-
-                                <div class="main-slider-img">
-                                    <img src="images/GodzilaKong.jpg" alt="Poster" />
-                                </div>
-
-                                <div class="main-slider-text">
-                                    <div class="insidemain-slider-text">
-                                        <div class="bottom-text">
-                                            <!--name-->
-                                            <div class="movie-name">
-                                                <strong>Avengers: End Game</strong>
-
-                                            </div>
-
-                                            <!--Category-and-rating-->
-                                            <div class="category-rating">
-                                                <!--category-->
-                                                <div class="category">
-                                                    <a href="#">Fiction</a>, <a href="#">Action</a>
-                                                </div>
-
-                                                <!--rating-->
-                                                <div class="rating">
-                                                    5.2 <!-- img hinh nut like-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide">
-                            <div class="main-slider-box">
-
-                                <!--overlayer-->
-                                <a href="#" class="main-slider-overlay">
-                                    <i class="fa fa-play"></i>
-                                </a>
-
-                                <div class="main-slider-img">
-                                    <img src="images/fastAndFurious.jpg" alt="Poster" />
-                                </div>
-
-                                <div class="main-slider-text">
-                                    <div class="insidemain-slider-text">
-                                        <div class="bottom-text">
-                                            <!--name-->
-                                            <div class="movie-name">
-                                                <strong>Avengers: End Game</strong>
-
-                                            </div>
-
-                                            <!--Category-and-rating-->
-                                            <div class="category-rating">
-                                                <!--category-->
-                                                <div class="category">
-                                                    <a href="#">Fiction</a>, <a href="#">Action</a>
-                                                </div>
-
-                                                <!--rating-->
-                                                <div class="rating">
-                                                    5.2 <!-- img hinh nut like-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-                    <div class="swiper-pagination"></div>
+            <div class = "movieContent">
+                <div class = "title">
+                    PHIM HOT
                 </div>
 
-                <!--box-->
+                <!--slider-->
+                <section id="main-slider">
 
-            </section>
+                    <!-- Swiper -->
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="main-slider-box">
 
-            <div class = "title">
-                PHIM ĐANG CHIẾU
-            </div>
-            <div class = "event">
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        <c:forEach items = "${requestScope.mvNS}" var = "i">
-                            <div class="swiper-slide"><img class ="event1" src="${i.img}" alt="Event Poster" /></div>
-                        </c:forEach>
-                            <h2>${i.img}</h2>
+                                    <!--overlayer-->
+                                    <a href="#" class="main-slider-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+
+                                    <div class="main-slider-img">
+                                        <img src="images/Avengers_Endgame_bia_teaser.jpg" alt="Poster" />
+                                    </div>
+
+                                    <div class="main-slider-text">
+                                        <div class="insidemain-slider-text">
+                                            <div class="bottom-text">
+                                                <!--name-->
+                                                <div class="movie-name">
+                                                    <strong>Avengers: End Game</strong>
+
+                                                </div>
+
+                                                <!--Category-and-rating-->
+                                                <div class="category-rating">
+                                                    <!--category-->
+                                                    <div class="category">
+                                                        <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                    </div>
+
+                                                    <!--rating-->
+                                                    <div class="rating">
+                                                        5.2 <!-- img hinh nut like-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="main-slider-box">
+
+                                    <!--overlayer-->
+                                    <a href="#" class="main-slider-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+
+                                    <div class="main-slider-img">
+                                        <img src="images/avatar.jpg" alt="Poster" />
+                                    </div>
+
+                                    <div class="main-slider-text">
+                                        <div class="insidemain-slider-text">
+                                            <div class="bottom-text">
+                                                <!--name-->
+                                                <div class="movie-name">
+                                                    <strong>Avengers: End Game</strong>
+
+                                                </div>
+
+                                                <!--Category-and-rating-->
+                                                <div class="category-rating">
+                                                    <!--category-->
+                                                    <div class="category">
+                                                        <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                    </div>
+
+                                                    <!--rating-->
+                                                    <div class="rating">
+                                                        5.2 <!-- img hinh nut like-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="main-slider-box">
+
+                                    <!--overlayer-->
+                                    <a href="#" class="main-slider-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+
+                                    <div class="main-slider-img">
+                                        <img src="images/Chua_te_Godzilla_bia_poster.jpg" alt="Poster" />
+                                    </div>
+
+                                    <div class="main-slider-text">
+                                        <div class="insidemain-slider-text">
+                                            <div class="bottom-text">
+                                                <!--name-->
+                                                <div class="movie-name">
+                                                    <strong>Avengers: End Game</strong>
+
+                                                </div>
+
+                                                <!--Category-and-rating-->
+                                                <div class="category-rating">
+                                                    <!--category-->
+                                                    <div class="category">
+                                                        <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                    </div>
+
+                                                    <!--rating-->
+                                                    <div class="rating">
+                                                        5.2 <!-- img hinh nut like-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="main-slider-box">
+
+                                    <!--overlayer-->
+                                    <a href="#" class="main-slider-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+
+                                    <div class="main-slider-img">
+                                        <img src="images/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_.jpg" alt="Poster" />
+                                    </div>
+
+                                    <div class="main-slider-text">
+                                        <div class="insidemain-slider-text">
+                                            <div class="bottom-text">
+                                                <!--name-->
+                                                <div class="movie-name">
+                                                    <strong>Avengers: End Game</strong>
+
+                                                </div>
+
+                                                <!--Category-and-rating-->
+                                                <div class="category-rating">
+                                                    <!--category-->
+                                                    <div class="category">
+                                                        <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                    </div>
+
+                                                    <!--rating-->
+                                                    <div class="rating">
+                                                        5.2 <!-- img hinh nut like-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="main-slider-box">
+
+                                    <!--overlayer-->
+                                    <a href="#" class="main-slider-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+
+                                    <div class="main-slider-img">
+                                        <img src="images/GodzilaKong.jpg" alt="Poster" />
+                                    </div>
+
+                                    <div class="main-slider-text">
+                                        <div class="insidemain-slider-text">
+                                            <div class="bottom-text">
+                                                <!--name-->
+                                                <div class="movie-name">
+                                                    <strong>Avengers: End Game</strong>
+
+                                                </div>
+
+                                                <!--Category-and-rating-->
+                                                <div class="category-rating">
+                                                    <!--category-->
+                                                    <div class="category">
+                                                        <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                    </div>
+
+                                                    <!--rating-->
+                                                    <div class="rating">
+                                                        5.2 <!-- img hinh nut like-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div class="main-slider-box">
+
+                                    <!--overlayer-->
+                                    <a href="#" class="main-slider-overlay">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+
+                                    <div class="main-slider-img">
+                                        <img src="images/fastAndFurious.jpg" alt="Poster" />
+                                    </div>
+
+                                    <div class="main-slider-text">
+                                        <div class="insidemain-slider-text">
+                                            <div class="bottom-text">
+                                                <!--name-->
+                                                <div class="movie-name">
+                                                    <strong>Avengers: End Game</strong>
+
+                                                </div>
+
+                                                <!--Category-and-rating-->
+                                                <div class="category-rating">
+                                                    <!--category-->
+                                                    <div class="category">
+                                                        <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                    </div>
+
+                                                    <!--rating-->
+                                                    <div class="rating">
+                                                        5.2 <!-- img hinh nut like-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    <div class="swiper-pagination"></div>
+
+                    <!--box-->
+
+                </section>
+            </div>
+
+            <div class = "movieContent">
+                <div class = "title">
+                    PHIM ĐANG CHIẾU
+                </div>
+                <div class = "nowShowing">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <c:forEach items = "${requestScope.mvNS}" var = "i">
+                                <div class="swiper-slide">
+                                    <div class="main-slider-box">
+
+                                        <!--overlayer-->
+                                        <a href="#" class="main-slider-overlay">
+                                            <i class="fa fa-play"></i>
+                                        </a>
+
+                                        <div class="main-slider-img">
+                                            <img src="${i.img}" alt="Poster" />
+                                        </div>
+
+                                        <div class="main-slider-text">
+                                            <div class="insidemain-slider-text">
+                                                <div class="bottom-text">
+                                                    <!--name-->
+                                                    <div class="movie-name">
+                                                        <strong>${i.movName}</strong>
+
+                                                    </div>
+
+                                                    <!--Category-and-rating-->
+                                                    <div class="category-rating">
+                                                        <!--category-->
+                                                        <div class="category">
+                                                            <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                        </div>
+
+                                                        <!--rating-->
+                                                        <div class="rating">
+                                                            5.2 <!-- img hinh nut like-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class = "title">
-                EVENT
-            </div>
-            <div class = "event">
-                <div class="swiper mySwiperEvent">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img class ="event1" src="images/event1.png" alt="Event Poster" /></div>
-                        <div class="swiper-slide"><img class ="event" src="images/event2.png" alt="Event Poster" /></div>
-                        <div class="swiper-slide"><img class ="event" src="images/event3.png" alt="Event Poster" /></div>
-                        <div class="swiper-slide"><img class ="event" src="images/event4.png" alt="Event Poster" /></div>
+            <div class ="movieContent">
+                <div class = "title">
+                    PHIM SẮP CHIẾU
+                </div>
+                <div class = "notShowing">
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <c:forEach items = "${requestScope.mvNSY}" var = "i">
+                                <div class="swiper-slide">
+                                    <div class="main-slider-box">
+
+                                        <!--overlayer-->
+                                        <a href="#" class="main-slider-overlay">
+                                            <i class="fa fa-play"></i>
+                                        </a>
+
+                                        <div class="main-slider-img">
+                                            <img src="${i.img}" alt="Poster" />
+                                        </div>
+
+                                        <div class="main-slider-text">
+                                            <div class="insidemain-slider-text">
+                                                <div class="bottom-text">
+                                                    <!--name-->
+                                                    <div class="movie-name">
+                                                        <strong>${i.movName}</strong>
+
+                                                    </div>
+
+                                                    <!--Category-and-rating-->
+                                                    <div class="category-rating">
+                                                        <!--category-->
+                                                        <div class="category">
+                                                            <a href="#">Fiction</a>, <a href="#">Action</a>
+                                                        </div>
+
+                                                        <!--rating-->
+                                                        <div class="rating">
+                                                            5.2 <!-- img hinh nut like-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        <div class="swiper-pagination"></div>
                     </div>
-                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+
+            <div class ="movieContent">
+                <div class = "title">
+                    EVENT
+                </div>
+                <div class = "event">
+                    <div class="swiper mySwiperEvent">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><img class ="event1" src="images/event1.png" alt="Event Poster" /></div>
+                            <div class="swiper-slide"><img class ="event" src="images/event2.png" alt="Event Poster" /></div>
+                            <div class="swiper-slide"><img class ="event" src="images/event3.png" alt="Event Poster" /></div>
+                            <div class="swiper-slide"><img class ="event" src="images/event4.png" alt="Event Poster" /></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                 </div>
             </div>
 

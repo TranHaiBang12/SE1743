@@ -60,9 +60,7 @@ public class HomeServlet extends HttpServlet {
         MovieDAO mvd = new MovieDAO();
         List<Movies> mvNS = mvd.getAllMoviesNowShowing();
         List<Movies> mvNSY = mvd.getAllMoviesNotShownYet();
-        for (int i = 0; i < mvNS.size(); i++) {
-            System.out.println(mvNS.get(i).getImg());
-        }
+        System.out.println(mvNSY.get(0).getMovName());
         request.setAttribute("mvNS", mvNS);
         request.setAttribute("mvNSY", mvNSY);
         request.getRequestDispatcher("home.jsp").forward(request, response);

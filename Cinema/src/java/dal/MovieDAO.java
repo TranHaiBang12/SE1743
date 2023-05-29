@@ -16,15 +16,21 @@ import model.Movies;
  *
  * @author acer
  */
-public class MovieDAO extends DBContext{
+public class MovieDAO extends DBContext {
+
     public List<Movies> getAllMoviesNowShowing() {
         List<Movies> mv = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Movies WHERE movID = 1";
+            String sql = "SELECT * FROM Movies WHERE Status = N'Đang chiếu'";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
-                Movies m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+            while (rs.next()) {
+                Movies m;
+                if (rs.getString("img").substring(0, 2).equals("??")) {
+                    m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
+                } else {
+                    m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                }
                 System.out.println(m.getMovName());
                 mv.add(m);
             }
@@ -33,15 +39,21 @@ public class MovieDAO extends DBContext{
         }
         return mv;
     }
-    
+
     public List<Movies> getAllMoviesNotShownYet() {
         List<Movies> mv = new ArrayList<>();
         try {
             String sql = "SELECT * FROM Movies WHERE Status = N'Chưa chiếu'";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
-                Movies m = new Movies(rs.getInt("movID"), rs.getString("movName"), rs.getDate("StartDate"), rs.getDouble("Time"), rs.getString("Language"), rs.getString("Origin"), rs.getDouble("AvrRate"), rs.getString("Notes"), rs.getString("Status"), rs.getString("Studio"), rs.getString("Img"));
+            while (rs.next()) {
+                Movies m;
+                if (rs.getString("img").substring(0, 2).equals("??")) {
+                    m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
+                } else {
+                    m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                }
+                System.out.println(m.getMovName());
                 mv.add(m);
             }
         } catch (Exception e) {
