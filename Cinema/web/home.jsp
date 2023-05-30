@@ -302,6 +302,10 @@
                                                 <button type = "submit" value = "XEM CHI TIẾT">XEM CHI TIẾT</button>
                                                 <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
                                             </div>
+                                            <div class = "btn3">
+                                                <button type = "submit" value = "UPDATE">UPDATE</button>
+                                                <button type = "submit" value = "DELETE">DELETE</button>
+                                            </div>
                                         </div>
                                         <div class="main-slider-img">
                                             <img src="${i.img}" alt="Poster" />
@@ -413,11 +417,11 @@
 
 
         </div>
-        
+
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
-        
+
 
 
         <script src="index.js"></script>
