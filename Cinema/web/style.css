@@ -326,26 +326,22 @@ body {
     margin: 55px;
 }
 
-.footer{
+.service{
     background-color: white;
     display: flex;
     border: 1px solid white;
     padding-left: 80px;
     padding-right: 80px;
-    padding-top: 15px;
+    padding-top: 35px;
     font-size: 20px;
     justify-content: space-between;
     margin-bottom: 0px;
+    
 }
 
-.footer .tt{
+.service .tt{
     font-weight: bold;
 }
-
-.tt{
-    margin-bottom: -5px;
-}
-
 
 
 .lh img{
@@ -353,16 +349,37 @@ body {
     height: 50px;
 }
 
-.ct div{
-    margin-bottom:7px;}
-
-.ct{
-    margin-bottom: 0px;
-}
-
 .loginForm div{
     color: white;
 }
+
+.footer {
+
+    display: flex;
+    flex-direction: column;
+}
+
+.tTin{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    padding:20px;
+}
+
+.tTin .abtCty{
+    margin-left:100px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.tTin .abtCty span{
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+
 
 .body{
     background-color: white;

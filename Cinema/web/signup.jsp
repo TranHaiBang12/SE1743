@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login.jsp
-    Created on : May 29, 2023, 7:47:38 AM
+    Document   : signup
+    Created on : May 30, 2023, 9:23:00 AM
     Author     : acer
 --%>
 
@@ -45,12 +45,12 @@
                 color: white;
             }
 
-            .dn {
+            .dk {
                 text-decoration: none;
                 position: relative;
             }
 
-            .dn:after {
+            .dk:after {
                 content: '';
                 width: 100%;
                 position: absolute;
@@ -114,24 +114,50 @@
         <div class = "body">
             <div class = "logn">
                 <div class = "loginTitle">
-                    <a href = "login" class = "dn">ĐĂNG NHẬP</a>
-                    <a href = "signup">ĐĂNG KÝ</a>
+                    <a href = "login">ĐĂNG NHẬP</a>
+                    <a href = "signup" class = "dk">ĐĂNG KÝ</a>
                 </div>
                 <div class ="loginForm">
                     <form>
-                            <label for = "user">Email hoặc số điện thoại</label>
+                            <label for = "name">Tên</label>
                             <br/><!-- comment -->
-                            <input type ="text" id ="user" name ="user" placeholder ="Email hoặc số điện thoại"/>
+                            <input type ="text" id ="name" name ="name" placeholder ="Tên"/>
 
                             <br/><!-- comment -->
 
+                            <label for = "sdt">Số điện thoại</label>
+                            <br/><!-- comment -->
+                            <input type ="text" id ="sdt" name ="sdt" placeholder ="Số điện thoại"/>
+
+                            <br/>
+                            
+                            <label for = "email">Email</label>
+                            <br/><!-- comment -->
+                            <input type ="text" id ="email" name ="email" placeholder ="Email"/>
+
+                            <br/>
+                            
                             <label for = "pass">Mật khẩu</label>
                             <br/><!-- comment -->
                             <input type ="password" id ="pass" name ="pass" placeholder ="Mật khẩu"/>
 
                             <br/>
+                            
+                            <label for = "dob">Ngày sinh</label>
+                            <br/>
+                            <input type ="date" id ="dob" name ="dob" placeholder ="Ngày sinh"/>
+                            <br/>
+                            
+                            <label for = "area">Khu vực</label>
+                            <br/><!-- comment -->
+                            <input type ="text" id ="area" name ="area" placeholder ="Khu vực"/>
 
-                            <input id ="logBtn" type ="submit" value ="ĐĂNG NHẬP"/>
+                            <br/>
+                            
+                            <input type ="checkbox" name ="rule">Tôi đồng ý với Điều Khoản Sử Dụng
+                            <br/>
+
+                            <input id ="logBtn" type ="submit" value ="ĐĂNG KÝ"/>
                     </form>
                 </div>
             </div>
