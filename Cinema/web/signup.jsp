@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>ĐĂNG NHẬP</title>
+        <title>ĐĂNG KÝ</title>
     
         <<link rel="stylesheet" href="style.css"/>
         <style>
@@ -101,7 +101,13 @@
                 padding-top: 30px;
                 padding-bottom: 30px;
             }
-
+            
+            #rule{
+                height:15px;
+                width:20px;
+                margin-right:10px;
+                padding: 0px;
+            }
 
 
 
@@ -154,7 +160,7 @@
 
                             <br/>
                             
-                            <input type ="checkbox" name ="rule">Tôi đồng ý với Điều Khoản Sử Dụng
+                            <input type ="checkbox" id ="rule" name ="rule"><label for = "rule">Tôi đồng ý với Điều Khoản Sử Dụng</label>
                             <br/>
 
                             <input id ="logBtn" type ="submit" value ="ĐĂNG KÝ"/>

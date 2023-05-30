@@ -5,12 +5,15 @@
 
 package controller;
 
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
@@ -67,7 +70,23 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String u = request.getParameter("user");
+        String p = request.getParameter("pass");
+        System.out.println(u + " " + p);
+        AccountDAO acd = new AccountDAO();
+        Account a = acd.check(u, p);
+        if(a != null) {
+            System.out.println("1");
+                    
+            HttpSession session = request.getSession();
+            session.setAttribute("account", a);
+            response.sendRedirect("home");
+        }
+        else {
+            String ms = "Tài khoản hoặc mật khẩu không tồn tại";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("login").forward(request, response);
+        }
     }
 
     /** 

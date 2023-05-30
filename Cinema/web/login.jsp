@@ -118,7 +118,7 @@
                     <a href = "signup">ĐĂNG KÝ</a>
                 </div>
                 <div class ="loginForm">
-                    <form>
+                    <form action = "login" method = "post">
                             <label for = "user">Email hoặc số điện thoại</label>
                             <br/><!-- comment -->
                             <input type ="text" id ="user" name ="user" placeholder ="Email hoặc số điện thoại"/>
