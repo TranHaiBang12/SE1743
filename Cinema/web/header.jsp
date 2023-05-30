@@ -16,14 +16,15 @@
             <li><a href="#">TUYỂN DỤNG</a></li>
             <li><a href="#">TIN MỚI & ƯU ĐÃI</a></li>
             <li><a href="#">VÉ CỦA TÔI</a></li>
-            <li><a href="#">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
+            <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
             <li><a href="#">CSKH</a></li>
             <li><a href="#">EN</a></li>
         </ul>
 
         <div class="wrapper_menu">
-            <img class="cinemaLogo" src="images/logoCinema.png" />
+            
             <ul class="menu">
+                <li><img class="cinemaLogo" src="images/logoCinema.png" /></li>
                 <li>
                     <div class="dropdown">
                         <div class="dropbtn">
@@ -56,7 +57,7 @@
                 <li>
                     <div class="dropdown">
                         <div class="dropbtn">
-                            <img class="memberIcon" src="images/memberIcon.avif" />
+                            <img class="memberIcon" src="images/memberIcon.jpg" />
                             <a href="#">THÀNH VIÊN</a>
                         </div>
                         <div class="dropdown-content">
@@ -80,8 +81,9 @@
                         </div>
                     </div>
                 </li>
+                <li><a href="#"><img class="storeLogo" src="images/storeiCON.png" /></a></li>
             </ul>
-            <a href="#"><img class="storeLogo" src="images/storeiCON.png" /></a>
+            
 
         </div>
     </body>

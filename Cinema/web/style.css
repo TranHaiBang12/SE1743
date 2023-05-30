@@ -41,6 +41,7 @@ body {
 .menu {
     display: flex;
     margin: 45px;
+    align-items: center;
 }
 
 .menu li {
@@ -69,7 +70,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid black;
 }
 
 /*drop down*/
@@ -148,18 +148,15 @@ body {
 }
 
 .cinemaLogo{
-    position: absolute;
+
     height:95px;
     width: 140px;
-    left:50px;
 }
 
 .storeLogo{
-    position: absolute;
     height:95px;
     width: 140px;
-    right:50px;
-    top:54px;
+
 }
 
 #main-slider{
@@ -361,4 +358,12 @@ body {
 
 .ct{
     margin-bottom: 0px;
+}
+
+.loginForm div{
+    color: white;
+}
+
+.body{
+    background-color: white;
 }
