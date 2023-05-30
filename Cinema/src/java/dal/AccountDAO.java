@@ -47,6 +47,7 @@ public class AccountDAO extends DBContext{
             st.setString(8, pass);
             st.executeUpdate();
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
     

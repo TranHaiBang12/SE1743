@@ -318,11 +318,11 @@
                                                 <button type = "submit" value = "XEM CHI TIẾT">XEM CHI TIẾT</button>
                                                 <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
                                             </div>
-                                                
+
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
-                                                <button type = "submit" value = "UPDATE">UPDATE</button>
-                                                <button type = "submit" value = "DELETE">DELETE</button>
+                                                    <button type = "submit" value = "UPDATE">UPDATE</button>
+                                                    <button type = "submit" value = "DELETE">DELETE</button>
                                                 </c:if>
                                             </div>
 
@@ -382,13 +382,13 @@
                                                 </a>
                                             </div>
                                             <div class = "btn">
-                                                <button type = "submit" value = "XEM CHI TIẾT">XEM CHI TIẾT</button>
+                                                <button type = "submit" value = "XEM CHI TIẾT" onclick = "detail('${i.movID}')">XEM CHI TIẾT</button>
                                                 <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
                                             </div>
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
-                                                <button type = "submit" value = "UPDATE">UPDATE</button>
-                                                <button type = "submit" value = "DELETE">DELETE</button>
+                                                    <button type = "submit" value = "UPDATE">UPDATE</button>
+                                                    <button type = "submit" value = "DELETE">DELETE</button>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -498,6 +498,13 @@
                     },
                 },
             });
+
+
+        </script>
+        <script>
+            function detail(id) {
+                window.location = "detail?id=" + id;
+            }
         </script>
     </body>
 </html>

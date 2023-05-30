@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
 
 /**
  *
@@ -367,7 +368,7 @@ public class SignupServlet extends HttpServlet {
                 out.println("<h2>" + request.getAttribute("ms") + "</h2>");
             }
 
-            out.println("                    <form action = \"signup\" method = \"post\">\n"
+            out.println("                    <form  method = \"post\">\n"
                     + "                        <label for = \"name\">Tên tài khoản <span style=\"color:red\">*</span></label>\n"
                     + "                            <br/><!-- comment -->\n"
                     + "                            <input type =\"text\" id =\"name\" name =\"name\" placeholder =\"Tên tài khoản\"/>\n"
@@ -516,7 +517,8 @@ public class SignupServlet extends HttpServlet {
         String dob = request.getParameter("dob");
         String area = request.getParameter("area");
         String rule = request.getParameter("rule");
-        if (user.equals("") || gender.equals("") || phone.equals("") || email.equals("") || pass.equals("") || dob.equals("") || area.equals("") || rule.equals("")) {
+        System.out.println(gender);
+        if (user.equals("") || gender.equals("") || phone.equals("") || email.equals("") || pass.equals("") || dob.equals("") || area.equals("") || (rule != null && rule.equals(""))) {
             String ms = "Vui lòng điền đầy đủ tất cả thông tin";
             //request.getRequestDispatcher("")
             request.setAttribute("ms", ms);
@@ -544,15 +546,13 @@ public class SignupServlet extends HttpServlet {
                 request.setAttribute("ms", ms);
                 processRequest(request, response);
             }
-        } else if (acd.checkE(email) != null) {
+        } if (acd.checkE(email) != null) {
             String ms = "Email đã tồn tại";
             //request.getRequestDispatcher("")
-            System.out.println("1");
             request.setAttribute("ms", ms);
             processRequest(request, response);
         } 
-//        else if (email.matches("^[A-Z0-9._%+-]@[A-Z0-9.-]+\\\\\\\\.[A-Z]{2,6}$") == true) {
-//            System.out.println("1");
+//        else if (email.matches("^[A-Z0-9._%+-]@[A-Z0-9.-]+\\\\\\\\.[A-Z]{2,6}$") == false) {
 //            String ms = "Vui lòng nhập đúng email";
 //            //request.getRequestDispatcher("")
 //            request.setAttribute("ms", ms);
@@ -560,14 +560,30 @@ public class SignupServlet extends HttpServlet {
 //        } 
         //bo sung them phan check email
         
-        if (checkPass(pass) == false) {
-            System.out.println("3");
+        else if (checkPass(pass) == false) {
             String ms = "Mật khẩu cần có ít nhất 8 ký tự và nhiều nhất là 20 ký tự, bao gồm ít nhất 1 ký tự thường, 1 ký tự viết hoa, 1 chữ số và 1 trong các ký tự đặc biệt sau: ! # $ @ _ + , ? . -";
             //request.getRequestDispatcher("")
             request.setAttribute("ms", ms);
             processRequest(request, response);
         }
-        System.out.println(checkPass(pass));
+        else if(rule==null) {
+            String ms = "Bạn cần đồng ý với điều khoản sử dụng ";
+            //request.getRequestDispatcher("")
+            request.setAttribute("ms", ms);
+            processRequest(request, response);
+        }
+        else {
+            if(gender.equals("1"))
+                gender = "Nam";
+            else if(gender.equals("0")) {
+                gender = "Nữ";
+            }
+            else {
+                gender = "Khác";
+            }
+            acd.insert(user, gender, Date.valueOf(dob), phone, email, area, 2, pass);
+            
+        }
     }
     
     public boolean checkPass(String pass) {
