@@ -299,18 +299,10 @@ body {
     font-size: 15px;
     padding:5px;
     cursor: pointer;
+    
+    
 }
 
-.main-slider-overlay .btn3 button{
-    background-color: red;
-    color: white;
-    border: 1px solid red;
-    border-radius: 5px;
-    font-size: 15px;
-    padding:5px;
-    cursor: pointer;
-    margin-top: 15px;
-}
 
 #wrapper{
     margin-left: 30px;

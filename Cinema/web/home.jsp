@@ -20,6 +20,22 @@
         <script src="https://kit.fontawesome.com/8157308f93.js" crossorigin="anonymous"></script>
 
         <link rel="stylesheet" href="swiper-bundle.min.css">
+
+        <style>
+            .bt2 button{
+                background-color: red;
+                color: white;
+                border: 1px solid red;
+                border-radius: 5px;
+                font-size: 15px;
+                padding:5px;
+                cursor: pointer;
+            }
+
+            .bt2{
+                margin-top: 15px;
+            }
+        </style>
     </head>
     <body>
 
@@ -302,10 +318,14 @@
                                                 <button type = "submit" value = "XEM CHI TIẾT">XEM CHI TIẾT</button>
                                                 <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
                                             </div>
-                                            <div class = "btn3">
+                                                
+                                            <div class = "bt2">
+                                                <c:if test="${sessionScope.account.role==3}">
                                                 <button type = "submit" value = "UPDATE">UPDATE</button>
                                                 <button type = "submit" value = "DELETE">DELETE</button>
+                                                </c:if>
                                             </div>
+
                                         </div>
                                         <div class="main-slider-img">
                                             <img src="${i.img}" alt="Poster" />
@@ -364,6 +384,12 @@
                                             <div class = "btn">
                                                 <button type = "submit" value = "XEM CHI TIẾT">XEM CHI TIẾT</button>
                                                 <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
+                                            </div>
+                                            <div class = "bt2">
+                                                <c:if test="${sessionScope.account.role==3}">
+                                                <button type = "submit" value = "UPDATE">UPDATE</button>
+                                                <button type = "submit" value = "DELETE">DELETE</button>
+                                                </c:if>
                                             </div>
                                         </div>
 
