@@ -108,6 +108,33 @@
                 margin-right:10px;
                 padding: 0px;
             }
+            
+            #nam{
+                height:15px;
+                width:20px;
+                margin-top: 2px;
+                margin-bottom: 12px;
+                margin-right:10px;
+                padding: 0px;
+            }
+            
+            #nu{
+                height:15px;
+                width:20px;
+                margin-right:10px;
+                margin-top: 2px;
+                margin-bottom: 12px;
+                padding: 0px;
+            }
+            
+            #khac{
+                height:15px;
+                width:20px;
+                margin-right:10px;
+                margin-top: 2px;
+                margin-bottom: 12px;
+                padding: 0px;
+            }
 
 
 
@@ -124,37 +151,47 @@
                     <a href = "signup" class = "dk">ĐĂNG KÝ</a>
                 </div>
                 <div class ="loginForm">
-                    <form>
-                            <label for = "name">Tên</label>
+                    <form action = "signup" method = "post">
+                        <label for = "name">Tên tài khoản <span style="color:red">*</span></label>
                             <br/><!-- comment -->
-                            <input type ="text" id ="name" name ="name" placeholder ="Tên"/>
+                            <input type ="text" id ="name" name ="name" placeholder ="Tên tài khoản"/>
+
+                            <br/><!-- comment -->
+                            
+                            <label for = "gender">Giới tính <span style="color:red">*</span>:</label>
+                            <label for ="nam">Nam</label>
+                            <input type ="radio" id ="nam" name ="gender" value ="1"/>
+                            <label for ="nam">Nữ</label>
+                            <input type ="radio" id ="nu" name ="gender" value ="0"/>
+                            <label for ="nam">Khác</label>
+                            <input type ="radio" id ="khac" checked name ="gender" value ="2"/>
 
                             <br/><!-- comment -->
 
-                            <label for = "sdt">Số điện thoại</label>
+                            <label for = "sdt">Số điện thoại <span style="color:red">*</span></label>
                             <br/><!-- comment -->
                             <input type ="text" id ="sdt" name ="sdt" placeholder ="Số điện thoại"/>
 
                             <br/>
                             
-                            <label for = "email">Email</label>
+                            <label for = "email">Email <span style="color:red">*</span></label>
                             <br/><!-- comment -->
                             <input type ="text" id ="email" name ="email" placeholder ="Email"/>
 
                             <br/>
                             
-                            <label for = "pass">Mật khẩu</label>
+                            <label for = "pass">Mật khẩu <span style="color:red">*</span></label>
                             <br/><!-- comment -->
                             <input type ="password" id ="pass" name ="pass" placeholder ="Mật khẩu"/>
 
                             <br/>
                             
-                            <label for = "dob">Ngày sinh</label>
+                            <label for = "dob">Ngày sinh <span style="color:red">*</span></label>
                             <br/>
                             <input type ="date" id ="dob" name ="dob" placeholder ="Ngày sinh"/>
                             <br/>
                             
-                            <label for = "area">Khu vực</label>
+                            <label for = "area">Khu vực <span style="color:red">*</span></label>
                             <br/><!-- comment -->
                             <input type ="text" id ="area" name ="area" placeholder ="Khu vực"/>
 

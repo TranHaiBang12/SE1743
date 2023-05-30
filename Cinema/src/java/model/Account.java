@@ -12,15 +12,10 @@ import java.sql.Date;
  */
 public class Account {
     private String UserName;
-    private String LastName;
-    private String FirstName;
     private String Gender;
     private Date Dob;
-    private String CCCD;
     private String Phone;
     private String Email;
-    private String Street;
-    private String District;
     private String City;
     private int role;
     private String Password;
@@ -28,17 +23,12 @@ public class Account {
     public Account() {
     }
 
-    public Account(String UserName, String LastName, String FirstName, String Gender, Date Dob, String CCCD, String Phone, String Email, String Street, String District, String City, int role, String Password) {
+    public Account(String UserName, String Gender, Date Dob,  String Phone, String Email, String City, int role, String Password) {
         this.UserName = UserName;
-        this.LastName = LastName;
-        this.FirstName = FirstName;
         this.Gender = Gender;
         this.Dob = Dob;
-        this.CCCD = CCCD;
         this.Phone = Phone;
         this.Email = Email;
-        this.Street = Street;
-        this.District = District;
         this.City = City;
         this.role = role;
         this.Password = Password;
@@ -52,21 +42,6 @@ public class Account {
         this.UserName = UserName;
     }
 
-    public String getLastName() {
-        return LastName;
-    }
-
-    public void setLastName(String LastName) {
-        this.LastName = LastName;
-    }
-
-    public String getFirstName() {
-        return FirstName;
-    }
-
-    public void setFirstName(String FirstName) {
-        this.FirstName = FirstName;
-    }
 
     public String getGender() {
         return Gender;
@@ -82,14 +57,6 @@ public class Account {
 
     public void setDob(Date Dob) {
         this.Dob = Dob;
-    }
-
-    public String getCCCD() {
-        return CCCD;
-    }
-
-    public void setCCCD(String CCCD) {
-        this.CCCD = CCCD;
     }
 
     public String getPhone() {
@@ -108,21 +75,6 @@ public class Account {
         this.Email = Email;
     }
 
-    public String getStreet() {
-        return Street;
-    }
-
-    public void setStreet(String Street) {
-        this.Street = Street;
-    }
-
-    public String getDistrict() {
-        return District;
-    }
-
-    public void setDistrict(String District) {
-        this.District = District;
-    }
 
     public String getCity() {
         return City;
