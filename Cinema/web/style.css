@@ -104,7 +104,8 @@ body {
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: red;
+    color: black;
+    margin: 10px;
     text-decoration: none;
 }
 

@@ -15,6 +15,8 @@
             #userN{
                 font-size:20px;
                 text-decoration: none;
+                color: white;
+                cursor: pointer;
             }
         </style>
     </head>
@@ -30,8 +32,17 @@
             <li><a href="#">CSKH</a></li>
             <li><a href="#">EN</a></li>
                 <c:if test = "${sessionScope.account!=null}">
-                <span id ="userN" style="color:red">${sessionScope.account.getUserName()}</a>
-                </c:if>
+                
+                <div class="dropdown">
+                    <li id = "userN">${sessionScope.account.getUserName()}</li>
+                    <div class="dropdown-content">
+                        <div class=insidedropdown-content>
+                            <a href="#">Thông Tin Tài Khoản</a>
+                            <a href="logout">Đăng Xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
         </ul>
 
         <div class="wrapper_menu">
