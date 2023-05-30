@@ -49,4 +49,52 @@ public class AccountDAO extends DBContext{
         } catch (Exception e) {
         }
     }
+    
+    public Account checkU(String u) {
+        try {
+            String sql = "SELECT * FROM Account WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, u);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"),rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                return a;               
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public Account checkP(String u) {
+        try {
+            String sql = "SELECT * FROM Account WHERE Password = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, u);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"),rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                return a;               
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public Account checkE(String u) {
+        try {
+            String sql = "SELECT * FROM Account WHERE Email = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, u);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"),rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                return a;               
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

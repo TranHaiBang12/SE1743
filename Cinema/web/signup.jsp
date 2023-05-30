@@ -197,7 +197,7 @@
 
                             <br/>
                             
-                            <input type ="checkbox" id ="rule" name ="rule"><label for = "rule">Tôi đồng ý với Điều Khoản Sử Dụng</label>
+                            <input type ="checkbox" checked id ="rule" name ="rule"><label for = "rule">Tôi đồng ý với Điều Khoản Sử Dụng </label><span style="color:red">*</span>
                             <br/>
 
                             <input id ="logBtn" type ="submit" value ="ĐĂNG KÝ"/>

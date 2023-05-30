@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>ĐĂNG NHẬP</title>
     
-        <<link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="style.css"/>
         <style>
             .body{
                 background-color: white;
