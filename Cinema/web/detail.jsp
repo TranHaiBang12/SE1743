@@ -107,7 +107,7 @@
 //        System.out.println(request.getAttribute("data").getStartDate());
                 %>
                 <div class = "content">
-                    <div class = "name">simpleDateFormat.format(${requestScope.data.getMovName()}</div>
+                    <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
                         <span>Đạo diễn:</span>
                         <br/>
