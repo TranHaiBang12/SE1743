@@ -22,6 +22,7 @@
                 background-color: white;
                 padding-left: 100px;
                 padding-right: 100px;
+                border-bottom: 2px dashed red;
             }
 
             .bodyTitle{

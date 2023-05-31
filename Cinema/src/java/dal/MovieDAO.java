@@ -5,6 +5,7 @@
 package dal;
 
 import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,8 +29,12 @@ public class MovieDAO extends DBContext {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
-                } else {
+                } 
+                else if (rs.getString("img").substring(0, 1).equals("?")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                }
+                else {
+                    m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
                 }
                 System.out.println(m.getMovName());
                 mv.add(m);
@@ -51,8 +56,12 @@ public class MovieDAO extends DBContext {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
-                } else {
+                } 
+                else if (rs.getString("img").substring(0, 1).equals("?")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                }
+                else {
+                    m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
                 }
                 return m;
             }
@@ -72,8 +81,12 @@ public class MovieDAO extends DBContext {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
-                } else {
+                } 
+                else if (rs.getString("img").substring(0, 1).equals("?")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                }
+                else {
+                    m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
                 }
                 System.out.println(m.getMovName());
                 mv.add(m);
@@ -83,13 +96,13 @@ public class MovieDAO extends DBContext {
         return mv;
     }
     
-    public void updateInfo(int movID, String movName,String startdate, String time, String lang, String org, String status, String studio, String img){
+    public void updateInfo(int movID, String movName,String startdate, double time, String lang, String org, String status, String studio, String img){
         try {
-            String sql = "UPDATE Movies SET movName = ?, StartDate = ?, Time = ?, Language = ?, Origin = ?, Status = ?, Studio = ?, Img = ? WHERE movID = ?";
+            String sql = "UPDATE Movies SET movName = ?, StartDate = ?, [Time(min)] = ?, Language = ?, Origin = ?, Status = ?, Studio = ?, Img = ? WHERE movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, movName);
-            st.setString(2, startdate);
-            st.setString(3, time);
+            st.setDate(2, Date.valueOf(startdate));
+            st.setDouble(3, time);
             st.setString(4, lang);
             st.setString(5, org);
             st.setString(6, status);
@@ -98,6 +111,7 @@ public class MovieDAO extends DBContext {
             st.setInt(9, movID);
             st.executeUpdate();
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }

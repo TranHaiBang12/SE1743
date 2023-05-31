@@ -16,6 +16,7 @@
                 background-color: white;
                 padding-left: 100px;
                 padding-right: 100px;
+                border-bottom: 2px dashed red;
             }
 
             .bodyTitle{
@@ -75,6 +76,10 @@
                 background-color: red;
                 color:white;
             }
+            
+            #error{
+                color: red;
+            }
         </style>
 
     </head>
@@ -95,31 +100,31 @@
                     <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
                         <form action = "update" method = "post">
-                            <span>${requestScope.ms}</span>
+                            <span id = "error">${requestScope.ms}</span>
                             <br/>
                             <span>ID:  </span><input type ="text" readonly name ="id" value ="${requestScope.data.getMovID()}"/>
                             <br/>
-                            <span>Tên:  </span><input type ="text" name ="name" placeholder ="${requestScope.data.getMovName()}"/>
+                            <span>Tên:  </span><input type ="text" required name ="name" placeholder ="${requestScope.data.getMovName()}"/>
                             <br/>
-                            <span>Đạo diễn:</span><input type ="text" name ="director" placeholder =""/>
+                            <span>Đạo diễn:</span><input type ="text" required name ="director" placeholder =""/>
                             <br/>
-                            <span>Diễn viên:  </span><input type ="text" name ="star" placeholder =""/>
+                            <span>Diễn viên:  </span><input type ="text" required name ="star" placeholder =""/>
                             <br/>
-                            <span>Thể loại:  </span><input type ="text" name ="genre" placeholder =""/>
+                            <span>Thể loại:  </span><input type ="text" required name ="genre" placeholder =""/>
                             <br/>
-                            <span>Khởi chiếu:  </span><input type ="text" name ="startdate" placeholder ="${requestScope.data.getStartDate()}"/>
+                            <span>Khởi chiếu:  </span><input type ="text" required name ="startdate" placeholder ="${requestScope.data.getStartDate()}"/>
                             <br/>
-                            <span>Thời lượng:  </span><input type ="text" name ="time" placeholder ="${requestScope.data.getTime()}"/>
+                            <span>Thời lượng:  </span><input type ="text" required name ="time" placeholder ="${requestScope.data.getTime()}"/>
                             <br/>
-                            <span>Ngôn ngữ:  </span><input type ="text" name ="lang" placeholder ="${requestScope.data.getLanguage()}"/>
+                            <span>Ngôn ngữ:  </span><input type ="text" required name ="lang" placeholder ="${requestScope.data.getLanguage()}"/>
                             <br/>
-                            <span>Xuất xứ:  </span><input type ="text" name ="org" placeholder ="${requestScope.data.getOrigin()}"/>
+                            <span>Xuất xứ:  </span><input type ="text" required name ="org" placeholder ="${requestScope.data.getOrigin()}"/>
                             <br/>
-                            <span>Tình trạng:  </span><input type ="text" name ="status" placeholder ="${requestScope.data.getStatus()}"/>
+                            <span>Tình trạng:  </span><input type ="text" required name ="status" placeholder ="${requestScope.data.getStatus()}"/>
                             <br/>
-                            <span>Studio:  </span><input type ="text" name ="studio" placeholder ="${requestScope.data.getStudio()}"/>
+                            <span>Studio:  </span><input type ="text" required name ="studio" placeholder ="${requestScope.data.getStudio()}"/>
                             <br/>
-                            <span>Hình ảnh:  </span><input type ="text" name ="img" placeholder ="${requestScope.data.getImg()}"/>
+                            <span>Hình ảnh:  </span><input type ="text" required name ="img" placeholder ="${requestScope.data.getImg()}"/>
                             <br/>
                             <button type ="submit" value ="MUA VÉ">UPDATE</button>
                         </form>
