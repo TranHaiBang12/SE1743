@@ -315,7 +315,7 @@
                                                 </a>
                                             </div>
                                             <div class = "btn">
-                                                <button type = "submit" value = "XEM CHI TIẾT">XEM CHI TIẾT</button>
+                                                <button type = "submit" value = "XEM CHI TIẾT" onclick = "detail('${i.movID}')">XEM CHI TIẾT</button>
                                                 <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
                                             </div>
 

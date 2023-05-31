@@ -37,6 +37,7 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println("<title>ĐĂNG NHẬP</title>\\n\"");
             out.println("<link rel=\"stylesheet\" href=\"style.css\"/>\n"
                     + "        <style>\n"
                     + "            .body{\n"
@@ -167,7 +168,7 @@ public class LoginServlet extends HttpServlet {
                     + "        <div class=\"wrapper_menu\">\n"
                     + "\n"
                     + "            <ul class=\"menu\">\n"
-                    + "                <li><img class=\"cinemaLogo\" src=\"images/logoCinema.png\" /></li>\n"
+                    + "                <li><a href = \"home\"><img class=\"cinemaLogo\" src=\"images/logoCinema.png\" /></a></li>\n"
                     + "                <li>\n"
                     + "                    <div class=\"dropdown\">\n"
                     + "                        <div class=\"dropbtn\">\n"

@@ -48,7 +48,7 @@
         <div class="wrapper_menu">
 
             <ul class="menu">
-                <li><img class="cinemaLogo" src="images/logoCinema.png" /></li>
+                <li><a href = "home"><img class="cinemaLogo" src="images/logoCinema.png" /></a></li>
                 <li>
                     <div class="dropdown">
                         <div class="dropbtn">
