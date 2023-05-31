@@ -321,7 +321,7 @@
 
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
-                                                    <button type = "submit" value = "UPDATE">UPDATE</button>
+                                                    <button type = "submit" value = "UPDATE" onclick = "upd('${i.movID}')">UPDATE</button>
                                                     <button type = "submit" value = "DELETE">DELETE</button>
                                                 </c:if>
                                             </div>
@@ -387,7 +387,7 @@
                                             </div>
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
-                                                    <button type = "submit" value = "UPDATE">UPDATE</button>
+                                                    <button type = "submit" value = "UPDATE"  onclick = "upd('${i.movID}')">UPDATE</button>
                                                     <button type = "submit" value = "DELETE">DELETE</button>
                                                 </c:if>
                                             </div>
@@ -504,6 +504,10 @@
         <script>
             function detail(id) {
                 window.location = "detail?id=" + id;
+            }
+            
+            function upd(id) {
+                window.location = "update?id=" + id;
             }
         </script>
     </body>

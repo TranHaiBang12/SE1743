@@ -5,12 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.time.LocalDateTime"%>
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="java.util.Locale"%>
-<%@page import="java.sql.Date"%>
-<%@page import="java.text.SimpleDateFormat"%>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -96,34 +90,27 @@
                 <div class = "img">  
                     <img src="${requestScope.data.getImg()}" alt="alt"/>
                 </div>
-                <%
-//                    String pattern = "dd-MM-yyyy";
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-//        
-//        if(request.getAttribute("data") != null)
-//        Date date = Date.valueOf(request.getAttribute("data").getStartDate());
-//
-//        String date1 = simpleDateFormat.format(date);
-//        System.out.println(request.getAttribute("data").getStartDate());
-                %>
+
                 <div class = "content">
-                    <div class = "name">simpleDateFormat.format(${requestScope.data.getMovName()}</div>
+                    <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
-                        <span>Đạo diễn:</span>
-                        <br/>
-                        <span>Diễn viên:  </span>
-                        <br/>
-                        <span>Thể loại:  </span>
-                        <br/>
-                        <span>Khởi chiếu:  </span>${requestScope.data.getStartDate()}
-                        <br/>
-                        <span>Thời lượng:  </span>${requestScope.data.getTime()} phút
-                        <br/>
-                        <span>Ngôn ngữ:  </span>${requestScope.data.getLanguage()}
-                        <br/>
-                        <span>Xuất xứ:  </span>${requestScope.data.getOrigin()}
-                        <br/>
-                        <button type ="submit" value ="MUA VÉ">MUA VÉ</button>
+                        <form action = "update" method = "post">
+                            <span>Đạo diễn:</span><input type ="text" name ="director" placeholder =""/>
+                            <br/>
+                            <span>Diễn viên:  </span><input type ="text" name ="director" placeholder =""/>
+                            <br/>
+                            <span>Thể loại:  </span><input type ="text" name ="director" placeholder =""/>
+                            <br/>
+                            <span>Khởi chiếu:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getStartDate()}"/>
+                            <br/>
+                            <span>Thời lượng:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getTime()}"/>
+                            <br/>
+                            <span>Ngôn ngữ:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getLanguage()}"/>
+                            <br/>
+                            <span>Xuất xứ:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getOrigin()}"/>
+                            <br/>
+                            <button type ="submit" value ="MUA VÉ">UPDATE</button>
+                        </form>
                     </div>
                 </div>
             </div><!-- comment -->

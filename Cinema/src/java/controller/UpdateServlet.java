@@ -11,16 +11,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 import model.Movies;
 
 /**
  *
  * @author acer
  */
-public class DetailServlet extends HttpServlet {
+public class UpdateServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,13 +34,12 @@ public class DetailServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
-            
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DetailServlet</title>");
+            out.println("<title>Servlet UpdateServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DetailServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UpdateServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,17 +57,16 @@ public class DetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
         String id_raw = request.getParameter("id");
         try {
             int id = Integer.parseInt(id_raw);
             MovieDAO mvd = new MovieDAO();
             Movies m = mvd.getMovieById(id);
             request.setAttribute("data", m);
-            request.getRequestDispatcher("detail.jsp").forward(request, response);
+            request.getRequestDispatcher("update.jsp").forward(request, response);
         } catch (Exception e) {
         }
-        
+
     }
 
     /**
@@ -85,7 +80,12 @@ public class DetailServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+
+        String startdate = request.getParameter("startdate");
+        String time = request.getParameter("time");
+        String lang = request.getParameter("lang");
+        String org = request.getParameter("org");
     }
 
     /**

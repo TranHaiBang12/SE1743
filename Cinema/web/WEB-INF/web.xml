@@ -24,6 +24,10 @@
         <servlet-name>DetailServlet</servlet-name>
         <servlet-class>controller.DetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateServlet</servlet-name>
+        <servlet-class>controller.UpdateServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>DetailServlet</servlet-name>
         <url-pattern>/detail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateServlet</servlet-name>
+        <url-pattern>/update</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
