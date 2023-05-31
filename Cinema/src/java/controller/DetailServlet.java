@@ -11,6 +11,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -66,6 +68,8 @@ public class DetailServlet extends HttpServlet {
         try {
             int id = Integer.parseInt(id_raw);
             MovieDAO mvd = new MovieDAO();
+            String pattern = "dd-MM-yyyy";
+        
             Movies m = mvd.getMovieById(id);
             request.setAttribute("data", m);
             request.getRequestDispatcher("detail.jsp").forward(request, response);

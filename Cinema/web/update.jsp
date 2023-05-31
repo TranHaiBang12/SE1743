@@ -97,17 +97,17 @@
                         <form action = "update" method = "post">
                             <span>Đạo diễn:</span><input type ="text" name ="director" placeholder =""/>
                             <br/>
-                            <span>Diễn viên:  </span><input type ="text" name ="director" placeholder =""/>
+                            <span>Diễn viên:  </span><input type ="text" name ="star" placeholder =""/>
                             <br/>
-                            <span>Thể loại:  </span><input type ="text" name ="director" placeholder =""/>
+                            <span>Thể loại:  </span><input type ="text" name ="genre" placeholder =""/>
                             <br/>
-                            <span>Khởi chiếu:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getStartDate()}"/>
+                            <span>Khởi chiếu:  </span><input type ="text" name ="startdate" placeholder ="${requestScope.data.getStartDate()}"/>
                             <br/>
-                            <span>Thời lượng:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getTime()}"/>
+                            <span>Thời lượng:  </span><input type ="text" name ="time" placeholder ="${requestScope.data.getTime()}"/>
                             <br/>
-                            <span>Ngôn ngữ:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getLanguage()}"/>
+                            <span>Ngôn ngữ:  </span><input type ="text" name ="lang" placeholder ="${requestScope.data.getLanguage()}"/>
                             <br/>
-                            <span>Xuất xứ:  </span><input type ="text" name ="director" placeholder ="${requestScope.data.getOrigin()}"/>
+                            <span>Xuất xứ:  </span><input type ="text" name ="org" placeholder ="${requestScope.data.getOrigin()}"/>
                             <br/>
                             <button type ="submit" value ="MUA VÉ">UPDATE</button>
                         </form>
