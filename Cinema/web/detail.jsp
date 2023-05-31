@@ -35,6 +35,12 @@
 
             .bodyContent .content{
                 color: black;
+                font-size: 20px;
+
+            }
+
+            .bodyContent .content span{
+                font-weight: bold;
             }
 
 
@@ -47,11 +53,27 @@
                 width: 100%;
                 height:90%;
             }
-            
+
             .name{
                 font-size: 40px;
                 font-weight: bold;
                 padding-bottom: 5px;
+                margin-bottom: 30px;
+            }
+            
+            .oInfo{
+                line-height: 35px;
+            }
+            
+            .bodyContent .content button{
+                margin-top: 30px;
+                padding-top:10px;
+                padding-bottom:10px;
+                padding-left:25px;
+                padding-right:25px;
+                border-radius: 15px;
+                background-color: red;
+                color:white;
             }
         </style>
 
@@ -71,23 +93,23 @@
 
                 <div class = "content">
                     <div class = "name">${requestScope.data.getMovName()}</div>
-                    ${requestScope.data.getTime()}
-                    ${requestScope.data.getLanguage()}
-                    ${requestScope.data.getOrigin()}
-                    <span>Đạo diễn:</span>
-                    <br/>
-                    <span>Diễn viên:  </span>
-                    <br/>
-                    <span>Thể loại:  </span>
-                    <br/>
-                    <span>Khởi chiếu:  </span>${requestScope.data.getStartDate()}
-                    <br/>
-                    <span>Thời lượng:  </span>${requestScope.data.getTime()} phút
-                    <br/>
-                    <span>Ngôn ngữ:  </span>${requestScope.data.getLanguage()}
-                    <br/>
-                    <span>Xuất xứ:  </span>${requestScope.data.getOrigin()}
-                    <br/>
+                    <div class = "oInfo">
+                        <span>Đạo diễn:</span>
+                        <br/>
+                        <span>Diễn viên:  </span>
+                        <br/>
+                        <span>Thể loại:  </span>
+                        <br/>
+                        <span>Khởi chiếu:  </span>${requestScope.data.getStartDate()}
+                        <br/>
+                        <span>Thời lượng:  </span>${requestScope.data.getTime()} phút
+                        <br/>
+                        <span>Ngôn ngữ:  </span>${requestScope.data.getLanguage()}
+                        <br/>
+                        <span>Xuất xứ:  </span>${requestScope.data.getOrigin()}
+                        <br/>
+                        <button type ="submit" value ="MUA VÉ">MUA VÉ</button>
+                    </div>
                 </div>
             </div><!-- comment -->
         </div>
