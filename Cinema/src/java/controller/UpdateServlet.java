@@ -82,16 +82,32 @@ public class UpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        
+        String id_raw = request.getParameter("id");
+        String name = request.getParameter("name");
         String startdate = request.getParameter("startdate");
         String time = request.getParameter("time");
         String lang = request.getParameter("lang");
         String org = request.getParameter("org");
+        String status = request.getParameter("status");
+        String studio = request.getParameter("studio");
+        String img = request.getParameter("img");
+        if(name.equals("") || startdate.equals("") ||time.equals("") ||lang.equals("") ||org.equals("") ||status.equals("") ||studio.equals("") ||img.equals("")) {
+            String ms = "Vui lòng điền đầy đủ tất cả thông tin";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("update.jsp").forward(request, response);
+        }
+        Date std;
         try {
-            Date std = Date.valueOf(startdate);
+            std = Date.valueOf(startdate);
         } catch (Exception e) {
             String ms = "Vui lòng nhập đúng format của ngày khởi chiếu: dd/mm/yyyy";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("update.jsp").forward(request, response);
         }
+        
+        int id = Integer.parseInt(id_raw);
+        MovieDAO mvd = new MovieDAO();
+        mvd.updateInfo(id, name, startdate, time, lang, org, status, studio, img);
     }
 
     /**

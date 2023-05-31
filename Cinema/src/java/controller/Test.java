@@ -57,10 +57,7 @@ public class Test extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //processRequest(request, response);
-        MovieDAO mvd = new MovieDAO();
-        List<Movies> list = mvd.getAllMoviesNowShowing();
-        request.setAttribute("data", list);
-        request.getRequestDispatcher("test.jsp").forward(request, response);
+        
     } 
 
     /** 
@@ -73,7 +70,8 @@ public class Test extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        System.out.println(request.getParameter("file"));
     }
 
     /** 

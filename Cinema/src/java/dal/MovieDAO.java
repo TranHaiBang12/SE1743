@@ -82,4 +82,22 @@ public class MovieDAO extends DBContext {
         }
         return mv;
     }
+    
+    public void updateInfo(int movID, String movName,String startdate, String time, String lang, String org, String status, String studio, String img){
+        try {
+            String sql = "UPDATE Movies SET movName = ?, StartDate = ?, Time = ?, Language = ?, Origin = ?, Status = ?, Studio = ?, Img = ? WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, movName);
+            st.setString(2, startdate);
+            st.setString(3, time);
+            st.setString(4, lang);
+            st.setString(5, org);
+            st.setString(6, status);
+            st.setString(7, studio);
+            st.setString(8, img);
+            st.setInt(9, movID);
+            st.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
 }

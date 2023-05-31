@@ -13,11 +13,9 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <c:forEach items = "${requestScope.data}" var = "i">
-                    <tr>
-                        <td>${i.movID}</td>
-                        <td>${i.movName}</td><!-- comment -->
-                    </tr>
-                </c:forEach>
+        <form action = "test" method = "post">
+            <input type ="file" name ="file"><!-- comment -->
+            <input type ="submit">Submit<!-- Sub -->
+        </form>
     </body>
 </html>

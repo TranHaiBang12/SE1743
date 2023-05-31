@@ -95,6 +95,12 @@
                     <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
                         <form action = "update" method = "post">
+                            <span>${requestScope.ms}</span>
+                            <br/>
+                            <span>ID:  </span><input type ="text" readonly name ="id" value ="${requestScope.data.getMovID()}"/>
+                            <br/>
+                            <span>Tên:  </span><input type ="text" name ="name" placeholder ="${requestScope.data.getMovName()}"/>
+                            <br/>
                             <span>Đạo diễn:</span><input type ="text" name ="director" placeholder =""/>
                             <br/>
                             <span>Diễn viên:  </span><input type ="text" name ="star" placeholder =""/>
@@ -108,6 +114,12 @@
                             <span>Ngôn ngữ:  </span><input type ="text" name ="lang" placeholder ="${requestScope.data.getLanguage()}"/>
                             <br/>
                             <span>Xuất xứ:  </span><input type ="text" name ="org" placeholder ="${requestScope.data.getOrigin()}"/>
+                            <br/>
+                            <span>Tình trạng:  </span><input type ="text" name ="status" placeholder ="${requestScope.data.getStatus()}"/>
+                            <br/>
+                            <span>Studio:  </span><input type ="text" name ="studio" placeholder ="${requestScope.data.getStudio()}"/>
+                            <br/>
+                            <span>Hình ảnh:  </span><input type ="text" name ="img" placeholder ="${requestScope.data.getImg()}"/>
                             <br/>
                             <button type ="submit" value ="MUA VÉ">UPDATE</button>
                         </form>

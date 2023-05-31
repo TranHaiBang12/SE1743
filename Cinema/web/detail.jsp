@@ -123,6 +123,8 @@
                         <br/>
                         <span>Xuất xứ:  </span>${requestScope.data.getOrigin()}
                         <br/>
+                        <span>Tình trạng:  </span>${requestScope.data.getStatus()}
+                        <br/>
                         <button type ="submit" value ="MUA VÉ">MUA VÉ</button>
                     </div>
                 </div>
