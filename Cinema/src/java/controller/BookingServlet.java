@@ -153,6 +153,10 @@ public class BookingServlet extends HttpServlet {
         
         Movies m = mvd.getMovieById(id);
         List<String> form = mvd.getAllMovieFormById(id);
+        request.setAttribute("schePick", dte.get(0));
+        request.setAttribute("loPick", list.get(0));
+        request.setAttribute("formPick", form.get(0));
+        
         request.setAttribute("movie", m);
         request.setAttribute("city", list);
         request.setAttribute("date", dte);

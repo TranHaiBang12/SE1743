@@ -9,6 +9,7 @@ package model;
  * @author acer
  */
 public class DateMD {
+    private int id;
     private String date;
     private String month;
     private String day;
@@ -16,11 +17,21 @@ public class DateMD {
     public DateMD() {
     }
 
-    public DateMD(String date, String month, String day) {
+    public DateMD(int id, String date, String month, String day) {
         this.date = date;
         this.month = month;
         this.day = day;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 
     public String getDate() {
         return date;

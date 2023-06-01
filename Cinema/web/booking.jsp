@@ -64,15 +64,18 @@
 
             .location{
                 display: flex;
-                margin-top: 20px;
-                margin-left: 30px;
-                margin-right: 0px;
-                margin-bottom: 20px;
+                border-bottom: 3px solid black;
+                
+                
             }
             
             .insideLocation{
                 margin-right: 45px;
                 cursor: pointer;
+                margin-top: 20px;
+                margin-left: 30px;
+
+                margin-bottom: 20px;
             }
             
             .movie{
@@ -95,7 +98,41 @@
             
             .movImg img{
                 width: 500px;
-                height:500px;
+                height:550px;
+            }
+            
+            .form{
+                display: flex;
+                
+            }
+            
+            .insideForm{
+                margin-right: 45px;
+                cursor: pointer;
+                margin-top: 20px;
+                margin-left: 30px;
+                margin-right: 0px;
+                margin-bottom: 20px;
+                border: 3px solid black;
+                padding: 5px;
+                border-radius: 10px;
+            }
+            
+            .insideScheduleActive{
+                display: flex;
+                width: 80px;
+                height: 40px;
+                margin-left: 20px;
+                margin-right: 0px;
+                margin-bottom: 10px;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid black;
+                border-radius: 15px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                
             }
 
         </style>
@@ -110,11 +147,11 @@
                 <div class = "movImg"><img src = "${requestScope.movie.getImg()}"></div>                
             </div>
             <div class="bodyTitle">
-                Schedule
+                Lịch Chiếu
             </div>
             <div class = "schedule">
                 <c:forEach items = "${requestScope.date}" var = "i">
-                    <div class = "insideSchedule">
+                    <div class="${schePick==i?"insideScheduleActive":"insideSchedule"}">
                         <div class = "notDate">
                             <span>${i.getMonth()}</span><!-- comment -->
                             <span>${i.getDay()}</span>
