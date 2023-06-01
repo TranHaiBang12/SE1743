@@ -130,6 +130,13 @@
                     </div>
                 </c:forEach>
             </div>
+            <div class = "form">
+                <c:forEach items = "${requestScope.form}" var = "i">
+                    <div class = "insideForm">
+                        <div>${i}</div>
+                    </div>
+                </c:forEach>
+            </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

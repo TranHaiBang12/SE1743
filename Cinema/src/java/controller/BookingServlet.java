@@ -152,10 +152,14 @@ public class BookingServlet extends HttpServlet {
         }
         
         Movies m = mvd.getMovieById(id);
-        System.out.println(m.getImg());
+        List<String> form = mvd.getAllMovieFormById(id);
         request.setAttribute("movie", m);
         request.setAttribute("city", list);
         request.setAttribute("date", dte);
+        request.setAttribute("form", form);
+        for (int i = 0; i < form.size(); i++) {
+            System.out.println(form.get(i));
+        }
         request.getRequestDispatcher("booking.jsp").forward(request, response);
     }
 

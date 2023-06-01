@@ -70,6 +70,23 @@ public class MovieDAO extends DBContext {
         }
         return null;
     }
+    
+    public List<String> getAllMovieFormById(int id) {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT formName FROM Schedule JOIN Form ON Schedule.formID = Form.formID WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("formName"));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
+    
 
     public List<Movies> getAllMoviesNotShownYet() {
         List<Movies> mv = new ArrayList<>();
