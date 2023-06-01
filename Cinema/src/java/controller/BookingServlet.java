@@ -76,13 +76,13 @@ public class BookingServlet extends HttpServlet {
         int id = 0;
         try {
             id = Integer.parseInt(id_raw);
-            if(mvd.getMovieById(id) == null) {
+            if (mvd.getMovieById(id) == null) {
                 throw new Exception("Loi");
             }
         } catch (Exception e) {
             response.sendRedirect("error");
         }
-        
+
         List<Date> date = new ArrayList<>();
         List<DateMD> dte = new ArrayList<>();
         Date d[] = new Date[30];
@@ -118,61 +118,97 @@ public class BookingServlet extends HttpServlet {
             String month;
             long time = d[i].getTime() - date1.getTime();
             time = (time / (24 * 60 * 60 * 1000)) % 7;
-            if(time == 0) {
+            if (time == 0) {
                 day = "Mon";
-            }
-            else if(time == 1) {
+            } else if (time == 1) {
                 day = "Tue";
-            }
-            else if(time == 2) {
+            } else if (time == 2) {
                 day = "Wed";
-            }
-            else if(time == 3) {
+            } else if (time == 3) {
                 day = "Thu";
-            }
-            else if(time == 4) {
+            } else if (time == 4) {
                 day = "Fri";
-            }
-            else if(time == 5) {
+            } else if (time == 5) {
                 day = "Sat";
-            }
-            else {
+            } else {
                 day = "Sun";
             }
-            if(d[i].getDate() < 10) {
+            if (d[i].getDate() < 10) {
                 date2 = "0" + d[i].getDate();
-            }
-            else {
+            } else {
                 date2 = String.valueOf(d[i].getDate());
             }
-             if(d[i].getMonth() < 10) {
+            if (d[i].getMonth() < 10) {
                 month = "0" + (d[i].getMonth() + 1);
-            }
-            else {
+            } else {
                 month = String.valueOf((d[i].getMonth() + 1));
             }
-             
+
             DateMD dmd = new DateMD(i, date2, month, day);
             dte.add(dmd);
         }
-        
+
         Movies m = mvd.getMovieById(id);
         List<String> form = mvd.getAllMovieFormById(id);
-        
+
         List<FormMD> frm = new ArrayList<>();
         for (int i = 0; i < form.size(); i++) {
             frm.add(new FormMD(i, form.get(i)));
 
-                    
         }
         List<LocationCinMD> loc = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             loc.add(new LocationCinMD(i, list.get(i)));
         }
-        request.setAttribute("schePick", dte.get(0).getId());
-        request.setAttribute("loPick", loc.get(0).getId());
-        request.setAttribute("formPick", frm.get(0).getId());
-        
+        int idSche = 0, idLo = 0, idForm = 0;
+        String idSche_raw = request.getParameter("schePick");
+        String idLoc_raw = request.getParameter("loPick");
+        String idForm_raw = request.getParameter("formPick");
+        System.out.println(idSche_raw + " " + idLoc_raw);
+                
+        if (idSche_raw == null) {
+            request.setAttribute("schePick", dte.get(0).getId());
+        } else {
+            try {
+                idSche = Integer.parseInt(request.getParameter("schePick"));
+                if (idSche < 0 || idLo < 0 || idForm < 0) {
+                    throw new Exception("Loi moi");
+                }
+            } catch (Exception e) {
+                response.sendRedirect("error");
+            }
+            request.setAttribute("schePick", idSche);
+        }
+        if (idLoc_raw == null) {
+            request.setAttribute("loPick", loc.get(0).getId());
+        }
+        else {
+            try {
+                idLo = Integer.parseInt(request.getParameter("loPick"));
+                if (idSche < 0 || idLo < 0 || idForm < 0) {
+                    throw new Exception("Loi moi");
+                }
+            } catch (Exception e) {
+                response.sendRedirect("error");
+            }
+            System.out.println(frm.size());
+            request.setAttribute("loPick", idLo);
+        }
+        if (idForm_raw == null) {
+            request.setAttribute("formPick", frm.get(0).getId());
+        }
+        else {
+            try {
+                idForm = Integer.parseInt(request.getParameter("formPick"));
+                if (idSche < 0 || idLo < 0 || idForm < 0) {
+                    throw new Exception("Loi moi");
+                }
+            } catch (Exception e) {
+                response.sendRedirect("error");
+            }
+            request.setAttribute("formPick", idForm);
+        }
+        request.setAttribute("id", id);
         request.setAttribute("movie", m);
         request.setAttribute("city", loc);
         request.setAttribute("date", dte);
