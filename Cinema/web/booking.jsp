@@ -14,7 +14,9 @@
     </head>
     <body>
         <c:forEach items = "${requestScope.date}" var = "i">
-            <h2>${i}</h2>
+            <h2>${i.getDate()}</h2>
+            <h2>${i.getMonth()}</h2><!-- comment -->
+            <h2>${i.getDay()}</h2>
         </c:forEach>
         <c:forEach items = "${requestScope.city}" var = "i">
             <h2>${i}</h2>

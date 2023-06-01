@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.DateMD;
 
 /**
  *
@@ -66,6 +67,7 @@ public class BookingServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         List<Date> date = new ArrayList<>();
+        List<DateMD> dte = new ArrayList<>();
         Date d[] = new Date[30];
         d[0] = Date.valueOf(java.time.LocalDate.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -90,8 +92,40 @@ public class BookingServlet extends HttpServlet {
         CinemaDAO cnm = new CinemaDAO();
         List<String> list = new ArrayList<>();
         list = cnm.getCinemaLocation();
+
+        String t = "2023-05-01";
+        Date date1 = Date.valueOf(t);
+        for (int i = 0; i < 30; i++) {
+            String day;
+            long time = d[i].getTime() - date1.getTime();
+            time = (time / (24 * 60 * 60 * 1000)) % 7;
+            if(time == 0) {
+                day = "Mon";
+            }
+            else if(time == 1) {
+                day = "Tue";
+            }
+            else if(time == 2) {
+                day = "Wed";
+            }
+            else if(time == 3) {
+                day = "Thu";
+            }
+            else if(time == 4) {
+                day = "Fri";
+            }
+            else if(time == 5) {
+                day = "Sat";
+            }
+            else {
+                day = "Sun";
+            }
+            System.out.println(d[i]);
+            System.out.println(d[i].getDate() + " " + d[i].getMonth());
+            dte.add(new DateMD(d[i].getDate(), d[i].getMonth() + 1, day));
+        }
         request.setAttribute("city", list);
-        request.setAttribute("date", date);
+        request.setAttribute("date", dte);
         request.getRequestDispatcher("booking.jsp").forward(request, response);
     }
 
