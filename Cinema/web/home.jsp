@@ -316,7 +316,7 @@
                                             </div>
                                             <div class = "btn">
                                                 <button type = "submit" value = "XEM CHI TIẾT" onclick = "detail('${i.movID}')">XEM CHI TIẾT</button>
-                                                <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
+                                                <button type = "submit" value = "MUA VÉ" onclick = "booking('${i.movID}')">MUA VÉ</button>
                                             </div>
 
                                             <div class = "bt2">
@@ -383,7 +383,7 @@
                                             </div>
                                             <div class = "btn">
                                                 <button type = "submit" value = "XEM CHI TIẾT" onclick = "detail('${i.movID}')">XEM CHI TIẾT</button>
-                                                <button type = "submit" value = "MUA VÉ">MUA VÉ</button>
+                                                <button type = "submit" value = "MUA VÉ" onclick = "booking('${i.movID}')">MUA VÉ</button>
                                             </div>
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
@@ -508,6 +508,10 @@
             
             function upd(id) {
                 window.location = "update?id=" + id;
+            }
+            
+            function booking(id) {
+                window.location = "booking?id=" + id;
             }
         </script>
     </body>
