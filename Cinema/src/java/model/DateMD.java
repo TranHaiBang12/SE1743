@@ -9,32 +9,32 @@ package model;
  * @author acer
  */
 public class DateMD {
-    private int date;
-    private int month;
+    private String date;
+    private String month;
     private String day;
 
     public DateMD() {
     }
 
-    public DateMD(int date, int month, String day) {
+    public DateMD(String date, String month, String day) {
         this.date = date;
         this.month = month;
         this.day = day;
     }
 
-    public int getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(String month) {
         this.month = month;
     }
 

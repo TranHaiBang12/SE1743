@@ -5,6 +5,7 @@
 package controller;
 
 import dal.CinemaDAO;
+import dal.MovieDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DateMD;
+import model.Movies;
 
 /**
  *
@@ -66,6 +68,18 @@ public class BookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        String id_raw = request.getParameter("id");
+        MovieDAO mvd = new MovieDAO();
+        int id = 0;
+        try {
+            id = Integer.parseInt(id_raw);
+            if(mvd.getMovieById(id) == null) {
+                throw new Exception("Loi");
+            }
+        } catch (Exception e) {
+            response.sendRedirect("error");
+        }
+        
         List<Date> date = new ArrayList<>();
         List<DateMD> dte = new ArrayList<>();
         Date d[] = new Date[30];
@@ -97,6 +111,8 @@ public class BookingServlet extends HttpServlet {
         Date date1 = Date.valueOf(t);
         for (int i = 0; i < 30; i++) {
             String day;
+            String date2;
+            String month;
             long time = d[i].getTime() - date1.getTime();
             time = (time / (24 * 60 * 60 * 1000)) % 7;
             if(time == 0) {
@@ -120,10 +136,24 @@ public class BookingServlet extends HttpServlet {
             else {
                 day = "Sun";
             }
-            System.out.println(d[i]);
-            System.out.println(d[i].getDate() + " " + d[i].getMonth());
-            dte.add(new DateMD(d[i].getDate(), d[i].getMonth() + 1, day));
+            if(d[i].getDate() < 10) {
+                date2 = "0" + d[i].getDate();
+            }
+            else {
+                date2 = String.valueOf(d[i].getDate());
+            }
+             if(d[i].getMonth() < 10) {
+                month = "0" + (d[i].getMonth() + 1);
+            }
+            else {
+                month = String.valueOf((d[i].getMonth() + 1));
+            }
+            dte.add(new DateMD(date2, month, day));
         }
+        
+        Movies m = mvd.getMovieById(id);
+        System.out.println(m.getImg());
+        request.setAttribute("movie", m);
         request.setAttribute("city", list);
         request.setAttribute("date", dte);
         request.getRequestDispatcher("booking.jsp").forward(request, response);
