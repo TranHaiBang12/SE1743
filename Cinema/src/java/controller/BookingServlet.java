@@ -11,9 +11,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,6 +65,7 @@ public class BookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        List<Date> date = new ArrayList<>();
         Date d[] = new Date[30];
         d[0] = Date.valueOf(java.time.LocalDate.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -81,13 +84,15 @@ public class BookingServlet extends HttpServlet {
             k = sdf.format(c.getTime());  // dt is now the new date
             d[i] = Date.valueOf(k);
         }
-        CinemaDAO cnm = new CinemaDAO();
-        String a[] = cnm.getCinemaLocation();
-        System.out.println(a.length);
-        for (int i = 0; i < a.length; i++) {
-            System.out.println(a[i]);
+        for (int i = 0; i < d.length; i++) {
+            date.add(d[i]);
         }
-        ÐÀ N?
+        CinemaDAO cnm = new CinemaDAO();
+        List<String> list = new ArrayList<>();
+        list = cnm.getCinemaLocation();
+        request.setAttribute("city", list);
+        request.setAttribute("date", date);
+        request.getRequestDispatcher("booking.jsp").forward(request, response);
     }
 
     /**
