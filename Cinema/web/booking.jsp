@@ -65,25 +65,25 @@
             .location{
                 display: flex;
                 border-bottom: 3px solid black;
-                
-                
+
+
             }
-            
+
             .insideLocation{
                 margin-right: 45px;
                 cursor: pointer;
-                margin-top: 20px;
+                margin-top: 30px;
                 margin-left: 30px;
-
-                margin-bottom: 20px;
+                padding: 10px;
+                margin-bottom: 30px;
             }
-            
+
             .movie{
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
             }
-            
+
             .movName{
                 text-align: center;
                 margin-top: 20px;
@@ -91,21 +91,21 @@
                 font-size: 30px;
                 font-weight: bold;
             }
-            
+
             .movImg{
                 text-align: center;
             }
-            
+
             .movImg img{
                 width: 500px;
                 height:550px;
             }
-            
+
             .form{
                 display: flex;
-                
+
             }
-            
+
             .insideForm{
                 margin-right: 45px;
                 cursor: pointer;
@@ -117,7 +117,7 @@
                 padding: 5px;
                 border-radius: 10px;
             }
-            
+
             .insideScheduleActive{
                 display: flex;
                 width: 80px;
@@ -132,7 +132,21 @@
                 border-radius: 15px;
                 padding-top: 10px;
                 padding-bottom: 10px;
-                
+
+            }
+
+            .insideLocationActive{
+                margin-right: 45px;
+                cursor: pointer;
+                margin-top: 30px;
+                margin-left: 30px;
+
+                margin-bottom: 30px;
+                border: 1px solid black;
+                background-color: black;
+                color: white;
+                border-radius: 10px;
+                padding: 10px;
             }
 
         </style>
@@ -151,7 +165,7 @@
             </div>
             <div class = "schedule">
                 <c:forEach items = "${requestScope.date}" var = "i">
-                    <div class="${schePick==i?"insideScheduleActive":"insideSchedule"}">
+                    <div class="${schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pickSche('${i.getId()}')">
                         <div class = "notDate">
                             <span>${i.getMonth()}</span><!-- comment -->
                             <span>${i.getDay()}</span>
@@ -162,15 +176,15 @@
             </div>
             <div class = "location">
                 <c:forEach items = "${requestScope.city}" var = "i">
-                    <div class = "insideLocation">
-                        <div>${i}</div>
+                    <div class="${schePick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pickLoc('${i.getId()}')" >
+                        <div>${i.getLoc()}</div>
                     </div>
                 </c:forEach>
             </div>
             <div class = "form">
                 <c:forEach items = "${requestScope.form}" var = "i">
                     <div class = "insideForm">
-                        <div>${i}</div>
+                        <div>${i.getFormName()}</div>
                     </div>
                 </c:forEach>
             </div>

@@ -14,10 +14,8 @@ public class DateMD {
     private String month;
     private String day;
 
-    public DateMD() {
-    }
-
     public DateMD(int id, String date, String month, String day) {
+        this.id = id;
         this.date = date;
         this.month = month;
         this.day = day;
@@ -30,8 +28,6 @@ public class DateMD {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
 
     public String getDate() {
         return date;
@@ -56,6 +52,7 @@ public class DateMD {
     public void setDay(String day) {
         this.day = day;
     }
-    
+
+   
     
 }

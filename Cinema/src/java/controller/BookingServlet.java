@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DateMD;
+import model.FormMD;
+import model.LocationCinMD;
 import model.Movies;
 
 /**
@@ -69,6 +71,7 @@ public class BookingServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         String id_raw = request.getParameter("id");
+        int cnt = 0;
         MovieDAO mvd = new MovieDAO();
         int id = 0;
         try {
@@ -148,22 +151,32 @@ public class BookingServlet extends HttpServlet {
             else {
                 month = String.valueOf((d[i].getMonth() + 1));
             }
-            dte.add(new DateMD(date2, month, day));
+             
+            DateMD dmd = new DateMD(i, date2, month, day);
+            dte.add(dmd);
         }
         
         Movies m = mvd.getMovieById(id);
         List<String> form = mvd.getAllMovieFormById(id);
-        request.setAttribute("schePick", dte.get(0));
-        request.setAttribute("loPick", list.get(0));
-        request.setAttribute("formPick", form.get(0));
+        
+        List<FormMD> frm = new ArrayList<>();
+        for (int i = 0; i < form.size(); i++) {
+            frm.add(new FormMD(i, form.get(i)));
+
+                    
+        }
+        List<LocationCinMD> loc = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            loc.add(new LocationCinMD(i, list.get(i)));
+        }
+        request.setAttribute("schePick", dte.get(0).getId());
+        request.setAttribute("loPick", loc.get(0).getId());
+        request.setAttribute("formPick", frm.get(0).getId());
         
         request.setAttribute("movie", m);
-        request.setAttribute("city", list);
+        request.setAttribute("city", loc);
         request.setAttribute("date", dte);
-        request.setAttribute("form", form);
-        for (int i = 0; i < form.size(); i++) {
-            System.out.println(form.get(i));
-        }
+        request.setAttribute("form", frm);
         request.getRequestDispatcher("booking.jsp").forward(request, response);
     }
 
