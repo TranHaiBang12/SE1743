@@ -65,7 +65,7 @@
             .location{
                 display: flex;
                 border-bottom: 3px solid black;
-
+                flex-wrap: wrap;
 
             }
 
@@ -165,7 +165,7 @@
             </div>
             <div class = "schedule">
                 <c:forEach items = "${requestScope.date}" var = "i">
-                    <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}','${i.getId()}', '${requestScope.loPick}')">
+                    <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}')">
                         <div class = "notDate">
                             <span>${i.getMonth()}</span><!-- comment -->
                             <span>${i.getDay()}</span>
@@ -176,7 +176,7 @@
             </div>
             <div class = "location">
                 <c:forEach items = "${requestScope.city}" var = "i">
-                    <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}','${requestScope.schePick}', '${i.getId()}')" >
+                    <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${i.getId()}')" >
                         <div>${i.getLoc()}</div>
                     </div>
                 </c:forEach>
@@ -195,7 +195,7 @@
         <script type = "text/javascript">
             function pick(id, sche, lo) {
                 console.log(sche + " " + lo);
-                window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick="+lo;
+                window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo;
             }
         </script><!-- comment -->
     </body>
