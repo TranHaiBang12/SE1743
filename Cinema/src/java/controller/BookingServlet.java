@@ -149,13 +149,9 @@ public class BookingServlet extends HttpServlet {
         }
 
         Movies m = mvd.getMovieById(id);
-        List<String> form = mvd.getAllMovieFormById(id);
+        
 
-        List<FormMD> frm = new ArrayList<>();
-        for (int i = 0; i < form.size(); i++) {
-            frm.add(new FormMD(i, form.get(i)));
 
-        }
         List<LocationCinMD> loc = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             loc.add(new LocationCinMD(i, list.get(i)));
@@ -191,8 +187,32 @@ public class BookingServlet extends HttpServlet {
             } catch (Exception e) {
                 response.sendRedirect("error");
             }
-            System.out.println(frm.size());
             request.setAttribute("loPick", idLo);
+        }
+        int id_sForm, id_lForm;
+        if(idSche_raw == null) {
+            id_sForm = dte.get(0).getId();
+        }
+        else {
+            id_sForm = idSche;
+        }
+        if(idLoc_raw == null) {
+            id_lForm = loc.get(0).getId();
+        }
+        else {
+            id_lForm = idLo;
+        }
+        String start = date.get(id_sForm) + " 00:00:00.000";
+        String end = date.get(id_sForm + 1) + " 00:00:00.000";
+        
+        List<String> form = mvd.getAllMovieFormByIdAndLocationAndTime(id, loc.get(id_lForm).getLoc(), start, end);
+        for (int i = 0; i < form.size(); i++) {
+            System.out.println(form.get(i));
+        }
+        List<FormMD> frm = new ArrayList<>();
+        for (int i = 0; i < form.size(); i++) {
+            frm.add(new FormMD(i, form.get(i)));
+
         }
         if (idForm_raw == null) {
             request.setAttribute("formPick", frm.get(0).getId());
