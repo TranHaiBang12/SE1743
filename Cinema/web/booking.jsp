@@ -117,6 +117,25 @@
                 padding: 5px;
                 border-radius: 10px;
             }
+            
+            .insideFormActive{
+                margin-right: 45px;
+                cursor: pointer;
+                margin-top: 20px;
+                margin-left: 30px;
+                margin-right: 0px;
+                margin-bottom: 20px;
+                border: 3px solid black;
+                padding: 5px;
+                border-radius: 10px;
+                border: 1px solid black;
+                background-color: black;
+                color: white;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            
+         
 
             .insideScheduleActive{
                 display: flex;
@@ -147,6 +166,13 @@
                 color: white;
                 border-radius: 10px;
                 padding: 10px;
+            }
+
+            .ms{
+                margin-top: 20px;
+                margin-left: 30px;
+                margin-right: 0px;
+                margin-bottom: 20px;
             }
 
         </style>
@@ -181,13 +207,24 @@
                     </div>
                 </c:forEach>
             </div>
+            <%
+                if(request.getAttribute("ms") != null) {
+            %>
+            <h3 class = "ms">${requestScope.ms}</h3>
+            <%    
+               }
+                else {
+            %>
             <div class = "form">
                 <c:forEach items = "${requestScope.form}" var = "i">
-                    <div class = "insideForm">
+                    <div class="insideForm" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${requestScope.loPick}'">
                         <div>${i.getFormName()}</div>
                     </div>
                 </c:forEach>
             </div>
+            <%
+                }
+            %>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

@@ -149,8 +149,6 @@ public class BookingServlet extends HttpServlet {
         }
 
         Movies m = mvd.getMovieById(id);
-        
-
 
         List<LocationCinMD> loc = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
@@ -160,8 +158,7 @@ public class BookingServlet extends HttpServlet {
         String idSche_raw = request.getParameter("schePick");
         String idLoc_raw = request.getParameter("loPick");
         String idForm_raw = request.getParameter("formPick");
-        System.out.println(idSche_raw + " " + idLoc_raw);
-                
+
         if (idSche_raw == null) {
             request.setAttribute("schePick", dte.get(0).getId());
         } else {
@@ -177,8 +174,7 @@ public class BookingServlet extends HttpServlet {
         }
         if (idLoc_raw == null) {
             request.setAttribute("loPick", loc.get(0).getId());
-        }
-        else {
+        } else {
             try {
                 idLo = Integer.parseInt(request.getParameter("loPick"));
                 if (idSche < 0 || idLo < 0 || idForm < 0) {
@@ -190,50 +186,58 @@ public class BookingServlet extends HttpServlet {
             request.setAttribute("loPick", idLo);
         }
         int id_sForm, id_lForm;
-        if(idSche_raw == null) {
+        if (idSche_raw == null) {
             id_sForm = dte.get(0).getId();
-        }
-        else {
+        } else {
             id_sForm = idSche;
         }
-        if(idLoc_raw == null) {
+        if (idLoc_raw == null) {
             id_lForm = loc.get(0).getId();
-        }
-        else {
+        } else {
             id_lForm = idLo;
         }
         String start = date.get(id_sForm) + " 00:00:00.000";
         String end = date.get(id_sForm + 1) + " 00:00:00.000";
-        
+
         List<String> form = mvd.getAllMovieFormByIdAndLocationAndTime(id, loc.get(id_lForm).getLoc(), start, end);
-        for (int i = 0; i < form.size(); i++) {
-            System.out.println(form.get(i));
-        }
+
         List<FormMD> frm = new ArrayList<>();
         for (int i = 0; i < form.size(); i++) {
             frm.add(new FormMD(i, form.get(i)));
 
         }
-        if (idForm_raw == null) {
-            request.setAttribute("formPick", frm.get(0).getId());
-        }
-        else {
-            try {
-                idForm = Integer.parseInt(request.getParameter("formPick"));
-                if (idSche < 0 || idLo < 0 || idForm < 0) {
-                    throw new Exception("Loi moi");
+        if (frm.isEmpty()) {
+            String ms = "Xin lỗi, không có xuất chiếu vào ngày này, hãy chọn một ngày khác";
+            request.setAttribute("ms", ms);
+            request.setAttribute("id", id);
+            request.setAttribute("movie", m);
+            request.setAttribute("city", loc);
+            request.setAttribute("date", dte);
+            request.getRequestDispatcher("booking.jsp").forward(request, response);
+        } else {
+            if (idForm_raw == null) {
+                request.setAttribute("formPick", frm.get(0).getId());
+            } else {
+                try {
+                    idForm = Integer.parseInt(request.getParameter("formPick"));
+                    if (idSche < 0 || idLo < 0 || idForm < 0) {
+                        throw new Exception("Loi moi");
+                    }
+                } catch (Exception e) {
+                    response.sendRedirect("error");
                 }
-            } catch (Exception e) {
-                response.sendRedirect("error");
+                request.setAttribute("formPick", idForm);
             }
-            request.setAttribute("formPick", idForm);
+            for (int i = 0; i < frm.size(); i++) {
+                System.out.println(frm.get(i).getFormName());
+            }
+            request.setAttribute("id", id);
+            request.setAttribute("movie", m);
+            request.setAttribute("city", loc);
+            request.setAttribute("date", dte);
+            request.setAttribute("form", frm);
+            request.getRequestDispatcher("booking.jsp").forward(request, response);
         }
-        request.setAttribute("id", id);
-        request.setAttribute("movie", m);
-        request.setAttribute("city", loc);
-        request.setAttribute("date", dte);
-        request.setAttribute("form", frm);
-        request.getRequestDispatcher("booking.jsp").forward(request, response);
     }
 
     /**
