@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Movies;
+import model.Schedule;
 
 /**
  *
@@ -29,11 +30,9 @@ public class MovieDAO extends DBContext {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
-                } 
-                else if (rs.getString("img").substring(0, 1).equals("?")) {
+                } else if (rs.getString("img").substring(0, 1).equals("?")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
-                }
-                else {
+                } else {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
                 }
                 System.out.println(m.getMovName());
@@ -44,7 +43,7 @@ public class MovieDAO extends DBContext {
         }
         return mv;
     }
-    
+
     public Movies getMovieById(int id) {
         List<Movies> mv = new ArrayList<>();
         try {
@@ -56,11 +55,9 @@ public class MovieDAO extends DBContext {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
-                } 
-                else if (rs.getString("img").substring(0, 1).equals("?")) {
+                } else if (rs.getString("img").substring(0, 1).equals("?")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
-                }
-                else {
+                } else {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
                 }
                 return m;
@@ -70,7 +67,7 @@ public class MovieDAO extends DBContext {
         }
         return null;
     }
-    
+
     public List<String> getAllMovieFormById(int id) {
         List<String> list = new ArrayList<>();
         try {
@@ -78,14 +75,14 @@ public class MovieDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(rs.getString("formName"));
             }
         } catch (Exception e) {
         }
         return list;
     }
-    
+
     public List<String> getAllMovieFormByIdAndLocationAndTime(int id, String city, String startTime, String endTime) {
         List<String> list = new ArrayList<>();
         try {
@@ -96,15 +93,35 @@ public class MovieDAO extends DBContext {
             st.setString(3, endTime);
             st.setInt(4, id);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(rs.getString("formName"));
             }
         } catch (Exception e) {
         }
         return list;
     }
-    
-    
+
+    public List<Schedule> getMoviesBySchedule(int id, String city, String start, String end, String formName) {
+        List<Schedule> ls = new ArrayList<>();
+        try {
+            String sql = "SELECT *, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate, CAST(startTime AS time) AS startTim, CAST(endTime AS time) AS endTim FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN CinemaType ON Cinema.cinType= CinemaType.ctypeID WHERE movID = ? AND City = ? AND startTime >= ? AND endTime <= ? AND formName =  ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            st.setString(2, city);
+            st.setString(3, start);
+            st.setString(4, end);
+            st.setString(5, formName);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Schedule s = new Schedule(rs.getString("cinName"), rs.getString("ctypeName"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim"), rs.getTime("endTim"));
+                ls.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+                    
+        }
+        return ls;
+    }
 
     public List<Movies> getAllMoviesNotShownYet() {
         List<Movies> mv = new ArrayList<>();
@@ -116,11 +133,9 @@ public class MovieDAO extends DBContext {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
-                } 
-                else if (rs.getString("img").substring(0, 1).equals("?")) {
+                } else if (rs.getString("img").substring(0, 1).equals("?")) {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
-                }
-                else {
+                } else {
                     m = new Movies(rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
                 }
                 System.out.println(m.getMovName());
@@ -130,8 +145,8 @@ public class MovieDAO extends DBContext {
         }
         return mv;
     }
-    
-    public void updateInfo(int movID, String movName,String startdate, double time, String lang, String org, String status, String studio, String img){
+
+    public void updateInfo(int movID, String movName, String startdate, double time, String lang, String org, String status, String studio, String img) {
         try {
             String sql = "UPDATE Movies SET movName = ?, StartDate = ?, [Time(min)] = ?, Language = ?, Origin = ?, Status = ?, Studio = ?, Img = ? WHERE movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);

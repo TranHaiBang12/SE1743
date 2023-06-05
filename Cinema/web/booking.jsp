@@ -103,7 +103,8 @@
 
             .form{
                 display: flex;
-
+                border-bottom: 3px solid black;
+                flex-wrap: wrap;
             }
 
             .insideForm{
@@ -192,7 +193,7 @@
             </div>
             <div class = "schedule">
                 <c:forEach items = "${requestScope.date}" var = "i">
-                    <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}', '${requestScope.formPick}')">
+                    <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}', '0')">
                         
                         <div class = "notDate">
                             <span>${i.getMonth()}</span><!-- comment -->
@@ -204,7 +205,7 @@
             </div>
             <div class = "location">
                 <c:forEach items = "${requestScope.city}" var = "i">
-                    <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${i.getId()}', '${requestScope.formPick}')" >
+                    <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${i.getId()}', '0')" >
                         <div>${i.getLoc()}</div>
                     </div>
                 </c:forEach>
@@ -222,6 +223,25 @@
                 <c:forEach items = "${requestScope.form}" var = "i">
                     <div class="${requestScope.formPick==i.getId()?"insideFormActive":"insideForm"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${requestScope.loPick}', '${i.getId()}')">
                         <div>${i.getFormName()}</div>
+                    </div>
+                </c:forEach>
+            </div>
+            <%
+                }
+            %>
+            <%
+
+                if(request.getAttribute("mvSche") != null) {
+            %>
+            <div class = "mvSche">
+                <c:forEach items = "${requestScope.mvSche}" var = "i">
+                    <div >
+                        <div>${i.getCinName()}</div>
+                        <div>${i.getCinType()}</div>
+                        <div>${i.getStart()}</div>
+                        <div>${i.getEnd()}</div>
+                        <div>${i.getStartTim()}</div>
+                        <div>${i.getEndTim()}</div>
                     </div>
                 </c:forEach>
             </div>

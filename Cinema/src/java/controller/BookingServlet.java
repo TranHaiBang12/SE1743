@@ -24,6 +24,7 @@ import model.DateMD;
 import model.FormMD;
 import model.LocationCinMD;
 import model.Movies;
+import model.Schedule;
 
 /**
  *
@@ -218,7 +219,6 @@ public class BookingServlet extends HttpServlet {
             System.out.println("1");
             request.getRequestDispatcher("booking.jsp").forward(request, response);
         } else {
-            System.out.println("2");
             if (idForm_raw == null || idForm_raw.equals("")) {
                         
                 request.setAttribute("formPick", frm.get(0).getId());
@@ -234,6 +234,9 @@ public class BookingServlet extends HttpServlet {
                 }
                 request.setAttribute("formPick", idForm);
             }
+            
+            List<Schedule> mvBySche = mvd.getMoviesBySchedule(id, loc.get(id_lForm).getLoc(), start, end, frm.get(idForm).getFormName());
+            request.setAttribute("mvSche", mvBySche);
 
             request.setAttribute("id", id);
             request.setAttribute("movie", m);
