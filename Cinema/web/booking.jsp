@@ -14,9 +14,9 @@
         <<link rel="stylesheet" href="style.css"/>
         <style>
             .body{
-                background-color: blanchedalmond;
+                background-color: white;
                 border-bottom: 2px dashed red;
-                padding-bottom: 10px;
+                padding-bottom: 50px;
                 padding-top: 15px;
             }
 
@@ -119,7 +119,7 @@
                 border-radius: 10px;
                 padding: 10px;
             }
-            
+
             .insideFormActive{
                 margin-right: 45px;
                 cursor: pointer;
@@ -136,8 +136,8 @@
                 border-radius: 10px;
                 padding: 10px;
             }
-            
-         
+
+
 
             .insideScheduleActive{
                 display: flex;
@@ -177,6 +177,56 @@
                 margin-bottom: 20px;
             }
 
+            .mvt{
+                display: flex;
+                flex-direction: column;
+            }
+
+            .mvtTime{
+                margin-top: 20px;
+                margin-left: 0px;
+                margin-right: 0px;
+                display: flex;
+            }
+            
+            .cinName {
+                margin-top: 20px;
+                margin-left: 0px;
+                margin-right: 0px;
+                margin-bottom: 20px;
+                font-size: 20px;
+            }
+            
+            .cinType{
+                margin-top: 20px;
+                margin-left: 0px;
+                margin-right: 0px;
+                margin-bottom: 20px;
+                font-size: 20px;
+            }
+            
+            .mvtStartTime{
+                border: 1px solid black;
+                padding: 5px;
+                text-align: center;
+                font-size: 20px;
+                width: 150px;
+                padding: 5px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
+            
+            .mvtStartTime:hover{
+                border: 2px solid black;
+            }
+            
+            .insideMvt{
+                border-bottom: 3px solid black;
+                margin-left: 40px;
+                padding-bottom: 35px;
+            }
+            
+
         </style>
     </head>
     <body>
@@ -194,7 +244,7 @@
             <div class = "schedule">
                 <c:forEach items = "${requestScope.date}" var = "i">
                     <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}', '0')">
-                        
+
                         <div class = "notDate">
                             <span>${i.getMonth()}</span><!-- comment -->
                             <span>${i.getDay()}</span>
@@ -231,31 +281,36 @@
             %>
             <%
 
-                if(request.getAttribute("mvSche") != null) {
+                if(request.getAttribute("mvt") != null) {
             %>
-            <div class = "mvSche">
-                <c:forEach items = "${requestScope.mvSche}" var = "i">
-                    <div >
-                        <div>${i.getCinName()}</div>
-                        <div>${i.getCinType()}</div>
-                        <div>${i.getStart()}</div>
-                        <div>${i.getEnd()}</div>
-                        <div>${i.getStartTim()}</div>
-                        <div>${i.getEndTim()}</div>
+            <div class = "mvt">
+                <c:forEach items = "${requestScope.mvt}" var = "i">
+                    <div class = "insideMvt">
+                        <div class = "cinName">${i.getName()}</div>
+                        <div class = "cinType">${i.getType()}</div>
+                        <div class = "mvtTime">
+                            <c:forEach items = "${i.getTime()}" var = "k">
+                                <div class="mvtStartTime">
+                                    <div>${k.getStart()}</div>
+                                </div>
+                            </c:forEach>
+                        </div>
                     </div>
                 </c:forEach>
             </div>
-            <%
-                }
-            %>
+
         </div>
-        <div id = "footer">
-            <%@include file = "footer.jsp" %>
-        </div>
-        <script type = "text/javascript">
-            function pick(id, sche, lo, form) {
-                window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form;
+        <%
             }
-        </script><!-- comment -->
-    </body>
+        %>
+    </div>
+    <div id = "footer">
+        <%@include file = "footer.jsp" %>
+    </div>
+    <script type = "text/javascript">
+        function pick(id, sche, lo, form) {
+            window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form;
+        }
+    </script><!-- comment -->
+</body>
 </html>

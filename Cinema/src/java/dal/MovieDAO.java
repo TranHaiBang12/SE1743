@@ -101,27 +101,7 @@ public class MovieDAO extends DBContext {
         return list;
     }
 
-    public List<Schedule> getMoviesBySchedule(int id, String city, String start, String end, String formName) {
-        List<Schedule> ls = new ArrayList<>();
-        try {
-            String sql = "SELECT *, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate, CAST(startTime AS time) AS startTim, CAST(endTime AS time) AS endTim FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN CinemaType ON Cinema.cinType= CinemaType.ctypeID WHERE movID = ? AND City = ? AND startTime >= ? AND endTime <= ? AND formName =  ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, id);
-            st.setString(2, city);
-            st.setString(3, start);
-            st.setString(4, end);
-            st.setString(5, formName);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Schedule s = new Schedule(rs.getString("cinName"), rs.getString("ctypeName"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim"), rs.getTime("endTim"));
-                ls.add(s);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-                    
-        }
-        return ls;
-    }
+   
 
     public List<Movies> getAllMoviesNotShownYet() {
         List<Movies> mv = new ArrayList<>();

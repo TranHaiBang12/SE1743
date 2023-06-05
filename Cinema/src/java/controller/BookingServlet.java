@@ -6,6 +6,7 @@ package controller;
 
 import dal.CinemaDAO;
 import dal.MovieDAO;
+import dal.ScheDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,8 +24,10 @@ import java.util.logging.Logger;
 import model.DateMD;
 import model.FormMD;
 import model.LocationCinMD;
+import model.MovieTime;
 import model.Movies;
 import model.Schedule;
+import model.Tme;
 
 /**
  *
@@ -207,7 +210,7 @@ public class BookingServlet extends HttpServlet {
             frm.add(new FormMD(i, form.get(i)));
 
         }
-                
+
         if (frm.isEmpty()) {
             String ms = "Xin lỗi, không có xuất chiếu vào ngày này, hãy chọn một ngày khác";
             request.setAttribute("formPick", 0);
@@ -220,7 +223,7 @@ public class BookingServlet extends HttpServlet {
             request.getRequestDispatcher("booking.jsp").forward(request, response);
         } else {
             if (idForm_raw == null || idForm_raw.equals("")) {
-                        
+
                 request.setAttribute("formPick", frm.get(0).getId());
             } else {
                 try {
@@ -234,10 +237,22 @@ public class BookingServlet extends HttpServlet {
                 }
                 request.setAttribute("formPick", idForm);
             }
-            
-            List<Schedule> mvBySche = mvd.getMoviesBySchedule(id, loc.get(id_lForm).getLoc(), start, end, frm.get(idForm).getFormName());
-            request.setAttribute("mvSche", mvBySche);
+            ScheDAO scd = new ScheDAO();
+            List<String> strTme = new ArrayList<>();
+      
+            List<String> mvNameBySche = scd.getCinNameBySchedule(id, loc.get(id_lForm).getLoc(), start, end, frm.get(idForm).getFormName());
+            CinemaDAO cnd = new CinemaDAO();
+            List<MovieTime> mvt = new ArrayList<>();
+            for (int i = 0; i < mvNameBySche.size(); i++) {
+                List<Tme> tme = scd.getMovieTimeBySchedule(id, loc.get(id_lForm).getLoc(), start, end, frm.get(idForm).getFormName(), mvNameBySche.get(i));
 
+                String str = "Rạp " + cnd.getCinTypeByName(mvNameBySche.get(i));
+                mvt.add(new MovieTime(mvNameBySche.get(i), str, tme));
+            }
+            for (int i = 0; i < mvt.size(); i++) {
+                System.out.println(mvt.get(i).getName());
+            }
+            request.setAttribute("mvt", mvt);
             request.setAttribute("id", id);
             request.setAttribute("movie", m);
             request.setAttribute("city", loc);
