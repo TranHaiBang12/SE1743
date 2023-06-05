@@ -209,14 +209,18 @@ public class BookingServlet extends HttpServlet {
                 
         if (frm.isEmpty()) {
             String ms = "Xin lỗi, không có xuất chiếu vào ngày này, hãy chọn một ngày khác";
+            request.setAttribute("formPick", 0);
             request.setAttribute("ms", ms);
             request.setAttribute("id", id);
             request.setAttribute("movie", m);
             request.setAttribute("city", loc);
             request.setAttribute("date", dte);
+            System.out.println("1");
             request.getRequestDispatcher("booking.jsp").forward(request, response);
         } else {
+            System.out.println("2");
             if (idForm_raw == null || idForm_raw.equals("")) {
+                        
                 request.setAttribute("formPick", frm.get(0).getId());
             } else {
                 try {
