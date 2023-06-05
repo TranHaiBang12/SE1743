@@ -116,6 +116,7 @@
                 border: 3px solid black;
                 padding: 5px;
                 border-radius: 10px;
+                padding: 10px;
             }
             
             .insideFormActive{
@@ -191,7 +192,8 @@
             </div>
             <div class = "schedule">
                 <c:forEach items = "${requestScope.date}" var = "i">
-                    <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}')">
+                    <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}', '${requestScope.formPick}')">
+                        
                         <div class = "notDate">
                             <span>${i.getMonth()}</span><!-- comment -->
                             <span>${i.getDay()}</span>
@@ -202,7 +204,7 @@
             </div>
             <div class = "location">
                 <c:forEach items = "${requestScope.city}" var = "i">
-                    <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${i.getId()}')" >
+                    <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${i.getId()}', '${requestScope.formPick}')" >
                         <div>${i.getLoc()}</div>
                     </div>
                 </c:forEach>
@@ -217,7 +219,7 @@
             %>
             <div class = "form">
                 <c:forEach items = "${requestScope.form}" var = "i">
-                    <div class="insideForm" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${requestScope.loPick}'">
+                    <div class="${requestScope.formPick==i.getId()?"insideFormActive":"insideForm"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${requestScope.loPick}', '${i.getId()}')">
                         <div>${i.getFormName()}</div>
                     </div>
                 </c:forEach>
@@ -230,9 +232,8 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type = "text/javascript">
-            function pick(id, sche, lo) {
-                console.log(sche + " " + lo);
-                window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo;
+            function pick(id, sche, lo, form) {
+                window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form;
             }
         </script><!-- comment -->
     </body>

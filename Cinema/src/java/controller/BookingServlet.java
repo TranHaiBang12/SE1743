@@ -186,12 +186,12 @@ public class BookingServlet extends HttpServlet {
             request.setAttribute("loPick", idLo);
         }
         int id_sForm, id_lForm;
-        if (idSche_raw == null) {
+        if (idSche_raw == null || idSche_raw.equals("")) {
             id_sForm = dte.get(0).getId();
         } else {
             id_sForm = idSche;
         }
-        if (idLoc_raw == null) {
+        if (idLoc_raw == null || idLoc_raw.equals("")) {
             id_lForm = loc.get(0).getId();
         } else {
             id_lForm = idLo;
@@ -206,6 +206,7 @@ public class BookingServlet extends HttpServlet {
             frm.add(new FormMD(i, form.get(i)));
 
         }
+                
         if (frm.isEmpty()) {
             String ms = "Xin lỗi, không có xuất chiếu vào ngày này, hãy chọn một ngày khác";
             request.setAttribute("ms", ms);
@@ -215,7 +216,7 @@ public class BookingServlet extends HttpServlet {
             request.setAttribute("date", dte);
             request.getRequestDispatcher("booking.jsp").forward(request, response);
         } else {
-            if (idForm_raw == null) {
+            if (idForm_raw == null || idForm_raw.equals("")) {
                 request.setAttribute("formPick", frm.get(0).getId());
             } else {
                 try {
@@ -224,13 +225,12 @@ public class BookingServlet extends HttpServlet {
                         throw new Exception("Loi moi");
                     }
                 } catch (Exception e) {
-                    response.sendRedirect("error");
+                    System.out.println(e);
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
                 request.setAttribute("formPick", idForm);
             }
-            for (int i = 0; i < frm.size(); i++) {
-                System.out.println(frm.get(i).getFormName());
-            }
+
             request.setAttribute("id", id);
             request.setAttribute("movie", m);
             request.setAttribute("city", loc);
