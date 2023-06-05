@@ -36,6 +36,10 @@
         <servlet-name>BookingServlet</servlet-name>
         <servlet-class>controller.BookingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PickSeatServlet</servlet-name>
+        <servlet-class>controller.PickSeatServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>BookingServlet</servlet-name>
         <url-pattern>/booking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PickSeatServlet</servlet-name>
+        <url-pattern>/seat</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

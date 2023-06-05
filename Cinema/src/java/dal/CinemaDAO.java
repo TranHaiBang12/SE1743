@@ -45,4 +45,19 @@ public class CinemaDAO extends DBContext {
         }
         return null;
     }
+    
+    public int getCinIDByName(String name) {
+        try {
+            String sql = "SELECT cinID FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE cinName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("cinID");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 }

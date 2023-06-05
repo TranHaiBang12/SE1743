@@ -11,13 +11,25 @@ import java.sql.Time;
  * @author acer
  */
 public class Tme {
+    private String scheNo;
     private String start;
     private String end;
 
-    public Tme(String start, String end) {
+    public Tme(String scheNo, String start, String end) {
+        this.scheNo = scheNo;
         this.start = start;
         this.end = end;
     }
+
+    public String getScheNo() {
+        return scheNo;
+    }
+
+    public void setScheNo(String scheNo) {
+        this.scheNo = scheNo;
+    }
+    
+    
 
     public String getStart() {
         return start;

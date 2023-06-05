@@ -214,6 +214,7 @@
                 padding: 5px;
                 margin-right: 10px;
                 cursor: pointer;
+                margin-bottom: 10px;
             }
             
             .mvtStartTime:hover{
@@ -223,7 +224,7 @@
             .insideMvt{
                 border-bottom: 3px solid black;
                 margin-left: 40px;
-                padding-bottom: 35px;
+                padding-bottom: 25px;
             }
             
 
@@ -290,7 +291,7 @@
                         <div class = "cinType">${i.getType()}</div>
                         <div class = "mvtTime">
                             <c:forEach items = "${i.getTime()}" var = "k">
-                                <div class="mvtStartTime">
+                                <div class="mvtStartTime" onclick = "seat('${k.getScheNo()}')">
                                     <div>${k.getStart()}</div>
                                 </div>
                             </c:forEach>
@@ -310,6 +311,10 @@
     <script type = "text/javascript">
         function pick(id, sche, lo, form) {
             window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form;
+        }
+        
+        function seat(id) {
+            window.location = "seat?id=" + id;
         }
     </script><!-- comment -->
 </body>

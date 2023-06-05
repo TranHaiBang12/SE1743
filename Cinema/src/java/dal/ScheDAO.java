@@ -18,27 +18,7 @@ import model.Tme;
  * @author acer
  */
 public class ScheDAO extends DBContext{
-    public List<Schedule> getMoviesBySchedule(int id, String city, String start, String end, String formName) {
-        List<Schedule> ls = new ArrayList<>();
-        try {
-            String sql = "SELECT *, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate, CAST(startTime AS time) AS startTim, CAST(endTime AS time) AS endTim FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN CinemaType ON Cinema.cinType= CinemaType.ctypeID WHERE movID = ? AND City = ? AND startTime >= ? AND endTime <= ? AND formName =  ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, id);
-            st.setString(2, city);
-            st.setString(3, start);
-            st.setString(4, end);
-            st.setString(5, formName);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Schedule s = new Schedule(rs.getString("cinName"), rs.getString("ctypeName"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim"), rs.getTime("endTim"));
-                ls.add(s);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-                    
-        }
-        return ls;
-    }
+  
     
     public List<String> getCinNameBySchedule(int id, String city, String start, String end, String formName) {
         List<String> ls = new ArrayList<>();
@@ -64,7 +44,7 @@ public class ScheDAO extends DBContext{
     public List<Tme> getMovieTimeBySchedule(int id, String city, String start, String end, String formName, String cinName) {
         List<Tme> ls = new ArrayList<>();
         try {
-            String sql = "SELECT CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTim, CONVERT(VARCHAR(5), CAST(endTime AS time), 108) AS endTim FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE movID = ? AND City = ? AND startTime >= ? AND endTime <= ? AND formName = ? AND cinName = ? ORDER BY startTime";
+            String sql = "SELECT scheNo, CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTim, CONVERT(VARCHAR(5), CAST(endTime AS time), 108) AS endTim FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE movID = ? AND City = ? AND startTime >= ? AND endTime <= ? AND formName = ? AND cinName = ? ORDER BY startTime";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
             st.setString(2, city);
@@ -74,7 +54,7 @@ public class ScheDAO extends DBContext{
             st.setString(6, cinName);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Tme t = new Tme(rs.getString("startTim"), rs.getString("endTim"));
+                Tme t = new Tme(rs.getString("scheNo"), rs.getString("startTim"), rs.getString("endTim"));
                 ls.add(t);                   
             }
         } catch (Exception e) {
@@ -82,5 +62,22 @@ public class ScheDAO extends DBContext{
                     
         }
         return ls;
+    }
+    
+    public Schedule getScheduleByID(String ID) {
+        try {
+            String sql = "SELECT *, CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTim, CONVERT(VARCHAR(5), CAST(endTime AS time), 108) AS endTim, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate FROM Schedule WHERE scheNo = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, ID);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Schedule s = new Schedule(rs.getDate("startDate"), rs.getDate("endDate"), rs.getString("startTim"), rs.getString("endTim"), ID, rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"));
+                return s;       
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+                    
+        }
+        return null;
     }
 }
