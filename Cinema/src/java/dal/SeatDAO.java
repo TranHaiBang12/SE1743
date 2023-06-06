@@ -33,15 +33,16 @@ public class SeatDAO extends DBContext{
     public List<RoomSeat> selectSeatByRoomIDAndCinID(int roomID, int cinID) {
         List<RoomSeat> list = new ArrayList<>();
         try {
-            
+            int i = 1;
             String sql = "SELECT * FROM Seat Room WHERE roomID = ? AND cinID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, roomID);
             st.setInt(2, cinID);
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
-                RoomSeat rS = new RoomSeat(rs.getInt("Row"), rs.getString("Col"), rs.getInt("roomID"), rs.getInt("cinID"), rs.getInt("Type"));
+                RoomSeat rS = new RoomSeat(i, rs.getInt("Row"), rs.getString("Col"), rs.getInt("roomID"), rs.getInt("cinID"), rs.getInt("Type"));
                 list.add(rS);
+                i++;
             }
         } catch (Exception e) {
             System.out.println(e);

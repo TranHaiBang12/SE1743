@@ -118,14 +118,14 @@ public class PickSeatServlet extends HttpServlet {
             SeatDAO sed = new SeatDAO();
             for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoColSeats(); i++) {
                 for (int j = 0; j < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats(); j++) {
-                    if (i >= 3 && i <= 5) {
-                        if (j >= 2 && j <= 6) {
+                    if (j >= 3 && j <= 5) {
+                        if (i >= 1 && i <= 6) {
                             sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 2);
                         }
                         else {
                             sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
                         }
-                    } else if (i >= 7) {
+                    } else if (j >= 6) {
                         sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 3);
 
                     } else {

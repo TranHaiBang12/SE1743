@@ -11,6 +11,7 @@ import java.util.List;
  * @author acer
  */
 public class RoomSeat {
+    private int id;
     private int row;
     private String col;
     private int roomID;
@@ -18,13 +19,24 @@ public class RoomSeat {
     private int type;
 
 
-    public RoomSeat(int row, String col, int roomID, int cinID, int type) {
+    public RoomSeat(int id, int row, String col, int roomID, int cinID, int type) {
+        this.id = id;
         this.row = row;
         this.col = col;
         this.roomID = roomID;
         this.cinID = cinID;
         this.type = type;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 
     public int getRow() {
         return row;

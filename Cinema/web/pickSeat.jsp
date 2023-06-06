@@ -47,26 +47,78 @@
                 display: flex;
                 margin-top: 20px;
                 flex-wrap: wrap;
-                margin-left: 30%;
+                margin-left: 33%;
                 margin-right: 20%;
+            }
+
+            .seat hr {
+                flex-basis: 100%;
+                height: 0;
+                margin: 0;
+                border: 0;
             }
 
             .insideSeat{
                 display: flex;
                 justify-content: space-around;
+                flex-direction: row;
                 margin-bottom: 10px;
                 font-size: 20px;
-                /*
-                margin-right: 50px;
+
+                margin-right: 30px;
                 margin-bottom: 20px;
-                */
+
                 border: 1px solid black;
                 padding: 10px;
                 border-radius: 10px;
                 font-size: 15px;
             }
 
+            .sat{
+                display: flex;
+            }
+
+            .breaker{
+                flex-basis: 100%;
+                height: 0;
+            }
             
+            .vip{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                margin-bottom: 10px;
+                font-size: 20px;
+
+                margin-right: 30px;
+                margin-bottom: 20px;
+
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: blue;
+            }
+            
+            .spe{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                margin-bottom: 10px;
+                font-size: 20px;
+
+                margin-right: 30px;
+                margin-bottom: 20px;
+
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: pink;
+            }
+
+
+
 
         </style>
     </head>
@@ -84,26 +136,51 @@
                 <br/>
                 SUẤT CHIẾU: <span class = "scheTime">${requestScope.sche.getStartTim()}</span> - <span>${requestScope.day} </span><span>${requestScope.dateFormat}</span>
             </div>
-            <div class = "seat">
-                <%int cnt = 0;%>
-                <c:forEach items = "${requestScope.rs}" var = "i">
-                    
-                    <div class = "insideSeat">
-                        <%cnt++;%>
-                        <div>${i.getCol()}</div>
-                        <div>${i.getRow()}</div>
-                        <%if(cnt == %>
-                        ${requestScope.room.getNoRowSeats()}
-                        <%
-                            ){
-                        %>
-                        <br/>
-                        <%    
-                        }
-                        %>
+            <div>
+                <div class = "seat">
+                    <c:forEach items = "${requestScope.rs}" var = "i">
+                        <c:if test = "${i.getType() == 1}">
+                            <div class = "insideSeat">
 
-                    </div>
-                </c:forEach>
+                                <div class = "sat">
+                                    <div>${i.getCol()}</div>
+                                    <div>${i.getRow()}</div><!-- -->
+                                </div>
+
+         
+                            </div>
+                        </c:if>
+                        <c:if test = "${i.getType() == 2}">
+                            <div class = "vip">
+
+                                <div class = "sat">
+                                    <div>${i.getCol()}</div>
+                                    <div>${i.getRow()}</div><!-- -->
+                                </div>
+
+                 
+                            </div>
+                        </c:if>
+                        <c:if test = "${i.getType() == 3}">
+                            <div class = "spe">
+
+                                <div class = "sat">
+                                    <div>${i.getCol()}</div>
+                                    <div>${i.getRow()}</div><!-- -->
+                                </div>
+
+                            </div>
+                        </c:if>
+                        <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
+
+                            <!--
+                            <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
+                                <p class = "breaker">T</p>
+                            </c:if>
+                            -->
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
         </div>
         <div id = "footer">
