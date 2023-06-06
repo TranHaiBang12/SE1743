@@ -8,6 +8,7 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>controller.LoginServlet</servlet-class>
     </servlet>
+   
     <servlet>
         <servlet-name>Test</servlet-name>
         <servlet-class>controller.Test</servlet-class>

@@ -53,12 +53,12 @@
                     <div class="dropdown">
                         <div class="dropbtn">
                             <img class="movieIcon" src="images/movieIcon.jpg" />
-                            <a href="#">PHIM</a>
+                            <a class ="lnk" href="#">PHIM</a>
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a href="#">Phim Đang Chiếu</a>
-                                <a href="#">Phim Sắp Chiếu</a>
+                                <a class ="lnk" href="#">Phim Đang Chiếu</a>
+                                <a class ="lnk" href="#">Phim Sắp Chiếu</a>
                             </div>
                         </div>
                     </div>
@@ -67,13 +67,13 @@
                     <div class="dropdown">
                         <div class="dropbtn">
                             <img class="cinemaIcon" src="images/cinemaIcon.png" />
-                            <a href="#">RẠP</a>
+                            <a class ="lnk" href="#">RẠP</a>
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a href="#">Tất Cả Các Rạp</a>
-                                <a href="#">Rạp Đặc Biệt</a>
-                                <a href="#">Rạp 3D</a>
+                                <a class ="lnk" href="#">Tất Cả Các Rạp</a>
+                                <a class ="lnk" href="#">Rạp Đặc Biệt</a>
+                                <a class ="lnk" href="#">Rạp 3D</a>
                             </div>
                         </div>
                     </div>
@@ -82,12 +82,12 @@
                     <div class="dropdown">
                         <div class="dropbtn">
                             <img class="memberIcon" src="images/memberIcon.jpg" />
-                            <a href="#">THÀNH VIÊN</a>
+                            <a class ="lnk" href="#">THÀNH VIÊN</a>
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a href="#">Tài Khoản</a>
-                                <a href="#">Quyền Lợi</a>
+                                <a class ="lnk" href="#">Tài Khoản</a>
+                                <a class ="lnk" href="#">Quyền Lợi</a>
                             </div>
                         </div>
                     </div>
@@ -96,11 +96,11 @@
                     <div class="dropdown">
                         <div class="dropbtn">
                             <img class="culturePlexIcon" src="images/culturePlexIcon.png" />
-                            <a href="#">CULTUREPLEX</a>
+                            <a class ="lnk" href="#">CULTUREPLEX</a>
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a href="#">Nội Quy</a>
+                                <a class ="lnk" href="#">Nội Quy</a>
                             </div>
                         </div>
                     </div>
