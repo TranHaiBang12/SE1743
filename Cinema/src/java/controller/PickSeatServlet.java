@@ -8,6 +8,7 @@ import dal.FormDAO;
 import dal.MovieDAO;
 import dal.RoomDAO;
 import dal.ScheDAO;
+import dal.SeatDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import model.RoomSeat;
 
 /**
  *
@@ -100,9 +104,40 @@ public class PickSeatServlet extends HttpServlet {
                     day = "Thứ Bảy";
                     break;
             }
+            List<String> b = new ArrayList<>();
+
+            int a[] = new int[rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats()];
+            for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats(); i++) {
+                a[i] = i + 1;
+            }
+            String c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoColSeats(); i++) {
+                b.add(c.substring(i, i + 1));
+
+            }
+            SeatDAO sed = new SeatDAO();
+            for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoColSeats(); i++) {
+                for (int j = 0; j < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats(); j++) {
+                    if (i >= 3 && i <= 5) {
+                        if (j >= 2 && j <= 6) {
+                            sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 2);
+                        }
+                        else {
+                            sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
+                        }
+                    } else if (i >= 7) {
+                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 3);
+
+                    } else {
+                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
+                    }
+                }
+            }
+            List<RoomSeat> rs = sed.selectSeatByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID());
             String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
             String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
             request.setAttribute("sche", scd.getScheduleByID(id));
+            request.setAttribute("rs", rs);
             request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
             request.setAttribute("movName", movName);
             request.setAttribute("formName", formName);
