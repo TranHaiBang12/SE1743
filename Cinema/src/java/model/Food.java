@@ -9,6 +9,7 @@ package model;
  * @author acer
  */
 public class Food {
+    private int id;
     private String productCode;
     private String foodDescript;
     private String foodType;
@@ -18,7 +19,8 @@ public class Food {
     private double price;
     private String img;
 
-    public Food(String productCode, String foodDescript, String foodType, int numberLeft, String status, double discount, double price, String img) {
+    public Food(int id, String productCode, String foodDescript, String foodType, int numberLeft, String status, double discount, double price, String img) {
+        this.id = id;
         this.productCode = productCode;
         this.foodDescript = foodDescript;
         this.foodType = foodType;
@@ -28,6 +30,16 @@ public class Food {
         this.price = price;
         this.img = img;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 
     public String getProductCode() {
         return productCode;
