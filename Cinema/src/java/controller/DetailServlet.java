@@ -71,6 +71,7 @@ public class DetailServlet extends HttpServlet {
             String pattern = "dd-MM-yyyy";
         
             Movies m = mvd.getMovieById(id);
+            request.setAttribute("id", id);
             request.setAttribute("data", m);
             request.getRequestDispatcher("detail.jsp").forward(request, response);
         } catch (Exception e) {

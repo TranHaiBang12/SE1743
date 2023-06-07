@@ -82,6 +82,10 @@
                 background-color: red;
                 color:white;
             }
+            
+            button{
+                cursor: pointer;
+            }
         </style>
 
     </head>
@@ -126,7 +130,7 @@
                         <br/>
                         <span>Tình trạng:  </span>${requestScope.data.getStatus()}
                         <br/>
-                        <button type ="submit" value ="MUA VÉ">MUA VÉ</button>
+                        <button type ="submit" value ="MUA VÉ" onclick = "detail('${requestScope.id}')">MUA VÉ</button>
                     </div>
                 </div>
             </div><!-- comment -->
@@ -137,5 +141,10 @@
         <div class = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type="text/javascript">
+            function detail(id) {
+                window.location = "booking?id=" + id;
+            }
+        </script>
     </body>
 </html>

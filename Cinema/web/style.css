@@ -62,10 +62,6 @@ body {
     margin-right: 20px;
 }
 
-.lnk{
-    margin-left: 40px;
-}
-
 
 
 
@@ -137,21 +133,25 @@ body {
 .movieIcon{
     position: absolute;
     height:45px;
+    right: 40px;
 }
 
 .cinemaIcon{
     position: absolute;
     height:28px;
+    right: 40px;
 }
 
 .memberIcon{
     position: absolute;
     height:28px;
+    right: 100px;
 }
 
 .culturePlexIcon{
     position: absolute;
     height:28px;
+    right: 120px;
 }
 
 .cinemaLogo{
