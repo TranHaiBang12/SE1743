@@ -133,8 +133,9 @@ body {
 .movieIcon{
     position: absolute;
     height:45px;
-    right: 40px;
+    right: 50px;
 }
+
 
 .cinemaIcon{
     position: absolute;

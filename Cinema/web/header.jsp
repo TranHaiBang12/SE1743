@@ -18,6 +18,8 @@
                 color: white;
                 cursor: pointer;
             }
+
+     
         </style>
     </head>
     <body>
@@ -32,7 +34,7 @@
             <li><a href="#">CSKH</a></li>
             <li><a href="#">EN</a></li>
                 <c:if test = "${sessionScope.account!=null}">
-                
+
                 <div class="dropdown">
                     <li id = "userN">${sessionScope.account.getUserName()}</li>
                     <div class="dropdown-content">
@@ -105,7 +107,7 @@
                         </div>
                     </div>
                 </li>
-                <li><a href="#"><img class="storeLogo" src="images/storeiCON.png" /></a></li>
+                <li><a href="store"><img class="storeLogo" src="images/storeiCON.png" /></a></li>
             </ul>
 
 

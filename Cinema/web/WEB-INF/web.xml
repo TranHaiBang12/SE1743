@@ -8,7 +8,6 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>controller.LoginServlet</servlet-class>
     </servlet>
-   
     <servlet>
         <servlet-name>Test</servlet-name>
         <servlet-class>controller.Test</servlet-class>
@@ -40,6 +39,10 @@
     <servlet>
         <servlet-name>PickSeatServlet</servlet-name>
         <servlet-class>controller.PickSeatServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StoreServlet</servlet-name>
+        <servlet-class>controller.StoreServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -81,9 +84,16 @@
         <servlet-name>PickSeatServlet</servlet-name>
         <url-pattern>/seat</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoreServlet</servlet-name>
+        <url-pattern>/store</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
 </web-app>
