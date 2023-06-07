@@ -13,9 +13,33 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action = "test" method = "post">
-            <input type ="file" name ="file"><!-- comment -->
-            <input type ="submit">Submit<!-- Sub -->
-        </form>
+        <c:set var = "cookie" value = "${pageContext.request.cookies}"/>
+        ${cookie.user.value}
+        1
+        <script type="text/javascript">
+
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + "; " + expires;
+            }
+            setCookie("Bang", "pro", 2);
+// Hàm lấy Cookie
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ')
+                        c = c.substring(1);
+                    if (c.indexOf(name) == 0)
+                        return c.substring(name.length, c.length);
+                }
+                return "";
+            }
+
+            console.log(getCookie("Bang"));
+        </script>
     </body>
 </html>

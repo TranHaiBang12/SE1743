@@ -16,7 +16,11 @@
                 text-align: center;
                 padding-bottom: 15px;
             }
-            
+
+            .pagination a{
+                text-decoration: none;
+            }
+
             .noActive{
                 text-decoration: none;
                 color: black;
@@ -24,7 +28,7 @@
                 padding: 5px;
                 border-radius: 18px;
             }
-            
+
             .active{
                 text-decoration: none;
                 border: 1px solid black;
@@ -33,7 +37,7 @@
                 border-radius: 18px;
                 background-color: black;
             }
-            
+
             .active a{
                 color: white;
             }
@@ -95,6 +99,30 @@
                 text-decoration: underline;
             }
 
+            .ttle{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 3px solid black;
+                padding-top: 20px;
+            }
+
+            .cart img{
+                height: 40px;
+                width:40px;
+                margin-right: 20px;
+                border: 1px solid black;
+                border-radius: 12px;
+                padding: 5px;
+                background: orange;
+                cursor: pointer;
+            }
+
+            .prD{
+                margin-left: 10px;
+                font-size: 30px;
+            }
+
         </style>
     </head>
     <body>
@@ -102,7 +130,14 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-
+            <div class = "ttle">
+                <div class = "prD">
+                    Products
+                </div>
+                <div class = "cart">
+                    <img src ="images/shoppingCartIcon.png"/>
+                </div>
+            </div>
             <div class = "item">
                 <c:forEach items = "${requestScope.listPerPage}" var = "i">
                     <div class = "insideItem">
@@ -118,7 +153,7 @@
 
                                     </div>
                                     <div class = "cart">
-                                        <input type ="submit" value ="Add to cart"/>
+                                        <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}')"/>
                                     </div>
 
                                     </div>
@@ -139,5 +174,47 @@
                                 <div id = "footer">
                                     <%@include file = "footer.jsp" %>
                                 </div>
+                                <script>
+                                    var t = "";
+                                    if(getCookie("cart") === null) {
+                                        t = "";
+                                    }
+                                    else {
+                                        t = getCookie("cart");
+                                    }
+                                    function setCookie(cname, cvalue, exdays) {
+                                        var d = new Date();
+                                        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                                        var expires = "expires=" + d.toUTCString();
+                                        document.cookie = cname + "=" + cvalue + "; " + expires;
+                                    }
+
+                                    function cart(id) {
+                                        console.log(id);
+                                        if(getCookie("cart") === null) {
+                                            setCookie("cart", id, 365);
+                                        }
+                                        else {
+                                            if(!t.includes(id)) {
+                                                t = t + id;  
+                                            }
+                                            setCookie("cart", t, 365);
+                                        }
+                                        console.log(getCookie("cart"));
+                                    }
+// Hàm lấy Cookie
+                                    function getCookie(cname) {
+                                        var name = cname + "=";
+                                        var ca = document.cookie.split(';');
+                                        for (var i = 0; i < ca.length; i++) {
+                                            var c = ca[i];
+                                            while (c.charAt(0) == ' ')
+                                                c = c.substring(1);
+                                            if (c.indexOf(name) == 0)
+                                                return c.substring(name.length, c.length);
+                                        }
+                                        return "";
+                                    }
+                                </script>
                                 </body>
                                 </html>
