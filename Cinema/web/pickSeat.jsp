@@ -91,6 +91,8 @@
                 border-radius: 10px;
                 font-size: 15px;
                 cursor: pointer;
+                background-color: white;
+                color: black;
             }
 
             .sat{
@@ -170,14 +172,14 @@
 
             .seatInstruct{
                 display: flex;
-                
+
                 align-items: center;
                 justify-content: center;
             }
-            
+
             .seatInstruct div{
                 display: flex;
-                
+
                 align-items: center;
                 justify-content: center;
                 margin-right: 40px;
@@ -232,6 +234,10 @@
                         <img class = "imgE" src = "images/pinkSeat.png">
                         <span> Ghế Đôi</span>
                     </div>
+                    <div>
+                        <img class = "imgE" src = "images/greenSeat.png">
+                        <span> Ghế Đã Chọn</span>
+                    </div>
                 </div>
                 <div class = "screen">
                     <img src ="images/screenIcon.png"/>
@@ -240,7 +246,7 @@
                     <c:forEach items = "${requestScope.rs}" var = "i">
                         <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
                         <c:if test = "${i.getType() == 1}">
-                            <div id ="${i.getId()}" class = "insideSeat">
+                            <div id ="${i.getId()}" class = "insideSeat" onclick = "pckSeat('${i.getId()}')">
 
                                 <div class = "sat">
                                     <span>${i.getCol()}</span>
@@ -290,6 +296,30 @@
         </div>
 
         <script type="text/javascript">
+            function pckSeat(id) {
+                if (document.getElementById(id).style.color !== 'green') {
+                    document.getElementById(id).style.backgroundColor = 'green';
+                    document.getElementById(id).style.color = 'white';
+                }
+
+                else if(document.getElementById(id).style.backgroundColor === "green") {
+                    document.getElementById(id).style.backgroundColor = 'white';
+                    document.getElementById(id).style.color = 'black';
+                    console.log("1");
+                    
+                }
+                console.log(document.getElementById(id).style.backgroundColor);
+                console.log(document.getElementById(id).style.backgroundColor === "green");
+
+//                if(String(document.getElementById(id).style.backgroundColor) === "white") {
+//                    document.getElementById(id).style.backgroundColor = 'green';
+//                    document.getElementById(id).style.color = 'white';
+//                }
+//                else if(String(document.getElementById(id).style.backgroundColor) === "green") {
+//                    document.getElementById(id).style.backgroundColor = 'white';
+//                    document.getElementById(id).style.color = 'black';
+//                }
+            }
 
             for (var i = 1; i <= document.getElementById("id2").value; i++) {
                 let k = String(i);
@@ -306,7 +336,6 @@
                 }
 
             }
-            console.log(document.getElementById("last1").innerHTML);
         </script>
     </body>
 </html>

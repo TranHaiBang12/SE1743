@@ -104,7 +104,8 @@
             }
 
             .totalAmount {
-                position: fixed;
+                position: sticky;
+                top: 200px;
                 right: 0;
                 margin-top: 20px;
                 margin-right: 20px;
@@ -112,9 +113,9 @@
                 border: 1px solid black;
                 height: 20%;
                 padding-top: 50px;
-                padding-right: 100px;
-                padding-left: 100px;
-                padding-bottom: 20px;
+                padding-right: 20px;
+                padding-left: 20px;
+                padding-bottom: 50px;
                 font-size: 25px;
                 font-weight: bold;
             }
@@ -136,7 +137,13 @@
             }
             
             .outTotalAmount{
-                position: absolute;
+                position: relative;
+                width: 20%;
+                height: 1200px;
+            }
+            
+            *{
+                box-sizing: border-box;
             }
 
 
