@@ -23,4 +23,3 @@ function getCookie(cname) {
     return "";
 }
 
-console.log(getCookie("Bang"));

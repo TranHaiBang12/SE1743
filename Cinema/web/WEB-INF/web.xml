@@ -44,6 +44,10 @@
         <servlet-name>StoreServlet</servlet-name>
         <servlet-class>controller.StoreServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Cart</servlet-name>
+        <servlet-class>controller.Cart</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>StoreServlet</servlet-name>
         <url-pattern>/store</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Cart</servlet-name>
+        <url-pattern>/cart</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

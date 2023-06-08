@@ -49,4 +49,20 @@ public class FoodDAO extends DBContext{
          
         return list2;
     }
+    
+    public Food getFoodById(String productCode) {
+        try {
+            String sql = "SELECT Food.*, Discout, Price FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode WHERE Food.ProductCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, productCode);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Food f = new Food(0, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getInt("NumberLeft"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"));
+                return f;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

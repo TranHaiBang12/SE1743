@@ -135,7 +135,7 @@
                     Products
                 </div>
                 <div class = "cart">
-                    <img src ="images/shoppingCartIcon.png"/>
+                    <a href = "cart"><img src ="images/shoppingCartIcon.png"/><a/>
                 </div>
             </div>
             <div class = "item">
@@ -153,7 +153,7 @@
 
                                     </div>
                                     <div class = "cart">
-                                        <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}')"/>
+                                        <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${sessionScope.account.getUserName()}')"/>
                                     </div>
 
                                     </div>
@@ -176,12 +176,7 @@
                                 </div>
                                 <script>
                                     var t = "";
-                                    if(getCookie("cart") === null) {
-                                        t = "";
-                                    }
-                                    else {
-                                        t = getCookie("cart");
-                                    }
+              
                                     function setCookie(cname, cvalue, exdays) {
                                         var d = new Date();
                                         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -189,31 +184,47 @@
                                         document.cookie = cname + "=" + cvalue + "; " + expires;
                                     }
 
-                                    function cart(id) {
+                                    function cart(id, username) {
                                         console.log(id);
-                                        if(getCookie("cart") === null) {
-                                            setCookie("cart", id, 365);
+                                        if (getCookie(username) === null) {
+                                            t = "";
+                                        } else {
+                                            t = getCookie(username);
                                         }
-                                        else {
-                                            if(!t.includes(id)) {
-                                                t = t + id;  
+                                        if (getCookie(username) === null) {
+                                            setCookie(username, id, 365);
+                                        } else {
+                                            if (!t.includes(id)) {
+                                                console.log("2");
+                                                t = t + "/";                                   
+                                                t = t + id;
+                                                t = t + "p";
+                                                t = t + "1";
                                             }
-                                            setCookie("cart", t, 365);
+                                            console.log(t);
+                                            setCookie(username, t, 365);
                                         }
-                                        console.log(getCookie("cart"));
+                                        console.log(getCookie(username));
                                     }
 // Hàm lấy Cookie
-                                    function getCookie(cname) {
-                                        var name = cname + "=";
-                                        var ca = document.cookie.split(';');
-                                        for (var i = 0; i < ca.length; i++) {
-                                            var c = ca[i];
-                                            while (c.charAt(0) == ' ')
-                                                c = c.substring(1);
-                                            if (c.indexOf(name) == 0)
-                                                return c.substring(name.length, c.length);
+                                    function getCookie(name) {
+                                        var cookieName = name + "=";
+                                        var docCookie = document.cookie;
+                                        var cookieStart;
+                                        var end;
+
+                                        if (docCookie.length > 0) {
+                                            cookieStart = docCookie.indexOf(cookieName);
+                                            if (cookieStart != -1) {
+                                                cookieStart = cookieStart + cookieName.length;
+                                                end = docCookie.indexOf(";", cookieStart);
+                                                if (end == -1) {
+                                                    end = docCookie.length;
+                                                }
+                                                return unescape(docCookie.substring(cookieStart, end));
+                                            }
                                         }
-                                        return "";
+                                        return false;
                                     }
                                 </script>
                                 </body>
