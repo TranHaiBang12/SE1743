@@ -69,7 +69,6 @@ public class Cart extends HttpServlet {
         String cart = "";
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
-        System.out.println(a.getUserName());
         if (a != null) {
             for (Cookie i : arr) {
                 if (i.getName().equals(a.getUserName())) {
@@ -87,8 +86,13 @@ public class Cart extends HttpServlet {
             for (int i = 0; i < list.size(); i++) {
                 totalQuantity += list.get(i).getQuantity();
             }
+            int totalAmount = 0;
+            for (int i = 0; i < list.size(); i++) {
+                totalAmount += (list.get(i).getQuantity() * list.get(i).getFood().getPrice());
+            }
             request.setAttribute("listCart", list);
             request.setAttribute("totalQuantity", totalQuantity);
+            request.setAttribute("totalAmount", totalAmount);
             request.getRequestDispatcher("cart.jsp").forward(request, response);
         }
         else {

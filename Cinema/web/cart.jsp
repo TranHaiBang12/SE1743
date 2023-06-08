@@ -24,7 +24,7 @@
             }
 
             .numCart {
-                margin-left: 20px;
+                margin-left: 129px;
                 margin-bottom: 10px;
                 font-size: 18px;
             }
@@ -41,7 +41,7 @@
                 border: 1px solid black;
                 margin-top: 20px;
                 margin-right: 20px;
-                margin-left: 20px;
+                margin-left: 129px;
                 padding-bottom: 25px;
             }
 
@@ -97,6 +97,49 @@
                 cursor: pointer;
             }
 
+            .containCart {
+                display: flex;
+                justify-content: flex-start;
+                position: relative;
+            }
+
+            .totalAmount {
+                position: fixed;
+                right: 0;
+                margin-top: 20px;
+                margin-right: 20px;
+                margin-bottom: 20px;
+                border: 1px solid black;
+                height: 20%;
+                padding-top: 50px;
+                padding-right: 100px;
+                padding-left: 100px;
+                padding-bottom: 20px;
+                font-size: 25px;
+                font-weight: bold;
+            }
+
+            .totalAmount div {
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            .tien{
+                color:red;
+            }
+
+            .totalAmount input{
+                color: white;
+                background-color: red;
+                font-weight: bold;
+                width: 100%;
+                height: 40px;
+            }
+            
+            .outTotalAmount{
+                position: absolute;
+            }
+
+
         </style>
     </head>
     <body>
@@ -146,9 +189,12 @@
                         </c:forEach>
                     </c:if>
                 </div>
-                <div class = "totalAmount">
-                    <div>Thông tin đơn hàng</div>
-                    <div>Tổng tiền: </div>
+                <div class = "outTotalAmount">
+                    <div class = "totalAmount">
+                        <div>Thông tin đơn hàng</div>
+                        <div>Tổng tiền: <span class = "tien"><label id = "ttAm">${requestScope.totalAmount}</label>đ</span></div>
+                        <div><input type = "submit" value = "THANH TOÁN"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,38 +203,36 @@
         </div>
         <script>
 
+            var t = "";
 
             function a(cartNumber, op, user, quantity, price) {
                 var value = getCookie(user);
                 if (String(op) === String('+')) {
                     document.getElementById(cartNumber).value++;
                     var t = cartNumber + "p" + document.getElementById(cartNumber).value;
-                    console.log(t);
                     if (value.includes(cartNumber + "p" + quantity))
                         value = value.replace(cartNumber + "p" + quantity, t);
                     else {
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value - 1)), t);
                     }
                     document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) + Number(price);
-                    console.log(value);
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) + Number(price);
                     setCookie(user, value, 365);
                     document.getElementById("nm").innerHTML++;
 
                 } else if (String(op) === String('-') && document.getElementById(cartNumber).value > 0) {
                     document.getElementById(cartNumber).value--;
                     var t = cartNumber + "p" + document.getElementById(cartNumber).value;
-                    console.log(t);
                     if (value.includes(cartNumber + "p" + quantity))
                         value = value.replace(cartNumber + "p" + quantity, t);
                     else {
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value) + 1), t);
                     }
                     document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) - Number(price);
-                    console.log(value);
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) + Number(price);
                     setCookie(user, value, 365);
                     document.getElementById("nm").innerHTML--;
                 }
-                console.log(getCookie(user));
             }
 
             function setCookie(cname, cvalue, exdays) {

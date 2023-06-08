@@ -175,28 +175,30 @@
                                     <%@include file = "footer.jsp" %>
                                 </div>
                                 <script>
-                                    var t = "";
-              
-                                    function setCookie(cname, cvalue, exdays) {
-                                        var d = new Date();
-                                        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                                        var expires = "expires=" + d.toUTCString();
-                                        document.cookie = cname + "=" + cvalue + "; " + expires;
+                                    var t = "/";
+                                    function setCookie(name, value, days) {
+                                        var expires = "";
+                                        if (days) {
+                                            var date = new Date();
+                                            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                                            expires = "; expires=" + date.toUTCString();
+                                        }
+                                        document.cookie = name + "=" + (value || "") + expires;
                                     }
-
                                     function cart(id, username) {
                                         console.log(id);
                                         if (getCookie(username) === null) {
                                             t = "";
                                         } else {
-                                            t = getCookie(username);
+                                            t = String(getCookie(username));
                                         }
                                         if (getCookie(username) === null) {
                                             setCookie(username, id, 365);
+                                            console.log("1");
                                         } else {
                                             if (!t.includes(id)) {
                                                 console.log("2");
-                                                t = t + "/";                                   
+                                                t = t + "/";
                                                 t = t + id;
                                                 t = t + "p";
                                                 t = t + "1";
