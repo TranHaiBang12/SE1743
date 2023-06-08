@@ -82,11 +82,13 @@ public class Cart extends HttpServlet {
                     list.add(new CartItem(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
                 }
             }
-            System.out.println(cart);
+
+            int totalQuantity = 0;
             for (int i = 0; i < list.size(); i++) {
-                System.out.println(list.get(i).getFood().getFoodDescript());
+                totalQuantity += list.get(i).getQuantity();
             }
             request.setAttribute("listCart", list);
+            request.setAttribute("totalQuantity", totalQuantity);
             request.getRequestDispatcher("cart.jsp").forward(request, response);
         }
         else {

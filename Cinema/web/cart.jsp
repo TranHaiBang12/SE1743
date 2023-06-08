@@ -110,7 +110,7 @@
             </div>
             <c:if test = "${requestScope.listCart != null}">
                 <div class = "numCart">
-                    Bạn đang có<span class = "bld"> <label id = "nm">${requestScope.listCart.size()}</label> sản phẩm</span> trong giỏ hàng
+                    Bạn đang có<span class = "bld"> <label id = "nm">${requestScope.totalQuantity}</label> sản phẩm</span> trong giỏ hàng
                 </div>
             </c:if>
             <div class = "containCart">
@@ -130,11 +130,11 @@
                                     </div>
                                     <div class = "intu">
 
-                                        <div class = "cartPrice">${i.getFood().getPrice()}<span class = "donvi">đ</div>
+                                        <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPrice() * i.getQuantity()}</label><span class = "donvi">đ</div>
                                         <div>
-                                            <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}')" id ="increaseButton" value = "+"/>
+                                            <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="increaseButton" value = "+"/>
                                             <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
-                                            <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}')" id ="decreaseButton" value = "-"/>
+                                            <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="decreaseButton" value = "-"/>
                                         </div>
                                         <div class = "deleteButton">
                                             Xóa
@@ -147,7 +147,8 @@
                     </c:if>
                 </div>
                 <div class = "totalAmount">
-                    
+                    <div>Thông tin đơn hàng</div>
+                    <div>Tổng tiền: </div>
                 </div>
             </div>
         </div>
@@ -157,17 +158,18 @@
         <script>
 
 
-            function a(cartNumber, op, user, price) {
+            function a(cartNumber, op, user, quantity, price) {
                 var value = getCookie(user);
                 if (String(op) === String('+')) {
                     document.getElementById(cartNumber).value++;
                     var t = cartNumber + "p" + document.getElementById(cartNumber).value;
                     console.log(t);
-                    if (value.includes(cartNumber + "p" + price))
-                        value = value.replace(cartNumber + "p" + price, t);
+                    if (value.includes(cartNumber + "p" + quantity))
+                        value = value.replace(cartNumber + "p" + quantity, t);
                     else {
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value - 1)), t);
                     }
+                    document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) + Number(price);
                     console.log(value);
                     setCookie(user, value, 365);
                     document.getElementById("nm").innerHTML++;
@@ -176,17 +178,17 @@
                     document.getElementById(cartNumber).value--;
                     var t = cartNumber + "p" + document.getElementById(cartNumber).value;
                     console.log(t);
-                    if (value.includes(cartNumber + "p" + price))
-                        value = value.replace(cartNumber + "p" + price, t);
+                    if (value.includes(cartNumber + "p" + quantity))
+                        value = value.replace(cartNumber + "p" + quantity, t);
                     else {
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value) + 1), t);
                     }
+                    document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) - Number(price);
                     console.log(value);
                     setCookie(user, value, 365);
                     document.getElementById("nm").innerHTML--;
                 }
                 console.log(getCookie(user));
-
             }
 
             function setCookie(cname, cvalue, exdays) {
@@ -201,7 +203,6 @@
                 var docCookie = document.cookie;
                 var cookieStart;
                 var end;
-
                 if (docCookie.length > 0) {
                     cookieStart = docCookie.indexOf(cookieName);
                     if (cookieStart != -1) {
