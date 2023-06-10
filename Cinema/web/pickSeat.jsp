@@ -196,9 +196,55 @@
                 margin-bottom: 20px;
             }
             .screen img{
-                width: 1000px;
+                width: 900px;
             }
 
+            .abtSeat{
+                width: 70%;
+            }
+
+            .tket {
+                text-align: center;
+                width: 20%;
+                color: white;
+                border: 1px solid black;
+                background-color: black;
+                font-size: 20px;
+                padding-top: 10px;
+            }
+            
+            .tket img{
+                width: 90%;
+                margin-top: 20px;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            
+            .tket a{
+                text-decoration: none;
+                color: white;
+            }
+            
+            .ko{
+                display: flex;
+            }
+            
+            .ghe {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+            
+            .qtt{
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+            
+            .sum{
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+            
+            
 
         </style>
     </head>
@@ -216,78 +262,87 @@
                 <br/>
                 SUẤT CHIẾU: <span class = "scheTime">${requestScope.sche.getStartTim()}</span> - <span>${requestScope.day} </span><span>${requestScope.dateFormat}</span>
             </div>
-            <div class = "abtSeat">
-                <div class = "instruc">
-                    <p>Để chọn ghế vui lòng chọn ghế ưa thích theo icon</p>
-                    <p>Click tiếp vào ghế đã chọn để xoá lựa chọn</p>
-                </div>
-                <div class ="seatInstruct">
-                    <div>
-                        <img class = "imgE" src = "images/blueSeat.png">
-                        <span>Ghế VIP</span>
+            <div class = "ko">
+                <div class = "abtSeat">
+                    <div class = "instruc">
+                        <p>Để chọn ghế vui lòng chọn ghế ưa thích theo icon</p>
+                        <p>Click tiếp vào ghế đã chọn để xoá lựa chọn</p>
                     </div>
-                    <div>
-                        <img class = "imgE" src = "images/whiteSeat.png">
-                        <span>Ghế Thường</span>
-                    </div>
-                    <div>
-                        <img class = "imgE" src = "images/pinkSeat.png">
-                        <span> Ghế Đôi</span>
-                    </div>
-                    <div>
-                        <img class = "imgE" src = "images/greenSeat.png">
-                        <span> Ghế Đã Chọn</span>
-                    </div>
-                </div>
-                <div class = "screen">
-                    <img src ="images/screenIcon.png"/>
-                </div>
-                <div class = "seat">
-                    <c:forEach items = "${requestScope.rs}" var = "i">
-                        <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
-                        <c:if test = "${i.getType() == 1}">
-                            <div id ="${i.getId()}" class = "insideSeat" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
-
-                                <div class = "sat">
-                                    <span>${i.getCol()}</span>
-                                    <span>${i.getRow()}</span><!-- -->
-                                </div>
-
-
-                            </div>
-                        </c:if>
-                        <c:if test = "${i.getType() == 2}">
-                            <div id ="${i.getId()}" class = "vip" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
-
-                                <div class = "sat">
-                                    <span>${i.getCol()}</span>
-                                    <span>${i.getRow()}</span><!-- -->
-                                </div>
-
-
-                            </div>
-                        </c:if>
-                        <c:if test = "${i.getType() == 3}">
-                            <div  id ="${i.getId()}"class = "spe" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
-
-                                <div class = "sat">
-                                    <span>${i.getCol()}</span>
-                                    <span>${i.getRow()}</span><!-- -->
-                                </div>
-
-                            </div>
-                        </c:if>
-                        <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
-
-                            <!--
-                            <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
-                                <p class = "breaker">T</p>
-                            </c:if>
-                            -->
+                    <div class ="seatInstruct">
+                        <div>
+                            <img class = "imgE" src = "images/blueSeat.png">
+                            <span>Ghế VIP</span>
                         </div>
-                        <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
-                        <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
-                    </c:forEach>
+                        <div>
+                            <img class = "imgE" src = "images/whiteSeat.png">
+                            <span>Ghế Thường</span>
+                        </div>
+                        <div>
+                            <img class = "imgE" src = "images/pinkSeat.png">
+                            <span> Ghế Đôi</span>
+                        </div>
+                        <div>
+                            <img class = "imgE" src = "images/greenSeat.png">
+                            <span> Ghế Đã Chọn</span>
+                        </div>
+                    </div>
+                    <div class = "screen">
+                        <img src ="images/screenIcon.png"/>
+                    </div>
+                    <div class = "seat">
+                        <c:forEach items = "${requestScope.rs}" var = "i">
+                            <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
+                            <c:if test = "${i.getType() == 1}">
+                                <div id ="${i.getId()}" class = "insideSeat" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
+
+                                    <div class = "sat">
+                                        <span>${i.getCol()}</span>
+                                        <span>${i.getRow()}</span><!-- -->
+                                    </div>
+
+
+                                </div>
+                            </c:if>
+                            <c:if test = "${i.getType() == 2}">
+                                <div id ="${i.getId()}" class = "vip" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
+
+                                    <div class = "sat">
+                                        <span>${i.getCol()}</span>
+                                        <span>${i.getRow()}</span><!-- -->
+                                    </div>
+
+
+                                </div>
+                            </c:if>
+                            <c:if test = "${i.getType() == 3}">
+                                <div  id ="${i.getId()}"class = "spe" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
+
+                                    <div class = "sat">
+                                        <span>${i.getCol()}</span>
+                                        <span>${i.getRow()}</span><!-- -->
+                                    </div>
+
+                                </div>
+                            </c:if>
+                            <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
+
+                                <!--
+                                <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
+                                    <p class = "breaker">T</p>
+                                </c:if>
+                                -->
+                            </div>
+                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
+                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
+                        </c:forEach>
+                    </div>
+                </div>
+                <div class = "tket">
+                    <a href = "#">CHỌN LẠI PHIM</a>
+                    <img src = "${requestScope.mov.getImg()}"><!-- comment -->
+                    <div class = "ghe">Ghế chọn mua: <span></span></div>
+                    <div class ="qtt">Số lượng: <span></span></div>
+                    <div class = "sum">Tổng: <span></span></div>
                 </div>
             </div>
         </div>
@@ -305,16 +360,14 @@
                     if (type === "1") {
                         document.getElementById(id).style.backgroundColor = 'white';
                         document.getElementById(id).style.color = 'black';
-                    }
-                    else if(type === "2") {
+                    } else if (type === "2") {
                         document.getElementById(id).style.backgroundColor = 'blue';
                         document.getElementById(id).style.color = 'white';
-                    }
-                    else if(type === "3") {
+                    } else if (type === "3") {
                         document.getElementById(id).style.backgroundColor = 'pink';
                         document.getElementById(id).style.color = 'white';
                     }
-                    
+
                 }
 
 //                if(String(document.getElementById(id).style.backgroundColor) === "white") {

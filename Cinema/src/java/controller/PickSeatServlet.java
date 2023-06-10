@@ -140,6 +140,7 @@ public class PickSeatServlet extends HttpServlet {
             request.setAttribute("rs", rs);
             request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
             request.setAttribute("movName", movName);
+            request.setAttribute("mov", mvd.getMovieById(scd.getScheduleByID(id).getMovID()));
             request.setAttribute("formName", formName);
             request.setAttribute("dateFormat", date);
             request.setAttribute("day", day);
