@@ -212,39 +212,46 @@
                 font-size: 20px;
                 padding-top: 10px;
             }
-            
+
             .tket img{
                 width: 90%;
                 margin-top: 20px;
                 margin-left: 10px;
                 margin-right: 10px;
             }
-            
+
             .tket a{
                 text-decoration: none;
                 color: white;
             }
-            
+
             .ko{
                 display: flex;
             }
-            
+
             .ghe {
                 margin-top: 40px;
                 margin-bottom: 40px;
             }
-            
+
             .qtt{
                 margin-top: 40px;
                 margin-bottom: 40px;
             }
-            
+
             .sum{
                 margin-top: 40px;
                 margin-bottom: 40px;
             }
-            
-            
+
+            .crt input{
+                width: 80%;
+                padding: 12px;
+                font-size: 15px;
+                cursor: pointer;
+            }
+
+
 
         </style>
     </head>
@@ -290,10 +297,10 @@
                         <img src ="images/screenIcon.png"/>
                     </div>
                     <div class = "seat">
-                        <c:forEach items = "${requestScope.rs}" var = "i">
-                            <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
-                            <c:if test = "${i.getType() == 1}">
-                                <div id ="${i.getId()}" class = "insideSeat" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
+                        <c:forEach items = "${requestScope.tk}" var = "i">
+                            <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
+                            <c:if test = "${i.getSeatType() == 1}">
+                                <div id ="${i.getID()}" class = "insideSeat" onclick = "pckSeat('${i.getID()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
 
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -303,8 +310,8 @@
 
                                 </div>
                             </c:if>
-                            <c:if test = "${i.getType() == 2}">
-                                <div id ="${i.getId()}" class = "vip" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
+                            <c:if test = "${i.getSeatType() == 2}">
+                                <div id ="${i.getID()}" class = "vip" onclick = "pckSeat('${i.getID()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
 
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -314,8 +321,8 @@
 
                                 </div>
                             </c:if>
-                            <c:if test = "${i.getType() == 3}">
-                                <div  id ="${i.getId()}"class = "spe" onclick = "pckSeat('${i.getId()}', '${i.getType()}')">
+                            <c:if test = "${i.getSeatType() == 3}">
+                                <div  id ="${i.getID()}"class = "spe" onclick = "pckSeat('${i.getID()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
 
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -324,10 +331,10 @@
 
                                 </div>
                             </c:if>
-                            <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
+                            <div class = "${((i.getID() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
 
                                 <!--
-                                <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
+                                <c:if test = "${((i.getID() % requestScope.room.getNoColSeats()== 0) || ((i.getID() - 1) % requestScope.room.getNoColSeats()== 0) && i.getID() != 1)}">
                                     <p class = "breaker">T</p>
                                 </c:if>
                                 -->
@@ -340,9 +347,10 @@
                 <div class = "tket">
                     <a href = "#">CHỌN LẠI PHIM</a>
                     <img src = "${requestScope.mov.getImg()}"><!-- comment -->
-                    <div class = "ghe">Ghế chọn mua: <span></span></div>
-                    <div class ="qtt">Số lượng: <span></span></div>
-                    <div class = "sum">Tổng: <span></span></div>
+                    <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
+                    <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>
+                    <div class = "sum">Tổng: <span id ="sum" ></span></div>
+                    <div class = "crt"><input type = "button" onclick ="cart()" value = "Add to cart"/></div>
                 </div>
             </div>
         </div>
@@ -351,12 +359,46 @@
         </div>
 
         <script type="text/javascript">
-            function pckSeat(id, type) {
+            var t = "";
+            var id = "";
+            var cnt = 0;
+            var sum = 0;
+            function pckSeat(id, type, col, row) {
                 let color = document.getElementById(id).style.backgroundColor;
                 if (color !== 'green') {
                     document.getElementById(id).style.backgroundColor = 'green';
                     document.getElementById(id).style.color = 'white';
+                    t += " ";
+                    t += col;
+                    t += row;
+                    document.getElementById("ghe").innerHTML = t;
+                    document.getElementById("qtt").innerHTML = ++cnt;
+                    if (type === "1") {
+                        sum += 65000;
+                        document.getElementById("sum").innerHTML = sum;
+                    } else if (type === "2") {
+                        sum += 80000;
+                        document.getElementById("sum").innerHTML = sum;
+                    } else if (type === "3") {
+                        sum += 160000;
+                        document.getElementById("sum").innerHTML = sum;
+                    }
                 } else if (color === "green") {
+                    if (t.includes(String(col + row))) {
+                        t = t.replace(String(col + row), "");
+                        cnt--;
+                        if (type === "1") {
+                            sum -= 65000;
+                        } else if (type === "2") {
+                            sum -= 80000;
+                        } else if (type === "3") {
+                            sum -= 160000;
+                        }
+                        document.getElementById("ghe").innerHTML = t;
+                        document.getElementById("qtt").innerHTML = cnt;
+                        document.getElementById("sum").innerHTML = sum;
+                    }
+
                     if (type === "1") {
                         document.getElementById(id).style.backgroundColor = 'white';
                         document.getElementById(id).style.color = 'black';
@@ -369,15 +411,40 @@
                     }
 
                 }
+            }
+            
+            function cart() {
+                
+            }
 
-//                if(String(document.getElementById(id).style.backgroundColor) === "white") {
-//                    document.getElementById(id).style.backgroundColor = 'green';
-//                    document.getElementById(id).style.color = 'white';
-//                }
-//                else if(String(document.getElementById(id).style.backgroundColor) === "green") {
-//                    document.getElementById(id).style.backgroundColor = 'white';
-//                    document.getElementById(id).style.color = 'black';
-//                }
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires;
+            }
+// Hàm lấy Cookie
+            function getCookie(name) {
+                var cookieName = name + "=";
+                var docCookie = document.cookie;
+                var cookieStart;
+                var end;
+
+                if (docCookie.length > 0) {
+                    cookieStart = docCookie.indexOf(cookieName);
+                    if (cookieStart != -1) {
+                        cookieStart = cookieStart + cookieName.length;
+                        end = docCookie.indexOf(";", cookieStart);
+                        if (end == -1) {
+                            end = docCookie.length;
+                        }
+                        return unescape(docCookie.substring(cookieStart, end));
+                    }
+                }
+                return false;
             }
 
             for (var i = 1; i <= document.getElementById("id2").value; i++) {

@@ -9,6 +9,7 @@ import dal.MovieDAO;
 import dal.RoomDAO;
 import dal.ScheDAO;
 import dal.SeatDAO;
+import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import model.RoomSeat;
+import model.Ticket;
 
 /**
  *
@@ -116,28 +118,35 @@ public class PickSeatServlet extends HttpServlet {
 
             }
             SeatDAO sed = new SeatDAO();
-            for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoColSeats(); i++) {
-                for (int j = 0; j < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats(); j++) {
-                    if (j >= 3 && j <= 5) {
-                        if (i >= 1 && i <= 6) {
-                            sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 2);
-                        }
-                        else {
-                            sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
-                        }
-                    } else if (j >= 6) {
-                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 3);
-
-                    } else {
-                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
-                    }
-                }
-            }
+//            for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoColSeats(); i++) {
+//                for (int j = 0; j < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats(); j++) {
+//                    if (j >= 3 && j <= 5) {
+//                        if (i >= 1 && i <= 6) {
+//                            sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 2);
+//                        }
+//                        else {
+//                            sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
+//                        }
+//                    } else if (j >= 6) {
+//                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 3);
+//
+//                    } else {
+//                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
+//                    }
+//                }
+//            }
+            
             List<RoomSeat> rs = sed.selectSeatByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID());
+            TicketDAO tkd = new TicketDAO();
+            List<Ticket> tk = tkd.getTicketPByScheduleRCS(scd.getScheduleByID(id).getScheNo());
+            System.out.println(scd.getScheduleByID(id).getScheNo());
+            for (int i = 0; i < tk.size(); i++) {
+                System.out.println(tk.get(i).getRow() + " " + tk.get(i).getCol() + " " + tk.get(i).getSeatType() + " " + tk.get(i).getID());
+            }
             String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
             String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
             request.setAttribute("sche", scd.getScheduleByID(id));
-            request.setAttribute("rs", rs);
+            request.setAttribute("tk", tk);
             request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
             request.setAttribute("movName", movName);
             request.setAttribute("mov", mvd.getMovieById(scd.getScheduleByID(id).getMovID()));

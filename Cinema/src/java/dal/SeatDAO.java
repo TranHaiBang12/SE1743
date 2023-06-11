@@ -34,7 +34,7 @@ public class SeatDAO extends DBContext{
         List<RoomSeat> list = new ArrayList<>();
         try {
             int i = 1;
-            String sql = "SELECT * FROM Seat Room WHERE roomID = ? AND cinID = ?";
+            String sql = "SELECT * FROM Seat Room WHERE roomID = ? AND cinID = ? ORDER BY Row";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, roomID);
             st.setInt(2, cinID);
