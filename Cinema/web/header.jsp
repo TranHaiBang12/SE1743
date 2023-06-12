@@ -26,7 +26,7 @@
         <ul class="menu_ttinBenLe">
             <li><a href="#">TUYỂN DỤNG</a></li>
             <li><a href="#">TIN MỚI & ƯU ĐÃI</a></li>
-            <li><a href="#">VÉ CỦA TÔI</a></li>
+            <li><a href="cart">GIỎ HÀNG CỦA TÔI</a></li>
 
             <c:if test="${sessionScope.account==null}">
                 <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>

@@ -80,8 +80,9 @@ public class Cart extends HttpServlet {
                     break;
                 }
             }
+                    
             for (int i = 0; i < cart.length(); i++) {
-                if (cart.charAt(i) == '/') {
+                if (cart.charAt(i) == '/' && i != cart.length() - 1) {
                     if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
                         list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
                     }
@@ -92,7 +93,10 @@ public class Cart extends HttpServlet {
                    
                 }
             }
-    
+
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println(list.get(i).getFood().getProductCode());
+            }
 
             int totalQuantity = 0;
             for (int i = 0; i < list.size(); i++) {

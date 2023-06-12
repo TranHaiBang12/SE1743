@@ -50,9 +50,14 @@
                 margin-right: 20px;
                 margin-left: 20px;
                 display: flex;
-                width: 33%;
+                justify-content: space-evenly;
+                width: 60%;
                 border: 1px solid black;
             }
+
+            .choice div{
+            }
+
 
             .tkEtChoice {
                 border-right: 1px solid black;
@@ -67,7 +72,7 @@
                 padding: 10px;
                 font-weight: bold;
                 cursor: pointer;
-                width: 50%;
+                width: 33%;
                 text-align: center;
             }
 
@@ -197,6 +202,23 @@
                 box-sizing: border-box;
             }
 
+            .dltAll{
+                margin-left: 20px;
+                margin-bottom: 20px;
+                margin-top: 20px;
+                width: 60%;
+                height: 30px;
+            }
+
+            .dltAll input{
+                width: 100%;
+                height: 100%;
+                background-color: red;
+                color: white;
+            }
+
+
+
 
         </style>
     </head>
@@ -221,6 +243,10 @@
                         <div id = "active" class = "al" onclick = "bActive('active')">ALL</div>
                         <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">VÉ</div>
                         <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">ĐỒ ĂN</div>
+
+                    </div>
+                    <div class = "dltAll">
+                        <input type ="button" value ="XÓA TẤT CẢ" onclick = "dltAll()"/>
                     </div>
                     <c:if test = "${requestScope.ms != null}">
                         <span>${requestScope.ms}</span>
@@ -228,7 +254,7 @@
                     <c:if test = "${requestScope.ms == null}">
                         <div id = "doan">
                             <c:forEach items = "${requestScope.listCart}" var = "i">
-                                <div class = "myCart">
+                                <div id ="list${i.getFood().getProductCode()}" class = "myCart">
 
                                     <div class = "insideCart">
                                         <div class = "imGe">
@@ -244,7 +270,7 @@
                                                 <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
                                                 <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="decreaseButton" value = "-"/>
                                             </div>
-                                            <div class = "deleteButton">
+                                            <div class = "deleteButton" onclick = "dlt('${i.getFood().getProductCode()}', '${i.getQuantity()}', '${sessionScope.account.getUserName()}', '${i.getFood().getPrice()}')">
                                                 Xóa
                                             </div>
                                         </div>
@@ -255,7 +281,7 @@
                         </div>
                         <div id = "ve">
                             <c:forEach items = "${requestScope.listTicket}" var = "t">
-                                <div class = "myCart">
+                                <div id ="list$${t.getTicket().getProductCode()}" class = "myCart">
 
                                     <div class = "insideCart">
                                         <div class = "imGe">
@@ -268,11 +294,11 @@
 
                                         <div class = "intu">
 
-                                            <div class = "cartPrice"><label id ="price${i.getTicket().getProductCode()}">${t.getTicket().getPrice()}</label><span class = "donvi">đ</div>
+                                            <div class = "cartPrice"><label id ="price${t.getTicket().getProductCode()}">${t.getTicket().getPrice()}</label><span class = "donvi">đ</div>
                                             <div>
-                                                <input type ="button" name ="cartButton" id ="${i.getTicket().getProductCode()}" value = "1"/>
+                                                <input type ="button" name ="cartButton" value = "1"/>
                                             </div>
-                                            <div class = "deleteButton">
+                                            <div class = "deleteButton" onclick = "dlt('${t.getTicket().getProductCode()}', '${t.getSeat()}', '${sessionScope.account.getUserName()}', '${t.getTicket().getPrice()}')">
                                                 Xóa
                                             </div>
                                         </div>
@@ -296,19 +322,59 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type = "text/javascript">
-
             var t = "";
 
+            function dltAll() {
+                var ans = confirm("Do you want to delete all your cart items ?");
+                if (String(ans) === 'true') {
+                    setCookie("thbang", "", 365);
+                    document.getElementById("doan").style.display = 'none';
+                    document.getElementById("ve").style.display = 'none';
+                } else if (String(ans) === 'false') {
+
+                }
+
+            }
+
+            function dlt(id, more, user, price) {
+                var value = getCookie(user);
+                if (id.includes("FD")) {
+                    if (value.includes(id)) {
+                        value = value.replace("/" + id + "p" + Number(document.getElementById(id).value), "");
+                        setCookie(user, value, 365);
+                        console.log("1");
+                    }
+                    document.getElementById("nm").innerHTML -= (Number(more));
+  
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - (Number(price) * Number(document.getElementById(id).value));
+                } else {
+                    if (value.includes(id)) {
+                        value = value.replace("/" + id + "p" + more, "");
+                        setCookie(user, value, 365);
+                        console.log("1");
+                    }
+                    document.getElementById("nm").innerHTML--;
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - Number(price);
+                }
+                document.getElementById("list" + id).style.display = 'none';
+
+
+            }
+
             function a(cartNumber, op, user, quantity, price) {
+                console.log(cartNumber + " " + op + " " + user + " " + quantity + " " + price);
+                console.log(document.getElementById(cartNumber));
                 var value = getCookie(user);
                 if (String(op) === String('+')) {
                     document.getElementById(cartNumber).value++;
                     var t = cartNumber + "p" + document.getElementById(cartNumber).value;
+                    console.log(document.getElementById(cartNumber).value)
                     if (value.includes(cartNumber + "p" + quantity))
                         value = value.replace(cartNumber + "p" + quantity, t);
                     else {
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value - 1)), t);
                     }
+                    console.log(document.getElementById(cartNumber).value)
                     document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) + Number(price);
                     document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) + Number(price);
                     setCookie(user, value, 365);
@@ -322,6 +388,7 @@
                     else {
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value) + 1), t);
                     }
+                    console.log(document.getElementById(cartNumber).value);
                     document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) - Number(price);
                     document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - Number(price);
                     setCookie(user, value, 365);
@@ -336,7 +403,7 @@
                 document.cookie = cname + "=" + cvalue + "; " + expires;
             }
 
-            function bActive(id){
+            function bActive(id) {
                 if (id === "tkEtChoice") {
                     document.getElementById(id).style.color = 'white';
                     document.getElementById(id).style.backgroundColor = 'black';
@@ -346,8 +413,7 @@
                     document.getElementById("foodChoi").style.backgroundColor = 'white';
                     document.getElementById("ve").style.display = 'block';
                     document.getElementById("doan").style.display = 'none';
-                } 
-                else if (id === "foodChoi") {
+                } else if (id === "foodChoi") {
                     document.getElementById(id).style.color = 'white';
                     document.getElementById(id).style.backgroundColor = 'black';
                     document.getElementById("active").style.color = 'black';
@@ -356,8 +422,7 @@
                     document.getElementById("tkEtChoice").style.backgroundColor = 'white';
                     document.getElementById("doan").style.display = 'block';
                     document.getElementById("ve").style.display = 'none';
-                } 
-                else  {
+                } else {
                     document.getElementById(id).style.color = 'white';
                     document.getElementById(id).style.backgroundColor = 'black';
                     document.getElementById("foodChoi").style.color = 'black';
@@ -366,7 +431,7 @@
                     document.getElementById("tkEtChoice").style.backgroundColor = 'white';
                     document.getElementById("doan").style.display = 'block';
                     document.getElementById("ve").style.display = 'block';
-                } 
+                }
             }
 
             function getCookie(name) {
