@@ -392,7 +392,7 @@
                     if (t.includes(String(col + row))) {
                         t = t.replace(String(col + row), "");
                         cnt--;
-                        if(idP.includes(String("/" + code)))
+                        if (idP.includes(String("/" + code)))
                             idP = idP.replace(String("/" + code), "");
                         if (type === "1") {
                             sum -= 65000;
@@ -418,7 +418,7 @@
                     }
 
                 }
-                
+
                 console.log(idP);
             }
 
@@ -474,10 +474,9 @@
             function cart(user) {
                 //console.log(user);
                 var ckie = getCookie(user);
-                ckie += idP;
+                if (!ckie.includes(idP))
+                    ckie += idP;
                 setCookie(user, ckie, 365);
-                console.log(getCookie(user));
-                console.log(idP);
             }
         </script>
     </body>

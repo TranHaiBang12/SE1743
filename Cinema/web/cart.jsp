@@ -217,7 +217,10 @@
                 color: white;
             }
 
-
+            .pay input{
+                cursor: pointer;
+            }
+            
 
 
         </style>
@@ -281,7 +284,7 @@
                         </div>
                         <div id = "ve">
                             <c:forEach items = "${requestScope.listTicket}" var = "t">
-                                <div id ="list$${t.getTicket().getProductCode()}" class = "myCart">
+                                <div id ="list${t.getTicket().getProductCode()}${t.getSeat()}" class = "myCart">
 
                                     <div class = "insideCart">
                                         <div class = "imGe">
@@ -313,7 +316,7 @@
                     <div class = "totalAmount">
                         <div>Thông tin đơn hàng</div>
                         <div>Tổng tiền: <span class = "tien"><label id = "ttAm">${requestScope.totalAmount}</label>đ</span></div>
-                        <div><input type = "submit" value = "THANH TOÁN"></div>
+                        <div class = "pay"><a href="pay"><input type = "submit" value = "THANH TOÁN"></a></div>
                     </div>
                 </div>
             </div>
@@ -337,6 +340,7 @@
             }
 
             function dlt(id, more, user, price) {
+                console.log(id);
                 var value = getCookie(user);
                 if (id.includes("FD")) {
                     if (value.includes(id)) {
@@ -345,7 +349,7 @@
                         console.log("1");
                     }
                     document.getElementById("nm").innerHTML -= (Number(more));
-  
+                    document.getElementById("list" + id).style.display = 'none';
                     document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - (Number(price) * Number(document.getElementById(id).value));
                 } else {
                     if (value.includes(id)) {
@@ -354,9 +358,9 @@
                         console.log("1");
                     }
                     document.getElementById("nm").innerHTML--;
+                    document.getElementById("list" + id + more).style.display = 'none';
                     document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - Number(price);
                 }
-                document.getElementById("list" + id).style.display = 'none';
 
 
             }
