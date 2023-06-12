@@ -5,6 +5,7 @@
 package controller;
 
 import dal.FoodDAO;
+import dal.OrderDAO;
 import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,8 +15,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.Account;
 import model.CartItemFood;
 import model.CartItemTicket;
@@ -110,44 +116,57 @@ public class PaymentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        System.out.println(request.getParameter("pm"));
-    }
-    
-    public boolean checkPass(String pass) {
-        int check = 0;
-        String a = "abcdefghijklmnopqrstuvwxyz";
-        String A = a.toUpperCase();
-        String num = "0123456789";
-        String spe = "/@#$%^&*!";
-        for (int i = 0; i < a.length(); i++) {
-            if(pass.contains(a.substring(i, i + 1))) {
-                check = 1;
-                break;
-            }
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        String email = request.getParameter("email");
+        String sdt = request.getParameter("sdt");
+        if(checkEmail(email) == false) {
+            String ms = "Vui lòng nhập đúng email";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("payment.jsp").forward(request, response);
         }
-        for (int i = 0; i < A.length(); i++) {
-            if(pass.contains(A.substring(i, i + 1))) {
-                check++;
-                break;
+        try {
+            int n = Integer.parseInt(sdt);
+            if(sdt.length() != 10) {
+                throw new Exception("Loi moi");
             }
-        }
-        for (int i = 0; i < num.length(); i++) {
-            if(pass.contains(num.substring(i, i + 1))) {
-                check++;
-                break;
-            }
-        }
-        for (int i = 0; i < spe.length(); i++) {
-            if(pass.contains(spe.substring(i, i + 1))) {
-                check++;
-                break;
-            }
-        }
-        if(check == 4 && pass.length() >= 8) {
-            return true;
+        } catch (Exception e) {
+            String ms = "Vui lòng nhập đúng số điện thoại";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("payment.jsp").forward(request, response);
         }
         
-        return false;
+        if(request.getParameter("pm") == null) {
+            String ms = "Vui lòng chọn cách thanh toán";
+            request.setAttribute("ms", ms);
+            request.getRequestDispatcher("payment.jsp").forward(request, response);
+        }
+        Time t = Time.valueOf(Calendar.getInstance().getTime().getHours() + ":" + Calendar.getInstance().getTime().getMinutes() + ":" + Calendar.getInstance().getTime().getSeconds());
+        Date d = Date.valueOf((Calendar.getInstance().getTime().getYear() + 1900) + "-" + (Calendar.getInstance().getTime().getMonth() + 1) + "-" + Calendar.getInstance().getTime().getDate());
+
+        OrderDAO ord = new OrderDAO();
+        String pm = "";
+        if(request.getParameter("pm").equals("0")) {
+            pm = "VNPay";
+        }
+        else if(request.getParameter("pm").equals("1")) {
+            pm = "Payoo";
+        }
+        ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, d, t);
+        
+    }
+    
+    
+    public boolean checkEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        if(matcher.matches()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**

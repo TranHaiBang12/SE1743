@@ -19,7 +19,7 @@
                 cursor: pointer;
             }
 
-     
+
         </style>
     </head>
     <body>
@@ -34,7 +34,7 @@
             <li><a href="#">CSKH</a></li>
             <li><a href="#">EN</a></li>
                 <c:if test = "${sessionScope.account!=null}">
-
+                <li><a href="#">LỊCH SỬ GIAO DỊCH</a></li>
                 <div class="dropdown">
                     <li id = "userN">${sessionScope.account.getUserName()}</li>
                     <div class="dropdown-content">

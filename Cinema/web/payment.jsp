@@ -251,6 +251,12 @@
             .part{
                 font-weight: bold;
             }
+            
+            .ms{
+                font-size: 30px;
+                color: red;
+                margin-top: 10px;
+            }
 
         </style>
     </head>
@@ -263,6 +269,7 @@
                 <div class = "in4">
 
                     <div class = "ttle">THANH TOÁN</div>
+                    <div class = "ms">${requestScope.ms}</div>
                     <div class = "frm">
                         <div class = "part">1. Chi tiết thông tin</div>
                         <label for = "email">Địa chỉ email(<span class = "rd">*</span>)</label>
