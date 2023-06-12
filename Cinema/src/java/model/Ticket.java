@@ -32,6 +32,7 @@ public class Ticket {
     private double discount;
     private int discontinued;
     private int ID;
+    private Movies movie;
 
     
     public Ticket(String productCode, String type, String scheNo, int numberLeft, String status) {
@@ -63,7 +64,7 @@ public class Ticket {
         this.discontinued = discontinued;
     }
 
-    public Ticket(int ID, String productCode, int seatType, String scheNo, int numberLeft, String status, int row, String col, double price, double discount, int discontinued) {
+    public Ticket(int ID,  String productCode, int seatType, String scheNo, int numberLeft, String status, int row, String col, double price, double discount, int discontinued) {
         this.ID = ID;
         this.productCode = productCode;
         this.seatType = seatType;
@@ -76,6 +77,31 @@ public class Ticket {
         this.discount = discount;
         this.discontinued = discontinued;
     }
+    
+    public Ticket(int ID,int movID, Movies m, String productCode, int seatType, String scheNo, int numberLeft, String status, int row, String col, double price, double discount, int discontinued) {
+        this.movie = m;
+        this.ID = ID;
+        this.productCode = productCode;
+        this.seatType = seatType;
+        this.scheNo = scheNo;
+        this.numberLeft = numberLeft;
+        this.status = status;
+        this.row = row;
+        this.col = col;
+        this.price = price;
+        this.discount = discount;
+        this.discontinued = discontinued;
+    }
+
+    public Movies getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movies movie) {
+        this.movie = movie;
+    }
+    
+    
 
     public int getID() {
         return ID;

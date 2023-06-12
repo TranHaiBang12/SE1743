@@ -39,10 +39,50 @@
                 flex-direction: column;
                 width: 60%;
                 border: 1px solid black;
-                margin-top: 20px;
+
                 margin-right: 20px;
                 margin-left: 129px;
                 padding-bottom: 25px;
+            }
+
+            .choice{
+                margin-top: 20px;
+                margin-right: 20px;
+                margin-left: 20px;
+                display: flex;
+                width: 33%;
+                border: 1px solid black;
+            }
+
+            .tkEtChoice {
+                border-right: 1px solid black;
+                padding: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 33%;
+                text-align: center;
+            }
+
+            .foodChoi {
+                padding: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 50%;
+                text-align: center;
+            }
+
+            .al {
+                border-right: 1px solid black;
+                padding: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 33%;
+                text-align: center;
+            }
+
+            #active {
+                background-color: black;
+                color: white;
             }
 
             .insideCart {
@@ -69,10 +109,16 @@
 
             }
 
-            .cartName{
+            .tkt{
                 font-size: 20px;
                 font-weight: bold;
                 margin-left: 40px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .cartName {
+                margin-bottom: 10px;
             }
 
             .cartPrice{
@@ -99,6 +145,7 @@
 
             .containCart {
                 display: flex;
+
                 justify-content: flex-start;
                 position: relative;
             }
@@ -135,13 +182,17 @@
                 width: 100%;
                 height: 40px;
             }
-            
+
             .outTotalAmount{
                 position: relative;
                 width: 20%;
                 height: 1200px;
             }
-            
+
+            .seat{
+                color: red;
+            }
+
             *{
                 box-sizing: border-box;
             }
@@ -164,36 +215,72 @@
                 </div>
             </c:if>
             <div class = "containCart">
+
                 <div class = "cart">
+                    <div class = "choice">
+                        <div id = "active" class = "al" onclick = "bActive('active')">ALL</div>
+                        <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">VÉ</div>
+                        <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">ĐỒ ĂN</div>
+                    </div>
                     <c:if test = "${requestScope.ms != null}">
                         <span>${requestScope.ms}</span>
                     </c:if>
                     <c:if test = "${requestScope.ms == null}">
+                        <div id = "doan">
+                            <c:forEach items = "${requestScope.listCart}" var = "i">
+                                <div class = "myCart">
 
-                        <c:forEach items = "${requestScope.listCart}" var = "i">
-                            <div class = "myCart">
+                                    <div class = "insideCart">
+                                        <div class = "imGe">
+                                            <img src = "${i.getFood().getImg()}">
 
-                                <div class = "insideCart">
-                                    <div class = "imGe">
-                                        <img src = "${i.getFood().getImg()}">
-                                        <div class = "cartName">${i.getFood().getFoodDescript()}</div>
-                                    </div>
-                                    <div class = "intu">
-
-                                        <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPrice() * i.getQuantity()}</label><span class = "donvi">đ</div>
-                                        <div>
-                                            <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="increaseButton" value = "+"/>
-                                            <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
-                                            <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="decreaseButton" value = "-"/>
+                                            <div class = "tkt">${i.getFood().getFoodDescript()}</div>
                                         </div>
-                                        <div class = "deleteButton">
-                                            Xóa
-                                        </div>
-                                    </div>
+                                        <div class = "intu">
 
+                                            <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPrice() * i.getQuantity()}</label><span class = "donvi">đ</div>
+                                            <div>
+                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="increaseButton" value = "+"/>
+                                                <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
+                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="decreaseButton" value = "-"/>
+                                            </div>
+                                            <div class = "deleteButton">
+                                                Xóa
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
-                        </c:forEach>
+                            </c:forEach>
+                        </div>
+                        <div id = "ve">
+                            <c:forEach items = "${requestScope.listTicket}" var = "t">
+                                <div class = "myCart">
+
+                                    <div class = "insideCart">
+                                        <div class = "imGe">
+                                            <img src = "images/cinemaTicket.jpg">
+                                            <div class = "tkt">
+                                                <div class = "cartName">${t.getTicket().getMovie().getMovName()}</div>
+                                                <div class ="cartSeat">Ghế: <span class = "seat">${t.getSeat()}</span></div>
+                                            </div>
+                                        </div>
+
+                                        <div class = "intu">
+
+                                            <div class = "cartPrice"><label id ="price${i.getTicket().getProductCode()}">${t.getTicket().getPrice()}</label><span class = "donvi">đ</div>
+                                            <div>
+                                                <input type ="button" name ="cartButton" id ="${i.getTicket().getProductCode()}" value = "1"/>
+                                            </div>
+                                            <div class = "deleteButton">
+                                                Xóa
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
                     </c:if>
                 </div>
                 <div class = "outTotalAmount">
@@ -208,7 +295,7 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
-        <script>
+        <script type = "text/javascript">
 
             var t = "";
 
@@ -236,7 +323,7 @@
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value) + 1), t);
                     }
                     document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) - Number(price);
-                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) + Number(price);
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - Number(price);
                     setCookie(user, value, 365);
                     document.getElementById("nm").innerHTML--;
                 }
@@ -247,6 +334,39 @@
                 d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
                 var expires = "expires=" + d.toUTCString();
                 document.cookie = cname + "=" + cvalue + "; " + expires;
+            }
+
+            function bActive(id){
+                if (id === "tkEtChoice") {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
+                    document.getElementById("active").style.color = 'black';
+                    document.getElementById("active").style.backgroundColor = 'white';
+                    document.getElementById("foodChoi").style.color = 'black';
+                    document.getElementById("foodChoi").style.backgroundColor = 'white';
+                    document.getElementById("ve").style.display = 'block';
+                    document.getElementById("doan").style.display = 'none';
+                } 
+                else if (id === "foodChoi") {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
+                    document.getElementById("active").style.color = 'black';
+                    document.getElementById("active").style.backgroundColor = 'white';
+                    document.getElementById("tkEtChoice").style.color = 'black';
+                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                    document.getElementById("doan").style.display = 'block';
+                    document.getElementById("ve").style.display = 'none';
+                } 
+                else  {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
+                    document.getElementById("foodChoi").style.color = 'black';
+                    document.getElementById("foodChoi").style.backgroundColor = 'white';
+                    document.getElementById("tkEtChoice").style.color = 'black';
+                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                    document.getElementById("doan").style.display = 'block';
+                    document.getElementById("ve").style.display = 'block';
+                } 
             }
 
             function getCookie(name) {

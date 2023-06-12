@@ -8,11 +8,11 @@ package model;
  *
  * @author acer
  */
-public class CartItem {
+public class CartItemFood {
     private Food food;
     private int quantity;
 
-    public CartItem(Food food, int quantity) {
+    public CartItemFood(Food food, int quantity) {
         this.food = food;
         this.quantity = quantity;
     }

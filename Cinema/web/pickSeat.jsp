@@ -300,7 +300,7 @@
                         <c:forEach items = "${requestScope.tk}" var = "i">
                             <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
                             <c:if test = "${i.getSeatType() == 1}">
-                                <div id ="${i.getID()}" class = "insideSeat" onclick = "pckSeat('${i.getID()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                <div id ="${i.getID()}" class = "insideSeat" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
 
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -311,7 +311,7 @@
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 2}">
-                                <div id ="${i.getID()}" class = "vip" onclick = "pckSeat('${i.getID()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                <div id ="${i.getID()}" class = "vip" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
 
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -322,7 +322,7 @@
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 3}">
-                                <div  id ="${i.getID()}"class = "spe" onclick = "pckSeat('${i.getID()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                <div  id ="${i.getID()}"class = "spe" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
 
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -350,7 +350,7 @@
                     <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
                     <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>
                     <div class = "sum">Tổng: <span id ="sum" ></span></div>
-                    <div class = "crt"><input type = "button" onclick ="cart()" value = "Add to cart"/></div>
+                    <div class = "crt"><input type = "button" onclick ="cart('${sessionScope.account.getUserName()}')" value = "Add to cart"/></div>
                 </div>
             </div>
         </div>
@@ -360,10 +360,10 @@
 
         <script type="text/javascript">
             var t = "";
-            var id = "";
+            var idP = "";
             var cnt = 0;
             var sum = 0;
-            function pckSeat(id, type, col, row) {
+            function pckSeat(id, code, type, col, row) {
                 let color = document.getElementById(id).style.backgroundColor;
                 if (color !== 'green') {
                     document.getElementById(id).style.backgroundColor = 'green';
@@ -371,6 +371,11 @@
                     t += " ";
                     t += col;
                     t += row;
+                    idP += "/";
+                    idP += code;
+                    idP += "p";
+                    idP += col;
+                    idP += row;
                     document.getElementById("ghe").innerHTML = t;
                     document.getElementById("qtt").innerHTML = ++cnt;
                     if (type === "1") {
@@ -387,6 +392,8 @@
                     if (t.includes(String(col + row))) {
                         t = t.replace(String(col + row), "");
                         cnt--;
+                        if(idP.includes(String("/" + code)))
+                            idP = idP.replace(String("/" + code), "");
                         if (type === "1") {
                             sum -= 65000;
                         } else if (type === "2") {
@@ -411,11 +418,11 @@
                     }
 
                 }
-            }
-            
-            function cart() {
                 
+                console.log(idP);
             }
+
+
 
             function setCookie(name, value, days) {
                 var expires = "";
@@ -461,6 +468,16 @@
                     document.getElementById(first).style.display = "block";
                 }
 
+
+
+            }
+            function cart(user) {
+                //console.log(user);
+                var ckie = getCookie(user);
+                ckie += idP;
+                setCookie(user, ckie, 365);
+                console.log(getCookie(user));
+                console.log(idP);
             }
         </script>
     </body>

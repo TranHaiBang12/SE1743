@@ -5,6 +5,7 @@
 package controller;
 
 import dal.FoodDAO;
+import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +17,8 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.Account;
-import model.CartItem;
+import model.CartItemFood;
+import model.CartItemTicket;
 
 /**
  *
@@ -64,8 +66,10 @@ public class Cart extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         Cookie[] arr = request.getCookies();
-        List<CartItem> list = new ArrayList<>();
+        List<CartItemFood> list = new ArrayList<>();
+        List<CartItemTicket> listT = new ArrayList<>();
         FoodDAO fda = new FoodDAO();
+        TicketDAO tkd = new TicketDAO();
         String cart = "";
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
@@ -77,25 +81,39 @@ public class Cart extends HttpServlet {
                 }
             }
             for (int i = 0; i < cart.length(); i++) {
-                if(cart.charAt(i) == '/') {
-                    list.add(new CartItem(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
+                if (cart.charAt(i) == '/') {
+                    if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
+                        list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
+                    }
+                    else if(cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
+                        System.out.println(cart.substring(i + 1, i + 7) + " " + Integer.parseInt(cart.substring(i + 9, i + 10)) + " " + cart.substring(i + 8, i + 9) + " " + cart.substring(i + 8, i + 10));
+                        listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
+                    }
+                   
                 }
             }
+    
 
             int totalQuantity = 0;
             for (int i = 0; i < list.size(); i++) {
                 totalQuantity += list.get(i).getQuantity();
             }
+            for (int i = 0; i < listT.size(); i++) {
+                totalQuantity += 1;
+            }
             int totalAmount = 0;
             for (int i = 0; i < list.size(); i++) {
                 totalAmount += (list.get(i).getQuantity() * list.get(i).getFood().getPrice());
             }
+            for (int i = 0; i < listT.size(); i++) {
+                totalAmount += (listT.get(i).getTicket().getPrice());
+            }
             request.setAttribute("listCart", list);
+            request.setAttribute("listTicket", listT);
             request.setAttribute("totalQuantity", totalQuantity);
             request.setAttribute("totalAmount", totalAmount);
             request.getRequestDispatcher("cart.jsp").forward(request, response);
-        }
-        else {
+        } else {
             String ms = "Không có vật phẩm nào trong giỏ hàng của bạn";
             request.setAttribute("ms", ms);
             request.getRequestDispatcher("cart.jsp").forward(request, response);
