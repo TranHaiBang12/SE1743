@@ -8,19 +8,21 @@ package model;
  *
  * @author acer
  */
-public class OrderDetail {
+public class OrderTicketDetail {
     private String orderID;
     private String productCode;
+    private String seatType;
+    private int seatNumber;
     private double discount;
     private double price;
-    private int quantity;
 
-    public OrderDetail(String orderID, String productCode, double discount, double price, int quantity) {
+    public OrderTicketDetail(String orderID, String productCode, String seatType, int seatNumber, double discount, double price) {
         this.orderID = orderID;
         this.productCode = productCode;
+        this.seatType = seatType;
+        this.seatNumber = seatNumber;
         this.discount = discount;
         this.price = price;
-        this.quantity = quantity;
     }
 
     public String getOrderID() {
@@ -39,6 +41,22 @@ public class OrderDetail {
         this.productCode = productCode;
     }
 
+    public String getSeatType() {
+        return seatType;
+    }
+
+    public void setSeatType(String seatType) {
+        this.seatType = seatType;
+    }
+
+    public int getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(int seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
     public double getDiscount() {
         return discount;
     }
@@ -53,14 +71,6 @@ public class OrderDetail {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
     
     

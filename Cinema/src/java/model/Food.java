@@ -13,18 +13,16 @@ public class Food {
     private String productCode;
     private String foodDescript;
     private String foodType;
-    private int numberLeft;
     private String status;
     private double discount;
     private double price;
     private String img;
 
-    public Food(int id, String productCode, String foodDescript, String foodType, int numberLeft, String status, double discount, double price, String img) {
+    public Food(int id, String productCode, String foodDescript, String foodType, String status, double discount, double price, String img) {
         this.id = id;
         this.productCode = productCode;
         this.foodDescript = foodDescript;
         this.foodType = foodType;
-        this.numberLeft = numberLeft;
         this.status = status;
         this.discount = discount;
         this.price = price;
@@ -65,13 +63,7 @@ public class Food {
         this.foodType = foodType;
     }
 
-    public int getNumberLeft() {
-        return numberLeft;
-    }
 
-    public void setNumberLeft(int numberLeft) {
-        this.numberLeft = numberLeft;
-    }
 
     public String getStatus() {
         return status;

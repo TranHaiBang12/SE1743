@@ -292,6 +292,7 @@
                                             <div class = "tkt">
                                                 <div class = "cartName">${t.getTicket().getMovie().getMovName()}</div>
                                                 <div class ="cartSeat">Ghế: <span class = "seat">${t.getSeat()}</span></div>
+                                                <div>Phòng: <span class = "seat">${t.getTicket().getRoomID()}</span></div>
                                             </div>
                                         </div>
 

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import model.LocationCinMD;
 
 /**
  *
@@ -24,6 +25,23 @@ public class CinemaDAO extends DBContext {
 
             while (rs.next()) {
                 list.add(rs.getString("City"));
+            }
+            return list;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+    
+    public List<LocationCinMD> getAllCinemaNameAndLoc() {
+        List<LocationCinMD> list = new ArrayList<>();
+        try {
+            String sql1 = "SELECT cinID, cinName, City FROM Cinema";
+            PreparedStatement st = connection.prepareStatement(sql1);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                String t = rs.getString("cinName") + ", " + rs.getString("City");
+                list.add(new LocationCinMD(rs.getInt("cinID"), t));
             }
             return list;
         } catch (Exception e) {

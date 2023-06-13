@@ -148,7 +148,7 @@ public class BookingServlet extends HttpServlet {
                 month = String.valueOf((d[i].getMonth() + 1));
             }
 
-            DateMD dmd = new DateMD(i, date2, month, day);
+            DateMD dmd = new DateMD(i, date2, month, day, String.valueOf(d[i].getYear() + 1900));
             dte.add(dmd);
         }
 

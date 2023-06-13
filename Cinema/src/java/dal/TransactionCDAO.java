@@ -17,13 +17,13 @@ import model.TransactionCode;
  * @author acer
  */
 public class TransactionCDAO extends DBContext{
-    public void insert(String orderID, String code, String type, Date dateStart, Time timeStart, Date dateEnd, Time timeEnd) {
+    public void insert(String orderID, String code, int type, Date dateStart, Time timeStart, Date dateEnd, Time timeEnd) {
         try {
             String sql = "INSERT INTO TransactionCode VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, orderID);
             st.setString(2, code);
-            st.setString(3, type);
+            st.setInt(3, type);
             st.setDate(4, dateStart);
             st.setTime(5, timeStart);
             st.setDate(6, dateEnd);

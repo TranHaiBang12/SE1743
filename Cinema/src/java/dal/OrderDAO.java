@@ -7,6 +7,8 @@ package dal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,13 @@ import model.Order;
  *
  * @author acer
  */
-public class OrderDAO extends DBContext{
-    public void insert(String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime) {
+public class OrderDAO extends DBContext {
+
+    public int insert(String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime) {
+        int id = 0;
         try {
             String sql = "INSERT INTO OrderOnline VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, userName);
             st.setString(2, phone);
             st.setString(3, email);
@@ -34,11 +38,17 @@ public class OrderDAO extends DBContext{
             st.setString(11, country);
             st.setTime(12, paymentTime);
             st.executeUpdate();
+            ResultSet rs = st.getGeneratedKeys();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+            System.out.println(rs.getString("OrderID"));
         } catch (Exception e) {
             System.out.println(e);
         }
+        return id;
     }
-    
+
     public List<Order> getAllOrderByUserName(String userName) {
         List<Order> list = new ArrayList<>();
         try {
@@ -46,12 +56,12 @@ public class OrderDAO extends DBContext{
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, userName);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
-               
+            while (rs.next()) {
+
                 Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"));
                 list.add(o);
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }

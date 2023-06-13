@@ -277,6 +277,48 @@
                 padding-top: 10px;
             }
 
+            .notDate{
+                display: flex;
+                flex-direction: column;
+                margin-right: 8px;
+                margin-bottom: 5px;
+            }
+            .isDate{
+                font-size: 30px;
+            }
+
+            .ngayNhan{
+                display: flex;
+                width: 80px;
+                height: 40px;
+                margin-left: 0px;
+                margin-right: 15px;
+                margin-bottom: 10px;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid black;
+                padding: 20px;
+                border-radius: 10px;
+            }
+
+            .containerNN{
+                display: flex;
+
+            }
+            
+            select {
+                margin-top :10px;
+                margin-bottom: 10px;
+                width: 500px;
+                height: 30px;
+                border: 1px solid black;
+                border-radius: 10px;
+                font-size: 20px;
+                padding-left: 10px;
+            }
+
+
 
         </style>
     </head>
@@ -330,7 +372,36 @@
 
                             <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
                             <input type ="text" required id ="strt" name ="strt"/>
+                            <c:if test = "${requestScope.listCart != null}">
 
+                                <label for = "strt">Chọn ngày nhận đồ ăn(<span class = "rd">*</span>)</label>
+                                <div class = "containerNN">
+                                    <c:forEach items = "${requestScope.date}" var = "i">
+                                        <div id ="${i.getId()}" class = "ngayNhan" onclick = "cngColor('${i.getId()}')">
+                                            <div class = "notDate">
+                                                <span>${i.getMonth()}</span><!-- comment -->
+                                                <span>${i.getDay()}</span>
+                                            </div>
+                                            <div class = "isDate">${i.getDate()}</div>
+                                        </div>
+
+
+                                    </c:forEach>
+                                </div>                                
+                                <label for = "strt">Chọn nơi nhận đồ ăn(<span class = "rd">*</span>)</label>
+                                <div class = "containerLoc">
+                                    <select name = "loc">
+                                        <c:forEach items = "${requestScope.loc}" var = "l">
+                                            <option>${l.getLoc()}</option>
+
+
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <input type ="text" id ="dateNhan" name ="dte" hidden/>
+                            </c:if>
+                                
+                            
 
                             <div class = "part">2. Hình thức thanh toán</div>
                             <div class = "pmType">
@@ -344,7 +415,8 @@
                                 </div>
                             </div>
                         </div>
-                    </c:if><c:if test = "${requestScope.m != null}">
+                    </c:if>
+                    <c:if test = "${requestScope.m != null}">
                         <div class = "ms">${requestScope.ms}</div>
                         <div class = "frm">
                             <div class = "part">1. Chi tiết thông tin</div>
@@ -378,8 +450,13 @@
 
                             <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
                             <input type ="text" readonly id ="strt" name ="strt" value = "${(requestScope.strt != null)?(requestScope.strt):""}"/>
-
-
+                            
+                            <label for = "dte">Ngày nhận(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="dte" name ="dte" value = "${(requestScope.datePick != null)?(requestScope.datePick):""}"/>
+                            
+                            <label for = "loc">Nơi nhận(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="loc" name ="loc" value = "${(requestScope.locPick != null)?(requestScope.locPick):""}"/>
+                            
 
                         </div>
                     </c:if>
@@ -457,6 +534,22 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type ="text/javascript">
+
+            function cngColor(id) {
+                document.getElementById(id).style.color = 'white';
+                document.getElementById(id).style.backgroundColor = 'black';
+                for (var i = 0; i < Number(id); i++) {
+                    document.getElementById(i).style.color = 'black';
+                    document.getElementById(i).style.backgroundColor = 'white';
+                }
+                for (var i = Number(id) + 1; i < 7; i++) {
+                    document.getElementById(i).style.color = 'black';
+                    document.getElementById(i).style.backgroundColor = 'white';
+                }
+                document.getElementById("dateNhan").value = id;
+                console.log(document.getElementById("dateNhan").value);
+            }
+
             function seeCart() {
                 if (String(document.getElementById("crt").style.display) === 'none') {
                     document.getElementById("crt").style.display = 'block';

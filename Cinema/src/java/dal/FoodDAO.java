@@ -24,7 +24,7 @@ public class FoodDAO extends DBContext{
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
                 
-                Food f = new Food(i, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getInt("NumberLeft"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"));
+                Food f = new Food(i, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"));
                 System.out.println(f);
                 list.add(f);
                 i++;
@@ -57,7 +57,7 @@ public class FoodDAO extends DBContext{
             st.setString(1, productCode);
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
-                Food f = new Food(0, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getInt("NumberLeft"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"));
+                Food f = new Food(0, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"));
                 return f;
             }
         } catch (Exception e) {

@@ -13,13 +13,25 @@ public class DateMD {
     private String date;
     private String month;
     private String day;
+    private String year;
 
-    public DateMD(int id, String date, String month, String day) {
+    public DateMD(int id, String date, String month, String day, String year) {
         this.id = id;
         this.date = date;
         this.month = month;
         this.day = day;
+        this.year = year;
     }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+    
+    
 
     public int getId() {
         return id;

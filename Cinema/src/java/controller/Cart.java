@@ -94,10 +94,9 @@ public class Cart extends HttpServlet {
                 }
             }
 
-            for (int i = 0; i < list.size(); i++) {
-                System.out.println(list.get(i).getFood().getProductCode());
+            for (int i = 0; i < listT.size(); i++) {
+                System.out.println(listT.get(i).getTicket().getRoomID());
             }
-
             int totalQuantity = 0;
             for (int i = 0; i < list.size(); i++) {
                 totalQuantity += list.get(i).getQuantity();
