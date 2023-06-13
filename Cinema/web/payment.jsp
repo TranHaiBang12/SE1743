@@ -208,6 +208,19 @@
 
             }
 
+            .transact input{
+                width: 40%;
+                height: 25px;
+                background-color: red;
+                color: white;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 20px;
+            }
+            .transact{
+                padding-left: 30%;
+            }
+
             .payoo{
                 width: 0%;
             }
@@ -247,16 +260,23 @@
             .rd{
                 color: red;
             }
-            
+
             .part{
                 font-weight: bold;
             }
-            
+
             .ms{
                 font-size: 30px;
                 color: red;
                 margin-top: 10px;
             }
+
+            .m{
+                font-size: 20px;
+                color: red;
+                padding-top: 10px;
+            }
+
 
         </style>
     </head>
@@ -267,56 +287,105 @@
         <div class = "body">
             <form action = "pay" method = "post">
                 <div class = "in4">
+                    <c:if test = "${requestScope.m != null}">
+                        <div class = "m">${requestScope.m}</div>
+                    </c:if>
+                    <c:if test = "${requestScope.m == null}">
+                        <div class = "ttle">THANH TOÁN</div>
+                    </c:if>
+                    <c:if test = "${requestScope.m != null}">
+                        <div class = "ttle">THÔNG TIN THANH TOÁN</div>
+                    </c:if> 
+                    <c:if test = "${requestScope.m == null}">
+                        <div class = "ms">${requestScope.ms}</div>
+                        <div class = "frm">
+                            <div class = "part">1. Chi tiết thông tin</div>
+                            <label for = "email">Địa chỉ email(<span class = "rd">*</span>)</label>
+                            <input type ="text" required id ="email" name ="email"/>
 
-                    <div class = "ttle">THANH TOÁN</div>
-                    <div class = "ms">${requestScope.ms}</div>
-                    <div class = "frm">
-                        <div class = "part">1. Chi tiết thông tin</div>
-                        <label for = "email">Địa chỉ email(<span class = "rd">*</span>)</label>
-                        <input type ="text" required id ="email" name ="email"/>
-
-                        <div class = "ten">
-                            <label for = "fName">Họ(<span class = "rd">*</span>)</label>
-                            <input type ="text" required id ="fName" name ="fName"/>
-
-
-                            <label for = "lName">Tên(<span class = "rd">*</span>)</label>
-                            <input type ="text" required id ="lName" name ="lName"/>
-                        </div>
-
-                        <label for = "sdt">Số điện thoại(<span class = "rd">*</span>)</label>
-                        <input type ="text" required id ="sdt" name ="sdt"/>
-
-
-                        <label for = "cntry">Quốc gia(<span class = "rd">*</span>)</label>
-                        <input type ="text" required id ="cntry" name ="cntry"/>
+                            <div class = "ten">
+                                <label for = "fName">Họ(<span class = "rd">*</span>)</label>
+                                <input type ="text" required id ="fName" name ="fName"/>
 
 
-                        <label for = "city">Thành phố(<span class = "rd">*</span>)</label>
-                        <input type ="text" required id ="city" name ="city"/>
-
-
-                        <label for = "dist">Quận, huyện(<span class = "rd">*</span>)</label>
-                        <input type ="text" required id ="dist" name ="dist"/>
-
-
-                        <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
-                        <input type ="text" required id ="strt" name ="strt"/>
-
-
-                        <div class = "part">2. Hình thức thanh toán</div>
-                        <div class = "pmType">
-                            <div>
-                                <input class ="vnpay" type ="radio" name ="pm" value = "0"/>
-                                <img src ="images/icon-vnpay.png"/>
+                                <label for = "lName">Tên(<span class = "rd">*</span>)</label>
+                                <input type ="text" required id ="lName" name ="lName"/>
                             </div>
-                            <div>
-                                <input class ="payoo" type ="radio" name ="pm" value = "1"/>
-                                <img src ="images/icon-payoo.png"/>
+
+                            <label for = "sdt">Số điện thoại(<span class = "rd">*</span>)</label>
+                            <input type ="text" required id ="sdt" name ="sdt"/>
+
+
+                            <label for = "cntry">Quốc gia(<span class = "rd">*</span>)</label>
+                            <input type ="text" required id ="cntry" name ="cntry"/>
+
+
+                            <label for = "city">Thành phố(<span class = "rd">*</span>)</label>
+                            <input type ="text" required id ="city" name ="city"/>
+
+
+                            <label for = "dist">Quận, huyện(<span class = "rd">*</span>)</label>
+                            <input type ="text" required id ="dist" name ="dist"/>
+
+
+                            <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
+                            <input type ="text" required id ="strt" name ="strt"/>
+
+
+                            <div class = "part">2. Hình thức thanh toán</div>
+                            <div class = "pmType">
+                                <div>
+                                    <input class ="vnpay" type ="radio" name ="pm" value = "0"/>
+                                    <img src ="images/icon-vnpay.png"/>
+                                </div>
+                                <div>
+                                    <input class ="payoo" type ="radio" name ="pm" value = "1"/>
+                                    <img src ="images/icon-payoo.png"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class = "seeCart"><input type = "button" value = "XEM GIỎ HÀNG" onclick = "seeCart()"/></div>
+                    </c:if><c:if test = "${requestScope.m != null}">
+                        <div class = "ms">${requestScope.ms}</div>
+                        <div class = "frm">
+                            <div class = "part">1. Chi tiết thông tin</div>
+                            <label for = "email">Địa chỉ email(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="email" name ="email" value = "${(requestScope.email != null)?(requestScope.email):""}"/>
+
+                            <div class = "ten">
+                                <label for = "fName">Họ(<span class = "rd">*</span>)</label>
+                                <input type ="text" readonly id ="fName" name ="fName" value = "${(requestScope.fName != null)?(requestScope.fName):""}"/>
+
+
+                                <label for = "lName">Tên(<span class = "rd">*</span>)</label>
+                                <input type ="text" readonly id ="lName" name ="lName" value = "${(requestScope.lName != null)?(requestScope.lName):""}"/>
+                            </div>
+
+                            <label for = "sdt">Số điện thoại(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="sdt" name ="sdt" value = "${(requestScope.sdt != null)?(requestScope.sdt):""}"/>
+
+
+                            <label for = "cntry">Quốc gia(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="cntry" name ="cntry" value = "${(requestScope.cntry != null)?(requestScope.cntry):""}"/>
+
+
+                            <label for = "city">Thành phố(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="city" name ="city" value = "${(requestScope.city != null)?(requestScope.city):""}"/>
+
+
+                            <label for = "dist">Quận, huyện(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="dist" name ="dist" value = "${(requestScope.dist != null)?(requestScope.dist):""}"/>
+
+
+                            <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
+                            <input type ="text" readonly id ="strt" name ="strt" value = "${(requestScope.strt != null)?(requestScope.strt):""}"/>
+
+
+
+                        </div>
+                    </c:if>
+                    <c:if test = "${requestScope.m == null}">
+                        <div class = "seeCart"><input type = "button" value = "XEM GIỎ HÀNG" onclick = "seeCart()"/></div>
+                        </c:if>
                 </div>
                 <div class = "cart" id = "crt">
                     <div class = "choice">
@@ -326,62 +395,62 @@
 
                     </div>
 
-                    <c:if test = "${requestScope.ms != null}">
-                        <span>${requestScope.ms}</span>
-                    </c:if>
-                    <c:if test = "${requestScope.ms == null}">
-                        <div id = "doan">
-                            <c:forEach items = "${requestScope.listCart}" var = "i">
-                                <div id ="list${i.getFood().getProductCode()}" class = "myCart">
+                    <div id = "doan">
+                        <c:forEach items = "${requestScope.listCart}" var = "i">
+                            <div id ="list${i.getFood().getProductCode()}" class = "myCart">
 
-                                    <div class = "insideCart">
-                                        <div class = "imGe">
-                                            <img src = "${i.getFood().getImg()}">
+                                <div class = "insideCart">
+                                    <div class = "imGe">
+                                        <img src = "${i.getFood().getImg()}">
 
-                                            <div class = "tkt">${i.getFood().getFoodDescript()}</div>
-                                        </div>
-                                        <div class = "intu">
+                                        <div class = "tkt">${i.getFood().getFoodDescript()}</div>
+                                    </div>
+                                    <div class = "intu">
 
-                                            <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPrice() * i.getQuantity()}</label><span class = "donvi">đ</div>
-                                            <div>
-                                                <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
-                                            </div>
-
+                                        <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPrice() * i.getQuantity()}</label><span class = "donvi">đ</div>
+                                        <div>
+                                            <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
                                         </div>
 
                                     </div>
+
                                 </div>
-                            </c:forEach>
-                        </div>
-                        <div id = "ve">
-                            <c:forEach items = "${requestScope.listTicket}" var = "t">
-                                <div id ="list${t.getTicket().getProductCode()}${t.getSeat()}" class = "myCart">
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <div id = "ve">
+                        <c:forEach items = "${requestScope.listTicket}" var = "t">
+                            <div id ="list${t.getTicket().getProductCode()}${t.getSeat()}" class = "myCart">
 
-                                    <div class = "insideCart">
-                                        <div class = "imGe">
-                                            <img src = "images/cinemaTicket.jpg">
-                                            <div class = "tkt">
-                                                <div class = "cartName">${t.getTicket().getMovie().getMovName()}</div>
-                                                <div class ="cartSeat">Ghế: <span class = "seat">${t.getSeat()}</span></div>
-                                            </div>
+                                <div class = "insideCart">
+                                    <div class = "imGe">
+                                        <img src = "images/cinemaTicket.jpg">
+                                        <div class = "tkt">
+                                            <div class = "cartName">${t.getTicket().getMovie().getMovName()}</div>
+                                            <div class ="cartSeat">Ghế: <span class = "seat">${t.getSeat()}</span></div>
                                         </div>
+                                    </div>
 
-                                        <div class = "intu">
+                                    <div class = "intu">
 
-                                            <div class = "cartPrice"><label id ="price${t.getTicket().getProductCode()}">${t.getTicket().getPrice()}</label><span class = "donvi">đ</div>
-                                            <div>
-                                                <input type ="button" name ="cartButton" value = "1"/>
-                                            </div>
-
+                                        <div class = "cartPrice"><label id ="price${t.getTicket().getProductCode()}">${t.getTicket().getPrice()}</label><span class = "donvi">đ</div>
+                                        <div>
+                                            <input type ="button" name ="cartButton" value = "1"/>
                                         </div>
 
                                     </div>
+
                                 </div>
-                            </c:forEach>
-                        </div>
-                    </c:if>
+                            </div>
+                        </c:forEach>
+                    </div>
                 </div>
-                <div class ="pay"><input type = "submit" value = "THANH TOÁN"/></div>
+                <c:if test = "${requestScope.m == null}">
+                    <div class ="pay"><input type = "submit" value = "THANH TOÁN"/></div>
+                    </c:if>
+                    <c:if test = "${requestScope.m != null}">
+                    <div class ="transact"><a href = "#"><input type = "button" value = "LỊCH SỬ GIAO DỊCH"/></a></div>
+                        </c:if>
             </form>
         </div>
         <div id = "footer">

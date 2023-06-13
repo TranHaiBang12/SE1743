@@ -152,7 +152,19 @@ public class PaymentServlet extends HttpServlet {
         else if(request.getParameter("pm").equals("1")) {
             pm = "Payoo";
         }
-        ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, d, t);
+        String m = "THANH TOÁN THÀNH CÔNG. VUI LÒNG VÀO LỊCH SỬ GIAO DỊCH ĐỂ XEM MÃ VÉ, MÃ ĐỒ ĂN CỦA BẠN";
+        request.setAttribute("m", m);
+        request.setAttribute("email", request.getParameter("email"));
+        request.setAttribute("fName", request.getParameter("fName"));
+        request.setAttribute("lName", request.getParameter("lName"));
+        request.setAttribute("sdt", sdt);
+        request.setAttribute("cntry", request.getParameter("cntry"));
+        request.setAttribute("city", request.getParameter("city"));
+        request.setAttribute("dist", request.getParameter("dist"));
+        request.setAttribute("strt", request.getParameter("strt"));
+        request.setAttribute("pm", request.getParameter("pm"));
+        request.getRequestDispatcher("payment.jsp").forward(request, response);
+        //ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, d, t);
         
     }
     
