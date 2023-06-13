@@ -392,12 +392,13 @@
                                 <div class = "containerLoc">
                                     <select name = "loc">
                                         <c:forEach items = "${requestScope.loc}" var = "l">
-                                            <option>${l.getLoc()}</option>
+                                            <option>${l.getId()}. ${l.getLoc()}</option>
 
 
                                         </c:forEach>
                                     </select>
                                 </div>
+                                <input type =""
                                 <input type ="text" id ="dateNhan" name ="dte" hidden/>
                             </c:if>
                                 

@@ -28,6 +28,7 @@ public class OrderTicketDetailDAO extends DBContext{
             st.setDouble(6, price);
             st.executeUpdate();
         } catch (Exception e) {
+            System.out.println("3");
             System.out.println(e);
         }
             
@@ -45,6 +46,7 @@ public class OrderTicketDetailDAO extends DBContext{
                 list.add(otd);
             }
         } catch (Exception e) {
+            System.out.println("4");
             System.out.println(e);
         }
         return list;

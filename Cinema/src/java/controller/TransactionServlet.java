@@ -5,12 +5,22 @@
 
 package controller;
 
+import dal.CinemaDAO;
+import dal.OrderDAO;
+import dal.OrderDetailDAO;
+import dal.OrderTicketDetailDAO;
+import dal.TransactionCDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Account;
+import model.LocationCinMD;
+import model.Order;
 
 /**
  *
@@ -54,6 +64,16 @@ public class TransactionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         //processRequest(request, response);
+        OrderDAO ord = new OrderDAO();
+        OrderDetailDAO odd = new OrderDetailDAO();
+        OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
+        TransactionCDAO tcd = new TransactionCDAO();
+        
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        
+        List<Order> list = ord.getAllOrderByUserName(a.getUserName());
+        request.setAttribute("listO", list);
         request.getRequestDispatcher("transact.jsp").forward(request, response);
     } 
 

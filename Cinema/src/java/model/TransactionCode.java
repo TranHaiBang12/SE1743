@@ -15,12 +15,14 @@ public class TransactionCode {
     private String orderID;
     private String Code;
     private int type;
+    private int cinID;
     private Date dateStart;
     private Time timeStart;
     private Date dateEnd;
     private Time timeEnd;
 
-    public TransactionCode(String orderID, String Code, int type, Date dateStart, Time timeStart, Date dateEnd, Time timeEnd) {
+    public TransactionCode(String orderID, String Code, int type, Date dateStart, Time timeStart, Date dateEnd, Time timeEnd, int cinID) {
+        this.cinID = cinID;
         this.orderID = orderID;
         this.Code = Code;
         this.type = type;

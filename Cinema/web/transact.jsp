@@ -10,8 +10,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <<link rel="stylesheet" href="style.css"/>
     </head>
     <body>
-        ${requestScope.m}
+        <div id = "header">
+            <%@include file = "header.jsp" %>
+        </div>
+        <div class = "body">
+            <c:forEach items = "${requestScope.listO}" var = "l">
+                <option>${l.getId()}. ${l.getLoc()}</option>
+
+
+            </c:forEach>
+        </div>
+        <div id = "footer">
+            <%@include file = "footer.jsp" %>
+        </div>
     </body>
 </html>

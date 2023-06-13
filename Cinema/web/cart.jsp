@@ -334,6 +334,8 @@
                     setCookie("thbang", "", 365);
                     document.getElementById("doan").style.display = 'none';
                     document.getElementById("ve").style.display = 'none';
+                    document.getElementById("nm").innerHTML = 0;
+                    document.getElementById("ttAm").innerHTML = 0;
                 } else if (String(ans) === 'false') {
 
                 }

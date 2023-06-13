@@ -17,9 +17,9 @@ import model.TransactionCode;
  * @author acer
  */
 public class TransactionCDAO extends DBContext{
-    public void insert(String orderID, String code, int type, Date dateStart, Time timeStart, Date dateEnd, Time timeEnd) {
+    public void insert(String orderID, String code, int type, Date dateStart, Time timeStart, Date dateEnd, Time timeEnd, int cinID) {
         try {
-            String sql = "INSERT INTO TransactionCode VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO TransactionCode VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, orderID);
             st.setString(2, code);
@@ -28,8 +28,10 @@ public class TransactionCDAO extends DBContext{
             st.setTime(5, timeStart);
             st.setDate(6, dateEnd);
             st.setTime(7, timeEnd);
+            st.setInt(8, cinID);
             st.executeUpdate();
         } catch (Exception e) {
+            System.out.println("5");
             System.out.println(e);
         }
     }
@@ -42,10 +44,11 @@ public class TransactionCDAO extends DBContext{
             st.setString(1, orderID);
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
-                TransactionCode tc = new TransactionCode(orderID, rs.getString("Code"), rs.getInt("Type"), rs.getDate("DateStart"), rs.getTime("TimeStart"), rs.getDate("DateEnd"), rs.getTime("TimeEnd"));
+                TransactionCode tc = new TransactionCode(orderID, rs.getString("Code"), rs.getInt("Type"), rs.getDate("DateStart"), rs.getTime("TimeStart"), rs.getDate("DateEnd"), rs.getTime("TimeEnd"), rs.getInt("cinID"));
                 list.add(tc);
             }
         } catch (Exception e) {
+            System.out.println("6");
             System.out.println(e);
         }
         return list;

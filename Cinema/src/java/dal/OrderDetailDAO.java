@@ -26,6 +26,7 @@ public class OrderDetailDAO extends DBContext{
             st.setInt(5, quantity);
             st.executeUpdate();
         } catch (Exception e) {
+            System.out.println("3");
             System.out.println(e);
         }
             
@@ -43,6 +44,7 @@ public class OrderDetailDAO extends DBContext{
                 list.add(od);
             }
         } catch (Exception e) {
+            System.out.println("2");
             System.out.println(e);
         }
         return list;

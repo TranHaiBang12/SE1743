@@ -61,14 +61,14 @@ public class TicketDAO extends DBContext {
         int i = 1;
         MovieDAO mvd = new MovieDAO();
         try {
-            String sql = "SELECT Schedule.scheNo, Schedule.roomID, Schedule.movID, TickTypeInSche.ProductCode, TickTypeInSche.NumberLeft, TickTypeInSche.Status, TickTypeInSche.Discontinued, Product.Price, Product.Discout, Seat.Row , Seat.Col, Seat.Type FROM Schedule JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode JOIN TicketType ON TicketType.ttID = TickTypeInSche.Type JOIN Seat ON Schedule.roomID = Seat.roomID AND Schedule.cinID = Seat.cinID AND TicketType.SeatType = Seat.Type WHERE TickTypeInSche.ProductCode = ? AND Row = ? AND Col = ? ORDER BY Row";
+            String sql = "SELECT Schedule.scheNo, Schedule.cinID, Schedule.roomID, Schedule.movID, TickTypeInSche.ProductCode, TickTypeInSche.NumberLeft, TickTypeInSche.Status, TickTypeInSche.Discontinued, Product.Price, Product.Discout, Seat.Row , Seat.Col, Seat.Type FROM Schedule JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode JOIN TicketType ON TicketType.ttID = TickTypeInSche.Type JOIN Seat ON Schedule.roomID = Seat.roomID AND Schedule.cinID = Seat.cinID AND TicketType.SeatType = Seat.Type WHERE TickTypeInSche.ProductCode = ? AND Row = ? AND Col = ? ORDER BY Row";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, productCode);
             st.setInt(2, row);
             st.setString(3, col);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Ticket t = new Ticket(i, rs.getInt("movID"), mvd.getMovieById(rs.getInt("movID")),rs.getString("ProductCode"), rs.getInt("Type"), rs.getString("scheNo"), rs.getInt("NumberLeft"), rs.getString("Status"), rs.getInt("Row"), rs.getString("Col"), rs.getDouble("Price"), rs.getDouble("Discout"), rs.getInt("Discontinued"));
+                Ticket t = new Ticket(i, rs.getInt("movID"), mvd.getMovieById(rs.getInt("movID")),rs.getString("ProductCode"), rs.getInt("Type"), rs.getString("scheNo"), rs.getInt("NumberLeft"), rs.getString("Status"), rs.getInt("Row"), rs.getString("Col"), rs.getDouble("Price"), rs.getDouble("Discout"), rs.getInt("Discontinued"), rs.getInt("cinID"));
                 t.setRoomID(rs.getInt("roomID"));
                 return t;
             }
