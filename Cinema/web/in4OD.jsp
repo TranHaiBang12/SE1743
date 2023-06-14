@@ -65,11 +65,11 @@
             }
 
             .doan {
-                margin-left: 200px;
+                margin-left: 100px;
             }
 
             .ve{
-                margin-left: 200px;
+                margin-left: 100px;
             }
         </style>
     </head>
@@ -150,10 +150,40 @@
                                     TỔNG GIÁ: <span class = "rd"><label id = "amF"></label></span>
                                 </div>
                             </div>
+   
                             <div class = "ve">
                                 <div class = "ttle">b. Vé</div>
                                 <table>
+                                    <tr>
+                                        <th>PHIM</th>
+                                        <th>DẠNG</th>
+                                        <th>RẠP</th>
+                                        <th>PHÒNG</th>
+                                        <th>CỘT</th>
+                                        <th>HÀNG</th><!-- comment -->
+                                        <th>LOẠI GHẾ</th>
+                                        <th>KHUYẾN MẠI</th>
+                                        <th>GIÁ</th>                    
+                                        
+                                        <th>NGÀY</th>
+                                        <th>GIỜ</th>
+                                        <th>ẢNH</th>
+                                    </tr>
                                     <c:forEach items = "${requestScope.listOTD}" var = "k">
+                                        <tr>
+                                            <td>${k.getMovName()}</td>
+                                            <td>${k.getFormName()}</td><!-- comment -->
+                                            <td>${k.getCinName()}</td><!-- comment -->
+                                            <td>${k.getRoomID()}</td>
+                                            <td>${k.getSeatType()}</td>
+                                            <td>${k.getSeatNumber()}</td>
+                                            <td>${k.getType()}</td>
+                                            <td>${k.getDiscount()}%</td>
+                                            <td><span class = "rd">${k.getPrice()}đ</span></td>
+                                            <td>${k.getStartDate()}</td>
+                                            <td>${k.getStartTime()}</td>
+                                            <td><img src = "images/cinemaTicket.jpg"></td>
+                                        </tr>
                                     </c:forEach>
                                 </table>
 

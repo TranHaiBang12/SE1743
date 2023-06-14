@@ -4,8 +4,10 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import model.OrderDetail;
@@ -43,6 +45,23 @@ public class OrderTicketDetailDAO extends DBContext{
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
                 OrderTicketDetail otd = new OrderTicketDetail(orderID, rs.getString("ProductCode"), rs.getString("SeatType"), rs.getInt("SeatNumber"), rs.getDouble("Discount"), rs.getDouble("Price"));
+                list.add(otd);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<OrderTicketDetail> getTkByOrderID(String orderID) {
+        List<OrderTicketDetail> list = new ArrayList<>();
+        try {
+            String sql = "SELECT TicketOnlDetail.*, TickTypeInSche.Type, TickTypeInSche.scheNo, Cinema.cinName, Schedule.roomID, Movies.movName, Form.formName, CAST(Schedule.startTime AS date) AS StartDate, CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTime FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN Form ON Schedule.formID = Form.formID JOIN Movies ON Schedule.movID = Movies.movID WHERE OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                OrderTicketDetail otd = new OrderTicketDetail(orderID, rs.getString("ProductCode"), rs.getString("SeatType"), rs.getInt("SeatNumber"), rs.getDouble("Discount"), rs.getDouble("Price"), rs.getString("Type"), rs.getString("scheNo"), rs.getString("cinName"), rs.getInt("roomID"), rs.getString("movName"), rs.getString("formName"), rs.getDate("StartDate"), rs.getString("startTime"));
                 list.add(otd);
             }
         } catch (Exception e) {

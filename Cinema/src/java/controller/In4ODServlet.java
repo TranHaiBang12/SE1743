@@ -69,12 +69,19 @@ public class In4ODServlet extends HttpServlet {
         OrderDetailDAO odd = new OrderDetailDAO();
         List<OrderDetail> listOD = odd.getAllProductInOrderByOrderID(orderID);
         OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
-        List<OrderTicketDetail> listOTD = otd.getAllProductInOrderByOrderID(orderID);
+        List<OrderTicketDetail> listOTD = otd.getTkByOrderID(orderID);
         
-        for (int i = 0; i < listOD.size(); i++) {
-            System.out.println(listOD.get(i).getF().getImg()+ " " + listOD.get(i).getF().getFoodType() + " " + listOD.get(i).getF().getDiscount() + " " + listOD.get(i).getF().getPrice());
+        for (int i = 0; i < listOTD.size(); i++) {
+            if(listOTD.get(i).getType().equals("NM")) {
+                listOTD.get(i).setType("Thường");
+            }
+            else if(listOTD.get(i).getType().equals("VP")) {
+                listOTD.get(i).setType("VIP");
+            }
+            else if(listOTD.get(i).getType().equals("VT")) {
+                listOTD.get(i).setType("Đôi");
+            }
         }
-        
         TransactionCDAO tcd = new TransactionCDAO();
         List<TransactionCode> listTC = tcd.getAllCodeByOrderID(orderID);
         
