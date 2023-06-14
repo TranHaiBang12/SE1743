@@ -36,15 +36,34 @@ public class TransactionCDAO extends DBContext{
         }
     }
     
-    public List<TransactionCode> getAllCodeByOrderID(String orderID) {
+    public List<TransactionCode> getAllCodeTByOrderID(String orderID) {
         List<TransactionCode> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM TransactionCode WHERE OrderID = ?";
+            String sql = "SELECT *, CONVERT(VARCHAR(5), CAST(TimeStart AS time), 108) AS TimStart, CONVERT(VARCHAR(5), CAST(TimeEnd AS time), 108) AS TimEnd FROM TransactionCode WHERE OrderID = ? AND Type = 2";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            CinemaDAO cnd = new CinemaDAO();
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                TransactionCode tc = new TransactionCode(orderID, rs.getString("Code"), rs.getInt("Type"), rs.getDate("DateStart"), rs.getString("TimStart"), rs.getDate("DateEnd"), rs.getString("TimEnd"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")));
+                list.add(tc);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<TransactionCode> getAllCodeFByOrderID(String orderID) {
+        List<TransactionCode> list = new ArrayList<>();
+        try {
+            CinemaDAO cnd = new CinemaDAO();
+            String sql = "SELECT *, CONVERT(VARCHAR(5), CAST(TimeStart AS time), 108) AS TimStart, CONVERT(VARCHAR(5), CAST(TimeEnd AS time), 108) AS TimEnd FROM TransactionCode WHERE OrderID = ? AND Type = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, orderID);
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
-                TransactionCode tc = new TransactionCode(orderID, rs.getString("Code"), rs.getInt("Type"), rs.getDate("DateStart"), rs.getTime("TimeStart"), rs.getDate("DateEnd"), rs.getTime("TimeEnd"), rs.getInt("cinID"));
+                TransactionCode tc = new TransactionCode(orderID, rs.getString("Code"), rs.getInt("Type"), rs.getDate("DateStart"), rs.getString("TimStart"), rs.getDate("DateEnd"), rs.getString("TimEnd"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")));
                 list.add(tc);
             }
         } catch (Exception e) {

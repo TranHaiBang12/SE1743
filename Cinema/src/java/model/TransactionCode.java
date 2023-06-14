@@ -17,11 +17,12 @@ public class TransactionCode {
     private int type;
     private int cinID;
     private Date dateStart;
-    private Time timeStart;
+    private String timeStart;
     private Date dateEnd;
-    private Time timeEnd;
+    private String timeEnd;
+    private String cinName;
 
-    public TransactionCode(String orderID, String Code, int type, Date dateStart, Time timeStart, Date dateEnd, Time timeEnd, int cinID) {
+    public TransactionCode(String orderID, String Code, int type, Date dateStart, String timeStart, Date dateEnd, String timeEnd, int cinID, String cinName) {
         this.cinID = cinID;
         this.orderID = orderID;
         this.Code = Code;
@@ -30,7 +31,26 @@ public class TransactionCode {
         this.timeStart = timeStart;
         this.dateEnd = dateEnd;
         this.timeEnd = timeEnd;
+        this.cinName = cinName;
     }
+
+    public int getCinID() {
+        return cinID;
+    }
+
+    public void setCinID(int cinID) {
+        this.cinID = cinID;
+    }
+
+    public String getCinName() {
+        return cinName;
+    }
+
+    public void setCinName(String cinName) {
+        this.cinName = cinName;
+    }
+    
+    
 
     public String getOrderID() {
         return orderID;
@@ -64,11 +84,11 @@ public class TransactionCode {
         this.dateStart = dateStart;
     }
 
-    public Time getTimeStart() {
+    public String getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Time timeStart) {
+    public void setTimeStart(String timeStart) {
         this.timeStart = timeStart;
     }
 
@@ -80,11 +100,11 @@ public class TransactionCode {
         this.dateEnd = dateEnd;
     }
 
-    public Time getTimeEnd() {
+    public String getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Time timeEnd) {
+    public void setTimeEnd(String timeEnd) {
         this.timeEnd = timeEnd;
     }
     

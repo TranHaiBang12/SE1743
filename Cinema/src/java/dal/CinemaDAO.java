@@ -31,7 +31,22 @@ public class CinemaDAO extends DBContext {
         }
         return null;
     }
-    
+
+    public String getCinemaNameByID(int cinID) {
+        try {
+            String sql1 = "SELECT cinName FROM Cinema WHERE cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql1);
+            st.setInt(1, cinID);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                return rs.getString("cinName");
+            }
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     public List<LocationCinMD> getAllCinemaNameAndLoc() {
         List<LocationCinMD> list = new ArrayList<>();
         try {
@@ -55,7 +70,7 @@ public class CinemaDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getString("ctypeName");
             }
         } catch (Exception e) {
@@ -63,14 +78,14 @@ public class CinemaDAO extends DBContext {
         }
         return null;
     }
-    
+
     public int getCinIDByName(String name) {
         try {
             String sql = "SELECT cinID FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE cinName = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, name);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("cinID");
             }
         } catch (Exception e) {

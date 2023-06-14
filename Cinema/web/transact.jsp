@@ -152,33 +152,6 @@
                 window.location = "info?id=" + id;
             }
     
-            function bActive(id) {
-                if (id === "tkEtChoice") {
-                    document.getElementById(id).style.color = 'white';
-                    document.getElementById(id).style.backgroundColor = 'black';
-                    document.getElementById("foodChoi").style.color = 'black';
-                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                    document.getElementById("ve").style.display = 'block';
-                    document.getElementById("doan").style.display = 'none';
-                } else if (id === "foodChoi") {
-                    document.getElementById(id).style.color = 'white';
-                    document.getElementById(id).style.backgroundColor = 'black';
-
-                    document.getElementById("tkEtChoice").style.color = 'black';
-                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                    document.getElementById("doan").style.display = 'block';
-                    document.getElementById("ve").style.display = 'none';
-                } else {
-                    document.getElementById(id).style.color = 'white';
-                    document.getElementById(id).style.backgroundColor = 'black';
-                    document.getElementById("foodChoi").style.color = 'black';
-                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                    document.getElementById("tkEtChoice").style.color = 'black';
-                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                    document.getElementById("doan").style.display = 'block';
-                    document.getElementById("ve").style.display = 'block';
-                }
-            }
         </script>
     </body>
 </html>

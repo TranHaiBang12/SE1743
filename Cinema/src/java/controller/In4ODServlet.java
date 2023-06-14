@@ -68,9 +68,19 @@ public class In4ODServlet extends HttpServlet {
         List<Order> listO = ord.getAllIn4OrderByID(orderID);
         OrderDetailDAO odd = new OrderDetailDAO();
         List<OrderDetail> listOD = odd.getAllProductInOrderByOrderID(orderID);
+        if(listOD.isEmpty()) {
+            String ms1 = "Hóa đơn này không có đồ ăn";
+            //request.getRequestDispatcher("")
+            request.setAttribute("ms1", ms1);
+        }
         OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
-        List<OrderTicketDetail> listOTD = otd.getTkByOrderID(orderID);
         
+        List<OrderTicketDetail> listOTD = otd.getTkByOrderID(orderID);
+        if(listOTD.isEmpty()) {
+            String ms2 = "Hóa đơn này không có vé";
+            //request.getRequestDispatcher("")
+            request.setAttribute("ms2", ms2);
+        }
         for (int i = 0; i < listOTD.size(); i++) {
             if(listOTD.get(i).getType().equals("NM")) {
                 listOTD.get(i).setType("Thường");
@@ -83,12 +93,13 @@ public class In4ODServlet extends HttpServlet {
             }
         }
         TransactionCDAO tcd = new TransactionCDAO();
-        List<TransactionCode> listTC = tcd.getAllCodeByOrderID(orderID);
-        
+        List<TransactionCode> listTCF = tcd.getAllCodeFByOrderID(orderID);
+        List<TransactionCode> listTCT = tcd.getAllCodeTByOrderID(orderID);
         request.setAttribute("listO", listO);
         request.setAttribute("listOD", listOD);
         request.setAttribute("listOTD", listOTD);
-        request.setAttribute("listTC", listTC);
+        request.setAttribute("listTCF", listTCF);
+        request.setAttribute("listTCT", listTCT);
         request.getRequestDispatcher("in4OD.jsp").forward(request, response);
     } 
 
