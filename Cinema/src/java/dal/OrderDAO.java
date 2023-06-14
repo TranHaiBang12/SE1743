@@ -108,14 +108,18 @@ public class OrderDAO extends DBContext {
     public OrderByDate getAllOrderByUserNameAPDate(String userName, Date paymentDate) {
         List<Order> listO = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM OrderOnline WHERE UserName = ? AND PaymentDate = ?";
+            String sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n" +
+"(SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n" +
+"(SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID\n" +
+"UNION\n" +
+"SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID WHERE UserName = ? AND PaymentDate = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, userName);
             st.setDate(2, paymentDate);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
-                Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"));
+                Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"), rs.getDouble("TotalAmount"));
                 
                 listO.add(o);
             }

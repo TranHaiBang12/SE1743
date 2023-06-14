@@ -12,6 +12,7 @@ import java.sql.Time;
  * @author acer
  */
 public class Order {
+
     private String orderID;
     private String userName;
     private String firstName;
@@ -25,8 +26,9 @@ public class Order {
     private String paymentType;
     private Date paymentDate;
     private Time paymentTime;
+    private double totalAmount;
 
-    public Order(String orderID, String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate,  Time paymentTime) {
+    public Order(String orderID, String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime) {
         this.orderID = orderID;
         this.userName = userName;
         this.firstName = firstName;
@@ -42,6 +44,31 @@ public class Order {
         this.paymentTime = paymentTime;
     }
 
+    public Order(String orderID, String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime, double totalAmount) {
+        this.orderID = orderID;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+        this.country = country;
+        this.street = street;
+        this.district = district;
+        this.city = city;
+        this.paymentType = paymentType;
+        this.paymentDate = paymentDate;
+        this.paymentTime = paymentTime;
+        this.totalAmount = totalAmount;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
     public Time getPaymentTime() {
         return paymentTime;
     }
@@ -49,8 +76,6 @@ public class Order {
     public void setPaymentTime(Time paymentTime) {
         this.paymentTime = paymentTime;
     }
-    
-    
 
     public String getOrderID() {
         return orderID;
@@ -147,6 +172,5 @@ public class Order {
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
-    
-    
+
 }

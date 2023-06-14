@@ -46,6 +46,49 @@
                 display: flex;
                 flex-direction: column;
                 margin-left: 80px;
+                margin-right: 80px;
+            }
+
+            table{
+                margin-top: 20px;
+                border: 1px solid black;
+                margin-bottom: 20px;
+            }
+
+            tr{
+                text-align: center;
+                border: 1px solid black;
+            }
+
+            td{
+                padding: 20px;
+                border: 1px solid black;
+            }
+            th{
+                padding: 20px;
+                border: 1px solid black;
+            }
+            .oDate{
+                font-size: 25px;
+                font-weight: bold;
+            }
+            
+            td input{
+                width: 80%;
+                height: 30px;
+                cursor: pointer;
+            }
+            
+            .uName{
+                font-size: 40px;
+                font-weight: bold;
+                text-align: center;
+                padding-top: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .rd{
+                color: red;
             }
         </style>
     </head>
@@ -54,6 +97,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
+            <div class = "uName">Tài Khoản: <span class = "rd">${sessionScope.account.getUserName()}<span></div>
             <c:forEach items = "${requestScope.listOBD}" var = "i">
                 <div class = "outsiteO">
                     <div class = "oDate">${i.getDate()}</div>
@@ -63,14 +107,18 @@
                             <th>KIỂU THANH TOÁN</th>
                             <th>NGÀY THANH TOÁN</th>
                             <th>THỜI GIAN THANH TOÁN</th>
+                            <th>XEM CHI TIẾT</th>
+                            <th>TỔNG TIỀN</th>
                         </tr>
                         <c:forEach items = "${i.getO()}" var = "k">
-                                <tr>
-                                    <td>${k.getOrderID()}</td>
-                                    <td>${k.getPaymentType()}</td><!-- <td></td> -->
-                                    <td>${k.getPaymentDate()}</td>
-                                    <td>${k.getPaymentTime()}</td>
-                                </tr>
+                            <tr>
+                                <td>${k.getOrderID()}</td>
+                                <td>${k.getPaymentType()}</td><!-- <td></td> -->
+                                <td>${k.getPaymentDate()}</td>
+                                <td>${k.getPaymentTime()}</td>
+                                <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
+                                <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/></td>
+                            </tr>
                         </c:forEach>
                     </table>
                 </div>
@@ -100,6 +148,10 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type = "text/javascript">
+            function in4detail(id) {
+                window.location = "info?id=" + id;
+            }
+    
             function bActive(id) {
                 if (id === "tkEtChoice") {
                     document.getElementById(id).style.color = 'white';
