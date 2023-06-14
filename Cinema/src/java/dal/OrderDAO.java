@@ -13,6 +13,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import model.Order;
+import model.OrderByDate;
 
 /**
  *
@@ -66,5 +67,64 @@ public class OrderDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+
+    public List<Order> getAllOrderFoodByUsername(String username) {
+        List<Order> list = new ArrayList<>();
+        try {
+            String sql = "SELECT OrderOnline.* FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"));
+                list.add(o);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Order> getAllOrderTicketByUsername(String username) {
+        List<Order> list = new ArrayList<>();
+        try {
+            String sql = "SELECT OrderOnline.* FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"));
+                list.add(o);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public OrderByDate getAllOrderByUserNameAPDate(String userName, Date paymentDate) {
+        List<Order> listO = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM OrderOnline WHERE UserName = ? AND PaymentDate = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, userName);
+            st.setDate(2, paymentDate);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"));
+                
+                listO.add(o);
+            }
+            OrderByDate obd = new OrderByDate(paymentDate.toString(), listO);
+            return obd;
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
 }

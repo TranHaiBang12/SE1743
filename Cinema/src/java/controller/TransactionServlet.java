@@ -17,10 +17,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.LocationCinMD;
 import model.Order;
+import model.OrderByDate;
 
 /**
  *
@@ -73,7 +76,21 @@ public class TransactionServlet extends HttpServlet {
         Account a = (Account) session.getAttribute("account");
         
         List<Order> list = ord.getAllOrderByUserName(a.getUserName());
-        request.setAttribute("listO", list);
+        List<Date> dte = new ArrayList<>();
+        dte.add(list.get(0).getPaymentDate());
+        int k = 0;
+        for (int i = 1; i < list.size(); i++) {
+            if(!list.get(i).getPaymentDate().toString().equals(dte.get(k).toString())) {
+                k = i;
+                dte.add(list.get(i).getPaymentDate());
+            }
+        }
+        List<OrderByDate> listOBD = new ArrayList<>();
+        for (int i = 0; i < dte.size(); i++) {
+            listOBD.add(ord.getAllOrderByUserNameAPDate(a.getUserName(), dte.get(i)));
+        }
+ 
+        request.setAttribute("listOBD", listOBD);
         request.getRequestDispatcher("transact.jsp").forward(request, response);
     } 
 

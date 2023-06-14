@@ -42,6 +42,16 @@ public class Order {
         this.paymentTime = paymentTime;
     }
 
+    public Time getPaymentTime() {
+        return paymentTime;
+    }
+
+    public void setPaymentTime(Time paymentTime) {
+        this.paymentTime = paymentTime;
+    }
+    
+    
+
     public String getOrderID() {
         return orderID;
     }

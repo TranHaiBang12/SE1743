@@ -398,7 +398,7 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                                <input type =""
+                     
                                 <input type ="text" id ="dateNhan" name ="dte" hidden/>
                             </c:if>
                                 
@@ -537,6 +537,7 @@
         <script type ="text/javascript">
 
             function cngColor(id) {
+                console.log(id);
                 document.getElementById(id).style.color = 'white';
                 document.getElementById(id).style.backgroundColor = 'black';
                 for (var i = 0; i < Number(id); i++) {

@@ -23,7 +23,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -213,7 +212,7 @@ public class PaymentServlet extends HttpServlet {
                 Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             c.add(Calendar.DATE, 1);  // number of days to add
-            k = sdf.format(c.getTime());  // dt is now the new date
+            k = sdf.format(c.getTime());
             d[i] = Date.valueOf(k);
         }
         Date date1 = Date.valueOf(t);
@@ -316,7 +315,6 @@ public class PaymentServlet extends HttpServlet {
             Time tt = Time.valueOf(Calendar.getInstance().getTime().getHours() + ":" + Calendar.getInstance().getTime().getMinutes() + ":" + Calendar.getInstance().getTime().getSeconds());
             Date dd = Date.valueOf((Calendar.getInstance().getTime().getYear() + 1900) + "-" + (Calendar.getInstance().getTime().getMonth() + 1) + "-" + Calendar.getInstance().getTime().getDate());
 
-            OrderDAO ord = new OrderDAO();
             String pm = "";
             if (request.getParameter("pm").equals("0")) {
                 pm = "VNPay";
@@ -346,23 +344,61 @@ public class PaymentServlet extends HttpServlet {
             Date dateEnd = null;
             Time timeStart = null;
             Time timeEnd = null;
+            System.out.println(dte.size());
             for (int i = 0; i < dte.size(); i++) {
+                System.out.println(Integer.parseInt(request.getParameter("dte")) + "/");
+                System.out.println(dte.get(i).getId());
                 if (Integer.parseInt(request.getParameter("dte")) == dte.get(i).getId()) {
+                    System.out.println(dte.get(i).getId() + dte.get(i).getDay());
                     datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
                     if (dte.get(i).getId() == 0) {
                         timeStart = tt;
                         dateStart = dd;
-                        dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
+                        if (i != dte.size() - 1) {
+                            dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
+                        } else {
+                            c1.setTime(Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate()));
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Calendar c = Calendar.getInstance();
+                            try {
+                                c.setTime(sdf.parse(k));
+                            } catch (ParseException ex) {
+                                Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            c.add(Calendar.DATE, 1);  // number of days to add
+                            k = sdf.format(c.getTime());
+                            dateEnd = Date.valueOf(k);
+                        }
                         timeEnd = Time.valueOf("00:00:00");
+                        break;
+
                     } else {
-                        timeStart = Time.valueOf("00:00:00");;
+                        datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
                         dateStart = Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate());
-                        dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
+                        timeStart = Time.valueOf("00:00:00");
+                        if (i != dte.size() - 1) {
+                            dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
+                        } else {
+                            c1.setTime(Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate()));
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            Calendar c = Calendar.getInstance();
+                            try {
+                                c.setTime(sdf.parse(k));
+                            } catch (ParseException ex) {
+                                Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            c.add(Calendar.DATE, 1);  // number of days to add
+                            k = sdf.format(c.getTime());
+                            dateEnd = Date.valueOf(k);
+                        }
                         timeEnd = Time.valueOf("00:00:00");
+                        break;
                     }
-                    break;
+
                 }
+
             }
+
             int cinID = 0;
             String lOc = request.getParameter("loc");
             for (int i = 0; i < lOc.length(); i++) {
@@ -370,7 +406,7 @@ public class PaymentServlet extends HttpServlet {
                     cinID = Integer.parseInt(lOc.substring(0, i));
                 }
             }
-
+            OrderDAO ord = new OrderDAO();
             int id = ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, dd, tt);
             String orderID = "ONL" + id;
             OrderDetailDAO odd = new OrderDetailDAO();
