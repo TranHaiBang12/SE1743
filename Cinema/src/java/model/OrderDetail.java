@@ -14,14 +14,26 @@ public class OrderDetail {
     private double discount;
     private double price;
     private int quantity;
+    private Food f;
 
-    public OrderDetail(String orderID, String productCode, double discount, double price, int quantity) {
+    public OrderDetail(String orderID, String productCode, double discount, double price, int quantity, Food f) {
         this.orderID = orderID;
         this.productCode = productCode;
         this.discount = discount;
         this.price = price;
         this.quantity = quantity;
+        this.f = f;
     }
+
+    public Food getF() {
+        return f;
+    }
+
+    public void setF(Food f) {
+        this.f = f;
+    }
+    
+    
 
     public String getOrderID() {
         return orderID;

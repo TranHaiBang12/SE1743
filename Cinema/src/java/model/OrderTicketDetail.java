@@ -15,15 +15,27 @@ public class OrderTicketDetail {
     private int seatNumber;
     private double discount;
     private double price;
+    private Ticket t;
 
-    public OrderTicketDetail(String orderID, String productCode, String seatType, int seatNumber, double discount, double price) {
+    public OrderTicketDetail(String orderID, String productCode, String seatType, int seatNumber, double discount, double price, Ticket t) {
         this.orderID = orderID;
         this.productCode = productCode;
         this.seatType = seatType;
         this.seatNumber = seatNumber;
         this.discount = discount;
         this.price = price;
+        this.t = t;
     }
+
+    public Ticket getT() {
+        return t;
+    }
+
+    public void setT(Ticket t) {
+        this.t = t;
+    }
+    
+    
 
     public String getOrderID() {
         return orderID;

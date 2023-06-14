@@ -48,9 +48,9 @@ public class TransactionCDAO extends DBContext{
                 list.add(tc);
             }
         } catch (Exception e) {
-            System.out.println("6");
             System.out.println(e);
         }
         return list;
     }
+    
 }

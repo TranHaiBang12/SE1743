@@ -38,13 +38,13 @@ public class OrderDetailDAO extends DBContext{
             String sql = "SELECT * FROM OrderOnlineDetail WHERE OrderID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, orderID);
+            FoodDAO fda = new FoodDAO();
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
-                OrderDetail od = new OrderDetail(orderID, rs.getString("ProductCode"), rs.getDouble("Discount"), rs.getDouble("Price"), rs.getInt("Quantity"));
+                OrderDetail od = new OrderDetail(orderID, rs.getString("ProductCode"), rs.getDouble("Discount"), rs.getDouble("Price"), rs.getInt("Quantity"), fda.getFoodById(rs.getString("ProductCode")));
                 list.add(od);
             }
         } catch (Exception e) {
-            System.out.println("2");
             System.out.println(e);
         }
         return list;

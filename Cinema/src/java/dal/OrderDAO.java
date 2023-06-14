@@ -69,12 +69,12 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
-    public List<Order> getAllOrderFoodByUsername(String username) {
+    public List<Order> getAllOrderFoodByID(String orderID) {
         List<Order> list = new ArrayList<>();
         try {
-            String sql = "SELECT OrderOnline.* FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID WHERE UserName = ?";
+            String sql = "SELECT OrderOnline.* FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID WHERE OrderOnline.OrderID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, username);
+            st.setString(1, orderID);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
@@ -87,12 +87,12 @@ public class OrderDAO extends DBContext {
         return list;
     }
     
-    public List<Order> getAllOrderTicketByUsername(String username) {
+    public List<Order> getAllIn4OrderByID(String orderID) {
         List<Order> list = new ArrayList<>();
         try {
-            String sql = "SELECT OrderOnline.* FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID WHERE UserName = ?";
+            String sql = "SELECT * FROM OrderOnline WHERE OrderID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, username);
+            st.setString(1, orderID);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
@@ -104,15 +104,33 @@ public class OrderDAO extends DBContext {
         }
         return list;
     }
-    
+
+    public List<Order> getAllOrderTicketByID(String orderID) {
+        List<Order> list = new ArrayList<>();
+        try {
+            String sql = "SELECT OrderOnline.* FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID WHERE OrderOnline.OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"));
+                list.add(o);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public OrderByDate getAllOrderByUserNameAPDate(String userName, Date paymentDate) {
         List<Order> listO = new ArrayList<>();
         try {
-            String sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n" +
-"(SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n" +
-"(SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID\n" +
-"UNION\n" +
-"SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID WHERE UserName = ? AND PaymentDate = ?";
+            String sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
+                    + "(SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                    + "(SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID\n"
+                    + "UNION\n"
+                    + "SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID WHERE UserName = ? AND PaymentDate = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, userName);
             st.setDate(2, paymentDate);
@@ -120,10 +138,31 @@ public class OrderDAO extends DBContext {
             while (rs.next()) {
 
                 Order o = new Order(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"), rs.getDouble("TotalAmount"));
-                
+
                 listO.add(o);
             }
-            OrderByDate obd = new OrderByDate(paymentDate.toString(), listO);
+            String date = "", month = "", year = "";
+            int k = 0;
+            for (int i = 0; i < paymentDate.toString().length(); i++) {
+                if (paymentDate.toString().charAt(i) == '-') {
+                    if (k == 0) {
+                        year = paymentDate.toString().substring(0, i);
+                        k = i;
+                    }
+                    if (!year.equals("") && k < i) {
+                        month = paymentDate.toString().substring(i - 2, i);
+                        k = i;
+                    }
+                }
+                if (i == paymentDate.toString().length() - 1) {
+                    date = paymentDate.toString().substring(i - 1);
+                    System.out.println(date);
+                    System.out.println("1");
+                    break;
+                }
+
+            }
+            OrderByDate obd = new OrderByDate(date + "-" + month + "-" + year, listO);
             return obd;
 
         } catch (Exception e) {

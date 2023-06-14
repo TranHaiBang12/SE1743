@@ -46,7 +46,6 @@ public class OrderTicketDetailDAO extends DBContext{
                 list.add(otd);
             }
         } catch (Exception e) {
-            System.out.println("4");
             System.out.println(e);
         }
         return list;

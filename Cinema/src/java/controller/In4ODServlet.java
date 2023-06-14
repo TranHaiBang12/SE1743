@@ -5,12 +5,21 @@
 
 package controller;
 
+import dal.OrderDAO;
+import dal.OrderDetailDAO;
+import dal.OrderTicketDetailDAO;
+import dal.TransactionCDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import model.Order;
+import model.OrderDetail;
+import model.OrderTicketDetail;
+import model.TransactionCode;
 
 /**
  *
@@ -53,7 +62,27 @@ public class In4ODServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        String orderID = request.getParameter("id");
+        OrderDAO ord = new OrderDAO();
+        List<Order> listO = ord.getAllIn4OrderByID(orderID);
+        OrderDetailDAO odd = new OrderDetailDAO();
+        List<OrderDetail> listOD = odd.getAllProductInOrderByOrderID(orderID);
+        OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
+        List<OrderTicketDetail> listOTD = otd.getAllProductInOrderByOrderID(orderID);
+        
+        for (int i = 0; i < listOD.size(); i++) {
+            System.out.println(listOD.get(i).getF().getImg()+ " " + listOD.get(i).getF().getFoodType() + " " + listOD.get(i).getF().getDiscount() + " " + listOD.get(i).getF().getPrice());
+        }
+        
+        TransactionCDAO tcd = new TransactionCDAO();
+        List<TransactionCode> listTC = tcd.getAllCodeByOrderID(orderID);
+        
+        request.setAttribute("listO", listO);
+        request.setAttribute("listOD", listOD);
+        request.setAttribute("listOTD", listOTD);
+        request.setAttribute("listTC", listTC);
+        request.getRequestDispatcher("in4OD.jsp").forward(request, response);
     } 
 
     /** 
