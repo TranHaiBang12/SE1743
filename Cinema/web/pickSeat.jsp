@@ -251,6 +251,63 @@
                 cursor: pointer;
             }
 
+            .insideSeatRed{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: red;
+                cursor: pointer;
+                color: white;
+            }
+
+            .vipRed{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: red;
+                cursor: pointer;
+                color: white;
+            }
+
+            .speRed{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: red;
+                cursor: pointer;
+                color: white;
+            }
+
 
 
         </style>
@@ -292,6 +349,10 @@
                             <img class = "imgE" src = "images/greenSeat.png">
                             <span> Ghế Đã Chọn</span>
                         </div>
+                        <div>
+                            <img class = "imgE" src ="images/redSeat.png"><!-- comment -->
+                            <span> Đã Bán</span>
+                        </div>
                     </div>
                     <div class = "screen">
                         <img src ="images/screenIcon.png"/>
@@ -300,35 +361,33 @@
                         <c:forEach items = "${requestScope.tk}" var = "i">
                             <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
                             <c:if test = "${i.getSeatType() == 1}">
-                                <div id ="${i.getID()}" class = "insideSeat" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
-
+                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"insideSeatRed":"insideSeat"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
                                     <div class = "sat">
+
                                         <span>${i.getCol()}</span>
                                         <span>${i.getRow()}</span><!-- -->
                                     </div>
-
 
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 2}">
-                                <div id ="${i.getID()}" class = "vip" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
-
+                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"vipRed":"vip"}"  onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
                                         <span>${i.getRow()}</span><!-- -->
                                     </div>
-
 
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 3}">
-                                <div  id ="${i.getID()}"class = "spe" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
-
+                                <div  id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"speRed":"spe"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
                                         <span>${i.getRow()}</span><!-- -->
                                     </div>
-
                                 </div>
                             </c:if>
                             <div class = "${((i.getID() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
@@ -363,30 +422,33 @@
             var idP = "";
             var cnt = 0;
             var sum = 0;
+            console.log(getCookie("thbang"));
             function pckSeat(id, code, type, col, row) {
                 let color = document.getElementById(id).style.backgroundColor;
                 if (color !== 'green') {
-                    document.getElementById(id).style.backgroundColor = 'green';
-                    document.getElementById(id).style.color = 'white';
-                    t += " ";
-                    t += col;
-                    t += row;
-                    idP += "/";
-                    idP += code;
-                    idP += "p";
-                    idP += col;
-                    idP += row;
-                    document.getElementById("ghe").innerHTML = t;
-                    document.getElementById("qtt").innerHTML = ++cnt;
-                    if (type === "1") {
-                        sum += 65000;
-                        document.getElementById("sum").innerHTML = sum;
-                    } else if (type === "2") {
-                        sum += 80000;
-                        document.getElementById("sum").innerHTML = sum;
-                    } else if (type === "3") {
-                        sum += 160000;
-                        document.getElementById("sum").innerHTML = sum;
+                    if (document.getElementById(id).className !== "insideSeatRed" && document.getElementById(id).className !== "vipRed" && document.getElementById(id).className !== "speRed") {
+                        document.getElementById(id).style.backgroundColor = 'green';
+                        document.getElementById(id).style.color = 'white';
+                        t += " ";
+                        t += col;
+                        t += row;
+                        idP += "/";
+                        idP += code;
+                        idP += "p";
+                        idP += col;
+                        idP += row;
+                        document.getElementById("ghe").innerHTML = t;
+                        document.getElementById("qtt").innerHTML = ++cnt;
+                        if (type === "1") {
+                            sum += 65000;
+                            document.getElementById("sum").innerHTML = sum;
+                        } else if (type === "2") {
+                            sum += 80000;
+                            document.getElementById("sum").innerHTML = sum;
+                        } else if (type === "3") {
+                            sum += 160000;
+                            document.getElementById("sum").innerHTML = sum;
+                        }
                     }
                 } else if (color === "green") {
                     if (t.includes(String(col + row))) {
@@ -420,6 +482,7 @@
                 }
 
                 console.log(idP);
+
             }
 
 
@@ -471,11 +534,77 @@
 
 
             }
+
+            displaySeatInCart("thbang");
+
+            function displaySeatInCart(user) {
+                var seatInCart = [];
+                let m = 0;
+                for (var i = 0; i < getCookie(user).length; i++) {
+                    if (getCookie(user).charAt(i) === "/") {
+                        if (getCookie(user).substring(i + 1, i + 3) === "TK") {
+                            seatInCart[m] = getCookie(user).substring(i + 1, i + 10);
+                            m++;
+                        }
+                    }
+                }
+
+                for (var i = 0; i < seatInCart.length; i++) {
+                    var str = seatInCart[i].substring(0, 6) + seatInCart[i].substring(7);
+                    var k = 0;
+                    var rm;
+                    var id = "", code = "", type = "", col = "", row = "";
+                    var str2 = String(document.getElementById(str).value);
+                    for (var j = 0; j < str2.length; j++) {
+                        if (str2.charAt(j) === "p" && k === 0) {
+                            id = str2.substring(0, j);
+                            k++;
+                        } else if (str2.charAt(j) === "p" && k === 1) {
+                            code = str2.substring(j - 6, j);
+                            rm = j;
+                            k++;
+                        } else if (str2.charAt(j) === "p" && k === 2) {
+                            type = str2.substring(rm + 1, j);
+                            rm = j;
+                            k++;
+                        } else if (str2.charAt(j) === "p" && k === 3) {
+                            col = str2.substring(rm + 1, j);
+                            rm = j;
+                            k++;
+                        } else if (j === str2.length - 1) {
+                            row = str2.charAt(rm + 1);
+                            rm = j;
+                            k++;
+                        }
+                    }
+                    pckSeat(id, code, type, col, row);
+                }
+
+            }
+
             function cart(user) {
                 //console.log(user);
                 var ckie = getCookie(user);
-                if (!ckie.includes(idP))
-                    ckie += idP;
+                console.log(idP);
+  
+
+                var seatInCart = [];
+                let m = 0;
+                for (var i = 0; i < idP.length; i++) {
+                    if (idP.charAt(i) === "/") {
+                        if (idP.substring(i + 1, i + 3) === "TK") {
+                            seatInCart[m] = idP.substring(i + 1, i + 10);
+                            m++;
+                        }
+                    }
+                }
+                for (var i = 0; i < seatInCart.length; i++) {
+                    console.log(seatInCart[i]);
+                    if (!ckie.includes(seatInCart[i])) {
+                        ckie += "/";
+                        ckie += seatInCart[i];
+                    }
+                }
                 setCookie(user, ckie, 365);
             }
         </script>

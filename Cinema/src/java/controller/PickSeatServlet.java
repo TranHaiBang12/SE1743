@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.FoodDAO;
 import dal.FormDAO;
 import dal.MovieDAO;
 import dal.RoomDAO;
@@ -13,13 +14,18 @@ import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
+import model.CartItemFood;
+import model.CartItemTicket;
 import model.RoomSeat;
 import model.Ticket;
 
@@ -135,13 +141,47 @@ public class PickSeatServlet extends HttpServlet {
 //                    }
 //                }
 //            }
-            
-            List<RoomSeat> rs = sed.selectSeatByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID());
             TicketDAO tkd = new TicketDAO();
+            Cookie[] arr = request.getCookies();
+            HttpSession session = request.getSession();
+            List<CartItemTicket> listT = new ArrayList<>();
+            String cart = "";
+            Account acc = (Account) session.getAttribute("account");
+            if (acc != null) {
+                for (Cookie i : arr) {
+                    if (i.getName().equals(acc.getUserName())) {
+                        cart = i.getValue();
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < cart.length(); i++) {
+                    if (cart.charAt(i) == '/' && i != cart.length() - 1) {
+                        if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
+                            System.out.println(cart.substring(i + 1, i + 7) + " " + Integer.parseInt(cart.substring(i + 9, i + 10)) + " " + cart.substring(i + 8, i + 9) + " " + cart.substring(i + 8, i + 10));
+                            listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
+                        }
+
+                    }
+                }
+            }
+
+            List<RoomSeat> rs = sed.selectSeatByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID());
+
+            List<Ticket> tkBought = tkd.getAllTicketBoughtBySchedule(scd.getScheduleByID(id).getScheNo());
             List<Ticket> tk = tkd.getTicketPByScheduleRCS(scd.getScheduleByID(id).getScheNo());
             System.out.println(scd.getScheduleByID(id).getScheNo());
             for (int i = 0; i < tk.size(); i++) {
-                System.out.println(tk.get(i).getRow() + " " + tk.get(i).getCol() + " " + tk.get(i).getSeatType() + " " + tk.get(i).getID());
+                tk.get(i).setStat("Ava");
+            }
+
+            for (int i = 0; i < tk.size(); i++) {
+                for (int j = 0; j < tkBought.size(); j++) {
+
+                    if (tk.get(i).getProductCode().equals(tkBought.get(j).getProductCode()) && tk.get(i).getRow() == tkBought.get(j).getRow() && tk.get(i).getCol().equals(tkBought.get(j).getCol())) {
+                        tk.get(i).setStat("Buy");
+                    }
+                }
             }
             String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
             String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();

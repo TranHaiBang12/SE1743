@@ -29,14 +29,14 @@ public class TicketDAO extends DBContext {
                 Ticket t = new Ticket(rs.getString("ProductCode"), rs.getString("Type"), rs.getString("scheNo"), rs.getInt("NumberLeft"), rs.getString("Status"));
                 list.add(t);
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
     }
-    
-     public List<Ticket> getTicketPByScheduleRCS (String sche) {
+
+    public List<Ticket> getTicketPByScheduleRCS(String sche) {
         List<Ticket> list = new ArrayList<>();
         int i = 1;
         try {
@@ -50,14 +50,14 @@ public class TicketDAO extends DBContext {
                 list.add(t);
                 i++;
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
     }
-    
-    public Ticket getTicketPByProductCodeRC (String productCode, int row, String col) {
+
+    public Ticket getTicketPByProductCodeRC(String productCode, int row, String col) {
         int i = 1;
         MovieDAO mvd = new MovieDAO();
         try {
@@ -68,15 +68,34 @@ public class TicketDAO extends DBContext {
             st.setString(3, col);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Ticket t = new Ticket(i, rs.getInt("movID"), mvd.getMovieById(rs.getInt("movID")),rs.getString("ProductCode"), rs.getInt("Type"), rs.getString("scheNo"), rs.getInt("NumberLeft"), rs.getString("Status"), rs.getInt("Row"), rs.getString("Col"), rs.getDouble("Price"), rs.getDouble("Discout"), rs.getInt("Discontinued"), rs.getInt("cinID"));
+                Ticket t = new Ticket(i, rs.getInt("movID"), mvd.getMovieById(rs.getInt("movID")), rs.getString("ProductCode"), rs.getInt("Type"), rs.getString("scheNo"), rs.getInt("NumberLeft"), rs.getString("Status"), rs.getInt("Row"), rs.getString("Col"), rs.getDouble("Price"), rs.getDouble("Discout"), rs.getInt("Discontinued"), rs.getInt("cinID"));
                 t.setRoomID(rs.getInt("roomID"));
                 return t;
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
-    
+
+    public List<Ticket> getAllTicketBoughtBySchedule(String scheNo) {
+        List<Ticket> list = new ArrayList<>();
+        try {
+            String sql = "SELECT TicketOnlDetail.ProductCode, TicketOnlDetail.SeatNumber, TicketOnlDetail.SeatType FROM TickTypeInSche RIGHT JOIN TicketOnlDetail ON TickTypeInSche.ProductCode = TicketOnlDetail.ProductCode WHERE scheNo = ?\n"
+                    + "UNION\n"
+                    + "SELECT TicketOffDetail.ProductCode, TicketOffDetail.SeatNumber, TicketOffDetail.SeatType FROM TickTypeInSche RIGHT JOIN TicketOffDetail ON TickTypeInSche.ProductCode = TicketOffDetail.ProductCode WHERE scheNo = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setString(2, scheNo);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Ticket(0, rs.getString("ProductCode"), 0, scheNo, 0, sql, rs.getInt("SeatNumber"), rs.getString("SeatType"), 0, 0, 0));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return list;
+    }
 }

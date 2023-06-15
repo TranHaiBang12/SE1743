@@ -95,6 +95,7 @@ public class In4ODServlet extends HttpServlet {
         TransactionCDAO tcd = new TransactionCDAO();
         List<TransactionCode> listTCF = tcd.getAllCodeFByOrderID(orderID);
         List<TransactionCode> listTCT = tcd.getAllCodeTByOrderID(orderID);
+        request.setAttribute("orderID", orderID);
         request.setAttribute("listO", listO);
         request.setAttribute("listOD", listOD);
         request.setAttribute("listOTD", listOTD);

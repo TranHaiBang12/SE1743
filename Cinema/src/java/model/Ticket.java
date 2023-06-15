@@ -33,6 +33,9 @@ public class Ticket {
     private int discontinued;
     private int ID;
     private Movies movie;
+    private String stat;
+    
+    
 
     
     public Ticket(String productCode, String type, String scheNo, int numberLeft, String status) {
@@ -63,6 +66,8 @@ public class Ticket {
         this.discount = discount;
         this.discontinued = discontinued;
     }
+    
+    
 
     public Ticket(int ID,  String productCode, int seatType, String scheNo, int numberLeft, String status, int row, String col, double price, double discount, int discontinued) {
         this.ID = ID;
@@ -91,8 +96,19 @@ public class Ticket {
         this.price = price;
         this.discount = discount;
         this.discontinued = discontinued;
+        
         this.cinID = cinID;
     }
+
+    public String getStat() {
+        return stat;
+    }
+
+    public void setStat(String stat) {
+        this.stat = stat;
+    }
+    
+    
 
     public Movies getMovie() {
         return movie;
