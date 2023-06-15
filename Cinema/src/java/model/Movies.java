@@ -11,6 +11,7 @@ import java.sql.Date;
  * @author acer
  */
 public class Movies {
+    private int ID;
     private int movID;
     private String movName;
     private Date startDate;
@@ -26,7 +27,8 @@ public class Movies {
     public Movies() {
     }
 
-    public Movies(int movID, String movName, Date startDate, double time, String language, String origin, double avrRate, String notes, String status, String studio, String img) {
+    public Movies(int ID, int movID, String movName, Date startDate, double time, String language, String origin, double avrRate, String notes, String status, String studio, String img) {
+        this.ID = ID;
         this.movID = movID;
         this.movName = movName;
         this.startDate = startDate;
@@ -39,6 +41,16 @@ public class Movies {
         this.studio = studio;
         this.img = img;
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+    
+    
 
     public String getImg() {
         return img;

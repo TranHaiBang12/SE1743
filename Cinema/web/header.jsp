@@ -55,12 +55,12 @@
                     <div class="dropdown">
                         <div class="dropbtn">
                             <img class="movieIcon" src="images/movieIcon.jpg" />
-                            <a class ="lnk" href="#">PHIM</a>
+                            <a class ="lnk" href="movie">PHIM</a>
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a class ="lnk" href="#">Phim Đang Chiếu</a>
-                                <a class ="lnk" href="#">Phim Sắp Chiếu</a>
+                                <a class ="lnk" href="nowshowing">Phim Đang Chiếu</a>
+                                <a class ="lnk" href="comingsoon">Phim Sắp Chiếu</a>
                             </div>
                         </div>
                     </div>

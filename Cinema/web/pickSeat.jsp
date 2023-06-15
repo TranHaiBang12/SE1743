@@ -404,7 +404,7 @@
                     </div>
                 </div>
                 <div class = "tket">
-                    <a href = "#">CHỌN LẠI PHIM</a>
+                    <a href = "movie">CHỌN LẠI PHIM</a>
                     <img src = "${requestScope.mov.getImg()}"><!-- comment -->
                     <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
                     <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>

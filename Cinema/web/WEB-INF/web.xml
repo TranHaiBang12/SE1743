@@ -60,6 +60,14 @@
         <servlet-name>In4ODServlet</servlet-name>
         <servlet-class>controller.In4ODServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Movie</servlet-name>
+        <servlet-class>controller.Movie</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MovieNowShowing</servlet-name>
+        <servlet-class>controller.MovieNowShowing</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -119,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>In4ODServlet</servlet-name>
         <url-pattern>/info</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Movie</servlet-name>
+        <url-pattern>/movie</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MovieNowShowing</servlet-name>
+        <url-pattern>/nowshowing</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
