@@ -68,6 +68,10 @@
         <servlet-name>MovieNowShowing</servlet-name>
         <servlet-class>controller.MovieNowShowing</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Cinema</servlet-name>
+        <servlet-class>controller.CinemaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>MovieNowShowing</servlet-name>
         <url-pattern>/nowshowing</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Cinema</servlet-name>
+        <url-pattern>/cin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

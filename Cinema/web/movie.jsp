@@ -222,7 +222,6 @@
         </div>
      
         <script>
-            console.log("1");
             function detail(id) {
                 window.location = "detail?id=" + id;
             }

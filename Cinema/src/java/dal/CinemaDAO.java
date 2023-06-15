@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import model.Cinema;
 import model.LocationCinMD;
 
 /**
@@ -93,4 +94,70 @@ public class CinemaDAO extends DBContext {
         }
         return 0;
     }
+    
+    public List<Cinema> getAllCinema() {
+        List<Cinema> list = new ArrayList<>();
+        try {
+            int i = 0;
+            String sql = "SELECT Cinema.*, CinemaType.ctypeName FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Cinema c = new Cinema(i, rs.getInt("cinID"), rs.getString("cinName"), rs.getInt("cinType"), rs.getString("City"), rs.getString("Street"), rs.getString("Address"), rs.getInt("NoRoom"), rs.getString("Fax"), rs.getString("Hotline"), rs.getString("ManagerPhone"), rs.getString("Status"), rs.getString("ctypeName"));
+                list.add(c);
+                i++;
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
+    public List<Cinema> getAllCinemaByType(int type) {
+        List<Cinema> list = new ArrayList<>();
+        try {
+            int i = 0;
+            String sql = "";
+            if(type == 1) {
+                sql = "SELECT Cinema.*, CinemaType.ctypeName FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 2 OR Cinema.cinType = 3 OR Cinema.cinType = 5";
+            }
+            else if(type == 2) {
+                sql = "SELECT Cinema.*, CinemaType.ctypeName FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 1";
+            }
+            if(type == 3) {
+                sql = "SELECT Cinema.*, CinemaType.ctypeName FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 4";
+            }
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Cinema c = new Cinema(i, rs.getInt("cinID"), rs.getString("cinName"), rs.getInt("cinType"), rs.getString("City"), rs.getString("Street"), rs.getString("Address"), rs.getInt("NoRoom"), rs.getString("Fax"), rs.getString("Hotline"), rs.getString("ManagerPhone"), rs.getString("Status"), rs.getString("ctypeName"));
+                list.add(c);
+                i++;
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    } 
+    
+    public List<String> getAllCinemaLocByType(int type) {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "";
+            if(type == 1) {
+                sql = "SELECT City FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 2 OR Cinema.cinType = 3 OR Cinema.cinType = 5";
+            }
+            else if(type == 2) {
+                sql = "SELECT City FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 1";
+            }
+            if(type == 3) {
+                sql = "SELECT City FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 4";
+            }
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("City"));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    } 
 }

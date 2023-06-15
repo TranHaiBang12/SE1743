@@ -69,13 +69,14 @@
                     <div class="dropdown">
                         <div class="dropbtn">
                             <img class="cinemaIcon" src="images/cinemaIcon.png" />
-                            <a class ="lnk" href="#">RẠP</a>
+                            <a class ="lnk" href="cin">RẠP</a>
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a class ="lnk" href="#">Tất Cả Các Rạp</a>
-                                <a class ="lnk" href="#">Rạp Đặc Biệt</a>
-                                <a class ="lnk" href="#">Rạp 3D</a>
+                                <a class ="lnk" href="cin">Tất Cả Các Rạp</a>
+                                <a class ="lnk" href="cin?id=1">Rạp Đặc Biệt</a>
+                                <a class ="lnk" href="cin?id=2">Rạp 2D</a>
+                                <a class ="lnk" href="cin?id=3">Rạp 3D</a>
                             </div>
                         </div>
                     </div>
