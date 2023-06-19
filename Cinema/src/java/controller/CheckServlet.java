@@ -5,22 +5,18 @@
 
 package controller;
 
-import dal.AccountDAO;
-import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.Account;
 
 /**
  *
  * @author acer
  */
-public class MyAccountServlet extends HttpServlet {
+public class CheckServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +33,10 @@ public class MyAccountServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MyAccountServlet</title>");  
+            out.println("<title>Servlet CheckServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MyAccountServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet CheckServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,29 +53,7 @@ public class MyAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //processRequest(request, response);
-        HttpSession session = request.getSession();
-        Account a = (Account) session.getAttribute("account");
-        AccountDAO acd = new AccountDAO();
-        OrderDAO ord = new OrderDAO();
-        String date = "", month = "", year = "";
-        int cnt = 0;
-        String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
-        for (int i = 0; i < t.length(); i++) {
-            if(t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
-                year = t.substring(cnt, i);
-                cnt = i;
-            }
-            else if(t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
-                month = t.substring(cnt + 1, i);
-                cnt = i;
-            }
-        }
-        date = t.substring(cnt + 1);
-        request.setAttribute("dob", date + "-" + month + "-" + year);
-        request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-        request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));
-        request.getRequestDispatcher("myaccount.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 

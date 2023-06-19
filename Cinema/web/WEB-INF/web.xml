@@ -80,6 +80,10 @@
         <servlet-name>UpdateMyAccount</servlet-name>
         <servlet-class>controller.UpdateMyAccount</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckServlet</servlet-name>
+        <servlet-class>controller.CheckServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>UpdateMyAccount</servlet-name>
         <url-pattern>/updacc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckServlet</servlet-name>
+        <url-pattern>/check</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

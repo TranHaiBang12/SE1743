@@ -114,4 +114,53 @@ public class AccountDAO extends DBContext{
         }
         return null;
     }
+    
+    public void updAccountNoCngPass(String username, String gen, Date dob, String phone, String email, String city) {
+        try {
+            String sql = "UPDATE Account SET Gender = ?, Dob = ?, Phone = ?, Email = ?, City = ? WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, gen);
+            st.setDate(2, dob);
+            st.setString(3, phone);
+            st.setString(4, email);
+            st.setString(5, city);
+            st.setString(6, username);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updAccountCngPass(String username, String gen, Date dob, String phone, String email, String pass, String city) {
+        try {
+            String sql = "UPDATE Account SET Gender = ?, Dob = ?, Phone = ?, Email = ?, City = ?, Password = ? WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, gen);
+            st.setDate(2, dob);
+            st.setString(3, phone);
+            st.setString(4, email);
+            st.setString(5, city);
+            st.setString(6, pass);
+            st.setString(7, username);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public String checkDuplicatePhone(String phone, String username) {
+        try {
+            String sql = "SELECT Phone FROM Account WHERE Phone = ? AND UserName != ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, phone);
+            st.setString(2, username);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getString("Phone");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }
