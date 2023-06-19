@@ -23,6 +23,23 @@
             .rd{
                 color: red;
             }
+            
+            .uIn4 {
+                text-align: center;
+                font-size: 20px;
+            }
+            
+            .uIn4 div{
+                margin-top: 15px;
+            }
+            
+            .uIn4 div input{
+                width: 200px;
+                height: 30px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -37,8 +54,12 @@
                 <div>Ngày sinh: <span class = "rd">${requestScope.acc.getDob()}</span></div>
                 <div>Số điện thoại: <span class = "rd">${requestScope.acc.getPhone()}</span></div>
                 <div>Email: <span class = "rd">${requestScope.acc.getEmail()}</span></div>
-                <div>Thành phó sinh sống: <span class = "rd">${requestScope.acc.getCity()}</span></div>
-                <div>Số lần mua hàng: </div>
+                <div>Thành phố sinh sống: <span class = "rd">${requestScope.acc.getCity()}</span></div>
+                <div>Số lần mua hàng: <span class = "rd">${requestScope.totalOrd}</span></div>
+                <div>
+                    <a href = "transact"><input type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                    <a href="updacc"><input type ="button" value ="UPDATE"/></a>
+                </div>
             </div>
         </div>
         <div id = "footer">

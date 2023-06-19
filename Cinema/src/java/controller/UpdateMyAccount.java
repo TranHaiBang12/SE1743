@@ -20,7 +20,7 @@ import model.Account;
  *
  * @author acer
  */
-public class MyAccountServlet extends HttpServlet {
+public class UpdateMyAccount extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +37,10 @@ public class MyAccountServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MyAccountServlet</title>");  
+            out.println("<title>Servlet UpdateMyAccount</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MyAccountServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdateMyAccount at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,14 +57,12 @@ public class MyAccountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //processRequest(request, response);
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
         AccountDAO acd = new AccountDAO();
         OrderDAO ord = new OrderDAO();
         request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-        request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));
-        request.getRequestDispatcher("myaccount.jsp").forward(request, response);
+        request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
     } 
 
     /** 
