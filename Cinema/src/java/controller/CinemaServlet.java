@@ -23,6 +23,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cinema;
 import model.DateMD;
+import model.FormTime;
+import model.MovieTime;
+import model.Tme;
 
 /**
  *
@@ -191,14 +194,21 @@ public class CinemaServlet extends HttpServlet {
 
                 listM = cnd.getAllCinemaByTypeALoc(id, request.getParameter("loc"));
                 Cinema m = cnd.getCinemaByID(cinID);
+
                 ScheDAO scd = new ScheDAO();
+
                 request.setAttribute("type", id);
                 request.setAttribute("listM", listM);
                 request.setAttribute("listLoc", listLoc);
                 request.setAttribute("cinID", cinID);
                 request.setAttribute("dte", dte);
                 request.setAttribute("sche", dte.get(0).getId());
-                request.setAttribute("movSche", scd.getScheduleByCinemaID(cinID, date.get(0)));
+                if (!scd.getScheduleByCinemaID(cinID, date.get(0)).isEmpty()) {
+                    request.setAttribute("movSche", scd.getScheduleByCinemaID(cinID, date.get(0)));
+                } else {
+                    String ms = "Xin lỗi, không có suất chiếu vào ngày này";
+                    request.setAttribute("ms", ms);
+                }
                 request.setAttribute("loc", request.getParameter("loc"));
                 request.setAttribute("m", m);
                 request.getRequestDispatcher("cinema.jsp").forward(request, response);
@@ -218,14 +228,46 @@ public class CinemaServlet extends HttpServlet {
                 ScheDAO scd = new ScheDAO();
                 System.out.println(date.get(sche) + " " + cinID);
                 List<String> movieName = new ArrayList<>();
-                int cnt2 = 0;
-                movieName.add(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0).getMovName());
-                for (int i = 1; i < scd.getScheduleByCinemaID(cinID, date.get(sche)).size(); i++) {
-                    if (!movieName.get(movieName.size() - 1).equals(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getMovName())) {
-                        movieName.add(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getMovName());
-                        cnt2 = i;
-                    }
+                List<MovieTime> mvt = new ArrayList<>();
+                List<Tme> tme = new ArrayList<>();
+                List<FormTime> ft = new ArrayList<>();
 
+                if (!scd.getScheduleByCinemaID(cinID, date.get(sche)).isEmpty()) {
+
+                    tme.add(new Tme(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0).getScheNo(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0).getStartTim(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0).getEndTim()));
+                    ft.add(new FormTime(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0).getFormName(), tme));
+                    MovieTime mt = new MovieTime(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0).getMovName(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0), ft);
+                    mvt.add(mt);
+
+                    for (int i = 1; i < scd.getScheduleByCinemaID(cinID, date.get(sche)).size(); i++) {
+
+                        if (!mvt.get(mvt.size() - 1).getName().equals(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getMovName())) {
+                            List<Tme> tme2 = new ArrayList<>();
+                            List<FormTime> ft2 = new ArrayList<>();
+                            tme2.add(new Tme(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getScheNo(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getStartTim(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getEndTim()));
+                            ft2.add(new FormTime(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getFormName(), tme2));
+                            mvt.add(new MovieTime(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getMovName(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i), ft2));
+
+                        } else {
+                            if (mvt.get(mvt.size() - 1).getFt().get(mvt.get(mvt.size() - 1).getFt().size() - 1).getType().equals(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getFormName())) {
+                                List<Tme> tme2 = new ArrayList<>();
+                                tme2 = mvt.get(mvt.size() - 1).getFt().get(mvt.get(mvt.size() - 1).getFt().size() - 1).getTime();
+                                tme2.add(new Tme(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getScheNo(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getStartTim(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getEndTim()));
+                                mvt.get(mvt.size() - 1).setTime(tme2);
+                            } else {
+                                List<FormTime> ft2 = new ArrayList<>();
+                                ft2 = mvt.get(mvt.size() - 1).getFt();
+                                List<Tme> tme2 = new ArrayList<>();
+                                tme2.add(new Tme(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getScheNo(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getStartTim(), scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getEndTim()));
+
+                                ft2.add(new FormTime(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getFormName(), tme2));
+                                mvt.get(mvt.size() - 1).setFt(ft2);
+                
+                            }
+
+                        }
+
+                    }
                 }
 
                 request.setAttribute("type", id);
@@ -234,8 +276,13 @@ public class CinemaServlet extends HttpServlet {
                 request.setAttribute("cinID", cinID);
                 request.setAttribute("dte", dte);
                 request.setAttribute("sche", sche);
-                request.setAttribute("movieName", movieName);
-                request.setAttribute("movSche", scd.getScheduleByCinemaID(cinID, date.get(sche)));
+                request.setAttribute("mvt", mvt);
+                if (!scd.getScheduleByCinemaID(cinID, date.get(sche)).isEmpty()) {
+                    request.setAttribute("movSche", scd.getScheduleByCinemaID(cinID, date.get(sche)));
+                } else {
+                    String ms = "Xin lỗi, không có suất chiếu vào ngày này";
+                    request.setAttribute("ms", ms);
+                }
                 request.setAttribute("loc", request.getParameter("loc"));
                 request.setAttribute("m", m);
                 request.getRequestDispatcher("cinema.jsp").forward(request, response);

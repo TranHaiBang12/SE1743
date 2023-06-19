@@ -13,7 +13,9 @@ import java.util.List;
 public class MovieTime {
     private String name;
     private String type;
+    private Schedule s;
     private List<Tme> time;
+    private List<FormTime> ft;
 
     public MovieTime(String name, String type, List<Tme> time) {
         this.name = name;
@@ -21,6 +23,40 @@ public class MovieTime {
         this.type = type;
     }
 
+    public MovieTime(String name, Schedule s, List<FormTime> ft) {
+        this.name = name;
+        this.s = s;
+        this.ft = ft;
+    }
+    
+    
+    
+    public MovieTime(String name, String type, List<Tme> time, Schedule s) {
+        this.name = name;
+        this.time = time;
+        this.type = type;
+        this.s = s;
+    }
+
+    public List<FormTime> getFt() {
+        return ft;
+    }
+
+    public void setFt(List<FormTime> ft) {
+        this.ft = ft;
+    }
+    
+    
+
+    public Schedule getS() {
+        return s;
+    }
+
+    public void setS(Schedule s) {
+        this.s = s;
+    }
+    
+    
     
 
     public String getType() {

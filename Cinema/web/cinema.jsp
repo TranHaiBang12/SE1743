@@ -78,7 +78,7 @@
                 font-size: 30px;
                 font-weight: bold;
             }
-            
+
             .schedule{
                 margin-top: 15px;
                 display: flex;
@@ -97,7 +97,7 @@
                 align-items: center;
                 cursor: pointer;
             }
-            
+
             .insideScheduleActive{
                 display: flex;
                 width: 80px;
@@ -108,7 +108,7 @@
                 justify-content: center;
                 align-items: center;
                 cursor: pointer;
-                 border: 1px solid black;
+                border: 1px solid black;
                 border-radius: 15px;
                 padding-top: 10px;
                 padding-bottom: 10px;
@@ -130,6 +130,64 @@
                 padding-top: 10px;
                 padding-bottom: 10px;
             }
+
+            .ms{
+                margin-top: 20px;
+                margin-left: 30px;
+                margin-right: 0px;
+                margin-bottom: 20px;
+            }
+
+            .mImg img{
+                width: 200px;
+                height: 250px;
+            }
+
+            .mOvSCHE{
+                padding-bottom: 15px;
+                border-bottom: 2px solid black;
+            }
+
+            .mName{
+                font-size: 22px;
+                margin-bottom: 15px;
+                margin-top: 15px;
+                font-weight: bold;
+            }
+
+            .mIn4{
+                display: flex;
+            }
+
+            .insidemNotImg{
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+            }
+
+            .mTme{
+                margin-bottom: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                cursor: pointer;
+            }
+
+            .insidemTme{
+                margin-right: 10px;
+                border: 1px solid black;
+                padding: 10px;
+            }
+
+            .mFrm{
+                margin-bottom: 10px;
+                font-weight: bold;
+            }
+
+            .mNotImg{
+                margin-left: 20px;
+                font-size: 20px;
+            }
+            
         </style>
     </head>
     <body>
@@ -210,14 +268,33 @@
                         </div>
                     </c:forEach>
                 </div>
-                
+
                 <div class="mov">
-                    <c:forEach items = "${requestScope.movieName}" var = "j">
-                        <div class="mOvSCHE">
-                            <div class = "mName">${j}</div>
-                            
-                        </div>
-                    </c:forEach>
+                    <c:if test = "${requestScope.ms == null}">
+                        <c:forEach items = "${requestScope.mvt}" var = "j">
+                            <div class="mOvSCHE">
+                                <div class = "mName">${j.getName()}</div>
+                                <div class = "mIn4">
+                                    <div class = "mImg"><img src = "${j.getS().getMovImg()}"/></div>
+                                    <div class = "mNotImg">
+                                        <c:forEach items = "${j.getFt()}" var = "q">
+                                            <div class = "insidemNotImg">
+                                                <div class = "mFrm">${q.getType()}</div>
+                                                <div class = "mTme">
+                                                    <c:forEach items = "${q.getTime()}" var = "n">
+                                                        <div class = "insidemTme" onclick = "pckMovSche('${n.getScheNo()}')">${n.getStart()}</div>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test = "${requestScope.ms != null}">
+                        <h3 class = "ms">${requestScope.ms}</h3>
+                    </c:if>
                 </div>
             </c:if> 
         </div>
@@ -227,51 +304,51 @@
         </div>
         <script src="swiper-bundle.min.js"></script>
         <script>
-                        var swiper = new Swiper(".mySwiper", {
-                            slidesPerView: 1,
-                            spaceBetween: 10,
-                            pagination: {
-                                el: ".swiper-pagination",
-                                clickable: true,
-                            },
-                            breakpoints: {
-                                640: {
-                                    slidesPerView: 2,
-                                    spaceBetween: 20,
+                            var swiper = new Swiper(".mySwiper", {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                                pagination: {
+                                    el: ".swiper-pagination",
+                                    clickable: true,
                                 },
-                                768: {
-                                    slidesPerView: 4,
-                                    spaceBetween: 40,
+                                breakpoints: {
+                                    640: {
+                                        slidesPerView: 2,
+                                        spaceBetween: 20,
+                                    },
+                                    768: {
+                                        slidesPerView: 4,
+                                        spaceBetween: 40,
+                                    },
+                                    1024: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 50,
+                                    },
                                 },
-                                1024: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 50,
-                                },
-                            },
-                        });
+                            });
 
-                        var swiper = new Swiper(".mySwiperEvent", {
-                            slidesPerView: 1,
-                            spaceBetween: 10,
-                            pagination: {
-                                el: ".swiper-pagination",
-                                clickable: true,
-                            },
-                            breakpoints: {
-                                640: {
-                                    slidesPerView: 2,
-                                    spaceBetween: 20,
+                            var swiper = new Swiper(".mySwiperEvent", {
+                                slidesPerView: 1,
+                                spaceBetween: 10,
+                                pagination: {
+                                    el: ".swiper-pagination",
+                                    clickable: true,
                                 },
-                                768: {
-                                    slidesPerView: 4,
-                                    spaceBetween: 40,
+                                breakpoints: {
+                                    640: {
+                                        slidesPerView: 2,
+                                        spaceBetween: 20,
+                                    },
+                                    768: {
+                                        slidesPerView: 4,
+                                        spaceBetween: 40,
+                                    },
+                                    1024: {
+                                        slidesPerView: 3,
+                                        spaceBetween: 50,
+                                    },
                                 },
-                                1024: {
-                                    slidesPerView: 3,
-                                    spaceBetween: 50,
-                                },
-                            },
-                        });
+                            });
 
 
         </script>
@@ -283,9 +360,13 @@
             function pckCin(cinID, loc, id) {
                 window.location = "cin?loc=" + loc + "&id=" + id + "&cinID=" + cinID;
             }
-            
+
             function pckSche(sche, cinID, loc, id) {
                 window.location = "cin?sche=" + sche + "&loc=" + loc + "&id=" + id + "&cinID=" + cinID;
+            }
+            
+            function pckMovSche(id) {
+                window.location = "seat?id=" + id;
             }
         </script>
     </body>

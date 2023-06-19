@@ -88,7 +88,7 @@ public class ScheDAO extends DBContext{
         FormDAO fmd = new FormDAO();
         MovieDAO mvd = new MovieDAO();
         try {
-            String sql = "SELECT *, CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTim, CONVERT(VARCHAR(5), CAST(endTime AS time), 108) AS endTim, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate FROM Schedule WHERE cinID = ? AND CAST(startTime AS date) = ?";
+            String sql = "SELECT *, CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTim, CONVERT(VARCHAR(5), CAST(endTime AS time), 108) AS endTim, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate FROM Schedule WHERE cinID = ? AND CAST(startTime AS date) = ? ORDER BY movID, formID";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, ID);
             st.setDate(2, d);

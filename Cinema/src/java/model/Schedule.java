@@ -71,9 +71,7 @@ public class Schedule {
 
     public void setMovImg(String movImg) {
         this.movImg = movImg;
-    }
-    
-    
+    }   
 
     public String getMovName() {
         return movName;
