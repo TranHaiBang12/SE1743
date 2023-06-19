@@ -317,7 +317,7 @@
                     <div class = "totalAmount">
                         <div>Thông tin đơn hàng</div>
                         <div>Tổng tiền: <span class = "tien"><label id = "ttAm">${requestScope.totalAmount}</label>đ</span></div>
-                        <div class = "pay"><a href="pay"><input type = "submit" value = "THANH TOÁN"></a></div>
+                        <div class = "pay"><input type = "submit" value = "THANH TOÁN" onclick = "pay('${sessionScope.account.getUserName()}')"></div>
                     </div>
                 </div>
             </div>
@@ -458,6 +458,15 @@
                     }
                 }
                 return false;
+            }
+            
+            function pay(user){
+                if(getCookie(user) !== "") {
+                    window.location = "pay";
+                }
+                else {
+                    alert("Giỏ hàng hiện đang trống");
+                }
             }
 
         </script>

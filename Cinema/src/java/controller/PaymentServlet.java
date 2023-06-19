@@ -338,6 +338,15 @@ public class PaymentServlet extends HttpServlet {
                 request.setAttribute("listTicket", listT);
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
             }
+            if(!request.getParameter("pass").equals(a.getPassword())) {
+                String ms = "Sai mật khẩu";
+                request.setAttribute("ms", ms);
+                request.setAttribute("loc", loc);
+                request.setAttribute("listCart", list);
+                request.setAttribute("date", dte);
+                request.setAttribute("listTicket", listT);
+                request.getRequestDispatcher("payment.jsp").forward(request, response);
+            }
             String m = "THANH TOÁN THÀNH CÔNG. VUI LÒNG VÀO LỊCH SỬ GIAO DỊCH ĐỂ XEM MÃ VÉ, MÃ ĐỒ ĂN CỦA BẠN";
             String datePick = "";
             Date dateStart = null;

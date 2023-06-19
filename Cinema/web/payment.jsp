@@ -401,6 +401,7 @@
                      
                                 <input type ="text" id ="dateNhan" name ="dte" hidden/>
                             </c:if>
+                            
                                 
                             
 
@@ -415,6 +416,8 @@
                                     <img src ="images/icon-payoo.png"/>
                                 </div>
                             </div>
+                            <label for = "pass">Mật khẩu(<span class = "rd">*</span>)</label>
+                            <input type ="password" required id ="pass" name ="pass"/>
                         </div>
                     </c:if>
                     <c:if test = "${requestScope.m != null}">
