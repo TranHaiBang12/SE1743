@@ -4,11 +4,13 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import model.FormMD;
 import model.MovieTime;
 import model.Schedule;
 import model.Tme;
@@ -79,5 +81,25 @@ public class ScheDAO extends DBContext{
                     
         }
         return null;
+    }
+    
+    public List<Schedule> getScheduleByCinemaID(int ID, Date d) {
+        List<Schedule> list = new ArrayList<>();
+        FormDAO fmd = new FormDAO();
+        MovieDAO mvd = new MovieDAO();
+        try {
+            String sql = "SELECT *, CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTim, CONVERT(VARCHAR(5), CAST(endTime AS time), 108) AS endTim, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate FROM Schedule WHERE cinID = ? AND CAST(startTime AS date) = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, ID);
+            st.setDate(2, d);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Schedule s = new Schedule(rs.getDate("startDate"), rs.getDate("endDate"), rs.getString("startTim"), rs.getString("endTim"), rs.getString("scheNo"), rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"), fmd.getFormById(rs.getInt("formID")).getFormName(), mvd.getMovieById(rs.getInt("movID")).getMovName(), mvd.getMovieById(rs.getInt("movID")).getImg());
+                list.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
     }
 }

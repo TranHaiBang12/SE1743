@@ -23,6 +23,9 @@ public class Schedule {
     private int formID;
     private int cinID;
     private int roomID;
+    private String formName;
+    private String movName;
+    private String movImg;
 
     public Schedule(String cinName, String cinType, Date start, Date end, String startTim, String endTim) {
         this.cinName = cinName;
@@ -44,6 +47,50 @@ public class Schedule {
         this.formID = formID;
         this.cinID = cinID;
         this.roomID = roomID;
+    }
+    
+    public Schedule(Date start, Date end, String startTim, String endTim, String scheNo, int movID, int formID, int cinID, int roomID, String formName, String movName, String movImg) {
+
+        this.start = start;
+        this.end = end;
+        this.startTim = startTim;
+        this.endTim = endTim;
+        this.scheNo = scheNo;
+        this.movID = movID;
+        this.formID = formID;
+        this.cinID = cinID;
+        this.roomID = roomID;
+        this.formName = formName;
+        this.movName = movName;
+        this.movImg = movImg;
+    }
+
+    public String getMovImg() {
+        return movImg;
+    }
+
+    public void setMovImg(String movImg) {
+        this.movImg = movImg;
+    }
+    
+    
+
+    public String getMovName() {
+        return movName;
+    }
+
+    public void setMovName(String movName) {
+        this.movName = movName;
+    }
+    
+    
+
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
     }
 
     public String getScheNo() {

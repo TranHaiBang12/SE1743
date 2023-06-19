@@ -6,6 +6,7 @@ package controller;
 
 import dal.CinemaDAO;
 import dal.MovieDAO;
+import dal.ScheDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -183,17 +184,62 @@ public class CinemaServlet extends HttpServlet {
             int cinID = Integer.parseInt(cinID_raw);
             id_raw = request.getParameter("id");
             id = Integer.parseInt(id_raw);
-            listLoc = cnd.getAllCinemaLocByType(id);
-            listM = cnd.getAllCinemaByTypeALoc(id, request.getParameter("loc"));
-            Cinema m = cnd.getCinemaByID(cinID);
-            request.setAttribute("id", id);
-            request.setAttribute("listM", listM);
-            request.setAttribute("listLoc", listLoc);
-            request.setAttribute("cinID", cinID);
-            request.setAttribute("dte", dte);
-            request.setAttribute("loc", request.getParameter("loc"));
-            request.setAttribute("m", m);
-            request.getRequestDispatcher("cinema.jsp").forward(request, response);
+
+            String sche_raw = request.getParameter("sche");
+            if (sche_raw == null) {
+                listLoc = cnd.getAllCinemaLocByType(id);
+
+                listM = cnd.getAllCinemaByTypeALoc(id, request.getParameter("loc"));
+                Cinema m = cnd.getCinemaByID(cinID);
+                ScheDAO scd = new ScheDAO();
+                request.setAttribute("type", id);
+                request.setAttribute("listM", listM);
+                request.setAttribute("listLoc", listLoc);
+                request.setAttribute("cinID", cinID);
+                request.setAttribute("dte", dte);
+                request.setAttribute("sche", dte.get(0).getId());
+                request.setAttribute("movSche", scd.getScheduleByCinemaID(cinID, date.get(0)));
+                request.setAttribute("loc", request.getParameter("loc"));
+                request.setAttribute("m", m);
+                request.getRequestDispatcher("cinema.jsp").forward(request, response);
+            } else {
+                listLoc = cnd.getAllCinemaLocByType(id);
+                int sche = 0;
+                try {
+                    sche = Integer.parseInt(sche_raw);
+                    if (sche < 0) {
+                        throw new Exception("Loi");
+                    }
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+                listM = cnd.getAllCinemaByTypeALoc(id, request.getParameter("loc"));
+                Cinema m = cnd.getCinemaByID(cinID);
+                ScheDAO scd = new ScheDAO();
+                System.out.println(date.get(sche) + " " + cinID);
+                List<String> movieName = new ArrayList<>();
+                int cnt2 = 0;
+                movieName.add(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(0).getMovName());
+                for (int i = 1; i < scd.getScheduleByCinemaID(cinID, date.get(sche)).size(); i++) {
+                    if (!movieName.get(movieName.size() - 1).equals(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getMovName())) {
+                        movieName.add(scd.getScheduleByCinemaID(cinID, date.get(sche)).get(i).getMovName());
+                        cnt2 = i;
+                    }
+
+                }
+
+                request.setAttribute("type", id);
+                request.setAttribute("listM", listM);
+                request.setAttribute("listLoc", listLoc);
+                request.setAttribute("cinID", cinID);
+                request.setAttribute("dte", dte);
+                request.setAttribute("sche", sche);
+                request.setAttribute("movieName", movieName);
+                request.setAttribute("movSche", scd.getScheduleByCinemaID(cinID, date.get(sche)));
+                request.setAttribute("loc", request.getParameter("loc"));
+                request.setAttribute("m", m);
+                request.getRequestDispatcher("cinema.jsp").forward(request, response);
+            }
         }
     }
 

@@ -54,7 +54,82 @@
                 color: white;
             }
 
+            .main-slider-img img{
+                width:100%;
+            }
 
+            .main-slider-img{
+                width: 100%;
+            }
+
+            .bigttle{
+                text-align: center;
+                font-size: 30px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                color: red;
+                text-shadow: 0px 0px 3px yellow;
+                box-shadow: 10px 10px 5px #666666;
+            }
+
+            .sperTtle{
+                padding-top: 20px;
+                margin-bottom: 20px;
+                font-size: 30px;
+                font-weight: bold;
+            }
+            
+            .schedule{
+                margin-top: 15px;
+                display: flex;
+                flex-wrap: wrap;
+                border-bottom: 3px solid black;
+            }
+
+            .insideSchedule{
+                display: flex;
+                width: 80px;
+                height: 40px;
+                margin-left: 15px;
+                margin-right: 0px;
+                margin-bottom: 10px;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
+            
+            .insideScheduleActive{
+                display: flex;
+                width: 80px;
+                height: 40px;
+                margin-left: 15px;
+                margin-right: 0px;
+                margin-bottom: 10px;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                 border: 1px solid black;
+                border-radius: 15px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                background-color: black;
+                color: white;
+            }
+            .notDate{
+                display: flex;
+                flex-direction: column;
+                margin-right: 8px;
+                margin-bottom: 5px;
+            }
+            .isDate{
+                font-size: 30px;
+            }
+            .insideSchedule:hover{
+                border: 1px solid black;
+                border-radius: 15px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
         </style>
     </head>
     <body>
@@ -62,6 +137,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
+            <div class = "sperTtle">CHỌN RẠP CHIẾU PHIM</div>
             <div class = "loc">
                 <div class = "ttle">Địa Điểm</div>
                 <div class = "insideloc">
@@ -75,7 +151,7 @@
                     <div class = "ttle">Rạp Chiếu Phim</div>
                     <div class = "insideloc">
                         <c:forEach items = "${requestScope.listM}" var = "k">
-                            <div class = "insideinsideLoc" onclick = "pckCin('${k.getCinID()}', '${requestScope.loc}', '${requestScope.type}')">${k.getCinName()}</div>
+                            <div class = "${k.getCinID()==requestScope.cinID?"insideinsideLocActive":"insideinsideLoc"}" onclick = "pckCin('${k.getCinID()}', '${requestScope.loc}', '${requestScope.type}')">${k.getCinName()}</div>
                         </c:forEach>
                     </div>
                 </div>
@@ -120,58 +196,82 @@
                     </section>
                 </div>
             </c:if>
+            <c:if test = "${requestScope.m != null}">
+                <div class = "ttle">Lịch Chiếu</div>
+                <div class = "schedule">
+                    <c:forEach items = "${requestScope.dte}" var = "j">
+                        <div class="${requestScope.sche==j.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pckSche('${j.getId()}', '${requestScope.cinID}', '${requestScope.loc}', '${requestScope.type}')">
 
+                            <div class = "notDate">
+                                <span>${j.getMonth()}</span><!-- comment -->
+                                <span>${j.getDay()}</span>
+                            </div>
+                            <div class = "isDate">${j.getDate()}</div>
+                        </div>
+                    </c:forEach>
+                </div>
+                
+                <div class="mov">
+                    <c:forEach items = "${requestScope.movieName}" var = "j">
+                        <div class="mOvSCHE">
+                            <div class = "mName">${j}</div>
+                            
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:if> 
         </div>
 
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script src="swiper-bundle.min.js"></script>
         <script>
-            var swiper = new Swiper(".mySwiper", {
-                slidesPerView: 1,
-                spaceBetween: 10,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    768: {
-                        slidesPerView: 4,
-                        spaceBetween: 40,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 50,
-                    },
-                },
-            });
+                        var swiper = new Swiper(".mySwiper", {
+                            slidesPerView: 1,
+                            spaceBetween: 10,
+                            pagination: {
+                                el: ".swiper-pagination",
+                                clickable: true,
+                            },
+                            breakpoints: {
+                                640: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 20,
+                                },
+                                768: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 40,
+                                },
+                                1024: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 50,
+                                },
+                            },
+                        });
 
-            var swiper = new Swiper(".mySwiperEvent", {
-                slidesPerView: 1,
-                spaceBetween: 10,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    768: {
-                        slidesPerView: 4,
-                        spaceBetween: 40,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 50,
-                    },
-                },
-            });
+                        var swiper = new Swiper(".mySwiperEvent", {
+                            slidesPerView: 1,
+                            spaceBetween: 10,
+                            pagination: {
+                                el: ".swiper-pagination",
+                                clickable: true,
+                            },
+                            breakpoints: {
+                                640: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 20,
+                                },
+                                768: {
+                                    slidesPerView: 4,
+                                    spaceBetween: 40,
+                                },
+                                1024: {
+                                    slidesPerView: 3,
+                                    spaceBetween: 50,
+                                },
+                            },
+                        });
 
 
         </script>
@@ -182,6 +282,10 @@
 
             function pckCin(cinID, loc, id) {
                 window.location = "cin?loc=" + loc + "&id=" + id + "&cinID=" + cinID;
+            }
+            
+            function pckSche(sche, cinID, loc, id) {
+                window.location = "cin?sche=" + sche + "&loc=" + loc + "&id=" + id + "&cinID=" + cinID;
             }
         </script>
     </body>
