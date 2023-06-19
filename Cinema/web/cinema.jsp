@@ -64,6 +64,7 @@
 
             .bigttle{
                 text-align: center;
+                padding-bottom: 10px;
                 font-size: 30px;
                 margin-top: 20px;
                 margin-bottom: 20px;
@@ -74,6 +75,7 @@
 
             .sperTtle{
                 padding-top: 20px;
+                
                 margin-bottom: 20px;
                 font-size: 30px;
                 font-weight: bold;
@@ -186,6 +188,11 @@
             .mNotImg{
                 margin-left: 20px;
                 font-size: 20px;
+            }
+            
+            .ms{
+                margin-bottom: 0px;
+                padding-bottom: 20px;
             }
             
         </style>

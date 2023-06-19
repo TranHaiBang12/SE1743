@@ -11,7 +11,7 @@ import java.sql.Time;
  *
  * @author acer
  */
-public class Order {
+public class OrderOnl {
 
     private String orderID;
     private String userName;
@@ -28,7 +28,7 @@ public class Order {
     private Time paymentTime;
     private double totalAmount;
 
-    public Order(String orderID, String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime) {
+    public OrderOnl(String orderID, String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime) {
         this.orderID = orderID;
         this.userName = userName;
         this.firstName = firstName;
@@ -44,7 +44,7 @@ public class Order {
         this.paymentTime = paymentTime;
     }
 
-    public Order(String orderID, String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime, double totalAmount) {
+    public OrderOnl(String orderID, String userName, String firstName, String lastName, String phone, String email, String country, String street, String district, String city, String paymentType, Date paymentDate, Time paymentTime, double totalAmount) {
         this.orderID = orderID;
         this.userName = userName;
         this.firstName = firstName;

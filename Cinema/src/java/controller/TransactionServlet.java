@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Account;
 import model.LocationCinMD;
-import model.Order;
-import model.OrderByDate;
+import model.OrderOff;
+import model.OrderOffByDate;
+import model.OrderOnl;
+import model.OrderOnlByDate;
 
 /**
  *
@@ -77,9 +79,12 @@ public class TransactionServlet extends HttpServlet {
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
 
-        List<Order> list = ord.getAllOrderByUserName(a.getUserName());
+        List<OrderOnl> list = ord.getAllOrderOnlByUserName(a.getUserName());
+        List<OrderOff> listOff = ord.getAllOrderOffByUserName(a.getUserName());
         List<Date> dte = new ArrayList<>();
+        List<Date> dte2 = new ArrayList<>();
         dte.add(list.get(0).getPaymentDate());
+        dte2.add(listOff.get(0).getPaymentDate());
         int k = 0;
         for (int i = 1; i < list.size(); i++) {
             if (!list.get(i).getPaymentDate().toString().equals(dte.get(k).toString())) {
@@ -98,12 +103,39 @@ public class TransactionServlet extends HttpServlet {
             }
 
         }
-        List<OrderByDate> listOBD = new ArrayList<>();
+        List<OrderOnlByDate> listOBD = new ArrayList<>();
         for (int i = 0; i < dte.size(); i++) {
-            listOBD.add(ord.getAllOrderByUserNameAPDate(a.getUserName(), dte.get(i)));
+            listOBD.add(ord.getAllOrderOnlByUserNameAPDate(a.getUserName(), dte.get(i)));
+        }
+        
+        
+        for (int i = 1; i < listOff.size(); i++) {
+            if (!listOff.get(i).getPaymentDate().toString().equals(dte2.get(k).toString())) {
+                k = i;
+                dte2.add(listOff.get(i).getPaymentDate());
+            }
+        }
+        for (int i = 0; i < dte2.size() - 1; i++) {
+            for (int j = i + 1; j < dte2.size(); j++) {
+                if (dte2.get(i).compareTo(dte2.get(j)) >= 0) {
+                    swap = dte2.get(i);
+                    dte2.set(i, dte2.get(j));
+                    dte2.set(j, swap);
+                }
+            }
+
+        }
+        List<OrderOffByDate> listOFBD = new ArrayList<>();
+        for (int i = 0; i < dte2.size(); i++) {
+            listOFBD.add(ord.getAllOrderOffByUserNameAPDate(a.getUserName(), dte2.get(i)));
+        }
+        
+        for (int i = 0; i < listOFBD.size(); i++) {
+            System.out.println(listOFBD.get(i).getOf().get(i).getUserName());
         }
 
         request.setAttribute("listOBD", listOBD);
+        request.setAttribute("listOFBD", listOFBD);
         request.getRequestDispatcher("transact.jsp").forward(request, response);
     }
 

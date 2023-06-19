@@ -118,7 +118,7 @@ public class CinemaDAO extends DBContext {
             int i = 0;
             String sql = "";
             if (type == 1) {
-                sql = "SELECT Cinema.*, CinemaType.ctypeName FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 2 OR Cinema.cinType = 3 OR Cinema.cinType = 5 AND City = ?";
+                sql = "SELECT Cinema.*, CinemaType.ctypeName FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE (Cinema.cinType = 2 OR Cinema.cinType = 3 OR Cinema.cinType = 5) AND City = ?";
             } else if (type == 2) {
                 sql = "SELECT Cinema.*, CinemaType.ctypeName FROM Cinema JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE Cinema.cinType = 1 AND City = ?";
             } else if (type == 3) {

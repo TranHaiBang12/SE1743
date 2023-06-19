@@ -39,7 +39,7 @@
                     <li id = "userN">${sessionScope.account.getUserName()}</li>
                     <div class="dropdown-content">
                         <div class=insidedropdown-content>
-                            <a href="#">Thông Tin Tài Khoản</a>
+                            <a href="acc">Thông Tin Tài Khoản</a>
                             <a href="logout">Đăng Xuất</a>
                         </div>
                     </div>

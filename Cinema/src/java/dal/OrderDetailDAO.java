@@ -49,4 +49,22 @@ public class OrderDetailDAO extends DBContext{
         }
         return list;
     }
+    
+    public List<OrderDetail> getAllProductInOrderOffByOrderID(String orderID) {
+        List<OrderDetail> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM OrderOfflineDetail WHERE OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            FoodDAO fda = new FoodDAO();
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                OrderDetail od = new OrderDetail(orderID, rs.getString("ProductCode"), rs.getDouble("Discount"), rs.getDouble("Price"), rs.getInt("Quantity"), fda.getFoodById(rs.getString("ProductCode")));
+                list.add(od);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 }

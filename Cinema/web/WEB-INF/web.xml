@@ -72,6 +72,10 @@
         <servlet-name>Cinema</servlet-name>
         <servlet-class>controller.CinemaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MyAccountServlet</servlet-name>
+        <servlet-class>controller.MyAccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>Cinema</servlet-name>
         <url-pattern>/cin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MyAccountServlet</servlet-name>
+        <url-pattern>/acc</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

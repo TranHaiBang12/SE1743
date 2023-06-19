@@ -10,14 +10,15 @@ import java.util.List;
  *
  * @author acer
  */
-public class OrderByDate {
+public class OrderOffByDate {
     private String date;
-    private List<Order> o;
+    private List<OrderOff> of;
 
-    public OrderByDate(String date, List<Order> o) {
+    public OrderOffByDate(String date, List<OrderOff> of) {
         this.date = date;
-        this.o = o;
+        this.of = of;
     }
+    
 
     public String getDate() {
         return date;
@@ -27,12 +28,12 @@ public class OrderByDate {
         this.date = date;
     }
 
-    public List<Order> getO() {
-        return o;
+    public List<OrderOff> getOf() {
+        return of;
     }
 
-    public void setO(List<Order> o) {
-        this.o = o;
+    public void setOf(List<OrderOff> of) {
+        this.of = of;
     }
     
     
