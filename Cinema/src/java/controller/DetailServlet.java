@@ -6,17 +6,20 @@ package controller;
 
 import dal.DiStaGenreMovDAO;
 import dal.MovieDAO;
+import dal.RateDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import model.Account;
 import model.DirectorInMov;
 import model.MovieGenre;
 import model.Movies;
@@ -69,6 +72,90 @@ public class DetailServlet extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         String id_raw = request.getParameter("id");
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        try {
+            int id = Integer.parseInt(id_raw);
+            RateDAO rd = new RateDAO();
+            int stat;
+            if(rd.checkAccountRateByMovID(a.getUserName(), id) != null) {
+                stat = 1;
+            }
+            else {
+                stat = 0;
+            }
+            
+            MovieDAO mvd = new MovieDAO();
+            String pattern = "dd-MM-yyyy";
+            DiStaGenreMovDAO dsgm = new DiStaGenreMovDAO();
+            DirectorInMov dim = dsgm.getAllDirectorByMovID(id);
+            String dir = "", star = "", genre = "";
+            for (int i = 0; i < dim.getDirectorName().size(); i++) {
+                dir += dim.getDirectorName().get(i);
+                if(i != dim.getDirectorName().size() - 1) {
+                    dir += ", ";
+                }
+            }
+            StarInMov sim = dsgm.getAllStarByMovID(id);
+            for (int i = 0; i < sim.getStarName().size(); i++) {
+                star += sim.getStarName().get(i);
+                if(i != sim.getStarName().size() - 1) {
+                    star += ", ";
+                }
+            }
+            MovieGenre mv = dsgm.getAllGenreByMovID(id);
+            for (int i = 0; i < mv.getGenreName().size(); i++) {
+                genre += mv.getGenreName().get(i);
+                if(i != mv.getGenreName().size() - 1) {
+                    genre += ", ";
+                }
+            }
+            Movies m = mvd.getMovieById(id);
+            request.setAttribute("id", id);
+            request.setAttribute("stat", stat);
+            request.setAttribute("data", m);
+            request.setAttribute("dir", dir);
+            request.setAttribute("star", star);
+            request.setAttribute("genre", genre);
+            request.getRequestDispatcher("detail.jsp").forward(request, response);
+        } catch (Exception e) {
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
+        
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account a = (Account) session.getAttribute("account");
+        
+        String star_raw = request.getParameter("star");
+        String name = request.getParameter("name1");
+        String cmt = request.getParameter("cmt");
+        String anoy = request.getParameter("anoy");
+        RateDAO rd = new RateDAO();
+        if(anoy.equals("on")) {
+            name = "Khách hàng";
+            int star = Integer.parseInt(star_raw);
+            int movID = Integer.parseInt(request.getParameter("movID"));
+            rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name);
+        }
+        else {
+            int star = Integer.parseInt(star_raw);
+            int movID = Integer.parseInt(request.getParameter("movID"));
+            rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name);
+        }
+        request.setAttribute("stat", 1);
+        String id_raw = request.getParameter("movID");
         try {
             int id = Integer.parseInt(id_raw);
             MovieDAO mvd = new MovieDAO();
@@ -97,6 +184,7 @@ public class DetailServlet extends HttpServlet {
                 }
             }
             Movies m = mvd.getMovieById(id);
+            request.setAttribute("ms", "Đánh giá của bạn đang được nhân viên duyệt");
             request.setAttribute("id", id);
             request.setAttribute("data", m);
             request.setAttribute("dir", dir);
@@ -104,22 +192,8 @@ public class DetailServlet extends HttpServlet {
             request.setAttribute("genre", genre);
             request.getRequestDispatcher("detail.jsp").forward(request, response);
         } catch (Exception e) {
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-        
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

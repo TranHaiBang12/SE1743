@@ -170,6 +170,7 @@
                 border-radius: 10px;
                 margin-bottom: 20px;
                 text-align: center;
+                display: none;
             }
 
             #m{
@@ -216,11 +217,29 @@
                 font-size: 15px;
                 padding-left: 10px;
                 height: 500px;
+                padding-top: 10px;
 
             }
             .cmt{
                 margin-top: 20px;
                 margin-right: 20px;
+            }
+
+            .send{
+                text-align: center;
+                height: 30px;
+                width: 40%;
+                margin: 0 auto;
+                margin-top: 7px;
+            }
+
+            .send input{
+                width: 100%;
+                height: 100%;
+                color: white;
+                background-color: red;
+                cursor: pointer;
+                font-size: 18px;
             }
 
 
@@ -249,7 +268,7 @@
 //
 //        String date1 = simpleDateFormat.format(date);
 //        System.out.println(request.getAttribute("data").getStartDate());
-                %>
+%>
                 <div class = "content">
                     <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
@@ -276,6 +295,7 @@
 
             </div><!-- comment -->
             <div class = "rate">
+                <div class = "ms">${requestScope.ms}</div>
                 <div class = "ttle">Đánh giá phim</div>
                 <div class = "rateDetail">
                     <div class = "userRate">
@@ -296,30 +316,38 @@
                         <div>2 sao:  &nbsp;&nbsp;<span>0%</span></div>
                         <div>1 sao:  &nbsp;&nbsp;<span>0%</span></div>
                     </div>
-                    <div class="btn"><input type = "button" value = "Viết đánh giá"/></div>
+                    <div class="btn"><input type = "button" onclick ="display()" value = "Viết đánh giá"/></div>
                 </div>
             </div>
+            <input type ="text" id ="stat" hidden value ="${requestScope.stat}"/>
+            <div id ="myR" class = "myR">
+                <form action = "detail" method = "post">
 
-            <div class = "myR">
-                <div class = "ttle">Viết đánh giá phim</div>
-                <div class = "rating-box" id = "m">
-                    <div><image class ="b" id ="1" src ="images/star-icon.svg" onclick = "rate('1')"/></div>
-                    <div><image class ="b" id ="2" src ="images/star-icon.svg" onclick = "rate('2')"/></div>
-                    <div><image class ="b" id ="3" src ="images/star-icon.svg" onclick = "rate('3')"/></div>
-                    <div><image class ="b" id ="4" src ="images/star-icon.svg" onclick = "rate('4')"/></div><!-- comment -->
-                    <div><image class ="b" id ="5" src ="images/star-icon.svg" onclick = "rate('5')"/></div>
-                </div>
-                <div class = "eName">
-                    <div id = "nme"><input type = "text" class ="name1" name = "name1" required placeholder = "Nhập tên sẽ hiển thị khi đánh giá"/></div>
-                    <div class = "anoRate">
-                        <span class="bl">Đánh giá ẩn danh</span>
-                        <input type ="checkbox" name ="anoy" id ="anoy"/>
+                    <div class = "ttle">Viết đánh giá phim</div>
+                    <div class = "rating-box" id = "m">
+                        <div><image class ="b" id ="1" src ="images/star-icon.svg" onclick = "rate('1')"/></div>
+                        <div><image class ="b" id ="2" src ="images/star-icon.svg" onclick = "rate('2')"/></div>
+                        <div><image class ="b" id ="3" src ="images/star-icon.svg" onclick = "rate('3')"/></div>
+                        <div><image class ="b" id ="4" src ="images/star-icon.svg" onclick = "rate('4')"/></div><!-- comment -->
+                        <div><image class ="b" id ="5" src ="images/star-icon.svg" onclick = "rate('5')"/></div>
                     </div>
+                    <div class = "eName">
+                        <div id = "nme"><input type = "text" class ="name1" id ="name1" name = "name1" required placeholder = "Nhập tên sẽ hiển thị khi đánh giá"/></div>
+                        <div class = "anoRate">
+                            <span class="bl">Đánh giá ẩn danh</span>
+                            <input type ="checkbox" name ="anoy" id ="anoy" onclick = "ckedBtn()"/>
+                        </div>
+                        <input type ="text" hidden id ="star" name ="star"/>
+                        <input type ="text" hidden id ="movID" name ="movID" value = "${requestScope.id}"/>
 
-                </div>
-                <div class = "cmt">
-                    <textarea placeholder = "Nhập tên sẽ hiển thị khi đánh giá"></textarea>
-                </div>
+                    </div>
+                    <div class = "cmt">
+                        <textarea name ="cmt" id ="cmt" required placeholder = "Nhập tên sẽ hiển thị khi đánh giá"></textarea>
+                    </div>
+                    <div class = "send">
+                        <input type ="submit" value ="Gửi đánh giá"/> 
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -329,6 +357,19 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type="text/javascript">
+
+
+            function ckedBtn() {
+                if (document.getElementById("anoy").checked === true) {
+                    document.getElementById("name1").required = false;
+                    console.log("1");
+                } else {
+                    document.getElementById("name1").required = true;
+                    console.log("2");
+                }
+                console.log(document.getElementById("anoy").checked);
+            }
+
             function detail(id) {
                 window.location = "booking?id=" + id;
             }
@@ -337,11 +378,30 @@
                 console.log(num);
                 for (var i = 1; i <= Number(num); i++) {
                     document.getElementById(i).style.filter = 'invert(82%) sepia(44%) saturate(769%) hue-rotate(11deg) brightness(113%) contrast(86%)';
-                    console.log(document.getElementById(i).style.filter);
+                    document.getElementById("star").value = num;
                 }
                 for (var i = Number(num) + 1; i <= 5; i++) {
                     document.getElementById(i).style.filter = 'invert(75%) sepia(9%) saturate(35%) hue-rotate(31deg) brightness(97%) contrast(94%)';
 
+                }
+
+            }
+
+            function display() {
+                if (Number(document.getElementById("stat").value) === 0) {
+                    if (String(document.getElementById("myR").style.display) === 'none') {
+                        document.getElementById("myR").style.display = 'block';
+
+                    } else if (String(document.getElementById("myR").style.display) === 'block') {
+                        document.getElementById("myR").style.display = 'none';
+
+                    } else {
+                        document.getElementById("myR").style.display = 'block';
+
+                    }
+                }
+                else if (Number(document.getElementById("stat").value) === 1){
+                    alert("Bạn đã có đánh giá về bộ phim này rồi");
                 }
             }
         </script>
