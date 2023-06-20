@@ -114,11 +114,11 @@
                 <div class = "content">
                     <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
-                        <span>Đạo diễn:</span>
+                        <span>Đạo diễn:</span>${requestScope.dir}
                         <br/>
-                        <span>Diễn viên:  </span>
+                        <span>Diễn viên:  </span>${requestScope.star}
                         <br/>
-                        <span>Thể loại:  </span>
+                        <span>Thể loại:  </span>${requestScope.genre}
                         <br/>
                         <span>Khởi chiếu:  </span>${requestScope.data.getStartDate()}
                         <br/>

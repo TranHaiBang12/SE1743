@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.DiStaGenreMovDAO;
 import dal.MovieDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +17,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import model.DirectorInMov;
+import model.MovieGenre;
 import model.Movies;
+import model.StarInMov;
 
 /**
  *
@@ -69,10 +73,35 @@ public class DetailServlet extends HttpServlet {
             int id = Integer.parseInt(id_raw);
             MovieDAO mvd = new MovieDAO();
             String pattern = "dd-MM-yyyy";
-        
+            DiStaGenreMovDAO dsgm = new DiStaGenreMovDAO();
+            DirectorInMov dim = dsgm.getAllDirectorByMovID(id);
+            String dir = "", star = "", genre = "";
+            for (int i = 0; i < dim.getDirectorName().size(); i++) {
+                dir += dim.getDirectorName().get(i);
+                if(i != dim.getDirectorName().size() - 1) {
+                    dir += ", ";
+                }
+            }
+            StarInMov sim = dsgm.getAllStarByMovID(id);
+            for (int i = 0; i < sim.getStarName().size(); i++) {
+                star += sim.getStarName().get(i);
+                if(i != sim.getStarName().size() - 1) {
+                    star += ", ";
+                }
+            }
+            MovieGenre mv = dsgm.getAllGenreByMovID(id);
+            for (int i = 0; i < mv.getGenreName().size(); i++) {
+                genre += mv.getGenreName().get(i);
+                if(i != mv.getGenreName().size() - 1) {
+                    genre += ", ";
+                }
+            }
             Movies m = mvd.getMovieById(id);
             request.setAttribute("id", id);
             request.setAttribute("data", m);
+            request.setAttribute("dir", dir);
+            request.setAttribute("star", star);
+            request.setAttribute("genre", genre);
             request.getRequestDispatcher("detail.jsp").forward(request, response);
         } catch (Exception e) {
         }
