@@ -82,10 +82,148 @@
                 background-color: red;
                 color:white;
             }
-            
+
             button{
                 cursor: pointer;
             }
+
+            .rate{
+                border: 1px solid black;
+                padding-left: 20px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                display: flex;
+                flex-direction: column;
+                border-radius: 10px;
+                margin-bottom: 20px;
+            }
+
+            .ttle{
+                font-size: 22px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .rateDetail{
+                display: flex;
+                align-items: center;
+                font-size: 18px;
+            }
+
+            .userRate {
+                margin-right: 80px;
+            }
+
+
+            .rating-box{
+                display: flex;
+                margin-bottom: 10px;
+            }
+
+            .rating-box div{
+                width: 15px;
+                margin-right: 10px;
+            }
+
+            .rating-box img{
+                width: 100%;
+            }
+
+            .t{
+                margin-left: 55px;
+                margin-bottom: 10px;
+            }
+
+            .t2{
+                margin-left: 25px;
+            }
+
+            .btn{
+                margin-left: 400px;
+                width: 400px;
+                height: 50px;
+            }
+
+            .btn input{
+                height: 100%;
+                width: 100%;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 20px;
+                color: #a83256;
+                background-color: white;
+
+            }
+
+            .b{
+                cursor: pointer;
+                filter: invert(75%) sepia(9%) saturate(35%) hue-rotate(31deg) brightness(97%) contrast(94%);
+            }
+
+            .myR{
+                border: 1px solid black;
+                padding-left: 20px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                display: flex;
+                flex-direction: column;
+                border-radius: 10px;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            #m{
+                margin-left: 580px;
+            }
+
+            #nme{
+                width: 400px;
+                height: 40px;
+            }
+
+            .name1{
+                font-size: 15px;
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+                padding-left: 10px;
+            }
+
+            .eName{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .anoRate{
+                display: flex;
+                align-items: center;
+            }
+
+            .bl{
+                font-size: 18px;
+                font-weight: bold;
+                margin-right: 10px;
+            }
+
+            .anoRate{
+                margin-right: 20px;
+            }
+
+            .cmt textArea{
+                border-radius: 10px;
+                width: 100%;
+                font-size: 15px;
+                padding-left: 10px;
+                height: 500px;
+
+            }
+            .cmt{
+                margin-top: 20px;
+                margin-right: 20px;
+            }
+
+
         </style>
 
     </head>
@@ -97,6 +235,7 @@
             <div class = "bodyTitle">
                 Nội Dung Phim:
             </div>
+
             <div class ="bodyContent">
                 <div class = "img">  
                     <img src="${requestScope.data.getImg()}" alt="alt"/>
@@ -133,7 +272,55 @@
                         <button type ="submit" value ="MUA VÉ" onclick = "detail('${requestScope.id}')">MUA VÉ</button>
                     </div>
                 </div>
+
+
             </div><!-- comment -->
+            <div class = "rate">
+                <div class = "ttle">Đánh giá phim</div>
+                <div class = "rateDetail">
+                    <div class = "userRate">
+                        <div class = "t"><span>0</span>/5</div>
+                        <div class = "rating-box">
+                            <div><image class ="a" src ="images/star-icon.svg"/></div>
+                            <div><image class ="a" src ="images/star-icon.svg"/></div>
+                            <div><image class ="a" src ="images/star-icon.svg"/></div>
+                            <div><image class ="a" src ="images/star-icon.svg"/></div><!-- comment -->
+                            <div><image class ="a" src ="images/star-icon.svg"/></div>
+                        </div>
+                        <div class = "t2"><span>0</span> đánh giá</div>
+                    </div>
+                    <div>
+                        <div>5 sao:  &nbsp;&nbsp;<span>0%</span></div>
+                        <div>4 sao:  &nbsp;&nbsp;<span>0%</span></div><!-- comment -->
+                        <div>3 sao:  &nbsp;&nbsp;<span>0%</span></div><!-- comment -->
+                        <div>2 sao:  &nbsp;&nbsp;<span>0%</span></div>
+                        <div>1 sao:  &nbsp;&nbsp;<span>0%</span></div>
+                    </div>
+                    <div class="btn"><input type = "button" value = "Viết đánh giá"/></div>
+                </div>
+            </div>
+
+            <div class = "myR">
+                <div class = "ttle">Viết đánh giá phim</div>
+                <div class = "rating-box" id = "m">
+                    <div><image class ="b" id ="1" src ="images/star-icon.svg" onclick = "rate('1')"/></div>
+                    <div><image class ="b" id ="2" src ="images/star-icon.svg" onclick = "rate('2')"/></div>
+                    <div><image class ="b" id ="3" src ="images/star-icon.svg" onclick = "rate('3')"/></div>
+                    <div><image class ="b" id ="4" src ="images/star-icon.svg" onclick = "rate('4')"/></div><!-- comment -->
+                    <div><image class ="b" id ="5" src ="images/star-icon.svg" onclick = "rate('5')"/></div>
+                </div>
+                <div class = "eName">
+                    <div id = "nme"><input type = "text" class ="name1" name = "name1" required placeholder = "Nhập tên sẽ hiển thị khi đánh giá"/></div>
+                    <div class = "anoRate">
+                        <span class="bl">Đánh giá ẩn danh</span>
+                        <input type ="checkbox" name ="anoy" id ="anoy"/>
+                    </div>
+
+                </div>
+                <div class = "cmt">
+                    <textarea placeholder = "Nhập tên sẽ hiển thị khi đánh giá"></textarea>
+                </div>
+            </div>
         </div>
 
 
@@ -144,6 +331,18 @@
         <script type="text/javascript">
             function detail(id) {
                 window.location = "booking?id=" + id;
+            }
+
+            function rate(num) {
+                console.log(num);
+                for (var i = 1; i <= Number(num); i++) {
+                    document.getElementById(i).style.filter = 'invert(82%) sepia(44%) saturate(769%) hue-rotate(11deg) brightness(113%) contrast(86%)';
+                    console.log(document.getElementById(i).style.filter);
+                }
+                for (var i = Number(num) + 1; i <= 5; i++) {
+                    document.getElementById(i).style.filter = 'invert(75%) sepia(9%) saturate(35%) hue-rotate(31deg) brightness(97%) contrast(94%)';
+
+                }
             }
         </script>
     </body>
