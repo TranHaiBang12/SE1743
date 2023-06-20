@@ -106,7 +106,9 @@ public class StoreServlet extends HttpServlet {
                     throw new Exception("Loi");
                 }
             } catch (Exception e) {
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+                String ms = "Xin lỗi, chúng tôi không phục vụ sản phẩm bạn tìm kiếm";
+                request.setAttribute("ms", ms);
+                request.getRequestDispatcher("store.jsp").forward(request, response);
             }
             for (int i = 0; i < listSearch.size(); i++) {
                 System.out.println(listSearch.get(i).getFoodDescript());
@@ -183,11 +185,12 @@ public class StoreServlet extends HttpServlet {
             try {
                 listSearch = fda.getFoodByType(type, key);
                 if (listSearch.isEmpty()) {
-                    System.out.println("2da");
                     throw new Exception("Loi");
                 }
             } catch (Exception e) {
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+                String ms = "Xin lỗi, chúng tôi không phục vụ sản phẩm bạn tìm kiếm";
+                request.setAttribute("ms", ms);
+                request.getRequestDispatcher("store.jsp").forward(request, response);
             }
             for (int i = 0; i < listSearch.size(); i++) {
                 System.out.println(listSearch.get(i).getFoodDescript());

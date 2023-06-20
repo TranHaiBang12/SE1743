@@ -176,6 +176,14 @@
                 justify-content: space-between;
                 margin-top: 15px;
             }
+            
+            h2{
+                text-align: center;
+                color: red;
+                font-size:25px;
+                margin-top: 30px;
+                padding-bottom: 30px;
+            }
 
         </style>
     </head>
@@ -214,38 +222,43 @@
                     <input type ="submit" value ="s"/>
                 </form>
             </div>
-            <div class = "item">
-                <c:forEach items = "${requestScope.listPerPage}" var = "i">
-                    <div class = "insideItem">
-                        <div><img src = "${i.getImg()}"></div>
-                        <div class = "name">
-                            ${i.getFoodDescript()}                  
-                        </div>
-                        <div>
-                            <span class = "newPrice">${i.getPrice()}<span class = "donvi">đ<span></span>
-                                    <c:if test = "${i.getDiscount() != 0}">
-                                        <span>${i.getprice()} / ${i.getDiscount()}</span>
-                                    </c:if>
+            <c:if test = "${requestScope.ms == null}">
+                <div class = "item">
+                    <c:forEach items = "${requestScope.listPerPage}" var = "i">
+                        <div class = "insideItem">
+                            <div><img src = "${i.getImg()}"></div>
+                            <div class = "name">
+                                ${i.getFoodDescript()}                  
+                            </div>
+                            <div>
+                                <span class = "newPrice">${i.getPrice()}<span class = "donvi">đ<span></span>
+                                        <c:if test = "${i.getDiscount() != 0}">
+                                            <span>${i.getprice()} / ${i.getDiscount()}</span>
+                                        </c:if>
 
-                                    </div>
-                                    <div class = "cart">
-                                        <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${sessionScope.account.getUserName()}')"/>
-                                    </div>
+                                        </div>
+                                        <div class = "cart">
+                                            <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${sessionScope.account.getUserName()}')"/>
+                                        </div>
 
-                                    </div>
-                                    <div class = "${(i.getId() % 3 == 0)?"breaker":""}">
+                                        </div>
+                                        <div class = "${(i.getId() % 3 == 0)?"breaker":""}">
 
-                                    </div>
-                                </c:forEach>
-                                </div>
-                                <div class = "pagination">
-                                    <a href ="store?page=${(page - 1) < 1?(1):(page-1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}"><</a>
-                                    <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
-                                        <a class ="${i == page ? "active":"noActive"}" href ="store?page=${i}&type=${requestScope.type}&key=${requestScope.key}">${i}</a>
+                                        </div>
                                     </c:forEach>
+                                    </div>
+                                    <div class = "pagination">
+                                        <a href ="store?page=${(page - 1) < 1?(1):(page-1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}"><</a>
+                                        <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                                            <a class ="${i == page ? "active":"noActive"}" href ="store?page=${i}&type=${requestScope.type}&key=${requestScope.key}">${i}</a>
+                                        </c:forEach>
                                         <a href ="store?page=${(page + 1) > totalPage?(1):(page+1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}">></a>
-                                </div>
-
+                                    </div>
+                                </c:if>
+                        <c:if test = "${requestScope.ms != null}">
+                            <h2>${requestScope.ms}</h2>
+                            <h2><a href = "store">Bấm vào đây để về cửa hàng</a></h2>
+                        </c:if>
                                 </div>
                                 <div id = "footer">
                                     <%@include file = "footer.jsp" %>
@@ -290,7 +303,7 @@
                                         }
                                         console.log(getCookie(username));
                                     }
-// Hàm lấy Cookie
+                                    // Hàm lấy Cookie
                                     function getCookie(name) {
                                         var cookieName = name + "=";
                                         var docCookie = document.cookie;
