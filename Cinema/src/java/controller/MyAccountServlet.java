@@ -7,6 +7,7 @@ package controller;
 
 import dal.AccountDAO;
 import dal.OrderDAO;
+import dal.PointDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Account;
+import model.AccountPoint;
 
 /**
  *
@@ -62,6 +64,7 @@ public class MyAccountServlet extends HttpServlet {
         Account a = (Account) session.getAttribute("account");
         AccountDAO acd = new AccountDAO();
         OrderDAO ord = new OrderDAO();
+        PointDAO pd = new PointDAO();
         String date = "", month = "", year = "";
         int cnt = 0;
         String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
@@ -76,6 +79,15 @@ public class MyAccountServlet extends HttpServlet {
             }
         }
         date = t.substring(cnt + 1);
+        AccountPoint ap = pd.getAccountPoint(a.getUserName());
+        int point;
+        if(ap != null) {
+            point = ap.getPoint();
+        }
+        else {
+            point = 0;
+        }
+        request.setAttribute("point", point);
         request.setAttribute("dob", date + "-" + month + "-" + year);
         request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
         request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));

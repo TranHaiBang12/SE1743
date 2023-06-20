@@ -220,7 +220,7 @@
             .pay input{
                 cursor: pointer;
             }
-            
+
 
 
         </style>
@@ -249,7 +249,7 @@
 
                     </div>
                     <div class = "dltAll">
-                        <input type ="button" value ="XÓA TẤT CẢ" onclick = "dltAll()"/>
+                        <input type ="button" value ="XÓA TẤT CẢ" onclick = "dltAll('${sessionScope.account.getUserName()}')"/>
                     </div>
                     <c:if test = "${requestScope.ms != null}">
                         <span>${requestScope.ms}</span>
@@ -327,13 +327,16 @@
         </div>
         <script type = "text/javascript">
             var t = "";
-
-            function dltAll() {
+            var dltA = 0;
+            function dltAll(user) {
+                dltA = 1;
                 var ans = confirm("Do you want to delete all your cart items ?");
                 if (String(ans) === 'true') {
-                    setCookie("thbang", "", 365);
+                    setCookie(user, "", 365);
+
                     document.getElementById("doan").style.display = 'none';
                     document.getElementById("ve").style.display = 'none';
+                    console.log(document.getElementById("doan").style.display + " " + document.getElementById("ve").style.display);
                     document.getElementById("nm").innerHTML = 0;
                     document.getElementById("ttAm").innerHTML = 0;
                 } else if (String(ans) === 'false') {
@@ -411,33 +414,61 @@
             }
 
             function bActive(id) {
-                if (id === "tkEtChoice") {
-                    document.getElementById(id).style.color = 'white';
-                    document.getElementById(id).style.backgroundColor = 'black';
-                    document.getElementById("active").style.color = 'black';
-                    document.getElementById("active").style.backgroundColor = 'white';
-                    document.getElementById("foodChoi").style.color = 'black';
-                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                    document.getElementById("ve").style.display = 'block';
-                    document.getElementById("doan").style.display = 'none';
-                } else if (id === "foodChoi") {
-                    document.getElementById(id).style.color = 'white';
-                    document.getElementById(id).style.backgroundColor = 'black';
-                    document.getElementById("active").style.color = 'black';
-                    document.getElementById("active").style.backgroundColor = 'white';
-                    document.getElementById("tkEtChoice").style.color = 'black';
-                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                    document.getElementById("doan").style.display = 'block';
-                    document.getElementById("ve").style.display = 'none';
+                if (dltA === 0) {
+                    if (id === "tkEtChoice") {
+                        document.getElementById(id).style.color = 'white';
+                        document.getElementById(id).style.backgroundColor = 'black';
+                        document.getElementById("active").style.color = 'black';
+                        document.getElementById("active").style.backgroundColor = 'white';
+                        document.getElementById("foodChoi").style.color = 'black';
+                        document.getElementById("foodChoi").style.backgroundColor = 'white';
+                        document.getElementById("ve").style.display = 'block';
+                        document.getElementById("doan").style.display = 'none';
+                    } else if (id === "foodChoi") {
+                        document.getElementById(id).style.color = 'white';
+                        document.getElementById(id).style.backgroundColor = 'black';
+                        document.getElementById("active").style.color = 'black';
+                        document.getElementById("active").style.backgroundColor = 'white';
+                        document.getElementById("tkEtChoice").style.color = 'black';
+                        document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                        document.getElementById("doan").style.display = 'block';
+                        document.getElementById("ve").style.display = 'none';
+                    } else {
+                        document.getElementById(id).style.color = 'white';
+                        document.getElementById(id).style.backgroundColor = 'black';
+                        document.getElementById("foodChoi").style.color = 'black';
+                        document.getElementById("foodChoi").style.backgroundColor = 'white';
+                        document.getElementById("tkEtChoice").style.color = 'black';
+                        document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                        document.getElementById("doan").style.display = 'block';
+                        document.getElementById("ve").style.display = 'block';
+                    }
                 } else {
-                    document.getElementById(id).style.color = 'white';
-                    document.getElementById(id).style.backgroundColor = 'black';
-                    document.getElementById("foodChoi").style.color = 'black';
-                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                    document.getElementById("tkEtChoice").style.color = 'black';
-                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                    document.getElementById("doan").style.display = 'block';
-                    document.getElementById("ve").style.display = 'block';
+                    if (id === "tkEtChoice") {
+                        document.getElementById(id).style.color = 'white';
+                        document.getElementById(id).style.backgroundColor = 'black';
+                        document.getElementById("active").style.color = 'black';
+                        document.getElementById("active").style.backgroundColor = 'white';
+                        document.getElementById("foodChoi").style.color = 'black';
+                        document.getElementById("foodChoi").style.backgroundColor = 'white';
+
+                    } else if (id === "foodChoi") {
+                        document.getElementById(id).style.color = 'white';
+                        document.getElementById(id).style.backgroundColor = 'black';
+                        document.getElementById("active").style.color = 'black';
+                        document.getElementById("active").style.backgroundColor = 'white';
+                        document.getElementById("tkEtChoice").style.color = 'black';
+                        document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+
+                    } else {
+                        document.getElementById(id).style.color = 'white';
+                        document.getElementById(id).style.backgroundColor = 'black';
+                        document.getElementById("foodChoi").style.color = 'black';
+                        document.getElementById("foodChoi").style.backgroundColor = 'white';
+                        document.getElementById("tkEtChoice").style.color = 'black';
+                        document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+
+                    }
                 }
             }
 
@@ -459,12 +490,13 @@
                 }
                 return false;
             }
-            
-            function pay(user){
-                if(getCookie(user) !== "") {
+
+            function pay(user) {
+                console.log(user);
+                console.log(getCookie(user) );
+                if (getCookie(user) !== "" && String(getCookie(user)) !== "false") {
                     window.location = "pay";
-                }
-                else {
+                } else {
                     alert("Giỏ hàng hiện đang trống");
                 }
             }

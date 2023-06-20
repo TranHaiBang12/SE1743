@@ -306,7 +306,7 @@
                 display: flex;
 
             }
-            
+
             select {
                 margin-top :10px;
                 margin-bottom: 10px;
@@ -318,7 +318,19 @@
                 padding-left: 10px;
             }
 
-
+            #agr{
+                width: 50px;
+                height: 20px;
+            }
+            
+            .PNT{
+                display: flex;
+                align-items: center;
+            }
+            
+            #pntUse{
+                display: none;
+            }
 
         </style>
     </head>
@@ -398,12 +410,21 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                     
+
+                                <label for = "dist">Số điểm hiện có: <span class = "rd">${requestScope.point}</span></label>
+
+                                <div class = "PNT">
+                                    <label for = "dist">Sử dụng điểm: (tối đa <span class = "rd">${requestScope.maxPoint}</span>) điểm</label><!-- comment --> 
+                                    <input type ="checkbox" id ="agr" onclick ="agree()"/>
+                                </div>
+                                    <input type ="number" id ="pntUse" name ="pntUse" min ="0" max ="${requestScope.maxPoint}"/>
+                               
+
                                 <input type ="text" id ="dateNhan" name ="dte" hidden/>
                             </c:if>
-                            
-                                
-                            
+
+
+
 
                             <div class = "part">2. Hình thức thanh toán</div>
                             <div class = "pmType">
@@ -454,13 +475,13 @@
 
                             <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
                             <input type ="text" readonly id ="strt" name ="strt" value = "${(requestScope.strt != null)?(requestScope.strt):""}"/>
-                            
+
                             <label for = "dte">Ngày nhận(<span class = "rd">*</span>)</label>
                             <input type ="text" readonly id ="dte" name ="dte" value = "${(requestScope.datePick != null)?(requestScope.datePick):""}"/>
-                            
+
                             <label for = "loc">Nơi nhận(<span class = "rd">*</span>)</label>
                             <input type ="text" readonly id ="loc" name ="loc" value = "${(requestScope.locPick != null)?(requestScope.locPick):""}"/>
-                            
+
 
                         </div>
                     </c:if>
@@ -595,6 +616,15 @@
                     document.getElementById("tkEtChoice").style.backgroundColor = 'white';
                     document.getElementById("doan").style.display = 'block';
                     document.getElementById("ve").style.display = 'block';
+                }
+            }
+            
+            function agree() {
+                if(document.getElementById("agr").checked) {
+                    document.getElementById("pntUse").style.display = 'block';
+                }
+                else {
+                    document.getElementById("pntUse").style.display = 'none';
                 }
             }
         </script>

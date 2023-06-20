@@ -76,6 +76,7 @@
                             <div>Email: <span class = "rd">${requestScope.acc.getEmail()}</span></div>
                             <div>Thành phố sinh sống: <span class = "rd">${requestScope.acc.getCity()}</span></div>
                             <div>Số lần mua hàng: <span class = "rd">${requestScope.totalOrd}</span></div>
+                            <div>Điểm tích lũy: <span class = "rd">${requestScope.point}</span></div>
                             <div>
                                 <a href = "transact"><input type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
                                 <input type ="button" onclick ="check()" value ="UPDATE"/>

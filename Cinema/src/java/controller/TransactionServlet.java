@@ -88,8 +88,10 @@ public class TransactionServlet extends HttpServlet {
         int k = 0;
         for (int i = 1; i < list.size(); i++) {
             if (!list.get(i).getPaymentDate().toString().equals(dte.get(k).toString())) {
-                k = i;
+                System.out.println(k + " " + i);
+                k++;
                 dte.add(list.get(i).getPaymentDate());
+                System.out.println(k + " " + i);
             }
         }
         Date swap;

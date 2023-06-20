@@ -9,6 +9,7 @@ import dal.FoodDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.OrderTicketDetailDAO;
+import dal.PointDAO;
 import dal.TicketDAO;
 import dal.TransactionCDAO;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.Account;
+import model.AccountPoint;
 import model.CartItemFood;
 import model.CartItemTicket;
 import model.DateMD;
@@ -88,6 +90,7 @@ public class PaymentServlet extends HttpServlet {
         FoodDAO fda = new FoodDAO();
         TicketDAO tkd = new TicketDAO();
         String cart = "";
+        double price = 0;
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
         if (a != null) {
@@ -102,9 +105,11 @@ public class PaymentServlet extends HttpServlet {
                 if (cart.charAt(i) == '/' && i != cart.length() - 1) {
                     if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
                         list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
+                        price += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
                         System.out.println(cart.substring(i + 1, i + 7) + " " + Integer.parseInt(cart.substring(i + 9, i + 10)) + " " + cart.substring(i + 8, i + 9) + " " + cart.substring(i + 8, i + 10));
                         listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
+                        price += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
                     }
 
                 }
@@ -168,7 +173,17 @@ public class PaymentServlet extends HttpServlet {
             }
 
             CinemaDAO cnd = new CinemaDAO();
-
+            PointDAO pd = new PointDAO();
+            AccountPoint ap = pd.getAccountPoint(a.getUserName());
+            int point;
+            if (ap != null) {
+                point = ap.getPoint();
+            } else {
+                point = 0;
+            }
+            double maxPointUse = Math.floor((price / 1000) * 90 / 100);
+            request.setAttribute("point", point);
+            request.setAttribute("maxPoint", maxPointUse);
             List<LocationCinMD> loc = cnd.getAllCinemaNameAndLoc();
             request.setAttribute("loc", loc);
             request.setAttribute("date", dte);
@@ -192,12 +207,14 @@ public class PaymentServlet extends HttpServlet {
         //processRequest(request, response);
         HttpSession session = request.getSession();
         CinemaDAO cnd = new CinemaDAO();
+        double price = 0;
         List<LocationCinMD> loc = cnd.getAllCinemaNameAndLoc();
         Account a = (Account) session.getAttribute("account");
         String email = request.getParameter("email");
         String t = "2023-05-01";
         List<DateMD> dte = new ArrayList<>();
         Date d[] = new Date[7];
+
         d[0] = Date.valueOf(java.time.LocalDate.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String k = formatter.format(d[0]);
@@ -272,19 +289,34 @@ public class PaymentServlet extends HttpServlet {
                 if (cart.charAt(i) == '/' && i != cart.length() - 1) {
                     if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
                         list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
+                        price += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
+
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
                         System.out.println(cart.substring(i + 1, i + 7) + " " + Integer.parseInt(cart.substring(i + 9, i + 10)) + " " + cart.substring(i + 8, i + 9) + " " + cart.substring(i + 8, i + 10));
                         listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
+                        price += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
+
                     }
 
                 }
             }
+            PointDAO pd = new PointDAO();
+            AccountPoint ap = pd.getAccountPoint(a.getUserName());
+            int point;
+            if (ap != null) {
+                point = ap.getPoint();
+            } else {
+                point = 0;
+            }
+            double maxPointUse = Math.floor((price / 1000) * 90 / 100);
             if (checkEmail(email) == false) {
                 String ms = "Vui lòng nhập đúng email";
                 request.setAttribute("ms", ms);
                 request.setAttribute("loc", loc);
                 request.setAttribute("listCart", list);
                 request.setAttribute("date", dte);
+                request.setAttribute("point", point);
+                request.setAttribute("maxPoint", maxPointUse);
                 request.setAttribute("listTicket", listT);
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
             }
@@ -299,6 +331,8 @@ public class PaymentServlet extends HttpServlet {
                 request.setAttribute("loc", loc);
                 request.setAttribute("listCart", list);
                 request.setAttribute("date", dte);
+                request.setAttribute("point", point);
+                request.setAttribute("maxPoint", maxPointUse);
                 request.setAttribute("listTicket", listT);
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
             }
@@ -306,6 +340,8 @@ public class PaymentServlet extends HttpServlet {
             if (request.getParameter("pm") == null) {
                 String ms = "Vui lòng chọn cách thanh toán";
                 request.setAttribute("ms", ms);
+                request.setAttribute("point", point);
+                request.setAttribute("maxPoint", maxPointUse);
                 request.setAttribute("loc", loc);
                 request.setAttribute("listCart", list);
                 request.setAttribute("date", dte);
@@ -327,20 +363,26 @@ public class PaymentServlet extends HttpServlet {
                 request.setAttribute("listCart", list);
                 request.setAttribute("loc", loc);
                 request.setAttribute("date", dte);
+                request.setAttribute("point", point);
+                request.setAttribute("maxPoint", maxPointUse);
                 request.setAttribute("listTicket", listT);
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
             } else if (request.getParameter("dte").equals("")) {
                 String ms = "Vui lòng chọn ngày nhận";
                 request.setAttribute("ms", ms);
                 request.setAttribute("loc", loc);
+                request.setAttribute("point", point);
+                request.setAttribute("maxPoint", maxPointUse);
                 request.setAttribute("listCart", list);
                 request.setAttribute("date", dte);
                 request.setAttribute("listTicket", listT);
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
             }
-            if(!request.getParameter("pass").equals(a.getPassword())) {
+            if (!request.getParameter("pass").equals(a.getPassword())) {
                 String ms = "Sai mật khẩu";
                 request.setAttribute("ms", ms);
+                request.setAttribute("point", point);
+                request.setAttribute("maxPoint", maxPointUse);
                 request.setAttribute("loc", loc);
                 request.setAttribute("listCart", list);
                 request.setAttribute("date", dte);
@@ -415,19 +457,21 @@ public class PaymentServlet extends HttpServlet {
                     cinID = Integer.parseInt(lOc.substring(0, i));
                 }
             }
+
             OrderDAO ord = new OrderDAO();
             int id = ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, dd, tt);
             String orderID = "ONL" + id;
             OrderDetailDAO odd = new OrderDetailDAO();
             TransactionCDAO tcd = new TransactionCDAO();
             OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
+            int price1 = 0;
             System.out.println(orderID);
             if (!list.isEmpty()) {
                 String fdCode = orderID + randomAlpha(20 - orderID.length());
                 tcd.insert(orderID, fdCode, 1, dateStart, timeStart, dateEnd, timeEnd, cinID);
                 for (int i = 0; i < list.size(); i++) {
                     odd.insert(orderID, list.get(i).getFood().getProductCode(), list.get(i).getFood().getDiscount(), list.get(i).getFood().getPrice(), list.get(i).getQuantity());
-
+                    price1 += (list.get(i).getFood().getPrice() * list.get(i).getQuantity());
                 }
             }
             if (!listT.isEmpty()) {
@@ -436,6 +480,7 @@ public class PaymentServlet extends HttpServlet {
                 tcd.insert(orderID, tkCode, 2, dateStart, timeStart, dateEnd, timeEnd, cID);
                 for (int i = 0; i < listT.size(); i++) {
                     otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice());
+                    price1 += listT.get(i).getTicket().getPrice();
                     if (listT.get(i).getTicket().getCinID() != cID) {
                         tkCode = orderID + randomAlpha(20 - orderID.length());
                         cID = listT.get(i).getTicket().getCinID();
@@ -445,6 +490,37 @@ public class PaymentServlet extends HttpServlet {
                 }
 
             }
+
+            int point1 = price1 / 1000;
+
+            if (pd.checkAcc(a.getUserName()) != null) {
+
+                pd.insertIntoAPD(a.getUserName(), point1, orderID, dd, tt, "NOTUSED");
+                if (request.getParameter("pntUse") == null || request.getParameter("pntUse").equals("")) {
+                    pd.updPoint(a.getUserName(), point1);
+                } else {
+                    int pointUse = Integer.parseInt(request.getParameter("pntUse"));
+                    pd.insertIntoAUP(a.getUserName(), pointUse, orderID, date1, timeEnd);
+                    System.out.println(point1 - pointUse);
+                    pd.updPoint(a.getUserName(), point1 - pointUse);
+                    List<AccountPoint> listAP = pd.getAccountPointDetail(a.getUserName());
+                    for (int i = 0; i < listAP.size(); i++) {
+                        System.out.println(listAP.get(i).getTime());
+                    }
+                    int checkStat = 0;
+                    for (int i = 0; i < listAP.size(); i++) {
+                        checkStat += listAP.get(i).getPoint();
+                        if (pd.getAllAccountUsedPoint(a.getUserName()) >= checkStat) {
+                            pd.updStatusAPD(a.getUserName(), listAP.get(i).getOrderID(), "USED");
+                        }
+                    }
+                }
+
+            } else {
+                pd.insertIntoAP(a.getUserName(), point1);
+                pd.insertIntoAPD(a.getUserName(), point1, orderID, dd, tt, "NOTUSED");
+            }
+
             removeCookie(response, user.getName());
 
             request.setAttribute("m", m);
