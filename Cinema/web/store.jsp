@@ -107,7 +107,7 @@
                 padding-top: 20px;
             }
 
-            .cart img{
+            .cart2 img{
                 height: 40px;
                 width:40px;
                 margin-right: 20px;
@@ -123,6 +123,60 @@
                 font-size: 30px;
             }
 
+
+
+            .cart2 {
+                width: 40px;
+                margin-right: 20px;
+            }
+
+            .cart2 a{
+                width: 100%;
+                height: 100%;
+            }
+
+            .cart2 img{
+                width: 100%;
+                height: 100%;
+            }
+
+            .searchBar img{
+                width: 25px;
+                height: 25px;
+                border: 1px solid black;
+                margin-right: 8px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .searchBar input{
+                width: 300px;
+                height: 20px;
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .searchBar {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+            }
+
+            .slt{
+                margin-left: 10px;
+                font-size: 18px;
+            }
+
+            .slt select {
+                font-size: 18px;
+            }
+
+            .search{
+                display: flex;
+                justify-content: space-between;
+                margin-top: 15px;
+            }
+
         </style>
     </head>
     <body>
@@ -134,9 +188,31 @@
                 <div class = "prD">
                     Products
                 </div>
-                <div class = "cart">
-                    <a href = "cart"><img src ="images/shoppingCartIcon.png"/><a/>
+                <div class = "cart2">
+                    <img onclick="crt()" src ="images/shoppingCartIcon.png"/>
                 </div>
+            </div>
+            <div>
+                <form class = "search" id = "srch" action = "store" method = "post">
+                    <div class = "slt">
+                        <label>Thể loại: </label>
+                        <select onchange ="cnaGE()"  class = "type" id = "type" name = "type">
+                            <option value = "" ${requestScope.type==""?"selected":""}>All</option>
+                            <option value = "RC" ${requestScope.type=="RC"?"selected":""}>Cơm</option>
+                            <option value = "PC" ${requestScope.type=="PC"?"selected":""}>Bỏng Ngô</option>
+                            <option value = "HB" ${requestScope.type=="HB"?"selected":""}>Hamburger</option>
+                            <option value = "SL" ${requestScope.type=="SL"?"selected":""}>Salad</option>
+                            <option value = "KC" ${requestScope.type=="KC"?"selected":""}>KFC</option>
+                            <option value = "SN" ${requestScope.type=="SN"?"selected":""}>Snack</option>
+                            <option value = "DR" ${requestScope.type=="DR"?"selected":""}>Đồ Uống</option>
+                        </select>
+                    </div>
+                    <div class = "searchBar">
+                        <img onclick ="cnaGE()" src = "images/searchIcon.png"/>
+                        <input type="text" name ="key" placeholder="Tìm kiếm"/>
+                    </div>
+                    <input type ="submit" value ="s"/>
+                </form>
             </div>
             <div class = "item">
                 <c:forEach items = "${requestScope.listPerPage}" var = "i">
@@ -163,11 +239,11 @@
                                 </c:forEach>
                                 </div>
                                 <div class = "pagination">
-                                    <a href ="store?page=${(page - 1) < 1?(1):(page-1)}"><</a>
+                                    <a href ="store?page=${(page - 1) < 1?(1):(page-1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}"><</a>
                                     <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
-                                        <a class ="${i == page ? "active":"noActive"}" href ="store?page=${i}">${i}</a>
+                                        <a class ="${i == page ? "active":"noActive"}" href ="store?page=${i}&type=${requestScope.type}&key=${requestScope.key}">${i}</a>
                                     </c:forEach>
-                                    <a href ="store?page=${(page + 1) > totalPage?(1):(page+1)}">></a>
+                                        <a href ="store?page=${(page + 1) > totalPage?(1):(page+1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}">></a>
                                 </div>
 
                                 </div>
@@ -176,6 +252,12 @@
                                 </div>
                                 <script>
                                     var t = "/";
+                                    function cnaGE() {
+                                        document.getElementById("srch").submit();
+                                    }
+                                    function crt() {
+                                        window.location = "cart";
+                                    }
                                     function setCookie(name, value, days) {
                                         var expires = "";
                                         if (days) {

@@ -7,6 +7,7 @@ package controller;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.OrderTicketDetailDAO;
+import dal.PointDAO;
 import dal.TransactionCDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -97,6 +98,9 @@ public class In4ODServlet extends HttpServlet {
             TransactionCDAO tcd = new TransactionCDAO();
             List<TransactionCode> listTCF = tcd.getAllCodeFByOrderID(orderID);
             List<TransactionCode> listTCT = tcd.getAllCodeTByOrderID(orderID);
+            PointDAO pd = new PointDAO();
+            request.setAttribute("point", pd.getPointByOrderID(orderID));
+            request.setAttribute("pointAchieve", pd.getPointAchieveByOrderID(orderID));
             request.setAttribute("type", "onl");
             request.setAttribute("orderID", orderID);
             request.setAttribute("listO", listO);
@@ -133,6 +137,11 @@ public class In4ODServlet extends HttpServlet {
                     listOTD.get(i).setType("Đôi");
                 }
             }
+            PointDAO pd = new PointDAO();
+            System.out.println(pd.getPointByOrderID(orderID));
+            System.out.println("1");
+            request.setAttribute("point", pd.getPointByOrderID(orderID));
+            request.setAttribute("pointAchieve", pd.getPointAchieveByOrderID(orderID));
             request.setAttribute("orderID", orderID);
             request.setAttribute("listO", listO);
             request.setAttribute("listOD", listOD);

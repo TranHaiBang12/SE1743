@@ -135,7 +135,7 @@ public class TransactionServlet extends HttpServlet {
         for (int i = 0; i < listOFBD.size(); i++) {
             System.out.println(listOFBD.get(i).getOf().get(i).getUserName());
         }
-
+        
         request.setAttribute("listOBD", listOBD);
         request.setAttribute("listOFBD", listOFBD);
         request.getRequestDispatcher("transact.jsp").forward(request, response);

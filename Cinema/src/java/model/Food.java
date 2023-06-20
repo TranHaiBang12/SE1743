@@ -17,6 +17,7 @@ public class Food {
     private double discount;
     private double price;
     private String img;
+    private String typeName;
 
     public Food(int id, String productCode, String foodDescript, String foodType, String status, double discount, double price, String img) {
         this.id = id;
@@ -28,6 +29,28 @@ public class Food {
         this.price = price;
         this.img = img;
     }
+    
+    public Food(int id, String productCode, String foodDescript, String foodType, String status, double discount, double price, String img, String typeName) {
+        this.id = id;
+        this.productCode = productCode;
+        this.foodDescript = foodDescript;
+        this.foodType = foodType;
+        this.status = status;
+        this.discount = discount;
+        this.price = price;
+        this.img = img;
+        this.typeName = typeName;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+    
+    
 
     public int getId() {
         return id;

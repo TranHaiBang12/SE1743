@@ -235,9 +235,17 @@
                                             <div class = "ttIen">
                                                 <div class = "ttle">3. Tổng Hóa Đơn: <span class = "rd"><label id = "amA"></label></span></div>
                                             </div>
+                                            
+                                            <div class = "ttIen">
+                                                <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd">${requestScope.point}</span></div>
+                                            </div>
+                                            
+                                            <div class = "ttIen">
+                                                <div class = "ttle">5. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
+                                            </div>
 
                                             <div class = "ttIen">
-                                                <div class = "ttle">4. Mã Đổi Sản Phẩm</div>
+                                                <div class = "ttle">6. Mã Đổi Sản Phẩm</div>
                                                 <div class = "note">
                                                     <div>- Sử dụng mã trong thời gian có hiệu lực để đổi lấy sản phẩm</div>
 
@@ -423,7 +431,14 @@
                                             <div class = "ttIen">
                                                 <div class = "ttle">3. Tổng Hóa Đơn: <span class = "rd"><label id = "amA"></label></span></div>
                                             </div>
-
+                                            
+                                            <div class = "ttIen">
+                                                <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd">${requestScope.point}</span></div>
+                                            </div>
+                                            
+                                            <div class = "ttIen">
+                                                <div class = "ttle">5. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
+                                            </div>
 
 
                                         </div>
@@ -447,7 +462,7 @@
                                             t = Number(document.getElementById("numT").value);
                                         var valueT = 0;
                                         for (var i = 1; i < t; i++) {
-                                            if (Number(document.getElementById("t" + i).innerHTML) !== null)
+                                            if (document.getElementById("t" + i) !== null)
                                                 valueT += Number(document.getElementById("t" + i).innerHTML);
 
                                         }

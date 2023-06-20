@@ -150,4 +150,34 @@ public class PointDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public int getPointByOrderID(String orderID) {
+        try {
+            String sql = "SELECT * FROM AccountUsedPoint WHERE OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Point");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getPointAchieveByOrderID(String orderID) {
+        try {
+            String sql = "SELECT * FROM AccountPointDetail WHERE OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("Point");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 }
