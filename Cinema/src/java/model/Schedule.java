@@ -64,6 +64,22 @@ public class Schedule {
         this.movName = movName;
         this.movImg = movImg;
     }
+    
+    public Schedule(String scheNo, int movID, int formID, int cinID, int roomID, Date start, Date end, String startTim, String endTim, String movName, String formName, String cinName, String movImg) {
+        this.scheNo = scheNo;
+        this.movID = movID;
+        this.formID = formID;
+        this.cinID = cinID;
+        this.roomID = roomID;
+        this.start = start;
+        this.end = end;
+        this.startTim = startTim;
+        this.endTim = endTim;
+        this.movName = movName;
+        this.formName = formName;
+        this.cinName = cinName;
+        this.movImg = movImg;
+    }
 
     public String getMovImg() {
         return movImg;

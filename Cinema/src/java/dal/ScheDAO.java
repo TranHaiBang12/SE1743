@@ -19,9 +19,8 @@ import model.Tme;
  *
  * @author acer
  */
-public class ScheDAO extends DBContext{
-  
-    
+public class ScheDAO extends DBContext {
+
     public List<String> getCinNameBySchedule(int id, String city, String start, String end, String formName) {
         List<String> ls = new ArrayList<>();
         try {
@@ -38,11 +37,11 @@ public class ScheDAO extends DBContext{
             }
         } catch (Exception e) {
             System.out.println(e);
-                    
+
         }
         return ls;
     }
-    
+
     public List<Tme> getMovieTimeBySchedule(int id, String city, String start, String end, String formName, String cinName) {
         List<Tme> ls = new ArrayList<>();
         try {
@@ -57,15 +56,15 @@ public class ScheDAO extends DBContext{
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Tme t = new Tme(rs.getString("scheNo"), rs.getString("startTim"), rs.getString("endTim"));
-                ls.add(t);                   
+                ls.add(t);
             }
         } catch (Exception e) {
             System.out.println(e);
-                    
+
         }
         return ls;
     }
-    
+
     public Schedule getScheduleByID(String ID) {
         try {
             String sql = "SELECT *, CONVERT(VARCHAR(5), CAST(startTime AS time), 108) AS startTim, CONVERT(VARCHAR(5), CAST(endTime AS time), 108) AS endTim, CAST(startTime AS date) AS startDate, CAST(endTime AS date) AS endDate FROM Schedule WHERE scheNo = ?";
@@ -74,15 +73,15 @@ public class ScheDAO extends DBContext{
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Schedule s = new Schedule(rs.getDate("startDate"), rs.getDate("endDate"), rs.getString("startTim"), rs.getString("endTim"), ID, rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"));
-                return s;       
+                return s;
             }
         } catch (Exception e) {
             System.out.println(e);
-                    
+
         }
         return null;
     }
-    
+
     public List<Schedule> getScheduleByCinemaID(int ID, Date d) {
         List<Schedule> list = new ArrayList<>();
         FormDAO fmd = new FormDAO();
@@ -101,5 +100,88 @@ public class ScheDAO extends DBContext{
             System.out.println(e);
         }
         return list;
+    }
+
+    public void addSchedule(String scheNo, int movID, int formID, int cinID, int roomID, Date start, Time startTime, Date end, Time endTime) {
+        try {
+            String sql = "INSERT INTO Schedule (scheNo, movID, formID, cinID, roomID, startDate, endDate, startTim, endTim) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setInt(2, movID);
+            st.setInt(3, formID);
+            st.setInt(4, cinID);
+            st.setInt(5, roomID);
+            st.setDate(6, start);
+            st.setDate(7, end);
+            st.setTime(8, startTime);
+            st.setTime(9, endTime);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void updSchedule(String scheNo, int movID, int formID, int cinID, int roomID, Date start, Time startTime, Date end, Time endTime) {
+        try {
+            String sql = "UPDATE Schedule SET movID = ?, formID = ?, cinID = ?, roomID = ?, startDate = ?, endDate = ?, startTim = ?, endTim = ? WHERE scheNo = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.setInt(2, formID);
+            st.setInt(3, cinID);
+            st.setInt(4, roomID);
+            st.setDate(5, start);
+            st.setDate(6, end);
+            st.setTime(7, startTime);
+            st.setTime(8, endTime);
+            st.setString(9, scheNo);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void deleteSchedule(String scheNo) {
+        try {
+            String sql = "DELETE FROM Schedule WHERE scheNo = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);           
+        }
+    }
+    
+    public List<Schedule> getAllScheduleByMovID(int movID) {
+        List<Schedule> list = new ArrayList<>();
+        MovieDAO mvd = new MovieDAO();
+        FormDAO fmd = new FormDAO();
+        CinemaDAO cnd = new CinemaDAO();
+        try {
+            String sql = "SELECT * FROM Schedule WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Schedule s = new Schedule(rs.getString("scheNo"), rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim").toString(), rs.getTime("endTim").toString(), mvd.getMovieById(rs.getInt("movID")).getMovName(), fmd.getFormById(rs.getInt("formID")).getFormName(), cnd.getCinemaByID(rs.getInt("cinID")).getCinName(), mvd.getMovieById(rs.getInt("movID")).getImg());
+                list.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Schedule> getScheduleByPage(List<Schedule> list, int start, int end) {
+        List<Schedule> list2 = new ArrayList<>();
+        try {
+            for (int i = start; i <= end; i++) {
+                list2.add(list.get(i));
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return list2;
     }
 }

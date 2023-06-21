@@ -325,6 +325,18 @@
                                                     <button type = "submit" value = "DELETE">DELETE</button>
                                                 </c:if>
                                             </div>
+                                            <div class = "bt2">
+                                                <c:if test="${sessionScope.account.role==3}">
+                                                    <button type = "submit" value = "ADD SCHEDULE" onclick = "addSche('${i.movID}')">ADD SCHE</button>
+                                                    <button type = "submit" value = "UPDATE SCHEDULE" onclick = "updSche('${i.movID}')">UPD SCHE</button>
+                                                </c:if>
+                                            </div>
+                                             <div class = "bt2">
+                                                <c:if test="${sessionScope.account.role==3}">
+                                                    <button type = "submit" value = "ADD TICKET">ADD TICK</button>
+                                                    <button type = "submit" value = "UPDATE TICKET">UPD TICK</button>
+                                                </c:if>
+                                            </div>
 
                                         </div>
                                         <div class="main-slider-img">
@@ -389,6 +401,18 @@
                                                 <c:if test="${sessionScope.account.role==3}">
                                                     <button type = "submit" value = "UPDATE"  onclick = "upd('${i.movID}')">UPDATE</button>
                                                     <button type = "submit" value = "DELETE">DELETE</button>
+                                                </c:if>
+                                            </div>
+                                            <div class = "bt2">
+                                                <c:if test="${sessionScope.account.role==3}">
+                                                    <button type = "submit" value = "ADD SCHEDULE" onclick = "addSche('${i.movID}')">ADD SCHE</button>
+                                                    <button type = "submit" value = "UPDATE SCHEDULE" onclick = "updSche('${i.movID}')">UPD SCHE</button>
+                                                </c:if>
+                                            </div>
+                                             <div class = "bt2">
+                                                <c:if test="${sessionScope.account.role==3}">
+                                                    <button type = "submit" value = "ADD TICKET">ADD TICK</button>
+                                                    <button type = "submit" value = "UPDATE TICKET">UPD TICK</button>
                                                 </c:if>
                                             </div>
                                         </div>
@@ -502,6 +526,14 @@
 
         </script>
         <script>
+            function addSche(id) {
+                window.location = "addsche?id=" + id;
+            }
+            
+            function updSche(id) {
+                window.location = "updsche?id=" + id;
+            }
+            
             function detail(id) {
                 window.location = "detail?id=" + id;
             }

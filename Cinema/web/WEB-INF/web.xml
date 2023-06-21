@@ -84,6 +84,22 @@
         <servlet-name>CheckServlet</servlet-name>
         <servlet-class>controller.CheckServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddSche</servlet-name>
+        <servlet-class>controller.AddSche</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdSche</servlet-name>
+        <servlet-class>controller.UpdSche</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddTick</servlet-name>
+        <servlet-class>controller.AddTick</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdTick</servlet-name>
+        <servlet-class>controller.UpdTick</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -167,6 +183,22 @@
     <servlet-mapping>
         <servlet-name>CheckServlet</servlet-name>
         <url-pattern>/check</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddSche</servlet-name>
+        <url-pattern>/addsche</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdSche</servlet-name>
+        <url-pattern>/updsche</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTick</servlet-name>
+        <url-pattern>/addtick</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdTick</servlet-name>
+        <url-pattern>/updtick</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

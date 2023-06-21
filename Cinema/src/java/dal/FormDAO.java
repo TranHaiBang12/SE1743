@@ -6,6 +6,8 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import model.FormMD;
 
 /**
@@ -27,5 +29,21 @@ public class FormDAO extends DBContext{
             System.out.println(e);
         }
         return null;
+    }
+    
+    public List<FormMD> getAllForm() {
+        List<FormMD> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Form";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                FormMD f = new FormMD(rs.getInt("formID"), rs.getString("formName"));
+                list.add(f);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
     }
 }
