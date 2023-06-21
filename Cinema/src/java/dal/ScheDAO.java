@@ -157,7 +157,7 @@ public class ScheDAO extends DBContext {
         FormDAO fmd = new FormDAO();
         CinemaDAO cnd = new CinemaDAO();
         try {
-            String sql = "SELECT * FROM Schedule WHERE movID = ?";
+            String sql = "SELECT * FROM Schedule WHERE movID = ? ORDER BY startDate, startTim";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -183,5 +183,26 @@ public class ScheDAO extends DBContext {
         }
         
         return list2;
+    }
+    
+    public Schedule getScheduleByIn4(String scheNo, int movID, Date start, Time startTime, int roomID, int cinID) {
+        try {
+            String sql = "SELECT * FROM Schedule WHERE scheNo = ? AND movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND startTim = ? AND  ORDER BY startDate, startTim";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setInt(2, movID);
+            st.setInt(3, roomID);
+            st.setInt(4, cinID);
+            st.setDate(5, start);
+            st.setTime(6, startTime);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Schedule s = new Schedule(rs.getString("scheNo"), rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim").toString(), rs.getTime("endTim").toString(), null, null, null, null);
+                return s;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
     }
 }

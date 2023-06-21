@@ -6,6 +6,8 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import model.Room;
 
 /**
@@ -28,6 +30,23 @@ public class RoomDAO extends DBContext{
             System.out.println(e);
         }
         return null;
+    }
+    
+    public List<Room> getAllRoomByCinID(int cinID) {
+        List<Room> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Room WHERE cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Room r = new Room(rs.getInt("roomID"), rs.getInt("cinID"), rs.getInt("roomType"), rs.getInt("Floor"), rs.getInt("NoRowSeats"), rs.getInt("NoColumnSeats"), rs.getString("Status"));
+                list.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
     }
     
 }

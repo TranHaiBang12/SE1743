@@ -40,17 +40,15 @@ public class FoodDAO extends DBContext {
         List<Food> list2 = new ArrayList<>();
         System.out.println(start + " " + end + "dadawsssss");
         for (int i = 0; i < list.size(); i++) {
-            System.out.println("d?ea");
             System.out.println(list.get(i).getFoodDescript());
         }
         try {
             for (int i = start; i <= end; i++) {
-                System.out.println(list.get(i) + "dawa");
                 list2.add(list.get(i));
             }
             
         } catch (Exception e) {
-            System.out.println(e + "da");
+            System.out.println(e);
         }
         
         return list2;

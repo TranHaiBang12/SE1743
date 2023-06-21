@@ -90,16 +90,16 @@
             label{
                 font-size: 20px;
             }
-            
+
             .sbmit input{
                 background-color: red;
                 color: white;
                 cursor: pointer;
             }
-            
+
             .sbmit{
             }
-            
+
             .frm{
                 margin-left: 450px;
             }
@@ -118,6 +118,7 @@
                     <th>PHIM</th><!-- comment -->
                     <th>KIỂU CHIẾU</th><!-- comment -->
                     <th>RẠP</th>
+                    <th>PHÒNG</th>
                 </tr>
                 <c:forEach items = "${requestScope.s}" var = "i">
                     <tr>
@@ -127,6 +128,7 @@
                         <td>${i.getMovName()}</td>
                         <td>${i.getFormName()}</td>
                         <td>${i.getCinName()}</td>
+                        <td>${i.getRoomID()}</td>
                         <c:set var="movName" value="${i.getMovName()}"/>
                         <c:set var="movID" value="${i.getMovID()}"/>
                     </tr>
@@ -139,22 +141,31 @@
                 </c:forEach>
                 <a href ="addsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
             </div>
+            <div class = "ms">
+                <h2>${requestScope.ms}</h2>
+            </div>
             <div class = "frm">
-                <form action = "addsche" method = "post">
-                    <div>
-                        <label for = "scheNo">Nhập mã lịch chiếu: </label>
-                        <input type ="text" required id ="scheNo" name ="scheNo"/>
-                    </div>
+                <form id ="frm" action = "addsche" method = "post">
+                    <c:if test = "${room != null}">
+                        <div>
+                            <label for = "scheNo">Nhập mã lịch chiếu: </label>
+                            <input type ="text" required id ="scheNo" name ="scheNo"/>
+                        </div>
+                    </c:if>
 
-                    <div>
-                        <label for ="startDate">Nhập ngày chiếu: </label>
-                        <input type ="date"required id ="startDate" name ="startDate"/>
-                    </div>
+                    <c:if test = "${room != null}">
+                        <div>
+                            <label for ="startDate">Nhập ngày chiếu: </label>
+                            <input type ="date"required id ="startDate" name ="startDate"/>
+                        </div>
+                    </c:if>
 
-                    <div>
-                        <label for ="startTime">Nhập thời gian chiếu: </label>
-                        <input type ="time" required id ="startTime" name ="startTime"/>
-                    </div>
+                    <c:if test = "${room != null}">
+                        <div>
+                            <label for ="startTime">Nhập thời gian chiếu: </label>
+                            <input type ="time" required id ="startTime" name ="startTime"/>
+                        </div>
+                    </c:if>
 
                     <div>
                         <label for ="movName">Phim: </label>
@@ -162,24 +173,42 @@
                         <input type ="text" id ="movID" name ="movID" readonly hidden value = "${movID}"/>
                     </div>
 
+                    <c:if test = "${form != null}">
+                        <div>
+                            <label for ="form">Kiểu chiếu: </label>
+                            <select name ="form">
+                                <c:forEach items = "${requestScope.form}" var = "j">
+                                    <option value = "${j.getId()}">${j.getFormName()}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </c:if>
+                    <input type ="text" hidden value ="${requestScope.id}" name ="id"/>
+                    <input type ="text" hidden value ="${requestScope.page}" name ="page"/>
+                    <input type ="text" hidden value ="0" id ="check" name ="check"/>
                     <div>
-                        <label for ="form">Kiểu chiếu: </label>
-                        <select name ="form">
-                            <c:forEach items = "${requestScope.form}" var = "j">
-                                <option value = "${j.getId()}">${j.getFormName()}</option>
+                        <label for ="cin">Rạp: </label>
+                        <select id ="ciN" onchange ="cnge()" name ="cin">
+                            <c:forEach items = "${requestScope.cin}" var = "j">
+                                <option ${requestScope.cinPick == j.getCinID()?"selected":""} id ="${j.getCinID()}" value = "${j.getCinID()}">${j.getCinName()}</option>
+
                             </c:forEach>
                         </select>
                     </div>
 
-                    <div>
-                        <label for ="cin">Rạp: </label>
-                        <select name ="cin">
-                            <c:forEach items = "${requestScope.cin}" var = "j">
-                                <option value = "${j.getCinID()}">${j.getCinName()}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    
+
+
+                    <c:if test = "${room != null}">
+                        <div>
+                            <label for ="room">Phòng: </label>
+                            <select name = "room">
+                                <c:forEach items = "${requestScope.room}" var = "k">
+                                    <option value = "${k.getRoomID()}">${k.getRoomID()}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </c:if>
+
                     <div class = "sbmit">
                         <input type ="submit" value ="ADD"/>
                     </div>
@@ -191,5 +220,12 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function cnge() {
+                var selectedValue = document.getElementById("ciN").selectedIndex;
+                document.getElementById("check").value = 1;
+                document.getElementById("frm").submit();
+            }
+        </script>
     </body>
 </html>
