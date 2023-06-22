@@ -12,7 +12,14 @@
         <filter-name>RoleFilter1</filter-name>
         <filter-class>filter.RoleFilter1</filter-class>
     </filter>
-    
+    <filter-mapping>
+        <filter-name>RoleFilter1</filter-name>
+        <url-pattern>/addsche</url-pattern>
+        <url-pattern>/updsche</url-pattern>
+        <url-pattern>/addtick</url-pattern>
+        <url-pattern>/updtick</url-pattern>
+        <url-pattern>/viewsche</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>JSPFilter1</filter-name>
         <url-pattern>/*</url-pattern>
@@ -26,10 +33,7 @@
         <url-pattern>/acc</url-pattern>
         <url-pattern>/updacc</url-pattern>
     </filter-mapping>
-    <filter-mapping>
-        <filter-name>RoleFilter1</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
