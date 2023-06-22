@@ -123,7 +123,7 @@ public class ScheDAO extends DBContext {
 
     public void updSchedule(String scheNo, int movID, int formID, int cinID, int roomID, Date start, Time startTime, Date end, Time endTime) {
         try {
-            String sql = "UPDATE Schedule SET movID = ?, formID = ?, cinID = ?, roomID = ?, startDate = ?, endDate = ?, startTim = ?, endTim = ? WHERE scheNo = ?";
+            String sql = "UPDATE Schedule SET movID = ?, formID = ?, cinID = ?, roomID = ?, startDate = ?, endDate = ?, startTim = " + startTime +", endTim = ? WHERE scheNo = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             st.setInt(2, formID);
@@ -131,9 +131,8 @@ public class ScheDAO extends DBContext {
             st.setInt(4, roomID);
             st.setDate(5, start);
             st.setDate(6, end);
-            st.setTime(7, startTime);
-            st.setTime(8, endTime);
-            st.setString(9, scheNo);
+            st.setTime(7, endTime);
+            st.setString(8, scheNo);
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
@@ -185,24 +184,55 @@ public class ScheDAO extends DBContext {
         return list2;
     }
     
-    public Schedule getScheduleByIn4(String scheNo, int movID, Date start, Time startTime, int roomID, int cinID) {
+    public Schedule getScheduleByIn4(String scheNo, int movID, Date start, Time startTim, int roomID, int cinID, int tgianChieu) {
         try {
-            String sql = "SELECT * FROM Schedule WHERE scheNo = ? AND movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND startTim = ? AND  ORDER BY startDate, startTim";
+            String sql = "SELECT * FROM Schedule WHERE scheNo = ? AND movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND (DATEDIFF(minute, startTim, '" + startTim  + "') <= '" + tgianChieu + "' OR DATEDIFF(minute, '" + startTim  +"', startTim) <= '" + tgianChieu + "') ORDER BY startDate, startTim";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, scheNo);
             st.setInt(2, movID);
             st.setInt(3, roomID);
             st.setInt(4, cinID);
             st.setDate(5, start);
-            st.setTime(6, startTime);
+            MovieDAO mvd = new MovieDAO();
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while(rs.next()) {                        
                 Schedule s = new Schedule(rs.getString("scheNo"), rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim").toString(), rs.getTime("endTim").toString(), null, null, null, null);
                 return s;
+            }
+        } catch (Exception e) {
+            System.out.println("1");
+                    
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public String convertTime(String date, String tme, int time) {
+        try {
+            String sql = "SELECT DATEADD(minute, " + time + ", '" + date + " " + tme + "') AS Time";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getDate("Time").toString() + " " + rs.getTime("Time").toString();
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
+    }
+    
+    public List<String> getAllScheduleHaveTicket() {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT scheNo FROM TickTypeInSche";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("scheNo"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
     }
 }

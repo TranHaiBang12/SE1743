@@ -6,6 +6,7 @@ package controller;
 
 import dal.CinemaDAO;
 import dal.FormDAO;
+import dal.MovieDAO;
 import dal.RoomDAO;
 import dal.ScheDAO;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -79,6 +81,16 @@ public class AddSche extends HttpServlet {
             }
         } catch (Exception e) {
             request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
+        List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
+        for (int i = 0; i < s.size(); i++) {
+            s.get(i).setHasTick(false);
+            for (int j = 0; j < scheHasTicket.size(); j++) {
+                if (s.get(i).getScheNo().equals(scheHasTicket.get(j))) {
+                    s.get(i).setHasTick(true);
+                    break;
+                }
+            }
         }
         String page_raw = request.getParameter("page");
         int page = 0;
@@ -183,6 +195,7 @@ public class AddSche extends HttpServlet {
             request.setAttribute("cin", cnd.getAllCinema());
             request.getRequestDispatcher("addSche.jsp").forward(request, response);
         } else {
+
             if (request.getParameter("check").equals("1")) {
                 String id_raw = request.getParameter("id");
                 System.out.println(id_raw);
@@ -239,6 +252,53 @@ public class AddSche extends HttpServlet {
                 request.setAttribute("cin", cnd.getAllCinema());
                 request.getRequestDispatcher("addSche.jsp").forward(request, response);
             } else {
+                String id_raw = request.getParameter("id");
+                System.out.println(id_raw);
+                List<Schedule> s = new ArrayList<>();
+                ScheDAO sd = new ScheDAO();
+                int id = 0;
+
+                try {
+                    id = Integer.parseInt(id_raw);
+                    System.out.println(id);
+                    s = sd.getAllScheduleByMovID(id);
+                    if (s.isEmpty()) {
+                        throw new Exception("Loi");
+                    }
+                } catch (Exception e) {
+                    System.out.println("ea");
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+                String page_raw = request.getParameter("page");
+                int page = 0;
+
+                if (page_raw == null) {
+                    page = 1;
+                } else {
+                    try {
+                        page = Integer.parseInt(page_raw);
+                        if (page <= 0) {
+                            throw new Exception("Loi");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("ra");
+
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                }
+                int numPerPage = 20;
+                int totalPage = (s.size() % numPerPage == 0) ? (s.size() / numPerPage) : (s.size() / numPerPage + 1);
+                if (page > totalPage) {
+                    System.out.println(page + " " + totalPage);
+                    System.out.println("ia");
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+                int start = (page - 1) * numPerPage;
+                RoomDAO rd = new RoomDAO();
+
+                int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
+                CinemaDAO cnd = new CinemaDAO();
+                FormDAO fmd = new FormDAO();
                 String scheNo = request.getParameter("scheNo");
                 String startDate_raw = request.getParameter("startDate");
                 String startTime_raw = request.getParameter("startTime");
@@ -249,30 +309,83 @@ public class AddSche extends HttpServlet {
 
                 Date startDate = Date.valueOf(startDate_raw);
                 System.out.println(startDate);
+                System.out.println(startTime_raw);
                 Time t;
-                t = Time.valueOf(startTime_raw);
+                t = Time.valueOf(startTime_raw + ":00");
                 System.out.println(t);
-                int movID = 0, formID = 0, cinID = 0;
+                int movID = 0, formID = 0, cinID = 0, roomID = 0;
                 try {
                     movID = Integer.parseInt(movID_raw);
                     formID = Integer.parseInt(formID_raw);
                     cinID = Integer.parseInt(cinID_raw);
+                    roomID = Integer.parseInt(roomID_raw);
                 } catch (Exception e) {
                     request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
-                ScheDAO sd = new ScheDAO();
+                MovieDAO mvd = new MovieDAO();
+                double tgianChieu = mvd.getMovieById(movID).getTime();
+                String tgianChieu_raw = "";
+                int h = (int) (tgianChieu / 60);
+                int m = (int) (tgianChieu % 60);
+                int ss = (int) ((tgianChieu - Math.floor(tgianChieu)) * 60);
+                if (h < 10) {
+                    tgianChieu_raw += "0";
+                    tgianChieu_raw += h;
+                } else {
+                    tgianChieu_raw += h;
+                }
+                if (m < 10) {
+                    tgianChieu_raw += ":";
+                    tgianChieu_raw += "0";
+                    tgianChieu_raw += m;
+                } else {
+                    tgianChieu_raw += ":";
+                    tgianChieu_raw += m;
+                }
+                if (ss < 10) {
+                    tgianChieu_raw += ":";
+                    tgianChieu_raw += "0";
+                    tgianChieu_raw += ss;
+                } else {
+                    tgianChieu_raw += ":";
+                    tgianChieu_raw += ss;
+                }
+
+                int min = (int) tgianChieu;
+                System.out.println(min);
+                Time tme = Time.valueOf(tgianChieu_raw);
+                System.out.println(tgianChieu_raw);
+
                 try {
-                    if (sd.getScheduleByIn4(scheNo, movID, startDate, t, formID, cinID) != null) {
+                    if (sd.getScheduleByIn4(scheNo, movID, startDate, t, roomID, cinID, min) != null) {
                         throw new Exception("Loi");
                     }
                 } catch (Exception e) {
+                    System.out.println("1");
                     System.out.println(e);
                 }
-
-                //sd.addSchedule(scheNo, movID, formID, cinID, formID, startDate, startTime, startDate, startTime);
-//                String ms = "Thêm lịch chiếu thành công";
-//                request.setAttribute("ms", ms);
-//                request.getRequestDispatcher("addSche.jsp").forward(request, response);
+                String endDate = "";
+                String endTime = "";
+                String en = sd.convertTime(startDate_raw, startTime_raw, min);
+                for (int i = 0; i < en.length(); i++) {
+                    if (en.charAt(i) == ' ') {
+                        endDate = en.substring(0, i);
+                        endTime = en.substring(i + 1);
+                    }
+                }
+                System.out.println(endDate + " " + endTime);
+                sd.addSchedule(scheNo, movID, formID, cinID, roomID, startDate, t, Date.valueOf(endDate), Time.valueOf(endTime));
+                String ms = "Thêm lịch chiếu thành công";
+                request.setAttribute("ms", ms);
+                request.setAttribute("cinPick", Integer.parseInt(request.getParameter("cin")));
+                request.setAttribute("room", rd.getAllRoomByCinID(Integer.parseInt(request.getParameter("cin"))));
+                request.setAttribute("form", fmd.getAllForm());
+                request.setAttribute("id", id);
+                request.setAttribute("s", sd.getScheduleByPage(s, start, end));
+                request.setAttribute("totalPage", totalPage);
+                request.setAttribute("page", page);
+                request.setAttribute("cin", cnd.getAllCinema());
+                request.getRequestDispatcher("addSche.jsp").forward(request, response);
             }
         }
     }

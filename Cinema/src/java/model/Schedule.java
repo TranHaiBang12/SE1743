@@ -26,6 +26,7 @@ public class Schedule {
     private String formName;
     private String movName;
     private String movImg;
+    private boolean hasTick;
 
     public Schedule(String cinName, String cinType, Date start, Date end, String startTim, String endTim) {
         this.cinName = cinName;
@@ -80,6 +81,16 @@ public class Schedule {
         this.cinName = cinName;
         this.movImg = movImg;
     }
+
+    public boolean isHasTick() {
+        return hasTick;
+    }
+
+    public void setHasTick(boolean hasTick) {
+        this.hasTick = hasTick;
+    }
+    
+    
 
     public String getMovImg() {
         return movImg;
