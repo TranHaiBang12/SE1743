@@ -100,6 +100,10 @@
         <servlet-name>UpdTick</servlet-name>
         <servlet-class>controller.UpdTick</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewSche</servlet-name>
+        <servlet-class>controller.ViewSche</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -199,6 +203,10 @@
     <servlet-mapping>
         <servlet-name>UpdTick</servlet-name>
         <url-pattern>/updtick</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewSche</servlet-name>
+        <url-pattern>/viewsche</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

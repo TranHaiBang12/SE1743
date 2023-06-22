@@ -101,7 +101,7 @@
             }
             
             .ms{
-                margin-left: 600px;
+                margin-left: 450px;
                 color: red;
             }
             .frm{
@@ -142,7 +142,7 @@
                         <td>${i.getRoomID()}</td>
                         <td>${i.getEnd()}</td>
                         <td>${i.getEndTim()}</td>
-                        <td class ="tket">${i.isHasTick() == true?"UPDATE TICKET":"ADD TICKET"}</td>
+                        <td id ="" class ="tket">${i.isHasTick() == true?"UPDATE TICKET":"ADD TICKET"}</td>
                         <c:set var="movName" value="${i.getMovName()}"/>
                         <c:set var="movID" value="${i.getMovID()}"/>
                     </tr>

@@ -154,6 +154,16 @@ public class AddSche extends HttpServlet {
                 System.out.println("ea");
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
+            List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
+            for (int i = 0; i < s.size(); i++) {
+                s.get(i).setHasTick(false);
+                for (int j = 0; j < scheHasTicket.size(); j++) {
+                    if (s.get(i).getScheNo().equals(scheHasTicket.get(j))) {
+                        s.get(i).setHasTick(true);
+                        break;
+                    }
+                }
+            }
             String page_raw = request.getParameter("page");
             int page = 0;
 
@@ -213,6 +223,16 @@ public class AddSche extends HttpServlet {
                     System.out.println("pa");
                     request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
+                List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
+                for (int i = 0; i < s.size(); i++) {
+                    s.get(i).setHasTick(false);
+                    for (int j = 0; j < scheHasTicket.size(); j++) {
+                        if (s.get(i).getScheNo().equals(scheHasTicket.get(j))) {
+                            s.get(i).setHasTick(true);
+                            break;
+                        }
+                    }
+                }
                 String page_raw = request.getParameter("page");
                 int page = 0;
 
@@ -268,6 +288,16 @@ public class AddSche extends HttpServlet {
                 } catch (Exception e) {
                     System.out.println("ea");
                     request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+                List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
+                for (int i = 0; i < s.size(); i++) {
+                    s.get(i).setHasTick(false);
+                    for (int j = 0; j < scheHasTicket.size(); j++) {
+                        if (s.get(i).getScheNo().equals(scheHasTicket.get(j))) {
+                            s.get(i).setHasTick(true);
+                            break;
+                        }
+                    }
                 }
                 String page_raw = request.getParameter("page");
                 int page = 0;
@@ -361,8 +391,16 @@ public class AddSche extends HttpServlet {
                         throw new Exception("Loi");
                     }
                 } catch (Exception e) {
-                    System.out.println("1");
-                    System.out.println(e);
+                    request.setAttribute("ms", "Đã tồn tại một lịch chiếu trong khung giờ này, vui lòng chuyển sang một khung giờ khác");
+                    request.setAttribute("cinPick", Integer.parseInt(request.getParameter("cin")));
+                    request.setAttribute("room", rd.getAllRoomByCinID(Integer.parseInt(request.getParameter("cin"))));
+                    request.setAttribute("form", fmd.getAllForm());
+                    request.setAttribute("id", id);
+                    request.setAttribute("s", sd.getScheduleByPage(s, start, end));
+                    request.setAttribute("totalPage", totalPage);
+                    request.setAttribute("page", page);
+                    request.setAttribute("cin", cnd.getAllCinema());
+                    request.getRequestDispatcher("addSche.jsp").forward(request, response);
                 }
                 String endDate = "";
                 String endTime = "";

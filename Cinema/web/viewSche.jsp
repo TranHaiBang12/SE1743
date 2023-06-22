@@ -1,0 +1,203 @@
+<%-- 
+    Document   : viewSche
+    Created on : Jun 22, 2023, 6:39:21 PM
+    Author     : acer
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <<link rel="stylesheet" href="style.css"/>
+        <style>
+            table{
+                text-align: center;
+                margin-top: 20px;
+                border: 1px solid black;
+                margin-bottom: 20px;
+                margin: 0 auto;
+            }
+
+            tr{
+                text-align: center;
+                border: 1px solid black;
+            }
+
+            td{
+                padding: 20px;
+                border: 1px solid black;
+            }
+            th{
+                padding: 20px;
+                border: 1px solid black;
+            }
+
+            .pagination{
+                text-align: center;
+                padding-bottom: 15px;
+                margin-top: 20px;
+            }
+
+            .pagination a{
+                text-decoration: none;
+
+            }
+
+            .noActive{
+                text-decoration: none;
+                color: black;
+                border: 1px solid black;
+                padding: 5px;
+                border-radius: 18px;
+            }
+
+            .active{
+                text-decoration: none;
+                border: 1px solid black;
+                padding: 5px;
+                color: white;
+                border-radius: 18px;
+                background-color: black;
+            }
+
+            .t{
+                cursor: pointer;
+            }
+
+            .updtick{
+                cursor: pointer;
+            }
+
+            .addtick{
+                cursor: pointer;
+            }
+
+            .search{
+                padding-top: 20px;
+                margin-bottom: 20px;
+                text-align: center;
+                font-size: 20px;
+            }
+
+            .search input{
+                font-size: 20px;
+            }
+
+            .searchBar input{
+                width: 300px;
+                height: 20px;
+                font-size: 18px;
+                cursor: pointer;
+            }
+
+            .searchBar {
+
+                margin-top: 20px;
+                justify-content: center;
+            }
+
+            a{
+                text-decoration: none;
+                color: black;
+            }
+            
+            .ms{
+                font-size: 25px;
+                text-align: center;
+                color: red;
+                margin-top: 20px;
+                padding-bottom: 20px;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div id = "header">
+            <%@include file = "header.jsp" %>
+        </div>
+        <div class = "body">
+            <div class = "search">
+                <form action = "viewsche" method = "post">
+                    <label for = "searchDate">Nhập ngày:</label>
+                    <input type ="date" name ="searchDate" id ="searchDate"/>
+                    <input type ="text" hidden name ="id" value ="${requestScope.id}"/>
+                    <div class = "searchBar">
+                        <input type="submit" name ="key" value="Tìm kiếm..."/>
+                    </div>
+                    <div class = "searchBar">
+                        <a href = "viewsche?id=${requestScope.id}"><input type="button" name ="key" value="Bỏ ngày tìm kiếm"/></a>
+                    </div>
+                </form>
+            </div>
+            <div class = "ms">          
+                ${requestScope.ms}
+            </div>
+            <c:if test = "${ms == null}">
+                <table>
+                    <tr>
+                        <th>MÃ LỊCH CHIẾU</th>
+                        <th>NGÀY CHIẾU</th>
+                        <th>GIỜ CHIẾU</th>
+                        <th>PHIM</th><!-- comment -->
+                        <th>KIỂU CHIẾU</th><!-- comment -->
+                        <th>RẠP</th>
+                        <th>PHÒNG</th>
+                        <th>NGÀY CHIẾU XONG</th>
+                        <th>GIỜ CHIẾU XONG</th>
+                        <th>VÉ</th>
+                    </tr>
+                    <c:forEach items = "${requestScope.s}" var = "i">
+                        <tr>
+                            <td>${i.getScheNo()}</td>
+                            <td>${i.getStart()}</td>
+                            <td>${i.getStartTim()}</td>
+                            <td>${i.getMovName()}</td>
+                            <td>${i.getFormName()}</td>
+                            <td>${i.getCinName()}</td>
+                            <td>${i.getRoomID()}</td>
+                            <td>${i.getEnd()}</td>
+                            <td>${i.getEndTim()}</td>
+                            <td id ="" class ="tket">
+                                <label id = "tick${i.getScheNo()}" onclick ="direct('tick${i.getScheNo()}')" class = "${i.isHasTick() == true?("updtick"):("addtick")}">${i.isHasTick() == true?"UPDATE TICKET":"ADD TICKET"}</label>
+                                /
+                                <label id = "sche${i.getScheNo()}" onclick ="direct('sche${i.getScheNo()}')" class = "t">UPDATE SCHEDULE</label>
+                            </td>
+                            <c:set var="movName" value="${i.getMovName()}"/>
+                            <c:set var="movID" value="${i.getMovID()}"/>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <div class = "pagination">
+                    <a href ="viewsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}"><</a>
+                    <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                        <a class ="${i == page ? "active":"noActive"}" href ="viewsche?page=${i}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">${i}</a>
+                    </c:forEach>
+                    <a href ="viewsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">></a>
+                </div>
+            </c:if>
+        </div>
+        <div id = "footer">
+            <%@include file = "footer.jsp" %>
+        </div>
+        <script type = "text/javascript">
+            function direct(id) {
+                if (id.includes("tick")) {
+                    if (document.getElementById(id).className === "updtick") {
+                        id = id.replace("tick", "");
+
+                        window.location = "updtick?id=" + id;
+                    } else if (document.getElementById(id).className === "addtick") {
+                        id = id.replace("tick", "");
+                        window.location = "addtick?id=" + id;
+                    }
+                } else if (id.includes("sche")) {
+                    id = id.replace("sche", "");
+                    window.location = "updsche?id=" + id;
+                }
+            }
+        </script>
+    </body>
+</html>

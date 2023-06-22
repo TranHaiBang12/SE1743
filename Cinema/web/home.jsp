@@ -328,15 +328,10 @@
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
                                                     <button type = "submit" value = "ADD SCHEDULE" onclick = "addSche('${i.movID}')">ADD SCHE</button>
-                                                    <button type = "submit" value = "UPDATE SCHEDULE" onclick = "updSche('${i.movID}')">UPD SCHE</button>
+                                                    <button type = "submit" value = "VIEW SCHEDULE" onclick = "viewSche('${i.movID}')">VIEW SCHE</button>
                                                 </c:if>
                                             </div>
-                                             <div class = "bt2">
-                                                <c:if test="${sessionScope.account.role==3}">
-                                                    <button type = "submit" value = "ADD TICKET">ADD TICK</button>
-                                                    <button type = "submit" value = "UPDATE TICKET">UPD TICK</button>
-                                                </c:if>
-                                            </div>
+                       
 
                                         </div>
                                         <div class="main-slider-img">
@@ -406,15 +401,10 @@
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
                                                     <button type = "submit" value = "ADD SCHEDULE" onclick = "addSche('${i.movID}')">ADD SCHE</button>
-                                                    <button type = "submit" value = "UPDATE SCHEDULE" onclick = "updSche('${i.movID}')">UPD SCHE</button>
+                                                    <button type = "submit" value = "VIEW SCHEDULE" onclick = "viewSche('${i.movID}')">VIEW SCHE</button>
                                                 </c:if>
                                             </div>
-                                             <div class = "bt2">
-                                                <c:if test="${sessionScope.account.role==3}">
-                                                    <button type = "submit" value = "ADD TICKET">ADD TICK</button>
-                                                    <button type = "submit" value = "UPDATE TICKET">UPD TICK</button>
-                                                </c:if>
-                                            </div>
+
                                         </div>
 
                                         <div class="main-slider-img">
@@ -528,6 +518,10 @@
         <script>
             function addSche(id) {
                 window.location = "addsche?id=" + id;
+            }
+            
+            function viewSche(id) {
+                window.location = "viewsche?id=" + id;
             }
             
             function updSche(id) {

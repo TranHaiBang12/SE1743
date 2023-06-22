@@ -200,8 +200,8 @@ public class BookingServlet extends HttpServlet {
         } else {
             id_lForm = idLo;
         }
-        String start = date.get(id_sForm) + " 00:00:00.000";
-        String end = date.get(id_sForm + 1) + " 00:00:00.000";
+        Date start = date.get(id_sForm);
+        Date end = date.get(id_sForm + 1);
 
         List<String> form = mvd.getAllMovieFormByIdAndLocationAndTime(id, loc.get(id_lForm).getLoc(), start, end);
 

@@ -87,14 +87,14 @@ public class MovieDAO extends DBContext {
         return list;
     }
 
-    public List<String> getAllMovieFormByIdAndLocationAndTime(int id, String city, String startTime, String endTime) {
+    public List<String> getAllMovieFormByIdAndLocationAndTime(int id, String city, Date startTime, Date endTime) {
         List<String> list = new ArrayList<>();
         try {
-            String sql = "SELECT DISTINCT formName FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID WHERE City = ? AND startTime >= ? AND endTime <= ? AND movID = ?";
+            String sql = "SELECT DISTINCT formName FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID WHERE City = ? AND startDate >= ? AND endDate <= ? AND movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, city);
-            st.setString(2, startTime);
-            st.setString(3, endTime);
+            st.setDate(2, startTime);
+            st.setDate(3, endTime);
             st.setInt(4, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
