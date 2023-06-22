@@ -4,25 +4,26 @@
  */
 package filter;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 /**
  *
  * @author acer
  */
-public class LoginFilter implements Filter {
+public class RoleFilter1 implements Filter {
     
     private static final boolean debug = true;
 
@@ -31,13 +32,13 @@ public class LoginFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public LoginFilter() {
+    public RoleFilter1() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("LoginFilter:DoBeforeProcessing");
+            log("RoleFilter1:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -65,7 +66,7 @@ public class LoginFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("LoginFilter:DoAfterProcessing");
+            log("RoleFilter1:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -101,16 +102,24 @@ public class LoginFilter implements Filter {
             throws IOException, ServletException {
         
         if (debug) {
-            log("LoginFilter:doFilter()");
+            log("RoleFilter1:doFilter()");
         }
         
         doBeforeProcessing(request, response);
         HttpServletRequest req = (HttpServletRequest)request;
         HttpServletResponse res = (HttpServletResponse)response;
         HttpSession session = req.getSession();
+        
         if(session.getAttribute("account") == null) {
             res.sendRedirect("login");
         }
+        else {
+            Account a = (Account)session.getAttribute("account");
+            if(a.getRole() != 3) {
+                res.sendRedirect("error.jsp");
+            }
+        }
+   
         
         Throwable problem = null;
         try {
@@ -167,7 +176,7 @@ public class LoginFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("LoginFilter:Initializing filter");
+                log("RoleFilter1:Initializing filter");
             }
         }
     }
@@ -178,9 +187,9 @@ public class LoginFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("LoginFilter()");
+            return ("RoleFilter1()");
         }
-        StringBuffer sb = new StringBuffer("LoginFilter(");
+        StringBuffer sb = new StringBuffer("RoleFilter1(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());
