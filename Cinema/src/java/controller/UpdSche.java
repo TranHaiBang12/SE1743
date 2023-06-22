@@ -5,12 +5,17 @@
 
 package controller;
 
+import dal.CinemaDAO;
+import dal.FormDAO;
+import dal.RoomDAO;
+import dal.ScheDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Schedule;
 
 /**
  *
@@ -53,7 +58,23 @@ public class UpdSche extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        ScheDAO sd = new ScheDAO();
+        String id = request.getParameter("id");
+        Schedule s = sd.getScheduleByID(id);
+        CinemaDAO cnd = new CinemaDAO();
+        FormDAO fd = new FormDAO();
+        RoomDAO rd = new RoomDAO();
+        if(s == null) {
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
+        else {
+            request.setAttribute("cin", cnd.getAllCinema());
+            request.setAttribute("form", fd.getAllForm());
+            request.setAttribute("room", rd.getAllRoomByCinID(1));
+            request.setAttribute("s", s);
+            request.getRequestDispatcher("updSche.jsp").forward(request, response);
+        }
     } 
 
     /** 

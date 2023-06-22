@@ -316,7 +316,7 @@
                         <div>2 sao:  &nbsp;&nbsp;<span>0%</span></div>
                         <div>1 sao:  &nbsp;&nbsp;<span>0%</span></div>
                     </div>
-                    <div class="btn"><input type = "button" onclick ="display()" value = "Viết đánh giá"/></div>
+                    <div class="btn"><input type = "button" onclick ="display(${sessionScope.account.getUserName()})" value = "Viết đánh giá"/></div>
                 </div>
             </div>
             <input type ="text" id ="stat" hidden value ="${requestScope.stat}"/>
@@ -387,7 +387,11 @@
 
             }
 
-            function display() {
+            function display(user) {
+                if(user === null || user === "" || user === undefined) {
+                    window.location = "login";
+                }
+                console.log(user);
                 if (Number(document.getElementById("stat").value) === 0) {
                     if (String(document.getElementById("myR").style.display) === 'none') {
                         document.getElementById("myR").style.display = 'block';

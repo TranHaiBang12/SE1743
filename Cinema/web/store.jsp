@@ -282,6 +282,10 @@
                                     }
                                     function cart(id, username) {
                                         console.log(id);
+                                        console.log(username);
+                                        if(username === "" || username === null || user === undefined) {
+                                            window.location = "login";
+                                        }
                                         if (getCookie(username) === null) {
                                             t = "";
                                         } else {

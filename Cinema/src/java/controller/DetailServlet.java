@@ -46,7 +46,7 @@ public class DetailServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
-            
+
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet DetailServlet</title>");
@@ -78,50 +78,85 @@ public class DetailServlet extends HttpServlet {
             int id = Integer.parseInt(id_raw);
             RateDAO rd = new RateDAO();
             int stat;
-            if(rd.checkAccountRateByMovID(a.getUserName(), id) != null) {
-                stat = 1;
+            if (a != null) {
+                if (rd.checkAccountRateByMovID(a.getUserName(), id) != null) {
+                    stat = 1;
+                } else {
+                    stat = 0;
+                }
+
+                MovieDAO mvd = new MovieDAO();
+                String pattern = "dd-MM-yyyy";
+                DiStaGenreMovDAO dsgm = new DiStaGenreMovDAO();
+                DirectorInMov dim = dsgm.getAllDirectorByMovID(id);
+                String dir = "", star = "", genre = "";
+                for (int i = 0; i < dim.getDirectorName().size(); i++) {
+                    dir += dim.getDirectorName().get(i);
+                    if (i != dim.getDirectorName().size() - 1) {
+                        dir += ", ";
+                    }
+                }
+                StarInMov sim = dsgm.getAllStarByMovID(id);
+                for (int i = 0; i < sim.getStarName().size(); i++) {
+                    star += sim.getStarName().get(i);
+                    if (i != sim.getStarName().size() - 1) {
+                        star += ", ";
+                    }
+                }
+                MovieGenre mv = dsgm.getAllGenreByMovID(id);
+                for (int i = 0; i < mv.getGenreName().size(); i++) {
+                    genre += mv.getGenreName().get(i);
+                    if (i != mv.getGenreName().size() - 1) {
+                        genre += ", ";
+                    }
+                }
+                Movies m = mvd.getMovieById(id);
+                request.setAttribute("id", id);
+                request.setAttribute("stat", stat);
+                request.setAttribute("data", m);
+                request.setAttribute("dir", dir);
+                request.setAttribute("star", star);
+                request.setAttribute("genre", genre);
+                request.getRequestDispatcher("detail.jsp").forward(request, response);
             }
             else {
-                stat = 0;
-            }
-            
-            MovieDAO mvd = new MovieDAO();
-            String pattern = "dd-MM-yyyy";
-            DiStaGenreMovDAO dsgm = new DiStaGenreMovDAO();
-            DirectorInMov dim = dsgm.getAllDirectorByMovID(id);
-            String dir = "", star = "", genre = "";
-            for (int i = 0; i < dim.getDirectorName().size(); i++) {
-                dir += dim.getDirectorName().get(i);
-                if(i != dim.getDirectorName().size() - 1) {
-                    dir += ", ";
+                MovieDAO mvd = new MovieDAO();
+                String pattern = "dd-MM-yyyy";
+                DiStaGenreMovDAO dsgm = new DiStaGenreMovDAO();
+                DirectorInMov dim = dsgm.getAllDirectorByMovID(id);
+                String dir = "", star = "", genre = "";
+                for (int i = 0; i < dim.getDirectorName().size(); i++) {
+                    dir += dim.getDirectorName().get(i);
+                    if (i != dim.getDirectorName().size() - 1) {
+                        dir += ", ";
+                    }
                 }
-            }
-            StarInMov sim = dsgm.getAllStarByMovID(id);
-            for (int i = 0; i < sim.getStarName().size(); i++) {
-                star += sim.getStarName().get(i);
-                if(i != sim.getStarName().size() - 1) {
-                    star += ", ";
+                StarInMov sim = dsgm.getAllStarByMovID(id);
+                for (int i = 0; i < sim.getStarName().size(); i++) {
+                    star += sim.getStarName().get(i);
+                    if (i != sim.getStarName().size() - 1) {
+                        star += ", ";
+                    }
                 }
-            }
-            MovieGenre mv = dsgm.getAllGenreByMovID(id);
-            for (int i = 0; i < mv.getGenreName().size(); i++) {
-                genre += mv.getGenreName().get(i);
-                if(i != mv.getGenreName().size() - 1) {
-                    genre += ", ";
+                MovieGenre mv = dsgm.getAllGenreByMovID(id);
+                for (int i = 0; i < mv.getGenreName().size(); i++) {
+                    genre += mv.getGenreName().get(i);
+                    if (i != mv.getGenreName().size() - 1) {
+                        genre += ", ";
+                    }
                 }
+                Movies m = mvd.getMovieById(id);
+                request.setAttribute("id", id);
+                request.setAttribute("data", m);
+                request.setAttribute("dir", dir);
+                request.setAttribute("star", star);
+                request.setAttribute("genre", genre);
+                request.getRequestDispatcher("detail.jsp").forward(request, response);
             }
-            Movies m = mvd.getMovieById(id);
-            request.setAttribute("id", id);
-            request.setAttribute("stat", stat);
-            request.setAttribute("data", m);
-            request.setAttribute("dir", dir);
-            request.setAttribute("star", star);
-            request.setAttribute("genre", genre);
-            request.getRequestDispatcher("detail.jsp").forward(request, response);
         } catch (Exception e) {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-        
+
     }
 
     /**
@@ -137,19 +172,18 @@ public class DetailServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
-        
+
         String star_raw = request.getParameter("star");
         String name = request.getParameter("name1");
         String cmt = request.getParameter("cmt");
         String anoy = request.getParameter("anoy");
         RateDAO rd = new RateDAO();
-        if(anoy.equals("on")) {
+        if (anoy.equals("on")) {
             name = "Khách hàng";
             int star = Integer.parseInt(star_raw);
             int movID = Integer.parseInt(request.getParameter("movID"));
             rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name);
-        }
-        else {
+        } else {
             int star = Integer.parseInt(star_raw);
             int movID = Integer.parseInt(request.getParameter("movID"));
             rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name);
@@ -165,21 +199,21 @@ public class DetailServlet extends HttpServlet {
             String dir = "", star = "", genre = "";
             for (int i = 0; i < dim.getDirectorName().size(); i++) {
                 dir += dim.getDirectorName().get(i);
-                if(i != dim.getDirectorName().size() - 1) {
+                if (i != dim.getDirectorName().size() - 1) {
                     dir += ", ";
                 }
             }
             StarInMov sim = dsgm.getAllStarByMovID(id);
             for (int i = 0; i < sim.getStarName().size(); i++) {
                 star += sim.getStarName().get(i);
-                if(i != sim.getStarName().size() - 1) {
+                if (i != sim.getStarName().size() - 1) {
                     star += ", ";
                 }
             }
             MovieGenre mv = dsgm.getAllGenreByMovID(id);
             for (int i = 0; i < mv.getGenreName().size(); i++) {
                 genre += mv.getGenreName().get(i);
-                if(i != mv.getGenreName().size() - 1) {
+                if (i != mv.getGenreName().size() - 1) {
                     genre += ", ";
                 }
             }

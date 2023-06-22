@@ -583,6 +583,9 @@
             }
 
             function cart(user) {
+                if(user === null || user === "" || user === undefined) {
+                    window.location = "login";
+                }
                 //console.log(user);
                 var ckie = getCookie(user);
                 console.log(idP);
