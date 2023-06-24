@@ -374,9 +374,9 @@
                         </div>
                         <div class = "seat">
                             <c:forEach items = "${requestScope.tk}" var = "i">
-                                <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
-                                <c:if test = "${i.getType() == 1}">
-                                    <div id ="${i.getId()}" class = "insideSeat" >
+                                <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
+                                <c:if test = "${i.getSeatType() == 1}">
+                                    <div id ="${i.getID()}" class = "insideSeat" >
                                         <input type ="text" hidden/>
                                         <div class = "sat">
 
@@ -386,8 +386,8 @@
 
                                     </div>
                                 </c:if>
-                                <c:if test = "${i.getType() == 2}">
-                                    <div id ="${i.getId()}" class = "vip"  >
+                                <c:if test = "${i.getSeatType() == 2}">
+                                    <div id ="${i.getID()}" class = "vip"  >
                                         <input type ="text" hidden/>
                                         <div class = "sat">
                                             <span>${i.getCol()}</span>
@@ -396,8 +396,8 @@
 
                                     </div>
                                 </c:if>
-                                <c:if test = "${i.getType() == 3}">
-                                    <div  id ="${i.getId()}" class = "spe">
+                                <c:if test = "${i.getSeatType() == 3}">
+                                    <div  id ="${i.getID()}" class = "spe">
                                         <input type ="text" hidden/>
                                         <div class = "sat">
                                             <span>${i.getCol()}</span>
@@ -405,10 +405,10 @@
                                         </div>
                                     </div>
                                 </c:if>
-                                <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
+                                <div class = "${((i.getID() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
 
                                     <!--
-                                    <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
+                                    <c:if test = "${((i.getID() % requestScope.room.getNoColSeats()== 0) || ((i.getID() - 1) % requestScope.room.getNoColSeats()== 0) && i.getID() != 1)}">
                                         <p class = "breaker">T</p>
                                     </c:if>
                                     -->

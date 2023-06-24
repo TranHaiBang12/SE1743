@@ -7,6 +7,7 @@ package dal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,5 +98,72 @@ public class TicketDAO extends DBContext {
         }
 
         return list;
+    }
+
+    public int insertProductTicket(double discount, double price) {
+        int id = 0;
+        try {
+            String sql = "INSERT INTO Product VALUES (?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, "TK");
+            st.setDouble(2, discount);
+            st.setDouble(3, price);
+            st.executeUpdate();
+            ResultSet rs = st.getGeneratedKeys();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return id;
+    }
+
+    public void insertTicketNM(String productCode, String scheNo, int numberLeft) {
+        try {
+            String sql = "INSERT INTO TickTypeInSche VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, productCode);
+            st.setString(2, "NM");
+            st.setString(3, scheNo);
+            st.setInt(4, numberLeft);
+            st.setString(5, "ĐANG BÁN");
+            st.setInt(6, 0);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void insertTicketVP(String productCode, String scheNo, int numberLeft) {
+        try {
+            String sql = "INSERT INTO TickTypeInSche VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, productCode);
+            st.setString(2, "VP");
+            st.setString(3, scheNo);
+            st.setInt(4, numberLeft);
+            st.setString(5, "ĐANG BÁN");
+            st.setInt(6, 0);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void insertTicketVT(String productCode, String scheNo, int numberLeft) {
+        try {
+            String sql = "INSERT INTO TickTypeInSche VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, productCode);
+            st.setString(2, "VT");
+            st.setString(3, scheNo);
+            st.setInt(4, numberLeft);
+            st.setString(5, "ĐANG BÁN");
+            st.setInt(6, 0);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

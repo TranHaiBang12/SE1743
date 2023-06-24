@@ -66,6 +66,7 @@
                 flex-wrap: wrap;
                 justify-content: center;
                 align-items: center;
+                text-align: center;
             }
 
             .seat hr {
@@ -212,7 +213,10 @@
                 font-size: 20px;
                 padding-top: 10px;
             }
-
+            .ko{
+                text-align: center;
+                margin-left: 200px;
+            }
             .tket img{
                 width: 90%;
                 margin-top: 20px;
@@ -227,6 +231,7 @@
 
             .ko{
                 display: flex;
+                flex-direction: column;
             }
 
             .ghe {
@@ -308,6 +313,92 @@
                 color: white;
             }
 
+            .screen{
+                width: 80%;
+                text-align: center;
+                margin: 0 auto;
+                margin-top: 20px;
+            }
+
+            .screen img{
+                width: 100%;
+            }
+
+            .seatInstruct{
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            .frm{
+                display: flex;
+                flex-direction: column;
+                margin-left: 40px;
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            .imgE{
+                width: 50px;
+                height: 50px;
+                margin-right: 20px;
+            }
+
+            .insideForm{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .insideinsideform{
+                display: flex;
+                align-items: center;
+
+            }
+
+            .insideForm input{
+                width: 72%;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                height: 25px;
+                padding-left: 10px;
+                font-size: 20px;
+            }
+
+            .insideinsideform label{
+                margin-right: 100px;
+                font-weight: bold;
+            }
+
+
+
+            .sbMIT{
+                color: white;
+                background-color: red;
+                cursor: pointer;
+            }
+
+
+            .insideTinsideform input{
+                width: 61%;
+            }
+
+            .insideTinsideform label{
+                margin-right: 14px;
+            }
+
+            .insideTinsideform{
+                display: flex;
+                align-items: center;
+            }
+
+            .ms{
+                margin-top: 20px;
+                font-size: 20px;
+                color: red;
+                margin-right: 300px;
+            }
+
+
 
 
         </style>
@@ -317,9 +408,9 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <h3 class = "ttle">CHỌN GHẾ NGỒI</h3>
+            <h3 class = "ttle">THÊM VÉ</h3>
             <div class = "urSelection">
-                BẠN ĐÃ CHỌN: <span class = "mvName">${requestScope.movName}, </span> <span class = "fName">${requestScope.formName}</span>
+                PHIM: <span class = "mvName">${requestScope.movName}, </span> <span class = "fName">${requestScope.formName}</span>
             </div>
             <div class = "scheIn4">
                 PHÒNG CHIẾU: <span class = "scheRoom">${requestScope.sche.getRoomID()}</span>, TẦNG <span>${requestScope.room.getFloor()}</span>
@@ -405,13 +496,54 @@
                         </c:forEach>
                     </div>
                 </div>
-                <div class = "tket">
-                    <a href = "movie">CHỌN LẠI PHIM</a>
-                    <img src = "${requestScope.mov.getImg()}"><!-- comment -->
-                    <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
-                    <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>
-                    <div class = "sum">Tổng: <span id ="sum" ></span></div>
-                    <div class = "crt"><input type = "button" onclick ="cart('${sessionScope.account.getUserName()}')" value = "Add to cart"/></div>
+                <div class = "ms">
+                    ${requestScope.ms}
+                </div>
+                <div class = "frm">
+
+                    <form action = "addtick" method = "post">
+                        <div class = "insideForm">
+                            <div class = "insideinsideform">
+                                <label id ="nm">Ghế Thường: </label>
+                                <img class = "imgE" src = "images/whiteSeat.png">
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number"  class="tk_in4" required min="0" max ="1000" id ="nm" name ="nm"/>
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Khuyến Mại(%): </label><input type="number"  class="tk_in4" min ="0" step="0.01" name = "nm_dc">
+                            </div>
+                        </div>
+
+                        <div class = "insideForm">
+                            <div class = "insideinsideform">
+                                <label id ="vp">Ghế VIP: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <img class = "imgE" src = "images/blueSeat.png">
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number"  class="tk_in4" required min="0" max ="1000" id ="vp" name ="vp"/>
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Khuyến Mại(%): </label><input type="number"  class="tk_in4" min ="0" step="0.01" name = "vp_dc">
+                            </div>
+                        </div>
+                        <div class = "insideForm">
+                            <div class = "insideinsideform">
+                                <label id ="vt">Ghế Đôi: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <img class = "imgE" src = "images/pinkSeat.png">
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number" required  class="tk_in4" min="0" max ="1000" id ="vt" name ="vt"/>
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Khuyến Mại(%): </label><input type="number" class="tk_in4" min ="0" step="0.01" name = "vt_dc">
+                            </div>
+                        </div>
+                        <div class = "insideForm">
+                            <input type ="submit" class ="sbMIT" value ="ADD"/>
+                        </div>
+                        <input type ="text" hidden value ="${requestScope.id}" name = "id"/>
+                    </form>
                 </div>
             </div>
         </div>
@@ -421,7 +553,7 @@
 
         <script type="text/javascript">
 
-      
+
         </script>
     </body>
 </html>
