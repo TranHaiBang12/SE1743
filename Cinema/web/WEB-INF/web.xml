@@ -1,38 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <filter>
-        <filter-name>NewFilter</filter-name>
-        <filter-class>filter.NewFilter</filter-class>
-    </filter>
-    <filter>
-        <filter-name>JSPFilter1</filter-name>
-        <filter-class>filter.JSPFilter1</filter-class>
-    </filter>
-    <filter>
-        <filter-name>RoleFilter1</filter-name>
-        <filter-class>filter.RoleFilter1</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>RoleFilter1</filter-name>
-        <url-pattern>/addsche</url-pattern>
-        <url-pattern>/updsche</url-pattern>
-        <url-pattern>/addtick</url-pattern>
-        <url-pattern>/updtick</url-pattern>
-        <url-pattern>/viewsche</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>JSPFilter1</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>NewFilter</filter-name>
-        <url-pattern>/cart</url-pattern>
-        <url-pattern>/transact</url-pattern>
-        <url-pattern>/pay</url-pattern>
-        <url-pattern>/info</url-pattern>
-        <url-pattern>/acc</url-pattern>
-        <url-pattern>/updacc</url-pattern>
-    </filter-mapping>
+
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>

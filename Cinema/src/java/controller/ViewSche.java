@@ -119,22 +119,32 @@ public class ViewSche extends HttpServlet {
             request.getRequestDispatcher("viewSche.jsp").forward(request, response);
         } else {
             String date_raw = request.getParameter("searchDate");
-            Date date = Date.valueOf(date_raw);
+
             String id_raw = request.getParameter("id");
             List<Schedule> s = new ArrayList<>();
             ScheDAO sd = new ScheDAO();
             int id = 0;
-
-            try {
-                id = Integer.parseInt(id_raw);
-                s = sd.getAllScheduleByDateAMov(date, id);
-                if (s.isEmpty()) {
-
-                    throw new Exception("Loi");
+            if (date_raw == null) {
+                try {
+                    id = Integer.parseInt(id_raw);
+                    s = sd.getAllScheduleByMovID(id);
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
-            } catch (Exception e) {
-                System.out.println("1");
-                request.getRequestDispatcher("error.jsp").forward(request, response);
+            } else {
+                try {
+                    id = Integer.parseInt(id_raw);
+                    Date date = Date.valueOf(date_raw);
+                    s = sd.getAllScheduleByDateAMov(date, id);
+                    if (s.isEmpty()) {
+
+                        throw new Exception("Loi");
+                    }
+                    request.setAttribute("searchDate", date);
+                } catch (Exception e) {
+                    System.out.println("1");
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
             }
             List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
             for (int i = 0; i < s.size(); i++) {
@@ -171,7 +181,7 @@ public class ViewSche extends HttpServlet {
             int start = (page - 1) * numPerPage;
             int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
             CinemaDAO cnd = new CinemaDAO();
-            request.setAttribute("searchDate", date);
+            
             request.setAttribute("id", id);
             request.setAttribute("s", sd.getScheduleByPage(s, start, end));
             request.setAttribute("totalPage", totalPage);
@@ -192,7 +202,8 @@ public class ViewSche extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("searchDate") != null) {
+        if (request.getParameter("searchDate") != null && !request.getParameter("searchDate").equals("")) {
+            System.out.println("notnull");
             String date_raw = request.getParameter("searchDate");
             Date date = Date.valueOf(date_raw);
             String id_raw = request.getParameter("id");
@@ -204,7 +215,7 @@ public class ViewSche extends HttpServlet {
                 id = Integer.parseInt(id_raw);
                 s = sd.getAllScheduleByDateAMov(date, id);
                 if (s.isEmpty()) {
-                    
+
                     throw new Exception("Loi");
                 }
             } catch (Exception e) {
@@ -255,6 +266,7 @@ public class ViewSche extends HttpServlet {
             request.setAttribute("cin", cnd.getAllCinema());
             request.getRequestDispatcher("viewSche.jsp").forward(request, response);
         } else {
+            System.out.println("null");
             String id_raw = request.getParameter("id");
             List<Schedule> s = new ArrayList<>();
             ScheDAO sd = new ScheDAO();

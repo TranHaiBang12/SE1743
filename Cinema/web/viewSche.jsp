@@ -102,7 +102,7 @@
                 text-decoration: none;
                 color: black;
             }
-            
+
             .ms{
                 font-size: 25px;
                 text-align: center;
@@ -171,11 +171,26 @@
                     </c:forEach>
                 </table>
                 <div class = "pagination">
-                    <a href ="viewsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}"><</a>
+                    <c:if test = "${requestScope.searchDate != null}">
+                        <a href ="viewsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}"><</a>
+                    </c:if>
+                    <c:if test = "${requestScope.searchDate == null}">
+                        <a href ="viewsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
+                    </c:if>
                     <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
-                        <a class ="${i == page ? "active":"noActive"}" href ="viewsche?page=${i}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">${i}</a>
+                        <c:if test = "${requestScope.searchDate != null}">
+                            <a class ="${i == page ? "active":"noActive"}" href ="viewsche?page=${i}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">${i}</a>
+                        </c:if>
+                        <c:if test = "${requestScope.searchDate == null}">
+                            <a class ="${i == page ? "active":"noActive"}" href ="viewsche?page=${i}&id=${requestScope.id}">${i}</a>
+                        </c:if>
                     </c:forEach>
-                    <a href ="viewsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">></a>
+                    <c:if test = "${requestScope.searchDate != null}">
+                        <a href ="viewsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">></a>
+                    </c:if>
+                    <c:if test = "${requestScope.searchDate == null}">
+                        <a href ="viewsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
+                    </c:if>
                 </div>
             </c:if>
         </div>
