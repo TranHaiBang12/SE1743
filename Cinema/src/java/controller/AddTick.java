@@ -5,12 +5,28 @@
 
 package controller;
 
+import dal.CinemaDAO;
+import dal.FormDAO;
+import dal.MovieDAO;
+import dal.RoomDAO;
+import dal.ScheDAO;
+import dal.SeatDAO;
+import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import model.Account;
+import model.CartItemTicket;
+import model.RoomSeat;
+import model.Ticket;
 
 /**
  *
@@ -53,7 +69,69 @@ public class AddTick extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String id = request.getParameter("id");
+        ScheDAO scd = new ScheDAO();
+        System.out.println(scd.getScheduleByID(id));
+        if (scd.getScheduleByID(id) == null) {
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        } else {
+            FormDAO fmd = new FormDAO();
+            MovieDAO mvd = new MovieDAO();
+            RoomDAO rmd = new RoomDAO();
+            CinemaDAO cnd = new CinemaDAO();
+            String pattern = "dd-MM-yyyy";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            String date = simpleDateFormat.format(scd.getScheduleByID(id).getStart());
+
+            String day = "";
+            switch (scd.getScheduleByID(id).getStart().getDay()) {
+                case 0:
+                    day = "Chủ Nhật";
+                    break;
+                case 1:
+                    day = "Thứ Hai";
+                    break;
+                case 2:
+                    day = "Thứ Ba";
+                    break;
+                case 3:
+                    day = "Thứ Tư";
+                    break;
+                case 4:
+                    day = "Thứ Năm";
+                    break;
+                case 5:
+                    day = "Thứ Sáu";
+                    break;
+                case 6:
+                    day = "Thứ Bảy";
+                    break;
+            }
+            SeatDAO sed = new SeatDAO();
+            //sed.insertAllSeatInRoom(id);
+            TicketDAO tkd = new TicketDAO();
+            Cookie[] arr = request.getCookies();
+            HttpSession session = request.getSession();
+            List<CartItemTicket> listT = new ArrayList<>();
+  
+        
+            List<RoomSeat> rs = sed.selectSeatByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID());
+
+            List<Ticket> tkBought = tkd.getAllTicketBoughtBySchedule(scd.getScheduleByID(id).getScheNo());
+  
+            String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
+            String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
+            request.setAttribute("sche", scd.getScheduleByID(id));
+            request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));
+            request.setAttribute("tk", rs);
+            request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
+            request.setAttribute("movName", movName);
+            request.setAttribute("mov", mvd.getMovieById(scd.getScheduleByID(id).getMovID()));
+            request.setAttribute("formName", formName);
+            request.setAttribute("dateFormat", date);
+            request.setAttribute("day", day);
+            request.getRequestDispatcher("addTick.jsp").forward(request, response);
+        }
     } 
 
     /** 
@@ -66,7 +144,7 @@ public class AddTick extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /** 

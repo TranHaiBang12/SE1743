@@ -161,9 +161,11 @@
                             <td>${i.getEnd()}</td>
                             <td>${i.getEndTim()}</td>
                             <td id ="" class ="tket">
-                                <label id = "tick${i.getScheNo()}" onclick ="direct('tick${i.getScheNo()}')" class = "${i.isHasTick() == true?("updtick"):("addtick")}">${i.isHasTick() == true?"UPDATE TICKET":"ADD TICKET"}</label>
+                                <label id = "tick${i.getScheNo()}" onclick ="direct('tick${i.getScheNo()}')" class = "t">VIEW TICKET</label>
                                 /
-                                <label id = "sche${i.getScheNo()}" onclick ="direct('sche${i.getScheNo()}')" class = "t">UPDATE SCHEDULE</label>
+                                <label id = "sche${i.getScheNo()}" onclick ="directSche('sche${i.getScheNo()}', '${i.isHasSellTick()}')" class = "t">UPDATE SCHEDULE</label>
+                                /<!-- comment -->
+                                <label id = "delsche${i.getScheNo()}" onclick ="directDlt('delsche${i.getScheNo()}', '${requestScope.id}', '${i.isHasSellTick()}')"  class = "t">DELETE SCHEDULE</label>
                             </td>
                             <c:set var="movName" value="${i.getMovName()}"/>
                             <c:set var="movID" value="${i.getMovID()}"/>
@@ -198,7 +200,7 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type = "text/javascript">
-            function direct(id) {
+            function direct(id, movID) {
                 if (id.includes("tick")) {
                     if (document.getElementById(id).className === "updtick") {
                         id = id.replace("tick", "");
@@ -208,9 +210,30 @@
                         id = id.replace("tick", "");
                         window.location = "addtick?id=" + id;
                     }
-                } else if (id.includes("sche")) {
+
+                }
+            }
+
+            function directDlt(id, movID, tick) {
+                if (id.includes("sche") && String(tick) === "false") {
+                    if (id.includes("del")) {
+                        if (confirm("Bạn có chắc muốn xóa lịch chiếu với id = " + id)) {
+                            id = id.replace("delsche", "");
+                            window.location = "dltsche?id=" + id + "&movid=" + movID;
+                        }
+                    }
+                } else {
+                    alert("This schedule has already sell ticket, cant delete it");
+                }
+            }
+
+            function directSche(id, tick) {
+                if (id.includes("sche") && String(tick) === "false") {
                     id = id.replace("sche", "");
+                    console.log("1");
                     window.location = "updsche?id=" + id;
+                } else {
+                    alert("This schedule has already sell ticket, cant update it");
                 }
             }
         </script>

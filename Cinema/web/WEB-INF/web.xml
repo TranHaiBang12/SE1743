@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
@@ -109,6 +108,14 @@
         <servlet-name>DeleteSche</servlet-name>
         <servlet-class>controller.DeleteSche</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteTick</servlet-name>
+        <servlet-class>controller.DeleteTick</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewTick</servlet-name>
+        <servlet-class>controller.ViewTick</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -216,6 +223,14 @@
     <servlet-mapping>
         <servlet-name>DeleteSche</servlet-name>
         <url-pattern>/dltsche</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteTick</servlet-name>
+        <url-pattern>/dlttick</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewTick</servlet-name>
+        <url-pattern>/viewtick</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -5,7 +5,6 @@
 
 package controller;
 
-import dal.ScheDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author acer
  */
-public class DeleteSche extends HttpServlet {
+public class ViewTick extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,10 +33,10 @@ public class DeleteSche extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteSche</title>");  
+            out.println("<title>Servlet ViewTick</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DeleteSche at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ViewTick at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,15 +53,7 @@ public class DeleteSche extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String id = request.getParameter("id");
-        
-        ScheDAO sd = new ScheDAO();
-        sd.deleteSchedule(id);
-        //response.sendRedirect("home");
-        int movID = Integer.parseInt(request.getParameter("movid"));
-//        request.setAttribute("id", Integer.parseInt(request.getParameter("movid")));
-//        request.getRequestDispatcher("viewsche").forward(request, response);
-        response.sendRedirect("viewsche?id=" + movID);
+        processRequest(request, response);
     } 
 
     /** 
@@ -75,6 +66,7 @@ public class DeleteSche extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /** 

@@ -14,7 +14,8 @@ import model.RoomSeat;
  *
  * @author acer
  */
-public class SeatDAO extends DBContext{
+public class SeatDAO extends DBContext {
+
     public void insert(int row, String col, int roomID, int cinID, int type) {
         try {
             String sql = "INSERT INTO Seat VALUES (?, ?, ?, ?, ?)";
@@ -29,7 +30,7 @@ public class SeatDAO extends DBContext{
             System.out.println(e);
         }
     }
-    
+
     public List<RoomSeat> selectSeatByRoomIDAndCinID(int roomID, int cinID) {
         List<RoomSeat> list = new ArrayList<>();
         try {
@@ -39,7 +40,7 @@ public class SeatDAO extends DBContext{
             st.setInt(1, roomID);
             st.setInt(2, cinID);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 RoomSeat rS = new RoomSeat(i, rs.getInt("Row"), rs.getString("Col"), rs.getInt("roomID"), rs.getInt("cinID"), rs.getInt("Type"));
                 list.add(rS);
                 i++;
@@ -48,5 +49,39 @@ public class SeatDAO extends DBContext{
             System.out.println(e);
         }
         return list;
+    }
+
+    public void insertAllSeatInRoom(String id) {
+        RoomDAO rmd = new RoomDAO();
+        ScheDAO scd = new ScheDAO();
+        List<String> b = new ArrayList<>();
+        SeatDAO sed = new SeatDAO();
+        System.out.println(rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getCinID());
+        int a[] = new int[rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats()];
+        for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats(); i++) {
+            a[i] = i + 1;
+        }
+        String c = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoColSeats(); i++) {
+            b.add(c.substring(i, i + 1));
+
+        }
+
+        for (int i = 0; i < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoColSeats(); i++) {
+            for (int j = 0; j < rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()).getNoRowSeats(); j++) {
+                if (j >= 3 && j <= 5) {
+                    if (i >= 1 && i <= 6) {
+                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 2);
+                    } else {
+                        sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
+                    }
+                } else if (j >= 6) {
+                    sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 3);
+
+                } else {
+                    sed.insert(j + 1, c.substring(i, i + 1), scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID(), 1);
+                }
+            }
+        }
     }
 }

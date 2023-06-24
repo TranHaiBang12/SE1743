@@ -324,6 +324,8 @@
             <div class = "scheIn4">
                 PHÒNG CHIẾU: <span class = "scheRoom">${requestScope.sche.getRoomID()}</span>, TẦNG <span>${requestScope.room.getFloor()}</span>
                 <br/>
+                RẠP: <span class = "scheRoom">${requestScope.cin.getCinName()}</span>
+                <br/>
                 SUẤT CHIẾU: <span class = "scheTime">${requestScope.sche.getStartTim()}</span> - <span>${requestScope.day} </span><span>${requestScope.dateFormat}</span>
             </div>
             <div class = "ko">
@@ -398,6 +400,7 @@
                                 </c:if>
                                 -->
                             </div>
+                            <input type ="text" id ="USer" hidden value ="${sessionScope.account.getUserName()}"/>
                             <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
                             <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
                         </c:forEach>
@@ -534,8 +537,10 @@
 
 
             }
-
-            displaySeatInCart("thbang");
+            console.log(document.getElementById("USer").value);
+            //displaySeatInCart("thbang");
+            var user = String(document.getElementById("USer").value);
+            displaySeatInCart(user);
 
             function displaySeatInCart(user) {
                 var seatInCart = [];

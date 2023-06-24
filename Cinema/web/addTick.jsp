@@ -1,6 +1,6 @@
 <%-- 
-    Document   : addTick
-    Created on : Jun 21, 2023, 10:24:54 AM
+    Document   : pickSeat
+    Created on : Jun 5, 2023, 2:21:24 PM
     Author     : acer
 --%>
 
@@ -10,16 +10,463 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <<link rel="stylesheet" href="style.css"/>
+        <style>
+            html{
+                background-color: red;
+            }
+
+            body{
+                width: 100%;
+            }
+
+            .header{
+                width: 100%;
+            }
+
+            .footer{
+                width: 100%;
+            }
+
+            .body{
+                background-color: white;
+                border-bottom: 2px dashed red;
+                padding-bottom: 50px;
+                padding-top: 15px;
+                width: 100%;
+            }
+
+            .ttle{
+                text-align: center;
+                font-size: 30px;
+                margin-bottom: 25px;
+            }
+
+            .urSelection{
+                text-align: center;
+                font-size: 20px;
+                margin-bottom: 25px;
+            }
+
+            .mvName {
+                color: red;
+            }
+
+            .fName {
+                color: red;
+            }
+
+            .scheIn4{
+                text-align: center;
+            }
+
+            .seat{
+                display: flex;
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .seat hr {
+                flex-basis: 100%;
+                height: 0;
+                margin: 0;
+                border: 0;
+            }
+
+            .insideSeat{
+                display: flex;
+                justify-content: space-around;
+
+                flex-direction: row;
+                font-size: 20px;
+                align-items: center;
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                cursor: pointer;
+                background-color: white;
+                color: black;
+            }
+
+            .sat{
+                display: flex;
+                width: 100%;
+                text-align: center;
+                overflow-x: hidden;
+                align-items: center;
+            }
+
+            .sat div{
+                width: 50%;
+                overflow-x: hidden;
+            }
+
+            .breaker{
+                flex-basis: 100%;
+                height: 0;
+            }
+
+            .vip{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: blue;
+                cursor: pointer;
+                color: white;
+            }
+
+            .spe{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: pink;
+                cursor: pointer;
+                color: white;
+            }
+
+            .abtSeat {
+                display: flex;
+                flex-direction: column;
+                border: 2px solid black;
+                margin-top: 20px;
+                margin-left: 40px;
+                margin-right: 40px;
+            }
+
+            .instruc{
+                margin-top: 10px;
+                margin-left: 20px;
+                font-size:20px;
+            }
+
+            .instruc p{
+                margin-top: 5px;
+            }
+
+            .seatInstruct{
+                display: flex;
+
+                align-items: center;
+                justify-content: center;
+            }
+
+            .seatInstruct div{
+                display: flex;
+
+                align-items: center;
+                justify-content: center;
+                margin-right: 40px;
+            }
+            .seatInstruct img{
+                width: 50px;
+                height: 50px;
+                margin-right: 20px;
+            }
+
+            .screen {
+                margin-top: 30px;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .screen img{
+                width: 900px;
+            }
+
+            .abtSeat{
+                width: 70%;
+            }
+
+            .tket {
+                text-align: center;
+                width: 20%;
+                color: white;
+                border: 1px solid black;
+                background-color: black;
+                font-size: 20px;
+                padding-top: 10px;
+            }
+
+            .tket img{
+                width: 90%;
+                margin-top: 20px;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .tket a{
+                text-decoration: none;
+                color: white;
+            }
+
+            .ko{
+                display: flex;
+            }
+
+            .ghe {
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .qtt{
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .sum{
+                margin-top: 40px;
+                margin-bottom: 40px;
+            }
+
+            .crt input{
+                width: 80%;
+                padding: 12px;
+                font-size: 15px;
+                cursor: pointer;
+            }
+
+            .insideSeatRed{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: red;
+                cursor: pointer;
+                color: white;
+            }
+
+            .vipRed{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: red;
+                cursor: pointer;
+                color: white;
+            }
+
+            .speRed{
+                display: flex;
+                justify-content: space-around;
+                flex-direction: row;
+                font-size: 20px;
+
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: 1px solid black;
+                padding: 10px;
+                border-radius: 10px;
+                font-size: 15px;
+                background-color: red;
+                cursor: pointer;
+                color: white;
+            }
+
+
+
+        </style>
     </head>
     <body>
         <div id = "header">
             <%@include file = "header.jsp" %>
-        </div><!-- comment -->
+        </div>
         <div class = "body">
-            
+            <h3 class = "ttle">CHỌN GHẾ NGỒI</h3>
+            <div class = "urSelection">
+                BẠN ĐÃ CHỌN: <span class = "mvName">${requestScope.movName}, </span> <span class = "fName">${requestScope.formName}</span>
+            </div>
+            <div class = "scheIn4">
+                PHÒNG CHIẾU: <span class = "scheRoom">${requestScope.sche.getRoomID()}</span>, TẦNG <span>${requestScope.room.getFloor()}</span>
+                <br/>
+                RẠP: <span class = "scheRoom">${requestScope.cin.getCinName()}</span>
+                <br/>
+                SUẤT CHIẾU: <span class = "scheTime">${requestScope.sche.getStartTim()}</span> - <span>${requestScope.day} </span><span>${requestScope.dateFormat}</span>
+            </div>
+            <div class = "ko">
+                <div class = "abtSeat">
+                    <div class = "instruc">
+                        <p>Để chọn ghế vui lòng chọn ghế ưa thích theo icon</p>
+                        <p>Click tiếp vào ghế đã chọn để xoá lựa chọn</p>
+                    </div>
+                    <div class ="seatInstruct">
+                        <div>
+                            <img class = "imgE" src = "images/blueSeat.png">
+                            <span>Ghế VIP</span>
+                        </div>
+                        <div>
+                            <img class = "imgE" src = "images/whiteSeat.png">
+                            <span>Ghế Thường</span>
+                        </div>
+                        <div>
+                            <img class = "imgE" src = "images/pinkSeat.png">
+                            <span> Ghế Đôi</span>
+                        </div>
+                        <div>
+                            <img class = "imgE" src = "images/greenSeat.png">
+                            <span> Ghế Đã Chọn</span>
+                        </div>
+                        <div>
+                            <img class = "imgE" src ="images/redSeat.png"><!-- comment -->
+                            <span> Đã Bán</span>
+                        </div>
+                    </div>
+                    <div class = "screen">
+                        <img src ="images/screenIcon.png"/>
+                    </div>
+                    <div class = "seat">
+                        <c:forEach items = "${requestScope.tk}" var = "i">
+                            <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
+                            <c:if test = "${i.getType() == 1}">
+                                <div id ="${i.getId()}" class = "insideSeat" >
+                                    <input type ="text" hidden/>
+                                    <div class = "sat">
+
+                                        <span>${i.getCol()}</span>
+                                        <span>${i.getRow()}</span><!-- -->
+                                    </div>
+
+                                </div>
+                            </c:if>
+                            <c:if test = "${i.getType() == 2}">
+                                <div id ="${i.getId()}" class = "vip"  >
+                                    <input type ="text" hidden/>
+                                    <div class = "sat">
+                                        <span>${i.getCol()}</span>
+                                        <span>${i.getRow()}</span><!-- -->
+                                    </div>
+
+                                </div>
+                            </c:if>
+                            <c:if test = "${i.getType() == 3}">
+                                <div  id ="${i.getId()}" class = "spe">
+                                    <input type ="text" hidden/>
+                                    <div class = "sat">
+                                        <span>${i.getCol()}</span>
+                                        <span>${i.getRow()}</span><!-- -->
+                                    </div>
+                                </div>
+                            </c:if>
+                            <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
+
+                                <!--
+                                <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
+                                    <p class = "breaker">T</p>
+                                </c:if>
+                                -->
+                            </div>
+                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
+                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
+                        </c:forEach>
+                    </div>
+                </div>
+                <div class = "tket">
+                    <a href = "movie">CHỌN LẠI PHIM</a>
+                    <img src = "${requestScope.mov.getImg()}"><!-- comment -->
+                    <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
+                    <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>
+                    <div class = "sum">Tổng: <span id ="sum" ></span></div>
+                    <div class = "crt"><input type = "button" onclick ="cart('${sessionScope.account.getUserName()}')" value = "Add to cart"/></div>
+                </div>
+            </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+
+        <script type="text/javascript">
+
+            function displaySeatInCart(user) {
+                var seatInCart = [];
+                let m = 0;
+                for (var i = 0; i < getCookie(user).length; i++) {
+                    if (getCookie(user).charAt(i) === "/") {
+                        if (getCookie(user).substring(i + 1, i + 3) === "TK") {
+                            seatInCart[m] = getCookie(user).substring(i + 1, i + 10);
+                            m++;
+                        }
+                    }
+                }
+
+                for (var i = 0; i < seatInCart.length; i++) {
+                    var str = seatInCart[i].substring(0, 6) + seatInCart[i].substring(7);
+                    var k = 0;
+                    var rm;
+                    var id = "", code = "", type = "", col = "", row = "";
+                    var str2 = String(document.getElementById(str).value);
+                    for (var j = 0; j < str2.length; j++) {
+                        if (str2.charAt(j) === "p" && k === 0) {
+                            id = str2.substring(0, j);
+                            k++;
+                        } else if (str2.charAt(j) === "p" && k === 1) {
+                            code = str2.substring(j - 6, j);
+                            rm = j;
+                            k++;
+                        } else if (str2.charAt(j) === "p" && k === 2) {
+                            type = str2.substring(rm + 1, j);
+                            rm = j;
+                            k++;
+                        } else if (str2.charAt(j) === "p" && k === 3) {
+                            col = str2.substring(rm + 1, j);
+                            rm = j;
+                            k++;
+                        } else if (j === str2.length - 1) {
+                            row = str2.charAt(rm + 1);
+                            rm = j;
+                            k++;
+                        }
+                    }
+                    pckSeat(id, code, type, col, row);
+                }
+
+            }
+
+      
+        </script>
     </body>
 </html>

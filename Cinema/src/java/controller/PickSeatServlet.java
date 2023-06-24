@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.CinemaDAO;
 import dal.FoodDAO;
 import dal.FormDAO;
 import dal.MovieDAO;
@@ -83,7 +84,7 @@ public class PickSeatServlet extends HttpServlet {
             FormDAO fmd = new FormDAO();
             MovieDAO mvd = new MovieDAO();
             RoomDAO rmd = new RoomDAO();
-
+            CinemaDAO cnd = new CinemaDAO();
             String pattern = "dd-MM-yyyy";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             String date = simpleDateFormat.format(scd.getScheduleByID(id).getStart());
@@ -185,6 +186,7 @@ public class PickSeatServlet extends HttpServlet {
             }
             String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
             String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
+            request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));
             request.setAttribute("sche", scd.getScheduleByID(id));
             request.setAttribute("tk", tk);
             request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));

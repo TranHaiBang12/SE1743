@@ -87,6 +87,19 @@ public class ViewSche extends HttpServlet {
                     }
                 }
             }
+            List<String> scheHasSellTicket = sd.getAllScheduleHaveSellTicket();
+            for (int i = 0; i < s.size(); i++) {
+                s.get(i).setHasSellTick(false);
+                for (int j = 0; j < scheHasSellTicket.size(); j++) {
+                    if (s.get(i).getScheNo().equals(scheHasSellTicket.get(j))) {
+                        s.get(i).setHasSellTick(true);
+                        break;
+                    }
+                }
+            }
+            for (int i = 0; i < s.size(); i++) {
+                System.out.println(s.get(i).isHasSellTick());
+            }
             String page_raw = request.getParameter("page");
             int page = 0;
 
@@ -156,6 +169,20 @@ public class ViewSche extends HttpServlet {
                     }
                 }
             }
+            
+            List<String> scheHasSellTicket = sd.getAllScheduleHaveSellTicket();
+            for (int i = 0; i < s.size(); i++) {
+                s.get(i).setHasSellTick(false);
+                for (int j = 0; j < scheHasSellTicket.size(); j++) {
+                    if (s.get(i).getScheNo().equals(scheHasSellTicket.get(j))) {
+                        s.get(i).setHasSellTick(true);
+                        break;
+                    }
+                }
+            }
+            for (int i = 0; i < s.size(); i++) {
+                System.out.println(s.get(i).isHasSellTick());
+            }
             String page_raw = request.getParameter("page");
             int page = 0;
 
@@ -203,7 +230,6 @@ public class ViewSche extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getParameter("searchDate") != null && !request.getParameter("searchDate").equals("")) {
-            System.out.println("notnull");
             String date_raw = request.getParameter("searchDate");
             Date date = Date.valueOf(date_raw);
             String id_raw = request.getParameter("id");
@@ -229,6 +255,17 @@ public class ViewSche extends HttpServlet {
                 for (int j = 0; j < scheHasTicket.size(); j++) {
                     if (s.get(i).getScheNo().equals(scheHasTicket.get(j))) {
                         s.get(i).setHasTick(true);
+                        break;
+                    }
+                }
+            }
+            
+            List<String> scheHasSellTicket = sd.getAllScheduleHaveSellTicket();
+            for (int i = 0; i < s.size(); i++) {
+                s.get(i).setHasSellTick(false);
+                for (int j = 0; j < scheHasSellTicket.size(); j++) {
+                    if (s.get(i).getScheNo().equals(scheHasSellTicket.get(j))) {
+                        s.get(i).setHasSellTick(true);
                         break;
                     }
                 }
@@ -266,7 +303,6 @@ public class ViewSche extends HttpServlet {
             request.setAttribute("cin", cnd.getAllCinema());
             request.getRequestDispatcher("viewSche.jsp").forward(request, response);
         } else {
-            System.out.println("null");
             String id_raw = request.getParameter("id");
             List<Schedule> s = new ArrayList<>();
             ScheDAO sd = new ScheDAO();
@@ -287,6 +323,16 @@ public class ViewSche extends HttpServlet {
                 for (int j = 0; j < scheHasTicket.size(); j++) {
                     if (s.get(i).getScheNo().equals(scheHasTicket.get(j))) {
                         s.get(i).setHasTick(true);
+                        break;
+                    }
+                }
+            }
+            List<String> scheHasSellTicket = sd.getAllScheduleHaveSellTicket();
+            for (int i = 0; i < s.size(); i++) {
+                s.get(i).setHasSellTick(false);
+                for (int j = 0; j < scheHasSellTicket.size(); j++) {
+                    if (s.get(i).getScheNo().equals(scheHasSellTicket.get(j))) {
+                        s.get(i).setHasSellTick(true);
                         break;
                     }
                 }

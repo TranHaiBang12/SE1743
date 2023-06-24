@@ -144,9 +144,7 @@
                             <input type ="submit" value ="UPDATE"/>
                         </div>
 
-                        <div class = "sbmit">
-                            <input onclick ="dlt('${requestScope.id}')" type ="button" value ="DELETE"/>
-                        </div>
+          
                     </form>
                 </c:if>
                 <c:if test = "${msD != null}">
@@ -168,11 +166,7 @@
 
             }
 
-            function dlt(id) {
-                if (confirm("Bạn có chắc muốn xóa lịch chiếu với id = " + id)) {
-                    window.location = "dltsche?id=" + id;;
-                }
-            }
+        
         </script>
     </body>
 </html>
