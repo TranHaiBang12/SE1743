@@ -123,7 +123,7 @@ public class ScheDAO extends DBContext {
 
     public void updSchedule(String scheNo, int movID, int formID, int cinID, int roomID, Date start, Time startTime, Date end, Time endTime) {
         try {
-            String sql = "UPDATE Schedule SET movID = ?, formID = ?, cinID = ?, roomID = ?, startDate = ?, endDate = ?, startTim = " + startTime + ", endTim = ? WHERE scheNo = ?";
+            String sql = "UPDATE Schedule SET movID = ?, formID = ?, cinID = ?, roomID = ?, startDate = ?, endDate = ?, startTim = '" + startTime + "', endTim = ? WHERE scheNo = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             st.setInt(2, formID);
@@ -183,10 +183,34 @@ public class ScheDAO extends DBContext {
 
         return list2;
     }
+    
+    public Schedule getScheduleUPDByIn4(String scheNo, int movID, Date start, Time startTim, int roomID, int cinID, int tgianChieu) {
+        try {
+            int tg = 0 - tgianChieu;
+            String sql = "SELECT * FROM Schedule WHERE scheNo != ? AND (movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND (DATEDIFF(minute, startTim, '" + startTim + "') >= " + tg + " AND DATEDIFF(minute, startTim, '" + startTim + "') <= " + tgianChieu + ")) ORDER BY startDate, startTim";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setInt(2, movID);
+            st.setInt(3, roomID);
+            st.setInt(4, cinID);
+            st.setDate(5, start);
+            MovieDAO mvd = new MovieDAO();
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Schedule s = new Schedule(rs.getString("scheNo"), rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim").toString(), rs.getTime("endTim").toString(), null, null, null, null);
+                return s;
+            }
+        } catch (Exception e) {
+            System.out.println("1");
+
+            System.out.println(e);
+        }
+        return null;
+    }
 
     public Schedule getScheduleByIn4(String scheNo, int movID, Date start, Time startTim, int roomID, int cinID, int tgianChieu) {
         try {
-            String sql = "SELECT * FROM Schedule WHERE scheNo = ? AND movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND (DATEDIFF(minute, startTim, '" + startTim + "') <= '" + tgianChieu + "' OR DATEDIFF(minute, '" + startTim + "', startTim) <= '" + tgianChieu + "') ORDER BY startDate, startTim";
+            String sql = "SELECT * FROM Schedule WHERE scheNo = ? OR (movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND (DATEDIFF(minute, startTim, '" + startTim + "') >= '" + -tgianChieu + "' AND DATEDIFF(minute, '" + startTim + "', startTim) <= '" + tgianChieu + "')) ORDER BY startDate, startTim";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, scheNo);
             st.setInt(2, movID);

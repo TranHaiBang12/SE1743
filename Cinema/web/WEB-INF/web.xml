@@ -33,7 +33,6 @@
         <url-pattern>/acc</url-pattern>
         <url-pattern>/updacc</url-pattern>
     </filter-mapping>
-    
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
@@ -138,6 +137,10 @@
         <servlet-name>ViewSche</servlet-name>
         <servlet-class>controller.ViewSche</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteSche</servlet-name>
+        <servlet-class>controller.DeleteSche</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -241,6 +244,10 @@
     <servlet-mapping>
         <servlet-name>ViewSche</servlet-name>
         <url-pattern>/viewsche</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteSche</servlet-name>
+        <url-pattern>/dltsche</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

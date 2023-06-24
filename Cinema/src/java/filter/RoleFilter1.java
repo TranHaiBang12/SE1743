@@ -110,15 +110,12 @@ public class RoleFilter1 implements Filter {
         HttpServletResponse res = (HttpServletResponse)response;
         HttpSession session = req.getSession();
         
-        if(session.getAttribute("account") == null) {
-            res.sendRedirect("login");
-        }
-        else {
+
             Account a = (Account)session.getAttribute("account");
-            if(a.getRole() != 3) {
+            if(a != null && a.getRole() != 3) {
                 res.sendRedirect("error.jsp");
             }
-        }
+        
    
         
         Throwable problem = null;
