@@ -200,16 +200,12 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type = "text/javascript">
-            function direct(id, movID) {
+            function direct(id) {
                 if (id.includes("tick")) {
-                    if (document.getElementById(id).className === "updtick") {
-                        id = id.replace("tick", "");
+                    id = id.replace("tick", "");
 
-                        window.location = "updtick?id=" + id;
-                    } else if (document.getElementById(id).className === "addtick") {
-                        id = id.replace("tick", "");
-                        window.location = "addtick?id=" + id;
-                    }
+                    window.location = "viewtick?id=" + id;
+
 
                 }
             }

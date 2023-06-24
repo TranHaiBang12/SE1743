@@ -308,6 +308,18 @@
                 color: white;
             }
 
+            .msT{
+                color: red;
+                font-size: 25px;
+                text-align: center;
+                padding-top: 20px;
+            }
+            
+            a{
+                text-decoration: none;
+                color: red;
+            }
+
 
 
         </style>
@@ -317,9 +329,9 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <h3 class = "ttle">CHỌN GHẾ NGỒI</h3>
+            <h3 class = "ttle">VÉ</h3>
             <div class = "urSelection">
-                BẠN ĐÃ CHỌN: <span class = "mvName">${requestScope.movName}, </span> <span class = "fName">${requestScope.formName}</span>
+                PHIM: <span class = "mvName">${requestScope.movName}, </span> <span class = "fName">${requestScope.formName}</span>
             </div>
             <div class = "scheIn4">
                 PHÒNG CHIẾU: <span class = "scheRoom">${requestScope.sche.getRoomID()}</span>, TẦNG <span>${requestScope.room.getFloor()}</span>
@@ -328,92 +340,102 @@
                 <br/>
                 SUẤT CHIẾU: <span class = "scheTime">${requestScope.sche.getStartTim()}</span> - <span>${requestScope.day} </span><span>${requestScope.dateFormat}</span>
             </div>
-            <div class = "ko">
-                <div class = "abtSeat">
-                    <div class = "instruc">
-                        <p>Để chọn ghế vui lòng chọn ghế ưa thích theo icon</p>
-                        <p>Click tiếp vào ghế đã chọn để xoá lựa chọn</p>
-                    </div>
-                    <div class ="seatInstruct">
-                        <div>
-                            <img class = "imgE" src = "images/blueSeat.png">
-                            <span>Ghế VIP</span>
+            <c:if test = "${msT == null}">
+                <div class = "ko">
+                    <div class = "abtSeat">
+                        <div class = "instruc">
+                            <p>Để chọn ghế vui lòng chọn ghế ưa thích theo icon</p>
+                            <p>Click tiếp vào ghế đã chọn để xoá lựa chọn</p>
                         </div>
-                        <div>
-                            <img class = "imgE" src = "images/whiteSeat.png">
-                            <span>Ghế Thường</span>
-                        </div>
-                        <div>
-                            <img class = "imgE" src = "images/pinkSeat.png">
-                            <span> Ghế Đôi</span>
-                        </div>
-                        <div>
-                            <img class = "imgE" src = "images/greenSeat.png">
-                            <span> Ghế Đã Chọn</span>
-                        </div>
-                        <div>
-                            <img class = "imgE" src ="images/redSeat.png"><!-- comment -->
-                            <span> Đã Bán</span>
-                        </div>
-                    </div>
-                    <div class = "screen">
-                        <img src ="images/screenIcon.png"/>
-                    </div>
-                    <div class = "seat">
-                        <c:forEach items = "${requestScope.tk}" var = "i">
-                            <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
-                            <c:if test = "${i.getType() == 1}">
-                                <div id ="${i.getId()}" class = "insideSeat" >
-                                    <input type ="text" hidden/>
-                                    <div class = "sat">
-
-                                        <span>${i.getCol()}</span>
-                                        <span>${i.getRow()}</span><!-- -->
-                                    </div>
-
-                                </div>
-                            </c:if>
-                            <c:if test = "${i.getType() == 2}">
-                                <div id ="${i.getId()}" class = "vip"  >
-                                    <input type ="text" hidden/>
-                                    <div class = "sat">
-                                        <span>${i.getCol()}</span>
-                                        <span>${i.getRow()}</span><!-- -->
-                                    </div>
-
-                                </div>
-                            </c:if>
-                            <c:if test = "${i.getType() == 3}">
-                                <div  id ="${i.getId()}" class = "spe">
-                                    <input type ="text" hidden/>
-                                    <div class = "sat">
-                                        <span>${i.getCol()}</span>
-                                        <span>${i.getRow()}</span><!-- -->
-                                    </div>
-                                </div>
-                            </c:if>
-                            <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
-
-                                <!--
-                                <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
-                                    <p class = "breaker">T</p>
-                                </c:if>
-                                -->
+                        <div class ="seatInstruct">
+                            <div>
+                                <img class = "imgE" src = "images/blueSeat.png">
+                                <span>Ghế VIP</span>
                             </div>
-                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
-                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
-                        </c:forEach>
+                            <div>
+                                <img class = "imgE" src = "images/whiteSeat.png">
+                                <span>Ghế Thường</span>
+                            </div>
+                            <div>
+                                <img class = "imgE" src = "images/pinkSeat.png">
+                                <span> Ghế Đôi</span>
+                            </div>
+                            <div>
+                                <img class = "imgE" src = "images/greenSeat.png">
+                                <span> Ghế Đã Chọn</span>
+                            </div>
+                            <div>
+                                <img class = "imgE" src ="images/redSeat.png"><!-- comment -->
+                                <span> Đã Bán</span>
+                            </div>
+                        </div>
+                        <div class = "screen">
+                            <img src ="images/screenIcon.png"/>
+                        </div>
+                        <div class = "seat">
+                            <c:forEach items = "${requestScope.tk}" var = "i">
+                                <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
+                                <c:if test = "${i.getType() == 1}">
+                                    <div id ="${i.getId()}" class = "insideSeat" >
+                                        <input type ="text" hidden/>
+                                        <div class = "sat">
+
+                                            <span>${i.getCol()}</span>
+                                            <span>${i.getRow()}</span><!-- -->
+                                        </div>
+
+                                    </div>
+                                </c:if>
+                                <c:if test = "${i.getType() == 2}">
+                                    <div id ="${i.getId()}" class = "vip"  >
+                                        <input type ="text" hidden/>
+                                        <div class = "sat">
+                                            <span>${i.getCol()}</span>
+                                            <span>${i.getRow()}</span><!-- -->
+                                        </div>
+
+                                    </div>
+                                </c:if>
+                                <c:if test = "${i.getType() == 3}">
+                                    <div  id ="${i.getId()}" class = "spe">
+                                        <input type ="text" hidden/>
+                                        <div class = "sat">
+                                            <span>${i.getCol()}</span>
+                                            <span>${i.getRow()}</span><!-- -->
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <div class = "${((i.getId() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
+
+                                    <!--
+                                    <c:if test = "${((i.getId() % requestScope.room.getNoColSeats()== 0) || ((i.getId() - 1) % requestScope.room.getNoColSeats()== 0) && i.getId() != 1)}">
+                                        <p class = "breaker">T</p>
+                                    </c:if>
+                                    -->
+                                </div>
+                                <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
+                                <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
+                            </c:forEach>
+                        </div>
+                    </div>
+                    <div class = "tket">
+                        <a href = "movie">CHỌN LẠI PHIM</a>
+                        <img src = "${requestScope.mov.getImg()}"><!-- comment -->
+                        <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
+                        <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>
+                        <div class = "sum">Tổng: <span id ="sum" ></span></div>
+                        <div class = "crt"><input type = "button" onclick ="cart('${sessionScope.account.getUserName()}')" value = "Add to cart"/></div>
                     </div>
                 </div>
-                <div class = "tket">
-                    <a href = "movie">CHỌN LẠI PHIM</a>
-                    <img src = "${requestScope.mov.getImg()}"><!-- comment -->
-                    <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
-                    <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>
-                    <div class = "sum">Tổng: <span id ="sum" ></span></div>
-                    <div class = "crt"><input type = "button" onclick ="cart('${sessionScope.account.getUserName()}')" value = "Add to cart"/></div>
+            </c:if>
+            <c:if test = "${msT != null}">
+                <div class = "msT">
+                    ${requestScope.msT}
                 </div>
-            </div>
+                <div class = "msT">
+                    <a href = "addtick?id=${requestScope.id}">Bấm vào đây để thêm vé </a>
+                </div>
+            </c:if>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
@@ -421,7 +443,7 @@
 
         <script type="text/javascript">
 
-      
+
         </script>
     </body>
 </html>
