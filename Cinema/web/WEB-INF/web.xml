@@ -120,6 +120,10 @@
         <servlet-name>ViewFood</servlet-name>
         <servlet-class>controller.ViewFood</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdF</servlet-name>
+        <servlet-class>controller.UpdF</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -239,6 +243,10 @@
     <servlet-mapping>
         <servlet-name>ViewFood</servlet-name>
         <url-pattern>/viewf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdF</servlet-name>
+        <url-pattern>/updf</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

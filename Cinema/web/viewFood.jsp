@@ -78,6 +78,9 @@
                     Tình Trạng: <span  class = "rd">${requestScope.f.getStatus()}</span>
                 </div>
                 <div>
+                    Kinh Doanh: <span  class = "rd">${requestScope.dc}</span>
+                </div>
+                <div>
                     <a href = "updf?id=${requestScope.id}"><input type = "button" value = "UPDATE"/></a>
                 </div>
             </div>

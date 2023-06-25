@@ -61,6 +61,15 @@ public class ViewFood extends HttpServlet {
         Food f = fd.getFoodById(id);
         request.setAttribute("f", f);
         request.setAttribute("id", id);
+        String dc = "";
+        if(f.getDiscontinued() == 0) {
+            dc = "Tiếp tục kinh doanh sản phẩm này";
+            
+        }
+        else if(f.getDiscontinued() == 1) {
+            dc = "Không kinh doanh sản phẩm này nữa";
+        }
+        request.setAttribute("dc", dc);
         request.getRequestDispatcher("viewFood.jsp").forward(request, response);
     } 
 

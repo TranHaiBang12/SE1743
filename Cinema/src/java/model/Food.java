@@ -18,6 +18,13 @@ public class Food {
     private double price;
     private String img;
     private String typeName;
+    private int discontinued;
+    
+    public Food(int id, String foodType, String typeName) {
+        this.id = id;
+        this.foodType = foodType;
+        this.typeName = typeName;
+    }
 
     public Food(int id, String productCode, String foodDescript, String foodType, String status, double discount, double price, String img) {
         this.id = id;
@@ -41,6 +48,19 @@ public class Food {
         this.img = img;
         this.typeName = typeName;
     }
+    
+    public Food(int id, String productCode, String foodDescript, String foodType, String status, double discount, double price, String img, String typeName, int discontinued) {
+        this.id = id;
+        this.productCode = productCode;
+        this.foodDescript = foodDescript;
+        this.foodType = foodType;
+        this.status = status;
+        this.discount = discount;
+        this.price = price;
+        this.img = img;
+        this.typeName = typeName;
+        this.discontinued = discontinued;
+    }
 
     public String getTypeName() {
         return typeName;
@@ -49,6 +69,15 @@ public class Food {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
+
+    public int getDiscontinued() {
+        return discontinued;
+    }
+
+    public void setDiscontinued(int discontinued) {
+        this.discontinued = discontinued;
+    }
+    
     
     
 
