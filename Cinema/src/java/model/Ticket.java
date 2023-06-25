@@ -36,7 +36,11 @@ public class Ticket {
     private String stat;
     
     
-
+    public Ticket(String productCode, int row, String col) {
+        this.productCode = productCode;
+        this.row = row;
+        this.col = col;
+    }
     
     public Ticket(String productCode, String type, String scheNo, int numberLeft, String status) {
         this.productCode = productCode;

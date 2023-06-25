@@ -511,7 +511,7 @@
                                 <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number"  class="tk_in4" required min="0" max ="1000" id ="nm" name ="nm"/>
                             </div>
                             <div class = "insideTinsideform">
-                                <label>Khuyến Mại(%): </label><input type="number"  class="tk_in4" min ="0" step="0.01" name = "nm_dc">
+                                <label>Khuyến Mại(%): </label><input type="number" required  class="tk_in4" min ="0" step="0.01" name = "nm_dc">
                             </div>
                         </div>
 
@@ -524,7 +524,7 @@
                                 <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number"  class="tk_in4" required min="0" max ="1000" id ="vp" name ="vp"/>
                             </div>
                             <div class = "insideTinsideform">
-                                <label>Khuyến Mại(%): </label><input type="number"  class="tk_in4" min ="0" step="0.01" name = "vp_dc">
+                                <label>Khuyến Mại(%): </label><input type="number" required class="tk_in4" min ="0" step="0.01" name = "vp_dc">
                             </div>
                         </div>
                         <div class = "insideForm">
@@ -536,7 +536,7 @@
                                 <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number" required  class="tk_in4" min="0" max ="1000" id ="vt" name ="vt"/>
                             </div>
                             <div class = "insideTinsideform">
-                                <label>Khuyến Mại(%): </label><input type="number" class="tk_in4" min ="0" step="0.01" name = "vt_dc">
+                                <label>Khuyến Mại(%): </label><input type="number" required class="tk_in4" min ="0" step="0.01" name = "vt_dc">
                             </div>
                         </div>
                         <div class = "insideForm">

@@ -157,12 +157,28 @@ public class ViewTick extends HttpServlet {
                         }
                     }
                 }
+                Double nm_price = tkd.getTicketNMPriceBySche(id);
+                Double vp_price = tkd.getTicketVPPriceBySche(id);
+                Double vt_price = tkd.getTicketVTPriceBySche(id);
+                
+                Double nm_dc = tkd.getTicketNMDiscountBySche(id);
+                Double vp_dc = tkd.getTicketVPDiscountBySche(id);
+                Double vt_dc = tkd.getTicketVTDiscountBySche(id);
+                
                 request.setAttribute("tk", tk);
+                request.setAttribute("nm_price", nm_price);
+                request.setAttribute("vp_price", vp_price);
+                request.setAttribute("vt_price", vt_price);
+                
+                request.setAttribute("nm_dc", nm_dc);
+                request.setAttribute("vp_dc", vp_dc);
+                request.setAttribute("vt_dc", vt_dc);
             }
             else {
                 String msT = "Lịch chiếu này hiện chưa có vé";
                 request.setAttribute("msT", msT);
             }
+            
 
             String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
             String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();

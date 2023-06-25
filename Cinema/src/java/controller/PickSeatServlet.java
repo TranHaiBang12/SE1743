@@ -184,6 +184,7 @@ public class PickSeatServlet extends HttpServlet {
                     }
                 }
             }
+           
             String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
             String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
             request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));

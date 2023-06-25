@@ -37,6 +37,24 @@ public class TicketDAO extends DBContext {
         return list;
     }
 
+    public Ticket getTicketBySchedule(String sche, String type) {
+        try {
+            String sql = "SELECT * FROM TickTypeInSche WHERE scheNo = ? AND Type = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, sche);
+            st.setString(2, type);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Ticket t = new Ticket(rs.getString("ProductCode"), rs.getString("Type"), rs.getString("scheNo"), rs.getInt("NumberLeft"), rs.getString("Status"));
+                return t;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public List<Ticket> getTicketPByScheduleRCS(String sche) {
         List<Ticket> list = new ArrayList<>();
         int i = 1;
@@ -166,4 +184,132 @@ public class TicketDAO extends DBContext {
             System.out.println(e);
         }
     }
+
+    public double getTicketNMPriceBySche(String scheNo) {
+        try {
+            String sql = "SELECT TickTypeInSche.*, Product.Price, Product.Discout FROM TickTypeInSche JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode WHERE scheNo = ? AND TickTypeInSche.Type = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setString(2, "NM");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("Price");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public double getTicketVPPriceBySche(String scheNo) {
+        try {
+            String sql = "SELECT TickTypeInSche.*, Product.Price, Product.Discout FROM TickTypeInSche JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode WHERE scheNo = ? AND TickTypeInSche.Type = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setString(2, "VP");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("Price");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public double getTicketVTPriceBySche(String scheNo) {
+        try {
+            String sql = "SELECT TickTypeInSche.*, Product.Price, Product.Discout FROM TickTypeInSche JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode WHERE scheNo = ? AND TickTypeInSche.Type = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setString(2, "VT");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("Price");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public double getTicketNMDiscountBySche(String scheNo) {
+        try {
+            String sql = "SELECT TickTypeInSche.*, Product.Price, Product.Discout FROM TickTypeInSche JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode WHERE scheNo = ? AND TickTypeInSche.Type = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setString(2, "NM");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("Discout");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public double getTicketVPDiscountBySche(String scheNo) {
+        try {
+            String sql = "SELECT TickTypeInSche.*, Product.Price, Product.Discout FROM TickTypeInSche JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode WHERE scheNo = ? AND TickTypeInSche.Type = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setString(2, "VP");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("Discout");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public double getTicketVTDiscountBySche(String scheNo) {
+        try {
+            String sql = "SELECT TickTypeInSche.*, Product.Price, Product.Discout FROM TickTypeInSche JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode WHERE scheNo = ? AND TickTypeInSche.Type = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, scheNo);
+            st.setString(2, "VT");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                return rs.getDouble("Discout");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public void updTicketPriceBySche(String productCode, double price, double discout) {
+        try {
+            String sql = "UPDATE Product SET Price = ?, Discout = ? WHERE ProductCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDouble(1, price);
+            st.setDouble(2, discout);
+            st.setString(3, productCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public List<Ticket> getAllTicketBought() {
+        List<Ticket> ticket = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM TicketOnlDetail\n"
+                    + "UNION\n"
+                    + "SELECT * FROM TicketOFFDetail";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Ticket t = new Ticket(rs.getString("ProductCode"), rs.getInt("SeatNumber"), rs.getString("SeatType"));
+                ticket.add(t);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return ticket;
+    }
+
 }

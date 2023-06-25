@@ -443,13 +443,13 @@
                         document.getElementById("ghe").innerHTML = t;
                         document.getElementById("qtt").innerHTML = ++cnt;
                         if (type === "1") {
-                            sum += 65000;
+                            sum += (65000);
                             document.getElementById("sum").innerHTML = sum;
                         } else if (type === "2") {
-                            sum += 80000;
+                            sum += (80000);
                             document.getElementById("sum").innerHTML = sum;
                         } else if (type === "3") {
-                            sum += 160000;
+                            sum += (160000);
                             document.getElementById("sum").innerHTML = sum;
                         }
                     }
@@ -457,14 +457,14 @@
                     if (t.includes(String(col + row))) {
                         t = t.replace(String(col + row), "");
                         cnt--;
-                        if (idP.includes(String("/" + code)))
-                            idP = idP.replace(String("/" + code), "");
+                        if (idP.includes(String("/" + code + "p" + col + row)))
+                            idP = idP.replace(String("/" + code + "p" + col + row), "");
                         if (type === "1") {
-                            sum -= 65000;
+                            sum -= (65000);
                         } else if (type === "2") {
-                            sum -= 80000;
+                            sum -= (80000);
                         } else if (type === "3") {
-                            sum -= 160000;
+                            sum -= (160000);
                         }
                         document.getElementById("ghe").innerHTML = t;
                         document.getElementById("qtt").innerHTML = cnt;
@@ -593,6 +593,7 @@
                 }
                 //console.log(user);
                 var ckie = getCookie(user);
+                ckie = String(ckie);
                 console.log(idP);
   
 
@@ -608,9 +609,9 @@
                 }
                 for (var i = 0; i < seatInCart.length; i++) {
                     console.log(seatInCart[i]);
-                    if (!ckie.includes(seatInCart[i])) {
+                    if (!ckie.includes(String(seatInCart[i]))) {
                         ckie += "/";
-                        ckie += seatInCart[i];
+                        ckie += String(seatInCart[i]);
                     }
                 }
                 setCookie(user, ckie, 365);

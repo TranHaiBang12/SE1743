@@ -388,155 +388,161 @@ public class PaymentServlet extends HttpServlet {
                 request.setAttribute("date", dte);
                 request.setAttribute("listTicket", listT);
                 request.getRequestDispatcher("payment.jsp").forward(request, response);
-            }
-            String m = "THANH TOÁN THÀNH CÔNG. VUI LÒNG VÀO LỊCH SỬ GIAO DỊCH ĐỂ XEM MÃ VÉ, MÃ ĐỒ ĂN CỦA BẠN";
-            String datePick = "";
-            Date dateStart = null;
-            Date dateEnd = null;
-            Time timeStart = null;
-            Time timeEnd = null;
-            System.out.println(dte.size());
-            for (int i = 0; i < dte.size(); i++) {
-                System.out.println(Integer.parseInt(request.getParameter("dte")) + "/");
-                System.out.println(dte.get(i).getId());
-                if (Integer.parseInt(request.getParameter("dte")) == dte.get(i).getId()) {
-                    System.out.println(dte.get(i).getId() + dte.get(i).getDay());
-                    datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
-                    if (dte.get(i).getId() == 0) {
-                        timeStart = tt;
-                        dateStart = dd;
-                        if (i != dte.size() - 1) {
-                            dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
-                        } else {
-                            c1.setTime(Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate()));
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                            Calendar c = Calendar.getInstance();
-                            try {
-                                c.setTime(sdf.parse(k));
-                            } catch (ParseException ex) {
-                                Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            c.add(Calendar.DATE, 1);  // number of days to add
-                            k = sdf.format(c.getTime());
-                            dateEnd = Date.valueOf(k);
-                        }
-                        timeEnd = Time.valueOf("00:00:00");
-                        break;
-
-                    } else {
-                        datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
-                        dateStart = Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate());
-                        timeStart = Time.valueOf("00:00:00");
-                        if (i != dte.size() - 1) {
-                            dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
-                        } else {
-                            c1.setTime(Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate()));
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                            Calendar c = Calendar.getInstance();
-                            try {
-                                c.setTime(sdf.parse(k));
-                            } catch (ParseException ex) {
-                                Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                            c.add(Calendar.DATE, 1);  // number of days to add
-                            k = sdf.format(c.getTime());
-                            dateEnd = Date.valueOf(k);
-                        }
-                        timeEnd = Time.valueOf("00:00:00");
-                        break;
-                    }
-
-                }
-
-            }
-
-            int cinID = 0;
-            String lOc = request.getParameter("loc");
-            for (int i = 0; i < lOc.length(); i++) {
-                if (lOc.charAt(i) == '.') {
-                    cinID = Integer.parseInt(lOc.substring(0, i));
-                }
-            }
-
-            OrderDAO ord = new OrderDAO();
-            int id = ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, dd, tt);
-            String orderID = "ONL" + id;
-            OrderDetailDAO odd = new OrderDetailDAO();
-            TransactionCDAO tcd = new TransactionCDAO();
-            OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
-            int price1 = 0;
-            System.out.println(orderID);
-            if (!list.isEmpty()) {
-                String fdCode = orderID + randomAlpha(20 - orderID.length());
-                tcd.insert(orderID, fdCode, 1, dateStart, timeStart, dateEnd, timeEnd, cinID);
-                for (int i = 0; i < list.size(); i++) {
-                    odd.insert(orderID, list.get(i).getFood().getProductCode(), list.get(i).getFood().getDiscount(), list.get(i).getFood().getPrice(), list.get(i).getQuantity());
-                    price1 += (list.get(i).getFood().getPrice() * list.get(i).getQuantity());
-                }
-            }
-            if (!listT.isEmpty()) {
-                int cID = listT.get(0).getTicket().getCinID();
-                String tkCode = orderID + randomAlpha(20 - orderID.length());
-                tcd.insert(orderID, tkCode, 2, dateStart, timeStart, dateEnd, timeEnd, cID);
-                for (int i = 0; i < listT.size(); i++) {
-                    otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice());
-                    price1 += listT.get(i).getTicket().getPrice();
-                    if (listT.get(i).getTicket().getCinID() != cID) {
-                        tkCode = orderID + randomAlpha(20 - orderID.length());
-                        cID = listT.get(i).getTicket().getCinID();
-                        tcd.insert(orderID, tkCode, 2, dateStart, timeStart, dateEnd, timeEnd, listT.get(i).getTicket().getCinID());
-                    }
-
-                }
-
-            }
-
-            int point1 = price1 / 1000;
-
-            if (pd.checkAcc(a.getUserName()) != null) {
-
-                pd.insertIntoAPD(a.getUserName(), point1, orderID, dd, tt, "NOTUSED");
-                if (request.getParameter("pntUse") == null || request.getParameter("pntUse").equals("")) {
-                    pd.updPoint(a.getUserName(), point1);
-                } else {
-                    int pointUse = Integer.parseInt(request.getParameter("pntUse"));
-                    pd.insertIntoAUP(a.getUserName(), pointUse, orderID, date1, timeEnd);
-                    System.out.println(point1 - pointUse);
-                    pd.updPoint(a.getUserName(), point1 - pointUse);
-                    List<AccountPoint> listAP = pd.getAccountPointDetail(a.getUserName());
-                    for (int i = 0; i < listAP.size(); i++) {
-                        System.out.println(listAP.get(i).getTime());
-                    }
-                    int checkStat = 0;
-                    for (int i = 0; i < listAP.size(); i++) {
-                        checkStat += listAP.get(i).getPoint();
-                        if (pd.getAllAccountUsedPoint(a.getUserName()) >= checkStat) {
-                            pd.updStatusAPD(a.getUserName(), listAP.get(i).getOrderID(), "USED");
-                        }
-                    }
-                }
-
             } else {
-                pd.insertIntoAP(a.getUserName(), point1);
-                pd.insertIntoAPD(a.getUserName(), point1, orderID, dd, tt, "NOTUSED");
+                String m = "THANH TOÁN THÀNH CÔNG. VUI LÒNG VÀO LỊCH SỬ GIAO DỊCH ĐỂ XEM MÃ VÉ, MÃ ĐỒ ĂN CỦA BẠN";
+                String datePick = "";
+                Date dateStart = null;
+                Date dateEnd = null;
+                Time timeStart = null;
+                Time timeEnd = null;
+                System.out.println(dte.size());
+                for (int i = 0; i < dte.size(); i++) {
+                    System.out.println(Integer.parseInt(request.getParameter("dte")) + "/");
+                    System.out.println(dte.get(i).getId());
+                    if (Integer.parseInt(request.getParameter("dte")) == dte.get(i).getId()) {
+                        System.out.println(dte.get(i).getId() + dte.get(i).getDay());
+                        datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
+                        if (dte.get(i).getId() == 0) {
+                            timeStart = tt;
+                            dateStart = dd;
+                            if (i != dte.size() - 1) {
+                                dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
+                            } else {
+                                c1.setTime(Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate()));
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                Calendar c = Calendar.getInstance();
+                                try {
+                                    c.setTime(sdf.parse(k));
+                                } catch (ParseException ex) {
+                                    Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                c.add(Calendar.DATE, 1);  // number of days to add
+                                k = sdf.format(c.getTime());
+                                dateEnd = Date.valueOf(k);
+                            }
+                            timeEnd = Time.valueOf("00:00:00");
+                            break;
+
+                        } else {
+                            datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
+                            dateStart = Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate());
+                            timeStart = Time.valueOf("00:00:00");
+                            if (i != dte.size() - 1) {
+                                dateEnd = Date.valueOf(dte.get(i + 1).getYear() + "-" + dte.get(i + 1).getMonth() + "-" + dte.get(i + 1).getDate());
+                            } else {
+                                c1.setTime(Date.valueOf(dte.get(i).getYear() + "-" + dte.get(i).getMonth() + "-" + dte.get(i).getDate()));
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                Calendar c = Calendar.getInstance();
+                                try {
+                                    c.setTime(sdf.parse(k));
+                                } catch (ParseException ex) {
+                                    Logger.getLogger(BookingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                c.add(Calendar.DATE, 1);  // number of days to add
+                                k = sdf.format(c.getTime());
+                                dateEnd = Date.valueOf(k);
+                            }
+                            timeEnd = Time.valueOf("00:00:00");
+                            break;
+                        }
+
+                    }
+
+                }
+
+                int cinID = 0;
+                String lOc = request.getParameter("loc");
+                for (int i = 0; i < lOc.length(); i++) {
+                    if (lOc.charAt(i) == '.') {
+                        cinID = Integer.parseInt(lOc.substring(0, i));
+                    }
+                }
+
+                OrderDAO ord = new OrderDAO();
+                int id = 0;
+                if (!list.isEmpty() || !listT.isEmpty()) {
+                    id = ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, dd, tt);
+                }
+                if (id != 0) {
+                    String orderID = "ONL" + id;
+                    OrderDetailDAO odd = new OrderDetailDAO();
+                    TransactionCDAO tcd = new TransactionCDAO();
+                    OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
+                    int price1 = 0;
+                    System.out.println(orderID);
+                    if (!list.isEmpty()) {
+                        String fdCode = orderID + randomAlpha(20 - orderID.length());
+                        tcd.insert(orderID, fdCode, 1, dateStart, timeStart, dateEnd, timeEnd, cinID);
+                        for (int i = 0; i < list.size(); i++) {
+                            odd.insert(orderID, list.get(i).getFood().getProductCode(), list.get(i).getFood().getDiscount(), list.get(i).getFood().getPrice(), list.get(i).getQuantity());
+                            price1 += (list.get(i).getFood().getPrice() * list.get(i).getQuantity());
+                        }
+                    }
+                    if (!listT.isEmpty()) {
+                        int cID = listT.get(0).getTicket().getCinID();
+                        String tkCode = orderID + randomAlpha(20 - orderID.length());
+                        tcd.insert(orderID, tkCode, 2, dateStart, timeStart, dateEnd, timeEnd, cID);
+                        for (int i = 0; i < listT.size(); i++) {
+                            otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice());
+                            price1 += listT.get(i).getTicket().getPrice();
+                            if (listT.get(i).getTicket().getCinID() != cID) {
+                                tkCode = orderID + randomAlpha(20 - orderID.length());
+                                cID = listT.get(i).getTicket().getCinID();
+                                tcd.insert(orderID, tkCode, 2, dateStart, timeStart, dateEnd, timeEnd, listT.get(i).getTicket().getCinID());
+                            }
+
+                        }
+
+                    }
+
+                    int point1 = price1 / 1000;
+
+                    if (pd.checkAcc(a.getUserName()) != null) {
+                        if (!list.isEmpty() || !listT.isEmpty()) {
+                            pd.insertIntoAPD(a.getUserName(), point1, orderID, dd, tt, "NOTUSED");
+                            if (request.getParameter("pntUse") == null || request.getParameter("pntUse").equals("")) {
+                                pd.updPoint(a.getUserName(), point1);
+                            } else {
+                                int pointUse = Integer.parseInt(request.getParameter("pntUse"));
+                                pd.insertIntoAUP(a.getUserName(), pointUse, orderID, date1, timeEnd);
+                                System.out.println(point1 - pointUse);
+                                pd.updPoint(a.getUserName(), point1 - pointUse);
+                                List<AccountPoint> listAP = pd.getAccountPointDetail(a.getUserName());
+                                for (int i = 0; i < listAP.size(); i++) {
+                                    System.out.println(listAP.get(i).getTime());
+                                }
+                                int checkStat = 0;
+                                for (int i = 0; i < listAP.size(); i++) {
+                                    checkStat += listAP.get(i).getPoint();
+                                    if (pd.getAllAccountUsedPoint(a.getUserName()) >= checkStat) {
+                                        pd.updStatusAPD(a.getUserName(), listAP.get(i).getOrderID(), "USED");
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        pd.insertIntoAP(a.getUserName(), point1);
+                        pd.insertIntoAPD(a.getUserName(), point1, orderID, dd, tt, "NOTUSED");
+                    }
+
+                    removeCookie(response, user.getName());
+
+                    request.setAttribute("m", m);
+                    request.setAttribute("email", request.getParameter("email"));
+                    request.setAttribute("fName", request.getParameter("fName"));
+                    request.setAttribute("lName", request.getParameter("lName"));
+                    request.setAttribute("sdt", sdt);
+                    request.setAttribute("datePick", datePick);
+                    request.setAttribute("locPick", request.getParameter("loc"));
+                    request.setAttribute("cntry", request.getParameter("cntry"));
+                    request.setAttribute("city", request.getParameter("city"));
+                    request.setAttribute("dist", request.getParameter("dist"));
+                    request.setAttribute("strt", request.getParameter("strt"));
+                    request.setAttribute("pm", request.getParameter("pm"));
+                    request.getRequestDispatcher("payment.jsp").forward(request, response);
+
+                }
             }
-
-            removeCookie(response, user.getName());
-
-            request.setAttribute("m", m);
-            request.setAttribute("email", request.getParameter("email"));
-            request.setAttribute("fName", request.getParameter("fName"));
-            request.setAttribute("lName", request.getParameter("lName"));
-            request.setAttribute("sdt", sdt);
-            request.setAttribute("datePick", datePick);
-            request.setAttribute("locPick", request.getParameter("loc"));
-            request.setAttribute("cntry", request.getParameter("cntry"));
-            request.setAttribute("city", request.getParameter("city"));
-            request.setAttribute("dist", request.getParameter("dist"));
-            request.setAttribute("strt", request.getParameter("strt"));
-            request.setAttribute("pm", request.getParameter("pm"));
-            request.getRequestDispatcher("payment.jsp").forward(request, response);
-
         }
     }
 

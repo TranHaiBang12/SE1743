@@ -98,4 +98,19 @@ public class FoodDAO extends DBContext {
         return list;
     }
     
+    public List<String> getAllFoodOff() {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Food WHERE Status = N'HẾT HÀNG'";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("ProductCode"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
 }

@@ -227,6 +227,8 @@
 
             .ko{
                 display: flex;
+                flex-direction: column;
+                margin-left: 270px;
             }
 
             .ghe {
@@ -314,10 +316,95 @@
                 text-align: center;
                 padding-top: 20px;
             }
-            
+
             a{
                 text-decoration: none;
                 color: red;
+            }
+
+            .screen{
+                width: 80%;
+                text-align: center;
+                margin: 0 auto;
+                margin-top: 20px;
+            }
+
+            .screen img{
+                width: 100%;
+            }
+
+            .seatInstruct{
+                width: 90%;
+                margin: 0 auto;
+            }
+
+            .frm{
+                display: flex;
+                flex-direction: column;
+                margin-left: 40px;
+                margin-top: 20px;
+                font-size: 20px;
+            }
+
+            .imgE{
+                width: 50px;
+                height: 50px;
+                margin-right: 20px;
+            }
+
+            .insideForm{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .insideinsideform{
+                display: flex;
+                align-items: center;
+
+            }
+
+            .insideForm input{
+                width: 72%;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                height: 25px;
+                padding-left: 10px;
+                font-size: 20px;
+            }
+
+            .insideinsideform label{
+                margin-right: 100px;
+                font-weight: bold;
+            }
+
+
+
+            .sbMIT{
+                color: white;
+                background-color: red;
+                cursor: pointer;
+            }
+
+
+            .insideTinsideform input{
+                width: 61%;
+            }
+
+            .insideTinsideform label{
+                margin-right: 14px;
+            }
+
+            .insideTinsideform{
+                display: flex;
+                align-items: center;
+            }
+
+            .ms{
+                margin-top: 20px;
+                font-size: 20px;
+                color: red;
+                margin-right: 300px;
             }
 
 
@@ -418,13 +505,50 @@
                             </c:forEach>
                         </div>
                     </div>
-                    <div class = "tket">
-                        <a href = "movie">CHỌN LẠI PHIM</a>
-                        <img src = "${requestScope.mov.getImg()}"><!-- comment -->
-                        <div  class = "ghe">Ghế chọn mua:<span id ="ghe"></span></div>
-                        <div  class ="qtt">Số lượng: <span id ="qtt"></span></div>
-                        <div class = "sum">Tổng: <span id ="sum" ></span></div>
-                        <div class = "crt"><input type = "button" onclick ="cart('${sessionScope.account.getUserName()}')" value = "Add to cart"/></div>
+                    
+                    <div class = "frm">
+
+                        <div class = "insideForm">
+                            <div class = "insideinsideform">
+                                <label id ="nm">Ghế Thường: </label>
+                                <img class = "imgE" src = "images/whiteSeat.png">
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number"  class="tk_in4" readonly  min="0" max ="1000" id ="nm" name ="nm" value = "${requestScope.nm_price}"/>
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Khuyến Mại(%): </label><input type="number"  class="tk_in4" min ="0" step="0.01" readonly name = "nm_dc" value = "${requestScope.nm_dc}">
+                            </div>
+                        </div>
+
+                        <div class = "insideForm">
+                            <div class = "insideinsideform">
+                                <label id ="vp">Ghế VIP: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <img class = "imgE" src = "images/blueSeat.png">
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number"  class="tk_in4" readonly min="0" max ="1000" id ="vp" name ="vp" value = "${requestScope.vp_price}"/>
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Khuyến Mại(%): </label><input type="number"  class="tk_in4" min ="0" step="0.01" readonly name = "vp_dc" value = "${requestScope.vp_dc}">
+                            </div>
+                        </div>
+                        <div class = "insideForm">
+                            <div class = "insideinsideform">
+                                <label id ="vt">Ghế Đôi: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <img class = "imgE" src = "images/pinkSeat.png">
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Giá(.000đ): &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type ="number" readonly  class="tk_in4" min="0" max ="1000" id ="vt" name ="vt" value = "${requestScope.vt_price}"/>
+                            </div>
+                            <div class = "insideTinsideform">
+                                <label>Khuyến Mại(%): </label><input type="number" class="tk_in4" min ="0" step="0.01" readonly name = "vt_dc" value = "${requestScope.vt_dc}">
+                            </div>
+                        </div>
+                        <div class = "insideForm">
+                            <a href = "updtick?id=${requestScope.id}"><input type ="button" class ="sbMIT" value ="UPDATE"/></a>
+                        </div>
+                        <input type ="text" hidden value ="${requestScope.id}" name = "id"/>
                     </div>
                 </div>
             </c:if>
