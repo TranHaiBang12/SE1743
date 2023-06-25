@@ -176,7 +176,7 @@
                 justify-content: space-between;
                 margin-top: 15px;
             }
-            
+
             h2{
                 text-align: center;
                 color: red;
@@ -241,6 +241,12 @@
                                             <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${sessionScope.account.getUserName()}')"/>
                                         </div>
 
+                                        <c:if test = "${sessionScope.account.getRole() == 3}">
+                                            <div class = "cart">
+                                                <a href = "viewf?id=${i.getProductCode()}"><input type ="button" value ="View"/></a>
+                                            </div>
+                                        </c:if>
+
                                         </div>
                                         <div class = "${(i.getId() % 3 == 0)?"breaker":""}">
 
@@ -255,10 +261,10 @@
                                         <a href ="store?page=${(page + 1) > totalPage?(1):(page+1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}">></a>
                                     </div>
                                 </c:if>
-                        <c:if test = "${requestScope.ms != null}">
-                            <h2>${requestScope.ms}</h2>
-                            <h2><a href = "store">Bấm vào đây để về cửa hàng</a></h2>
-                        </c:if>
+                                <c:if test = "${requestScope.ms != null}">
+                                    <h2>${requestScope.ms}</h2>
+                                    <h2><a href = "store">Bấm vào đây để về cửa hàng</a></h2>
+                                </c:if>
                                 </div>
                                 <div id = "footer">
                                     <%@include file = "footer.jsp" %>
@@ -283,7 +289,7 @@
                                     function cart(id, username) {
                                         console.log(id);
                                         console.log(username);
-                                        if(username === "" || username === null || user === undefined) {
+                                        if (username === "" || username === null || user === undefined) {
                                             window.location = "login";
                                         }
                                         if (getCookie(username) === null) {

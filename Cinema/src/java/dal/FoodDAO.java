@@ -61,8 +61,23 @@ public class FoodDAO extends DBContext {
             st.setString(1, productCode);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                Food f = new Food(0, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"));
+                Food f = new Food(0, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"), getFoodTypeNameByID(rs.getString("FoodType")));
                 return f;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public String getFoodTypeNameByID(String id) {
+        try {
+            String sql = "SELECT * FROM FoodType WHERE ftID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getString("ftName");
             }
         } catch (Exception e) {
             System.out.println(e);
