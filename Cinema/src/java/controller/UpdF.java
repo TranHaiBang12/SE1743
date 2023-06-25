@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import model.Food;
@@ -118,8 +119,11 @@ public class UpdF extends HttpServlet {
         else if(f.getDiscontinued() == 1) {
             dct = "Không kinh doanh sản phẩm này nữa";
         }
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String t = decimalFormat.format(dc);
+        
         request.setAttribute("dc", dct);
-        fdo.updateFoodByID(img, fd, tl, dc, price * 1000, stt, dis, id);
+        fdo.updateFoodByID(img, fd, tl, Double.parseDouble(t), price * 1000, stt, dis, id);
         request.setAttribute("ms", "Update thành công");
         request.getRequestDispatcher("updFood.jsp").forward(request, response);
     }

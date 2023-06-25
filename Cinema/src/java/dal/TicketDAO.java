@@ -311,5 +311,20 @@ public class TicketDAO extends DBContext {
         }
         return ticket;
     }
+    
+    public void deleteTicketByID(String productCode) {
+        try {
+            String sql = "DELETE FROM Product WHERE ProductCode = ?";
+            String sql1 = "DELETE FROM TickTypeInSche WHERE ProductCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st1 = connection.prepareStatement(sql1);
+            st.setString(1, productCode);
+            st1.setString(1, productCode);
+            st1.executeUpdate();
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
 }

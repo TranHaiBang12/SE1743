@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +172,11 @@ public class PickSeatServlet extends HttpServlet {
 
             List<Ticket> tkBought = tkd.getAllTicketBoughtBySchedule(scd.getScheduleByID(id).getScheNo());
             List<Ticket> tk = tkd.getTicketPByScheduleRCS(scd.getScheduleByID(id).getScheNo());
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            for (int i = 0; i < tk.size(); i++) {
+                String t = decimalFormat.format(tk.get(i).getDiscount());
+                tk.get(i).setDiscount(Double.parseDouble(t));
+            }
             System.out.println(scd.getScheduleByID(id).getScheNo());
             for (int i = 0; i < tk.size(); i++) {
                 tk.get(i).setStat("Ava");

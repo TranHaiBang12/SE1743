@@ -212,8 +212,8 @@
 
             function directDlt(id, movID, tick) {
                 if (id.includes("sche") && String(tick) === "false") {
-                    if (id.includes("del")) {
-                        if (confirm("Bạn có chắc muốn xóa lịch chiếu với id = " + id)) {
+                    if (id.includes("del")) { 
+                        if (confirm("Bạn có chắc muốn xóa lịch chiếu với id = " + id + ". Việc này đồng thời sẽ xóa tất cả vé của lịch chiếu này")) {
                             id = id.replace("delsche", "");
                             window.location = "dltsche?id=" + id + "&movid=" + movID;
                         }

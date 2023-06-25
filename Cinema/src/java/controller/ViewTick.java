@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,6 +144,11 @@ public class ViewTick extends HttpServlet {
 
             List<Ticket> tkBought = tkd.getAllTicketBoughtBySchedule(scd.getScheduleByID(id).getScheNo());
             List<Ticket> tk = tkd.getTicketPByScheduleRCS(scd.getScheduleByID(id).getScheNo());
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            for (int i = 0; i < tk.size(); i++) {
+                String t = decimalFormat.format(tk.get(i).getDiscount());
+                tk.get(i).setDiscount(Double.parseDouble(t));
+            }
             System.out.println(scd.getScheduleByID(id).getScheNo());
             if (!tk.isEmpty()) {
                 for (int i = 0; i < tk.size(); i++) {
@@ -157,28 +163,43 @@ public class ViewTick extends HttpServlet {
                         }
                     }
                 }
-                Double nm_price = tkd.getTicketNMPriceBySche(id);
-                Double vp_price = tkd.getTicketVPPriceBySche(id);
-                Double vt_price = tkd.getTicketVTPriceBySche(id);
-                
-                Double nm_dc = tkd.getTicketNMDiscountBySche(id);
-                Double vp_dc = tkd.getTicketVPDiscountBySche(id);
-                Double vt_dc = tkd.getTicketVTDiscountBySche(id);
-                
+                Double nm_price = 0.0, vp_price = 0.0, vt_price = 0.0;
+                Double nm_dc = 0.0, vp_dc = 0.0, vt_dc = 0.0;
+                if (tkd.getTicketBySchedule(id, "NM") != null) {
+                    nm_price = tkd.getTicketNMPriceBySche(id);
+                    nm_dc = tkd.getTicketNMDiscountBySche(id);
+                }
+                else {
+                    request.setAttribute("msNM", "Hiện tại lịch chiếu không có vé thường");
+                    
+                }
+                if (tkd.getTicketBySchedule(id, "VP") != null) {
+                    vp_price = tkd.getTicketVPPriceBySche(id);
+                    vp_dc = tkd.getTicketVPDiscountBySche(id);
+                }
+                else {
+                    request.setAttribute("msVP", "Hiện tại lịch chiếu không có vé VIP");
+                }
+                if (tkd.getTicketBySchedule(id, "VT") != null) {
+                    vt_price = tkd.getTicketVTPriceBySche(id);
+                    vt_dc = tkd.getTicketVTDiscountBySche(id);
+                }
+                else {
+                    request.setAttribute("msVT", "Hiện tại lịch chiếu không có vé đôi");
+                }
+
                 request.setAttribute("tk", tk);
                 request.setAttribute("nm_price", nm_price);
                 request.setAttribute("vp_price", vp_price);
                 request.setAttribute("vt_price", vt_price);
-                
-                request.setAttribute("nm_dc", nm_dc);
-                request.setAttribute("vp_dc", vp_dc);
-                request.setAttribute("vt_dc", vt_dc);
-            }
-            else {
+
+                request.setAttribute("nm_dc", decimalFormat.format(nm_dc));
+                request.setAttribute("vp_dc", decimalFormat.format(vp_dc));
+                request.setAttribute("vt_dc", decimalFormat.format(vt_dc));
+            } else {
                 String msT = "Lịch chiếu này hiện chưa có vé";
                 request.setAttribute("msT", msT);
             }
-            
 
             String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
             String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();

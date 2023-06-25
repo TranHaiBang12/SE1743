@@ -18,6 +18,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -136,6 +137,11 @@ public class UpdTick extends HttpServlet {
 
             List<Ticket> tkBought = tkd.getAllTicketBoughtBySchedule(scd.getScheduleByID(id).getScheNo());
             List<Ticket> tk = tkd.getTicketPByScheduleRCS(scd.getScheduleByID(id).getScheNo());
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            for (int i = 0; i < tk.size(); i++) {
+                String t = decimalFormat.format(tk.get(i).getDiscount());
+                tk.get(i).setDiscount(Double.parseDouble(t));
+            }
             System.out.println(scd.getScheduleByID(id).getScheNo());
             if (!tk.isEmpty()) {
                 System.out.println("1");
@@ -164,9 +170,9 @@ public class UpdTick extends HttpServlet {
                 request.setAttribute("vp_price", vp_price);
                 request.setAttribute("vt_price", vt_price);
                 
-                request.setAttribute("nm_dc", nm_dc);
-                request.setAttribute("vp_dc", vp_dc);
-                request.setAttribute("vt_dc", vt_dc);
+                request.setAttribute("nm_dc", decimalFormat.format(nm_dc));
+                request.setAttribute("vp_dc", decimalFormat.format(vp_dc));
+                request.setAttribute("vt_dc", decimalFormat.format(vt_dc));
             }
             else {
                 System.out.println("2");
@@ -273,6 +279,11 @@ public class UpdTick extends HttpServlet {
 
             List<Ticket> tkBought = tkd.getAllTicketBoughtBySchedule(scd.getScheduleByID(id).getScheNo());
             List<Ticket> tk = tkd.getTicketPByScheduleRCS(scd.getScheduleByID(id).getScheNo());
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            for (int i = 0; i < tk.size(); i++) {
+                String t = decimalFormat.format(tk.get(i).getDiscount());
+                tk.get(i).setDiscount(Double.parseDouble(t));
+            }
             System.out.println(scd.getScheduleByID(id).getScheNo());
             if (!tk.isEmpty()) {
                 System.out.println("3");
@@ -296,13 +307,17 @@ public class UpdTick extends HttpServlet {
                 String vp_dc_raw = request.getParameter("vp_dc");
                 String vt_dc_raw = request.getParameter("vt_dc");
                 
+                String aT = decimalFormat.format(Double.parseDouble(nm_dc_raw) * 1000);
+                String bT = decimalFormat.format(Double.parseDouble(vp_dc_raw) * 1000);
+                String cT = decimalFormat.format(Double.parseDouble(vt_dc_raw) * 1000);
+                
                 System.out.println(nm_price_raw + " " + vp_price_raw + " " + vt_price_raw + " " + nm_dc_raw + " " + vp_dc_raw + " " + vt_dc_raw + " " + id);
                 String productCodeNM = tkd.getTicketBySchedule(id, "NM").getProductCode();
-                tkd.updTicketPriceBySche(productCodeNM, Double.parseDouble(nm_price_raw) * 1000, Double.parseDouble(nm_dc_raw));
+                tkd.updTicketPriceBySche(productCodeNM, Double.parseDouble(nm_price_raw) * 1000, Double.parseDouble(aT));
                 String productCodeVP = tkd.getTicketBySchedule(id, "VP").getProductCode();
-                tkd.updTicketPriceBySche(productCodeVP, Double.parseDouble(vp_price_raw) * 1000, Double.parseDouble(vp_dc_raw));
+                tkd.updTicketPriceBySche(productCodeVP, Double.parseDouble(vp_price_raw) * 1000, Double.parseDouble(bT));
                 String productCodeVT = tkd.getTicketBySchedule(id, "VT").getProductCode();
-                tkd.updTicketPriceBySche(productCodeVT, Double.parseDouble(vt_price_raw) * 1000, Double.parseDouble(vt_dc_raw));
+                tkd.updTicketPriceBySche(productCodeVT, Double.parseDouble(vt_price_raw) * 1000, Double.parseDouble(cT));
                 
                 request.setAttribute("ms", "Update thành công");
                 request.setAttribute("tk", tk);

@@ -5,12 +5,14 @@
 
 package controller;
 
+import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Ticket;
 
 /**
  *
@@ -53,7 +55,14 @@ public class DeleteTick extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        String id = request.getParameter("id");
+        String type = request.getParameter("type");
+        
+        TicketDAO tkd = new TicketDAO();
+        Ticket t = tkd.getTicketBySchedule(id, type);
+        tkd.deleteTicketByID(t.getProductCode());
+        response.sendRedirect("viewtick?id=" + id);
     } 
 
     /** 
