@@ -26,7 +26,6 @@ public class FoodDAO extends DBContext {
             while (rs.next()) {
 
                 Food f = new Food(i, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"));
-                System.out.println(f);
                 list.add(f);
                 i++;
             }
@@ -38,10 +37,7 @@ public class FoodDAO extends DBContext {
 
     public List<Food> getFoodByPage(List<Food> list, int start, int end) {
         List<Food> list2 = new ArrayList<>();
-        System.out.println(start + " " + end + "dadawsssss");
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getFoodDescript());
-        }
+    
         try {
             for (int i = start; i <= end; i++) {
                 list2.add(list.get(i));
@@ -103,7 +99,6 @@ public class FoodDAO extends DBContext {
             while (rs.next()) {
 
                 Food f = new Food(i, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"), rs.getString("ftName"));
-                System.out.println(f);
                 list.add(f);
                 i++;
             }
@@ -167,6 +162,21 @@ public class FoodDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public void deleteFoodByID(String productCode) {
+        try {
+            String sql = "DELETE FROM Product WHERE ProductCode = ?";
+            String sql1 = "DELETE FROM Food WHERE ProductCode = ?";
+            PreparedStatement st1 = connection.prepareStatement(sql1);
+            PreparedStatement st = connection.prepareStatement(sql);
+            st1.setString(1, productCode);
+            st1.executeUpdate();
+            st.setString(1, productCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
 }

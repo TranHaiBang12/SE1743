@@ -119,9 +119,8 @@ public class UpdF extends HttpServlet {
             dct = "Không kinh doanh sản phẩm này nữa";
         }
         request.setAttribute("dc", dct);
-        fdo.updateFoodByID(img, fd, tl, dc, price, stt, dis, id);
+        fdo.updateFoodByID(img, fd, tl, dc, price * 1000, stt, dis, id);
         request.setAttribute("ms", "Update thành công");
-        System.out.println(img + " " + fd + " " + tl + " " + dc_raw + " " + price_raw + " " + stt + " " + kd + " " + id);
         request.getRequestDispatcher("updFood.jsp").forward(request, response);
     }
 

@@ -12,14 +12,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.text.DecimalFormat;
-import model.Food;
 
 /**
  *
  * @author acer
  */
-public class ViewFood extends HttpServlet {
+public class DeleteFood extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +34,10 @@ public class ViewFood extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewFood</title>");  
+            out.println("<title>Servlet DeleteFood</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewFood at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteFood at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,25 +54,10 @@ public class ViewFood extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //processRequest(request, response);
-        FoodDAO fd = new FoodDAO();
         String id = request.getParameter("id");
-        Food f = fd.getFoodById(id);
-        request.setAttribute("f", f);
-        request.setAttribute("id", id);
-        String dc = "";
-        if(f.getDiscontinued() == 0) {
-            dc = "Tiếp tục kinh doanh sản phẩm này";
-            
-        }
-        else if(f.getDiscontinued() == 1) {
-            dc = "Không kinh doanh sản phẩm này nữa";
-        }
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String t = decimalFormat.format(f.getDiscount());
-        f.setDiscount(Double.parseDouble(t));
-        request.setAttribute("dc", dc);
-        request.getRequestDispatcher("viewFood.jsp").forward(request, response);
+        FoodDAO fd = new FoodDAO();
+        fd.deleteFoodByID(id);
+        response.sendRedirect("store");
     } 
 
     /** 

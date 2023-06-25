@@ -83,10 +83,21 @@
                 <div>
                     <a href = "updf?id=${requestScope.id}"><input type = "button" value = "UPDATE"/></a>
                 </div>
+                
+                <div>
+                    <input type = "button" value = "DELETE" onclick = "delF('${requestScope.id}')"/>
+                </div>
             </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function delF(id) {
+                if(confirm("Bạn có chắc muốn xóa sản phẩm với id = " + id)) {
+                    window.location = "delf?id=" + id;
+                }
+            }
+        </script><!-- comment -->
     </body>
 </html>

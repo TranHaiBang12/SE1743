@@ -65,6 +65,12 @@
             .morefIn4 label{
                 margin-right: 10px;
             }
+            
+            .ms{
+                font-size: 20px;
+                color: red;
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
@@ -124,7 +130,7 @@
                         <label for = "kd">Kinh Doanh:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                         <select name ="kd">
                             <c:forEach items = "${requestScope.discontinued}" var = "i">
-                                <option value = "${i}" ${(requestScope.f.getDiscontinued() != null && requestScope.f.getDiscontinued() == 1)?"selected":""}>${i}</option>
+                                <option value = "${i}" ${(requestScope.f.getDiscontinued() != null && requestScope.f.getDiscontinued().equals(dc))?"selected":""}>${i}</option>
                             </c:forEach>
                         </select>
                     </div>

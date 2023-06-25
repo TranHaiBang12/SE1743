@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import model.Food;
@@ -92,13 +93,28 @@ public class StoreServlet extends HttpServlet {
             }
             start = (page - 1) * numPerPage;
             end = (page * numPerPage > list.size()) ? (list.size() - 1) : (page * numPerPage - 1);
-            System.out.println(end + "dâdawdawdwa");
             request.setAttribute("listPerPage", fda.getFoodByPage(list, start, end));
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("page", page);
             request.setAttribute("data", list);
+            System.out.println("u7");
+            
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+            
+            for (int i = 0; i < fda.getFoodByPage(list, start, end).size(); i++) {
+                String t = decimalFormat.format(fda.getFoodByPage(list, start, end).get(i).getDiscount());
+                
+                fda.getFoodByPage(list, start, end).get(i).setDiscount(Double.parseDouble(t));
+                System.out.println(fda.getFoodByPage(list, start, end).get(i).getDiscount());
+            }
+            System.out.println(totalPage);
+            System.out.println(page);
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println(list.get(i).getFoodDescript());
+            }
         } else {
-            System.out.println(key + "" + type);
+      
             List<Food> listSearch = new ArrayList<>();
             try {
                 listSearch = fda.getFoodByType(type, key);
@@ -119,9 +135,7 @@ public class StoreServlet extends HttpServlet {
             }
             start = (page - 1) * numPerPage;
             end = (page * numPerPage > listSearch.size()) ? (listSearch.size() - 1) : (page * numPerPage - 1);
-            System.out.println(start + " " + end + "duaadâ");
             request.setAttribute("type", type);
-            System.out.println(end + "dâdawdawdwa");
             request.setAttribute("listPerPage", fda.getFoodByPage(listSearch, start, end));
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("page", page);
@@ -174,7 +188,6 @@ public class StoreServlet extends HttpServlet {
             }
             start = (page - 1) * numPerPage;
             end = (page * numPerPage > list.size()) ? (list.size() - 1) : (page * numPerPage - 1);
-            System.out.println(end + "dâdawdawdwa");
             request.setAttribute("listPerPage", fda.getFoodByPage(list, start, end));
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("page", page);
@@ -192,18 +205,14 @@ public class StoreServlet extends HttpServlet {
                 request.setAttribute("ms", ms);
                 request.getRequestDispatcher("store.jsp").forward(request, response);
             }
-            for (int i = 0; i < listSearch.size(); i++) {
-                System.out.println(listSearch.get(i).getFoodDescript());
-            }
+
             totalPage = (listSearch.size() % numPerPage == 0) ? (listSearch.size() / numPerPage) : (listSearch.size() / numPerPage + 1);
             if (page > totalPage) {
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
             start = (page - 1) * numPerPage;
             end = (page * numPerPage > listSearch.size()) ? (listSearch.size() - 1) : (page * numPerPage - 1);
-            System.out.println(start + " " + end + "duaadâ");
             request.setAttribute("type", type);
-            System.out.println(end + "dâdawdawdwa");
             request.setAttribute("listPerPage", fda.getFoodByPage(listSearch, start, end));
             request.setAttribute("totalPage", totalPage);
             request.setAttribute("page", page);
