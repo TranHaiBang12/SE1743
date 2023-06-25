@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>Request1</servlet-name>
+        <servlet-class>controller.Request1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Request2</servlet-name>
+        <servlet-class>controller.Request2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Request3</servlet-name>
+        <servlet-class>controller.Request3</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Request4</servlet-name>
+        <servlet-class>controller.Request4</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Request1</servlet-name>
+        <url-pattern>/req1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Request2</servlet-name>
+        <url-pattern>/req2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Request3</servlet-name>
+        <url-pattern>/req3</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Request4</servlet-name>
+        <url-pattern>/req4</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
