@@ -66,24 +66,25 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
-                margin-left: 100px;;
-                
+                margin-left: 100px;
+                ;
+
             }
-            
+
             .IN4 img{
-                width: 600px;
+                width: 470px;
                 height: 600px;
             }
-            
+
             .eIN4 {
                 font-size: 20px;
                 margin-left: 50px;
             }
-            
+
             .eIN4 div{
                 margin-bottom: 20px;
             }
-            
+
             .t{
                 width: 200px;
                 height: 30px;
@@ -99,7 +100,7 @@
         </div>
         <div class = "body">
             <div class = "uName">Tài Khoản: <span class = "rd">${requestScope.accE.getUsername()}<span></div>
-                    
+
                         <c:if test = "${requestScope.accE != null}">
                             <div class = "IN4">
                                 <div>
@@ -136,9 +137,10 @@
                                         <input type ="button" value ="Submit" onclick = "checkAcc('${sessionScope.account.getPassword()}')"/>
                                     </div>
                                 </div>
-                            </c:if>
+                            </div> 
+                        </c:if>
                         </div>
-                        </div> 
+
                         <div id = "footer">
                             <%@include file = "footer.jsp" %>
                         </div>

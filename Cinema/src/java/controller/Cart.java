@@ -122,10 +122,10 @@ public class Cart extends HttpServlet {
             }
             int totalAmount = 0;
             for (int i = 0; i < list.size(); i++) {
-                totalAmount += (list.get(i).getQuantity() * (list.get(i).getFood().getPrice() - list.get(i).getFood().getPrice() * list.get(i).getFood().getDiscount()));
+                totalAmount += (list.get(i).getQuantity() * (list.get(i).getFood().getPrice()));
             }
             for (int i = 0; i < listT.size(); i++) {
-                totalAmount += (listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount());
+                totalAmount += (listT.get(i).getTicket().getPrice());
             }
             request.setAttribute("listCart", list);
             request.setAttribute("listTicket", listT);

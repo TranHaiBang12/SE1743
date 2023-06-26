@@ -144,6 +144,10 @@
         <servlet-name>EmpDetail</servlet-name>
         <servlet-class>controller.EmpDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddEmployee</servlet-name>
+        <servlet-class>controller.AddEmployee</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -287,6 +291,10 @@
     <servlet-mapping>
         <servlet-name>EmpDetail</servlet-name>
         <url-pattern>/empdt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddEmployee</servlet-name>
+        <url-pattern>/addemp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

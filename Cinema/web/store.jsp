@@ -276,8 +276,9 @@
                                             <%@include file = "footer.jsp" %>
                                         </div>
                                         <script>
-                                            var t = "/";
+                                            var t = "";
                                             function cnaGE() {
+                                                
                                                 document.getElementById("srch").submit();
                                             }
                                             function crt() {
@@ -293,16 +294,9 @@
                                                 document.cookie = name + "=" + (value || "") + expires;
                                             }
                                             function cart(id, username) {
+                                           
                                                 console.log(id);
                                                 console.log(username);
-                                                if (username === "" || username === null || user === undefined) {
-                                                    window.location = "login";
-                                                }
-                                                if (getCookie(username) === null) {
-                                                    t = "";
-                                                } else {
-                                                    t = String(getCookie(username));
-                                                }
                                                 if (getCookie(username) === null) {
                                                     setCookie(username, id, 365);
                                                     console.log("1");

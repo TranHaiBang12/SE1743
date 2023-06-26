@@ -33,14 +33,32 @@
                 padding: 20px;
                 border: 1px solid black;
             }
-            
+
             .m img{
-                width: 30px;
+                width: 100px;
             }
-            
+
             td a{
                 text-decoration: none;
                 color: black;
+            }
+            
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+            
+            .addE div{
+                margin-left: 20px;
+            }
+            
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
             }
         </style>
     </head>
@@ -79,6 +97,12 @@
                     </tr>
                 </c:forEach>
             </table>
+            <div class = "addE">
+                <div>
+                    <a href = "addemp"><img src ="images/plusIcon.png"/></a>
+                </div>
+      
+            </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
