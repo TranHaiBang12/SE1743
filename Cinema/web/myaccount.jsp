@@ -50,16 +50,41 @@
             #t{
                 display: none;
             }
-            
+
             #t input{
                 cursor: pointer;
                 padding-left: 10px;
                 margin-top: 15px;
             }
-            
+
             #ms{
                 color: red;
                 margin-bottom: 15px;
+            }
+
+            .IN4 {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                margin-left: 100px;;
+
+            }
+            
+            .eIN4 {
+                font-size: 20px;
+                margin-left: 50px;
+            }
+            
+            .eIN4 div{
+                margin-bottom: 20px;
+            }
+            
+            .t{
+                width: 200px;
+                height: 30px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
             }
         </style>
     </head>
@@ -69,29 +94,69 @@
         </div>
         <div class = "body">
             <div class = "uName">Tài Khoản: <span class = "rd">${sessionScope.account.getUserName()}<span></div>
-                        <div class="uIn4">
-                            <div>Tên đăng nhập: <span class = "rd">${requestScope.acc.getUserName()}</span></div>
-                            <div>Giới tính: <span class = "rd">${requestScope.acc.getGender()}</span></div>
-                            <div>Ngày sinh: <span class = "rd">${requestScope.dob}</span></div>
-                            <div>Số điện thoại: <span class = "rd">${requestScope.acc.getPhone()}</span></div>
-                            <div>Email: <span class = "rd">${requestScope.acc.getEmail()}</span></div>
-                            <div>Thành phố sinh sống: <span class = "rd">${requestScope.acc.getCity()}</span></div>
-                            <div>Số lần mua hàng: <span class = "rd">${requestScope.totalOrd}</span></div>
-                            <div>Điểm tích lũy: <span class = "rd">${requestScope.point}</span></div>
-                            <div>
-                                <a href = "transact"><input type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
-                                <input type ="button" onclick ="check()" value ="UPDATE"/>
-                            </div>
-                            <div id = "t">
+                        <c:if test = "${requestScope.acc != null}">
+                            <div class="uIn4">
+                                <div>Tên đăng nhập: <span class = "rd">${requestScope.acc.getUserName()}</span></div>
+                                <div>Giới tính: <span class = "rd">${requestScope.acc.getGender()}</span></div>
+                                <div>Ngày sinh: <span class = "rd">${requestScope.dob}</span></div>
+                                <div>Số điện thoại: <span class = "rd">${requestScope.acc.getPhone()}</span></div>
+                                <div>Email: <span class = "rd">${requestScope.acc.getEmail()}</span></div>
+                                <div>Thành phố sinh sống: <span class = "rd">${requestScope.acc.getCity()}</span></div>
+                                <div>Số lần mua hàng: <span class = "rd">${requestScope.totalOrd}</span></div>
+                                <div>Điểm tích lũy: <span class = "rd">${requestScope.point}</span></div>
+                                <div>
+                                    <a href = "transact"><input type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                    <input type ="button" onclick ="check()" value ="UPDATE"/>
+                                </div>
+                                <div id = "t">
                                     <label id = "ms" hidden></label>
                                     <label for = "pass">Mật khẩu(<span class = "rd">*</span>)</label>
                                     <br/>
                                     <input type ="password" required id ="pass" name ="pass"/>
                                     <br/><!-- comment -->
                                     <input type ="button" value ="Submit" onclick = "checkAcc('${sessionScope.account.getPassword()}')"/>
+                                </div>
                             </div>
+                        </c:if>
+                        <c:if test = "${requestScope.accE != null}">
+                            <div class = "IN4">
+                                <div>
+                                    <img src ="${requestScope.accE.getImg()}">
+                                </div>
+                                <div class = "eIN4">
+                                    <div>Tên đăng nhập: <span class = "rd">${requestScope.accE.getUsername()}</span></div>
+                                    <div>Họ: <span class = "rd">${requestScope.accE.getLastName()}</span></div>
+                                    <div>Tên: <span class = "rd">${requestScope.accE.getFirstName()}</span></div>
+                                    <div>Giới tính: <span class = "rd">${requestScope.accE.getGender()}</span></div>
+                                    <div>CCCD: <span class = "rd">${requestScope.accE.getCccd()}</span></div>
+                                    <div>Ngày sinh: <span class = "rd">${requestScope.dob}</span></div>
+                                    <div>Số điện thoại: <span class = "rd">${requestScope.accE.getPhone()}</span></div>
+                                    <div>Email: <span class = "rd">${requestScope.accE.getEmail()}</span></div>
+                                    <div>Địa chỉ: <span class = "rd">${requestScope.accE.getAddress()}</span></div>
+                                    <div>Ngày vào làm: <span class = "rd">${requestScope.hiredDate}</span></div>
+                                    <div>Vị trí: <span class = "rd">${requestScope.accE.getPosition()}</span></div>
+                                    <div>Rạp làm việc: <span class = "rd">${requestScope.cin.getCinName()}</span></div>
+                                    <div>Số lần mua hàng: <span class = "rd">${requestScope.totalOrd}</span></div>
+                                        <c:if test = "${requestScope.mng != null}">
+                                        <div>Quản lý: <span class = "rd">${requestScope.mng.getFirstName()}</span></div>
+                                        </c:if>
+                                    <div>Điểm tích lũy: <span class = "rd">${requestScope.point}</span></div>
+                                    <div>
+                                        <a href = "transact"><input class ="t" type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                        <input type ="button" class ="t" onclick ="check()" value ="UPDATE"/>
+                                    </div>
+                                    <div id = "t">
+                                        <label id = "ms" hidden></label>
+                                        <label for = "pass">Mật khẩu(<span class = "rd">*</span>)</label>
+                                        <br/>
+                                        <input type ="password" required id ="pass" name ="pass"/>
+                                        <br/><!-- comment -->
+                                        <input type ="button" value ="Submit" onclick = "checkAcc('${sessionScope.account.getPassword()}')"/>
+                                    </div>
+                                </div>
+                            </c:if>
                         </div>
-                        </div>
+                        </div> 
                         <div id = "footer">
                             <%@include file = "footer.jsp" %>
                         </div>
@@ -99,18 +164,17 @@
                             function check() {
                                 document.getElementById("t").style.display = 'block';
                             }
-                            
+
                             function checkAcc(pass) {
                                 console.log(pass);
-                                if(String(document.getElementById("pass").value) === pass) {
+                                if (String(document.getElementById("pass").value) === pass) {
                                     window.location = "updacc";
-                                }
-                                else {
+                                } else {
                                     document.getElementById("ms").style.display = 'block';
                                     document.getElementById("ms").innerHTML = "Sai mật khẩu, vui lòng thử lại";
                                     document.getElementById("pass").value = "";
                                 }
-                                
+
                             }
                         </script>
                         </body>

@@ -5,6 +5,8 @@
 package controller;
 
 import dal.AccountDAO;
+import dal.CinemaDAO;
+import dal.EmployeeDAO;
 import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,29 +70,58 @@ public class UpdateMyAccount extends HttpServlet {
         OrderDAO ord = new OrderDAO();
         String date = "", month = "", year = "";
         int cnt = 0;
-        String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
-        for (int i = 0; i < t.length(); i++) {
-            if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
-                year = t.substring(cnt, i);
-                cnt = i;
-            } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
-                month = t.substring(cnt + 1, i);
-                cnt = i;
+        if (a.getRole() == 2) {
+            String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
+            for (int i = 0; i < t.length(); i++) {
+                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                    year = t.substring(cnt, i);
+                    cnt = i;
+                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                    month = t.substring(cnt + 1, i);
+                    cnt = i;
+                }
             }
-        }
-        date = t.substring(cnt + 1);
-        int gen;
-        if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nam")) {
-            gen = 1;
-        } else if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nữ")) {
-            gen = 0;
+            date = t.substring(cnt + 1);
+            int gen;
+            if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nam")) {
+                gen = 1;
+            } else if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nữ")) {
+                gen = 0;
+            } else {
+                gen = -1;
+            }
+            request.setAttribute("gen", gen);
+            request.setAttribute("dob", date + "-" + month + "-" + year);
+            request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
+            request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
         } else {
-            gen = -1;
+            EmployeeDAO ed = new EmployeeDAO();
+            String t = ed.getAccEmpByUserName(a.getUserName()).getDob().toString();
+            for (int i = 0; i < t.length(); i++) {
+                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                    year = t.substring(cnt, i);
+                    cnt = i;
+                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                    month = t.substring(cnt + 1, i);
+                    cnt = i;
+                }
+            }
+            date = t.substring(cnt + 1);
+            int gen;
+            if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nam")) {
+                gen = 1;
+            } else if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nữ")) {
+                gen = 0;
+            } else {
+                gen = -1;
+            }
+            CinemaDAO cnd = new CinemaDAO();
+            request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(a.getUserName()).getCinID()));
+            request.setAttribute("gen", gen);
+            request.setAttribute("dob", date + "-" + month + "-" + year);
+            request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+            request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
         }
-        request.setAttribute("gen", gen);
-        request.setAttribute("dob", date + "-" + month + "-" + year);
-        request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-        request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
     }
 
     /**
@@ -107,98 +138,201 @@ public class UpdateMyAccount extends HttpServlet {
         HttpSession session = request.getSession();
         AccountDAO acd = new AccountDAO();
         Account a = (Account) session.getAttribute("account");
-
-        String gen_raw = request.getParameter("gen");
-        String dob = request.getParameter("dob");
-        String sdt = request.getParameter("sdt");
-        String email = request.getParameter("email");
-        String city = request.getParameter("city");
-        String pass = request.getParameter("pass");
-        String rePass = request.getParameter("repass");
-        String date = "", month = "", year = "";
-        int cnt = 0;
-        String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
-        for (int i = 0; i < t.length(); i++) {
-            if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
-                year = t.substring(cnt, i);
-                cnt = i;
-            } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
-                month = t.substring(cnt + 1, i);
-                cnt = i;
+        if (a.getRole() == 2) {
+            String gen_raw = request.getParameter("gen");
+            String dob = request.getParameter("dob");
+            String sdt = request.getParameter("sdt");
+            String email = request.getParameter("email");
+            String city = request.getParameter("city");
+            String pass = request.getParameter("pass");
+            String rePass = request.getParameter("repass");
+            String date = "", month = "", year = "";
+            int cnt = 0;
+            String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
+            for (int i = 0; i < t.length(); i++) {
+                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                    year = t.substring(cnt, i);
+                    cnt = i;
+                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                    month = t.substring(cnt + 1, i);
+                    cnt = i;
+                }
             }
-        }
-        date = t.substring(cnt + 1);
-        int gen1;
-        if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nam")) {
-            gen1 = 1;
-        } else if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nữ")) {
-            gen1 = 0;
-        } else {
-            gen1 = -1;
-        }
-
-        String gen;
-        if (gen_raw.equals("1")) {
-            gen = "Nam";
-        } else if (gen_raw.equals("0")) {
-            gen = "Nữ";
-        } else {
-            gen = "Khác";
-        }
-
-        try {
-            if (sdt.length() != 10) {
-                throw new Exception("Loi");
+            date = t.substring(cnt + 1);
+            int gen1;
+            if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nam")) {
+                gen1 = 1;
+            } else if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nữ")) {
+                gen1 = 0;
+            } else {
+                gen1 = -1;
             }
-            int check = Integer.parseInt(sdt);
-        } catch (Exception e) {
-            String ms = "Vui lòng nhập đúng số điện thoại";
-            request.setAttribute("ms", ms);
-            request.setAttribute("gen", gen1);
-            request.setAttribute("dob", date + "-" + month + "-" + year);
-            request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-            request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
-        }
-        if(acd.checkDuplicatePhone(sdt, a.getUserName()) != null) {
-            String ms = "Số điện thoại đã tồn tại";
-            request.setAttribute("ms", ms);
-            request.setAttribute("gen", gen1);
-            request.setAttribute("dob", date + "-" + month + "-" + year);
-            request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-            request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
-        }
 
-        if (checkEmail(email) == false) {
-            String ms = "Vui lòng nhập đúng email";
-            request.setAttribute("ms", ms);
-            request.setAttribute("gen", gen1);
-            request.setAttribute("dob", date + "-" + month + "-" + year);
-            request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-            request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
-        }
+            String gen;
+            if (gen_raw.equals("1")) {
+                gen = "Nam";
+            } else if (gen_raw.equals("0")) {
+                gen = "Nữ";
+            } else {
+                gen = "Khác";
+            }
 
-        if ((pass != null && !pass.equals("")) || (rePass != null && !rePass.equals(""))) {
-            if (checkPass(pass) == true && rePass.equals(pass)) {
-                acd.updAccountCngPass(a.getUserName(), gen, Date.valueOf(dob), sdt, email, city, pass);
+            try {
+                if (sdt.length() != 10) {
+                    throw new Exception("Loi");
+                }
+                int check = Integer.parseInt(sdt);
+            } catch (Exception e) {
+                String ms = "Vui lòng nhập đúng số điện thoại";
+                request.setAttribute("ms", ms);
+                request.setAttribute("gen", gen1);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
+                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            }
+            if (acd.checkDuplicatePhone(sdt, a.getUserName()) != null) {
+                String ms = "Số điện thoại đã tồn tại";
+                request.setAttribute("ms", ms);
+                request.setAttribute("gen", gen1);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
+                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            }
+
+            if (checkEmail(email) == false) {
+                String ms = "Vui lòng nhập đúng email";
+                request.setAttribute("ms", ms);
+                request.setAttribute("gen", gen1);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
+                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            }
+
+            if ((pass != null && !pass.equals("")) || (rePass != null && !rePass.equals(""))) {
+                if (checkPass(pass) == true && rePass.equals(pass)) {
+                    acd.updAccountCngPass(a.getUserName(), gen, Date.valueOf(dob), sdt, email, city, pass);
+                    String ms = "Cập nhật thành công";
+                    request.setAttribute("ms", ms);
+                    request.setAttribute("gen", gen_raw);
+                    request.setAttribute("dob", date + "-" + month + "-" + year);
+                    request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
+                    request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+                } else {
+                    String ms = "Mật khẩu cần có ít nhất 8 ký tự và nhiều nhất là 20 ký tự, bao gồm ít nhất 1 ký tự thường, 1 ký tự viết hoa, 1 chữ số và 1 trong các ký tự đặc biệt sau: ! # $ @ _ + , ? . -";
+                    request.setAttribute("ms", ms);
+                    request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+                }
+            } else {
+                acd.updAccountNoCngPass(a.getUserName(), gen, Date.valueOf(dob), sdt, email, city);
                 String ms = "Cập nhật thành công";
                 request.setAttribute("ms", ms);
                 request.setAttribute("gen", gen_raw);
                 request.setAttribute("dob", date + "-" + month + "-" + year);
                 request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
                 request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
-            } else {
-                String ms = "Mật khẩu cần có ít nhất 8 ký tự và nhiều nhất là 20 ký tự, bao gồm ít nhất 1 ký tự thường, 1 ký tự viết hoa, 1 chữ số và 1 trong các ký tự đặc biệt sau: ! # $ @ _ + , ? . -";
-                request.setAttribute("ms", ms);
-                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
             }
         } else {
-            acd.updAccountNoCngPass(a.getUserName(), gen, Date.valueOf(dob), sdt, email, city);
-            String ms = "Cập nhật thành công";
-            request.setAttribute("ms", ms);
-            request.setAttribute("gen", gen_raw);
-            request.setAttribute("dob", date + "-" + month + "-" + year);
-            request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-            request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            EmployeeDAO ed = new EmployeeDAO();
+            String u = request.getParameter("user");
+            String fn = request.getParameter("fn");
+            String ln = request.getParameter("ln");
+            String gen_raw = request.getParameter("gen");
+            String dob = request.getParameter("dob");
+            String sdt = request.getParameter("sdt");
+            String email = request.getParameter("email");
+            String cccd = request.getParameter("cccd");
+            String address = request.getParameter("address");
+            String pass = request.getParameter("pass");
+            String rePass = request.getParameter("repass");
+            String date = "", month = "", year = "";
+            int cnt = 0;
+            String t = ed.getAccEmpByUserName(a.getUserName()).getDob().toString();
+            for (int i = 0; i < t.length(); i++) {
+                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                    year = t.substring(cnt, i);
+                    cnt = i;
+                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                    month = t.substring(cnt + 1, i);
+                    cnt = i;
+                }
+            }
+            date = t.substring(cnt + 1);
+            int gen1;
+            if (ed.getAccEmpByUserName(a.getUserName()).getGender().equals("Nam")) {
+                gen1 = 1;
+            } else if (acd.getAccountByUserName(a.getUserName()).getGender().equals("Nữ")) {
+                gen1 = 0;
+            } else {
+                gen1 = -1;
+            }
+
+            String gen;
+            if (gen_raw.equals("1")) {
+                gen = "Nam";
+            } else if (gen_raw.equals("0")) {
+                gen = "Nữ";
+            } else {
+                gen = "Khác";
+            }
+
+            try {
+                if (sdt.length() != 10) {
+                    throw new Exception("Loi");
+                }
+                int check = Integer.parseInt(sdt);
+            } catch (Exception e) {
+                String ms = "Vui lòng nhập đúng số điện thoại";
+                request.setAttribute("ms", ms);
+                request.setAttribute("gen", gen1);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            }
+            if (ed.checkDuplicatePhone(sdt, a.getUserName()) != null) {
+                String ms = "Số điện thoại đã tồn tại";
+                request.setAttribute("ms", ms);
+                request.setAttribute("gen", gen1);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            }
+
+            if (checkEmail(email) == false) {
+                String ms = "Vui lòng nhập đúng email";
+                request.setAttribute("ms", ms);
+                request.setAttribute("gen", gen1);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            }
+
+            if ((pass != null && !pass.equals("")) || (rePass != null && !rePass.equals(""))) {
+                System.out.println("1");
+                if (checkPass(pass) == true && rePass.equals(pass)) {
+                    ed.updateIn4CngP(ln, fn, gen, Date.valueOf(dob), address, cccd, sdt, email, a.getUserName(), pass);
+                    String ms = "Cập nhật thành công";
+                    request.setAttribute("ms", ms);
+                    request.setAttribute("gen", gen1);
+                    request.setAttribute("dob", date + "-" + month + "-" + year);
+                    request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+                    request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+                } else {
+                    String ms = "Mật khẩu cần có ít nhất 8 ký tự và nhiều nhất là 20 ký tự, bao gồm ít nhất 1 ký tự thường, 1 ký tự viết hoa, 1 chữ số và 1 trong các ký tự đặc biệt sau: ! # $ @ _ + , ? . -";
+                    request.setAttribute("gen", gen1);
+                    request.setAttribute("dob", date + "-" + month + "-" + year);
+                    request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+                    request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+                }
+            } else {
+                System.out.println("4");
+                ed.updateIn4NoCngP(ln, fn, gen, Date.valueOf(dob), address, cccd, sdt, email, a.getUserName());
+                String ms = "Cập nhật thành công";
+                request.setAttribute("ms", ms);
+                request.setAttribute("gen", gen_raw);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+                request.getRequestDispatcher("updMyAcc.jsp").forward(request, response);
+            }
         }
     }
 

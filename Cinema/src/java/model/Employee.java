@@ -26,6 +26,9 @@ public class Employee {
     private int managerID;
     private String img;
     private double salary;
+    private String username;
+    private int role;
+    private String password;
 
     public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary) {
         this.empID = empID;
@@ -44,6 +47,53 @@ public class Employee {
         this.img = img;
         this.salary = salary;
     }
+
+    public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary, String username, int role, String password) {
+        this.empID = empID;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.dob = dob;
+        this.address = address;
+        this.cccd = cccd;
+        this.phone = phone;
+        this.email = email;
+        this.hiredDate = hiredDate;
+        this.position = position;
+        this.cinID = cinID;
+        this.managerID = managerID;
+        this.img = img;
+        this.salary = salary;
+        this.username = username;
+        this.role = role;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    
 
     public int getEmpID() {
         return empID;

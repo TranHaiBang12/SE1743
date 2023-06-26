@@ -35,8 +35,14 @@ public class AccountDAO extends DBContext{
     
     public void insert(String user, String gender, Date dob, String phone, String email, String city, int role, String pass) {
         String sql = "INSERT INTO Account VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql1 = "INSERT INTO Acc VALUES (?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st1 = connection.prepareStatement(sql1);
+            st1.setString(1, user);
+            st1.setInt(2, role);
+            st1.setString(3, pass);
+            st1.executeUpdate();
             st.setString(1, user);
             st.setString(2, gender);
             st.setDate(3, dob);
@@ -46,6 +52,7 @@ public class AccountDAO extends DBContext{
             st.setInt(7, role);
             st.setString(8, pass);
             st.executeUpdate();
+            
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -101,7 +108,7 @@ public class AccountDAO extends DBContext{
     
     public Account getAccountByUserName(String username) {
         try {
-            String sql = "SELECT * FROM Account WHERE UserName = ?";
+            String sql = "SELECT Account.* FROM Acc JOIN Account ON Acc.UserName = Account.UserName WHERE Acc.UserName = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
@@ -114,6 +121,8 @@ public class AccountDAO extends DBContext{
         }
         return null;
     }
+    
+    
     
     public void updAccountNoCngPass(String username, String gen, Date dob, String phone, String email, String city) {
         try {
@@ -134,7 +143,12 @@ public class AccountDAO extends DBContext{
     public void updAccountCngPass(String username, String gen, Date dob, String phone, String email, String pass, String city) {
         try {
             String sql = "UPDATE Account SET Gender = ?, Dob = ?, Phone = ?, Email = ?, City = ?, Password = ? WHERE UserName = ?";
+            String sql1 = "UPDATE Acc SET Password = ?  WHERE UserName = ?";
             PreparedStatement st = connection.prepareStatement(sql);
+            PreparedStatement st1 = connection.prepareStatement(sql1);
+            st1.setString(1, pass);
+            st1.setString(2, username);
+            st1.executeUpdate();
             st.setString(1, gen);
             st.setDate(2, dob);
             st.setString(3, phone);
