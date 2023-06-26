@@ -111,6 +111,8 @@
             .tket{
                 cursor: pointer;
             }
+            
+            
         </style>
     </head>
     <body>
@@ -129,7 +131,6 @@
                     <th>PHÒNG</th>
                     <th>NGÀY CHIẾU XONG</th>
                     <th>GIỜ CHIẾU XONG</th>
-                    <th>VÉ</th>
                 </tr>
                 <c:forEach items = "${requestScope.s}" var = "i">
                     <tr>
@@ -142,7 +143,6 @@
                         <td>${i.getRoomID()}</td>
                         <td>${i.getEnd()}</td>
                         <td>${i.getEndTim()}</td>
-                        <td id ="" class ="tket">${i.isHasTick() == true?"UPDATE TICKET":"ADD TICKET"}</td>
                         <c:set var="movName" value="${i.getMovName()}"/>
                         <c:set var="movID" value="${i.getMovID()}"/>
                     </tr>

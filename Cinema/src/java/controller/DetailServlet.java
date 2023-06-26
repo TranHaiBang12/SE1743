@@ -15,14 +15,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import model.Account;
 import model.DirectorInMov;
 import model.MovieGenre;
 import model.Movies;
+import model.Rate;
 import model.StarInMov;
 
 /**
@@ -71,9 +74,11 @@ public class DetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        System.out.println("4");
         String id_raw = request.getParameter("id");
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
+        System.out.println(id_raw);
         try {
             int id = Integer.parseInt(id_raw);
             RateDAO rd = new RateDAO();
@@ -110,7 +115,37 @@ public class DetailServlet extends HttpServlet {
                         genre += ", ";
                     }
                 }
+                String page_raw = request.getParameter("page");
+                List<Rate> r = rd.getAllRate(id);
+
+                int page = 1;
+                if (page_raw != null) {
+                    page = Integer.parseInt(page_raw);
+                }
+                int numPerPage = 5;
+                int totalPage = (r.size() % numPerPage == 0) ? (r.size() / numPerPage) : (r.size() / numPerPage + 1);
+                int start = (page - 1) * 5;
+                int end = (page == totalPage) ? (r.size() - 1) : (page * numPerPage - 1);
                 Movies m = mvd.getMovieById(id);
+                int noRate = rd.getNoRate(id);
+                int noRate5 = rd.getNoRate5(id);
+                int noRate4 = rd.getNoRate4(id);
+                int noRate3 = rd.getNoRate3(id);
+                int noRate2 = rd.getNoRate2(id);
+                int noRate1 = rd.getNoRate1(id);
+                int sumRate = rd.getSumRate(id);
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                double avr = (double) (sumRate) / (double) noRate;
+                request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
+                request.setAttribute("page", page);
+                request.setAttribute("noRate5", decimalFormat.format((double) noRate5 / (double) noRate));
+                request.setAttribute("noRate4", decimalFormat.format((double) noRate4 / (double) noRate));
+                request.setAttribute("noRate3", decimalFormat.format((double) noRate3 / (double) noRate));
+                request.setAttribute("noRate2", decimalFormat.format((double) noRate2 / (double) noRate));
+                request.setAttribute("noRate1", decimalFormat.format((double) noRate1 / (double) noRate));
+                request.setAttribute("totalPage", totalPage);
+                request.setAttribute("noRate", noRate);
+                request.setAttribute("avrRate", decimalFormat.format(avr));
                 request.setAttribute("id", id);
                 request.setAttribute("stat", stat);
                 request.setAttribute("data", m);
@@ -118,8 +153,7 @@ public class DetailServlet extends HttpServlet {
                 request.setAttribute("star", star);
                 request.setAttribute("genre", genre);
                 request.getRequestDispatcher("detail.jsp").forward(request, response);
-            }
-            else {
+            } else {
                 MovieDAO mvd = new MovieDAO();
                 String pattern = "dd-MM-yyyy";
                 DiStaGenreMovDAO dsgm = new DiStaGenreMovDAO();
@@ -145,6 +179,36 @@ public class DetailServlet extends HttpServlet {
                         genre += ", ";
                     }
                 }
+                String page_raw = request.getParameter("page");
+                List<Rate> r = rd.getAllRate(id);
+
+                int page = 1;
+                if (page_raw != null) {
+                    page = Integer.parseInt(page_raw);
+                }
+                int numPerPage = 5;
+                int totalPage = (r.size() % numPerPage == 0) ? (r.size() / numPerPage) : (r.size() / numPerPage + 1);
+                int start = (page - 1) * 5;
+                int end = (page == totalPage) ? (r.size() - 1) : (page * numPerPage - 1);
+                int noRate = rd.getNoRate(id);
+                int noRate5 = rd.getNoRate5(id);
+                int noRate4 = rd.getNoRate4(id);
+                int noRate3 = rd.getNoRate3(id);
+                int noRate2 = rd.getNoRate2(id);
+                int noRate1 = rd.getNoRate1(id);
+                int sumRate = rd.getSumRate(id);
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                double avr = (double) (sumRate) / (double) noRate;
+                request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
+                request.setAttribute("page", page);
+                request.setAttribute("noRate5", decimalFormat.format((double) noRate5 / (double) noRate));
+                request.setAttribute("noRate4", decimalFormat.format((double) noRate4 / (double) noRate));
+                request.setAttribute("noRate3", decimalFormat.format((double) noRate3 / (double) noRate));
+                request.setAttribute("noRate2", decimalFormat.format((double) noRate2 / (double) noRate));
+                request.setAttribute("noRate1", decimalFormat.format((double) noRate1 / (double) noRate));
+                request.setAttribute("totalPage", totalPage);
+                request.setAttribute("noRate", noRate);
+                request.setAttribute("avrRate", decimalFormat.format(avr));
                 Movies m = mvd.getMovieById(id);
                 request.setAttribute("id", id);
                 request.setAttribute("data", m);
@@ -178,7 +242,7 @@ public class DetailServlet extends HttpServlet {
         String cmt = request.getParameter("cmt");
         String anoy = request.getParameter("anoy");
         RateDAO rd = new RateDAO();
-        if (anoy.equals("on")) {
+        if (anoy != null && anoy.equals("on")) {
             name = "Khách hàng";
             int star = Integer.parseInt(star_raw);
             int movID = Integer.parseInt(request.getParameter("movID"));

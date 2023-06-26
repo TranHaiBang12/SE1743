@@ -242,6 +242,111 @@
                 font-size: 18px;
             }
 
+            .choice{
+                margin-top: 20px;
+                margin-right: 20px;
+                margin-left: 0px;
+                display: flex;
+                justify-content: space-evenly;
+                width: 60%;
+                border: 1px solid black;
+                border-radius: 10px;
+            }
+
+            .choice div{
+            }
+
+
+            #tkEtChoice {
+                border-right: 1px solid black;
+                padding: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 50%;
+                text-align: center;
+                
+            }
+
+            #foodChoi {
+                padding: 10px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 50%;
+                text-align: center;
+                background-color: black;
+                color: white;
+
+            }
+            
+            .rate{
+                display: none;
+            }
+
+            .comment{
+                border: 1px solid black;
+                padding-left: 20px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                display: flex;
+                flex-direction: column;
+                border-radius: 10px;
+                margin-bottom: 20px;
+                
+            }
+
+            .avt img{
+                width: 20px;
+            }
+
+            .insidecmt {
+                display: flex;
+            }
+
+            .cmtIN4{
+                display: flex;
+                flex-direction: column;
+                margin-left: 20px;
+                font-size: 18px;
+
+            }
+
+            .cmtIN4 div{
+                margin-bottom: 15px;
+            }
+
+            .insidecmt{
+                margin-top: 20px;
+                border-bottom: 2px solid black;
+            }
+            
+            .pagination{
+                text-align: center;
+                padding-bottom: 15px;
+                margin-top: 20px;
+            }
+
+            .pagination a{
+                text-decoration: none;
+
+            }
+
+            .noActive{
+                text-decoration: none;
+                color: black;
+                border: 1px solid black;
+                padding: 5px;
+                border-radius: 18px;
+            }
+
+            .active{
+                text-decoration: none;
+                border: 1px solid black;
+                padding: 5px;
+                color: white;
+                border-radius: 18px;
+                background-color: black;
+            }
+
 
         </style>
 
@@ -268,7 +373,7 @@
 //
 //        String date1 = simpleDateFormat.format(date);
 //        System.out.println(request.getAttribute("data").getStartDate());
-%>
+                %>
                 <div class = "content">
                     <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
@@ -294,12 +399,18 @@
 
 
             </div><!-- comment -->
-            <div class = "rate">
+            <div class = "choice">
+                <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">XEM BÌNH LUẬN KHÁC</div>
+                <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">BÌNH LUẬN</div>
+
+
+            </div>
+            <div id ="rate" class = "rate">
                 <div class = "ms">${requestScope.ms}</div>
                 <div class = "ttle">Đánh giá phim</div>
                 <div class = "rateDetail">
                     <div class = "userRate">
-                        <div class = "t"><span>0</span>/5</div>
+                        <div class = "t"><span>${requestScope.avrRate}</span>/5</div>
                         <div class = "rating-box">
                             <div><image class ="a" src ="images/star-icon.svg"/></div>
                             <div><image class ="a" src ="images/star-icon.svg"/></div>
@@ -307,19 +418,46 @@
                             <div><image class ="a" src ="images/star-icon.svg"/></div><!-- comment -->
                             <div><image class ="a" src ="images/star-icon.svg"/></div>
                         </div>
-                        <div class = "t2"><span>0</span> đánh giá</div>
+                        <div class = "t2"><span>${requestScope.noRate}</span> đánh giá</div>
                     </div>
                     <div>
-                        <div>5 sao:  &nbsp;&nbsp;<span>0%</span></div>
-                        <div>4 sao:  &nbsp;&nbsp;<span>0%</span></div><!-- comment -->
-                        <div>3 sao:  &nbsp;&nbsp;<span>0%</span></div><!-- comment -->
-                        <div>2 sao:  &nbsp;&nbsp;<span>0%</span></div>
-                        <div>1 sao:  &nbsp;&nbsp;<span>0%</span></div>
+                        <div>5 sao:  &nbsp;&nbsp;<span>${requestScope.noRate5}%</span></div>
+                        <div>4 sao:  &nbsp;&nbsp;<span>${requestScope.noRate4}%</span></div><!-- comment -->
+                        <div>3 sao:  &nbsp;&nbsp;<span>${requestScope.noRate3}%</span></div><!-- comment -->
+                        <div>2 sao:  &nbsp;&nbsp;<span>${requestScope.noRate2}%</span></div>
+                        <div>1 sao:  &nbsp;&nbsp;<span>${requestScope.noRate1}%</span></div>
                     </div>
                     <div class="btn"><input type = "button" onclick ="display('${sessionScope.account.getUserName()}')" value = "Viết đánh giá"/></div>
                 </div>
             </div>
+            <div id ="comment" class = "comment">
+
+                <c:forEach items = "${requestScope.listPerPage}" var = "t">
+                    <div class ="insidecmt">
+                        <div class = "avt">
+                            <img src ="images/avatarIcon.png" name ="avt"/>
+                        </div>
+                        <div class = "cmtIN4">
+                            <div class = "displayName">
+                                ${t.getDisplayName()}
+                            </div>
+                            <div class = "CMT">
+                                ${t.getComments()}
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+                <div class = "pagination">
+                    <a href ="detail?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
+                    <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                        <a class ="${i == page ? "active":"noActive"}" href ="detail?page=${i}&id=${requestScope.id}">${i}</a>
+                    </c:forEach>
+                    <a href ="detail?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
+                </div>
+            </div>
             <input type ="text" id ="stat" hidden value ="${requestScope.stat}"/>
+            <input type ="text" name ="id" hidden value ="${requestScope.id}"/>
+
             <div id ="myR" class = "myR">
                 <form action = "detail" method = "post">
 
@@ -359,6 +497,26 @@
         <script type="text/javascript">
 
 
+            function bActive(id) {
+                if (id === "tkEtChoice") {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
+                    ;
+                    document.getElementById("foodChoi").style.color = 'black';
+                    document.getElementById("foodChoi").style.backgroundColor = 'white';
+                    document.getElementById("rate").style.display = 'block';
+                    document.getElementById("comment").style.display = 'none';
+                } else if (id === "foodChoi") {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
+                    document.getElementById("tkEtChoice").style.color = 'black';
+                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                    document.getElementById("comment").style.display = 'block';
+                    document.getElementById("rate").style.display = 'none';
+                }
+            }
+
+
             function ckedBtn() {
                 if (document.getElementById("anoy").checked === true) {
                     document.getElementById("name1").required = false;
@@ -388,7 +546,7 @@
             }
 
             function display(user) {
-                if(user === null || user === "" || user === undefined) {
+                if (user === null || user === "" || user === undefined) {
                     window.location = "login";
                 }
                 console.log(user);
@@ -403,8 +561,7 @@
                         document.getElementById("myR").style.display = 'block';
 
                     }
-                }
-                else if (Number(document.getElementById("stat").value) === 1){
+                } else if (Number(document.getElementById("stat").value) === 1) {
                     alert("Bạn đã có đánh giá về bộ phim này rồi");
                 }
             }
