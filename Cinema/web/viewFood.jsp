@@ -13,30 +13,29 @@
         <<link rel="stylesheet" href="style.css"/>
         <style>
             .body{
-                text-align: center;
             }
-            
+
             h2{
                 padding-top: 20px;
                 font-size: 30px;
                 margin-bottom: 30px;
             }
-            
+
             .fIn4 img{
                 width: 800px;
                 height: 600px;
             }
-            
+
             .morefIn4{
                 padding-bottom: 20px;
             }
-            
+
             .morefIn4 div{
                 margin-top: 20px;
                 font-size: 20px;
                 font-weight: bold;
             }
-            
+
             .morefIn4 input{
                 width: 50%;
                 height: 30px;
@@ -45,9 +44,70 @@
                 color: white;
                 background-color: red;
             }
-            
+
             .rd{
                 color: red;
+            }
+
+            .bodyTitle{
+                color: black;
+                font-size: 40px;
+                border-bottom: 1px solid black;
+                padding: 15px;
+            }
+
+
+            .bodyContent{
+                display: flex;
+                padding-top: 30px;
+                padding-bottom: 50px;
+                justify-content: flex-start;
+                margin-left: 50px;
+            }
+
+            .bodyContent .content{
+                color: black;
+                font-size: 20px;
+
+            }
+
+            .bodyContent .content span{
+                font-weight: bold;
+            }
+
+
+            .img{
+                width: 30%;
+                height: 450px;
+                margin-right: 50px;
+            }
+
+            .img img{
+                width: 100%;
+                height:100%;
+            }
+
+            .name{
+                font-size: 40px;
+                font-weight: bold;
+                padding-bottom: 5px;
+                margin-bottom: 30px;
+            }
+
+            .oInfo{
+                line-height: 35px;
+            }
+
+            .bodyContent .content button{
+                margin-top: 30px;
+                padding-top:10px;
+                padding-bottom:10px;
+                padding-left:25px;
+                padding-right:25px;
+                border-radius: 15px;
+                background-color: red;
+                color:white;
+                cursor: pointer;
             }
         </style>
     </head>
@@ -56,36 +116,35 @@
             <%@include file = "header.jsp" %>
         </div><!-- comment -->
         <div class = "body">
-            <div class = "fIn4">
-                <div>
-                    <h2><span  class = "rd">${requestScope.f.getFoodDescript()}</span></h2>
-                </div>
-                <div>
-                    <img src ="${requestScope.f.getImg()}"/>
-                </div>
+            <div class = "bodyTitle">
+                Nội Dung Phim:
             </div>
-            <div class = "morefIn4">
-                <div>
-                    Thể Loại: <span  class = "rd">${requestScope.f.getTypeName()}</span>
+
+            <div class ="bodyContent">
+                <div class = "img">  
+                    <img src="${requestScope.f.getImg()}" alt="alt"/>
                 </div>
-                <div>
-                    Khuyến Mại: <span class = "rd">${requestScope.f.getDiscount()}%</span>
-                </div>
-                <div>
-                    Giá: <span  class = "rd">${requestScope.f.getPrice()}đ</span>
-                </div>
-                <div>
-                    Tình Trạng: <span  class = "rd">${requestScope.f.getStatus()}</span>
-                </div>
-                <div>
-                    Kinh Doanh: <span  class = "rd">${requestScope.dc}</span>
-                </div>
-                <div>
-                    <a href = "updf?id=${requestScope.id}"><input type = "button" value = "UPDATE"/></a>
-                </div>
-                
-                <div>
-                    <input type = "button" value = "DELETE" onclick = "delF('${requestScope.id}')"/>
+                <div class = "content">
+                    <div class = "name">${requestScope.data.getMovName()}</div>
+                    <div class = "oInfo">
+                        <span>Mã: </span>${requestScope.f.getProductCode()}
+                        <br/>
+                        <span>Tên: </span>${requestScope.f.getFoodDescript()}
+                        <br/>
+                        <span>Thể loại:  </span>${requestScope.f.getFoodType()}
+                        <br/>
+                        <span>Giá:  </span>${requestScope.f.getPrice()}
+                        <br/>
+                        <span>Khuyến Mại:  </span>${requestScope.f.getDiscount()}
+                        <br/>
+                        <span>Tình trạng:  </span>${requestScope.f.getStatus()}
+                        <br/>
+                        <span>Kinh Doanh:  </span>${requestScope.dc}
+                        <br/>
+                        <a href="updf?id=${requestScope.id}"><button type ="submit" value ="UPDATE">UPDATE</button></a>
+                        <br/>
+                        <button type ="button" value ="DELETE" onclick ="delF('${requestScope.id}')">DELETE</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,7 +153,7 @@
         </div>
         <script type = "text/javascript">
             function delF(id) {
-                if(confirm("Bạn có chắc muốn xóa sản phẩm với id = " + id)) {
+                if (confirm("Bạn có chắc muốn xóa sản phẩm với id = " + id)) {
                     window.location = "delf?id=" + id;
                 }
             }

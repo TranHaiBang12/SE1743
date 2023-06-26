@@ -98,6 +98,10 @@
             .note div{
                 margin-top: 15px;
             }
+            
+            #amM{
+                font-weight: bold;
+            }
 
         </style>
     </head>
@@ -237,15 +241,19 @@
                                             </div>
                                             
                                             <div class = "ttIen">
-                                                <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd">${requestScope.point}</span></div>
+                                                <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd"><label id = "pu">${requestScope.point}</label></span></div>
                                             </div>
                                             
                                             <div class = "ttIen">
-                                                <div class = "ttle">5. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
+                                                <div class = "ttle">5. Số Tiền Phải Trả: <span class = "rd"><label id = "amM"></label></span></div>
+                                            </div>
+                                            
+                                            <div class = "ttIen">
+                                                <div class = "ttle">6. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
                                             </div>
 
                                             <div class = "ttIen">
-                                                <div class = "ttle">6. Mã Đổi Sản Phẩm</div>
+                                                <div class = "ttle">7. Mã Đổi Sản Phẩm</div>
                                                 <div class = "note">
                                                     <div>- Sử dụng mã trong thời gian có hiệu lực để đổi lấy sản phẩm</div>
 
@@ -433,11 +441,15 @@
                                             </div>
                                             
                                             <div class = "ttIen">
-                                                <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd">${requestScope.point}</span></div>
+                                                <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd"><label id = "pu">${requestScope.point}</label></span></div>
                                             </div>
                                             
                                             <div class = "ttIen">
-                                                <div class = "ttle">5. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
+                                                <div class = "ttle">5. Số Tiền Phải Trả: <span class = "rd"><label id = "amM"></label></span></div>
+                                            </div>
+                                            
+                                            <div class = "ttIen">
+                                                <div class = "ttle">6. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
                                             </div>
 
 
@@ -471,6 +483,9 @@
 
 
                                         document.getElementById("amA").innerHTML = value + valueT + "đ";
+                                        console.log(document.getElementById("pu").innerHTML);
+                                        document.getElementById("amM").innerHTML = value + valueT  - Number(document.getElementById("pu").innerHTML) * 1000;
+                                        document.getElementById("amM").innerHTML = document.getElementById("amM").innerHTML + "đ";
                                     </script>
                                     </body>
                                     </html>

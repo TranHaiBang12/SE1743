@@ -212,7 +212,7 @@ public class BookingServlet extends HttpServlet {
         }
 
         if (frm.isEmpty()) {
-            String ms = "Xin lỗi, không có xuất chiếu vào ngày này, hãy chọn một ngày khác";
+            String ms = "Xin lỗi, không có suất chiếu vào ngày này, hãy chọn một ngày khác";
             request.setAttribute("formPick", 0);
             request.setAttribute("ms", ms);
             request.setAttribute("id", id);

@@ -364,16 +364,6 @@
                 <div class = "img">  
                     <img src="${requestScope.data.getImg()}" alt="alt"/>
                 </div>
-                <%
-//                    String pattern = "dd-MM-yyyy";
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-//        
-//        if(request.getAttribute("data") != null)
-//        Date date = Date.valueOf(request.getAttribute("data").getStartDate());
-//
-//        String date1 = simpleDateFormat.format(date);
-//        System.out.println(request.getAttribute("data").getStartDate());
-                %>
                 <div class = "content">
                     <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">

@@ -132,6 +132,10 @@
         <servlet-name>AddEachTypeTick</servlet-name>
         <servlet-class>controller.AddEachTypeTick</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ExcPoint</servlet-name>
+        <servlet-class>controller.ExcPoint</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -263,6 +267,10 @@
     <servlet-mapping>
         <servlet-name>AddEachTypeTick</servlet-name>
         <url-pattern>/addt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExcPoint</servlet-name>
+        <url-pattern>/excp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
