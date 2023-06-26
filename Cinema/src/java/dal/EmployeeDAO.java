@@ -7,6 +7,8 @@ package dal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import model.Employee;
 
 /**
@@ -102,6 +104,39 @@ public class EmployeeDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
                 return rs.getString("Phone");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public List<Employee> getAllEmployee() {
+        List<Employee> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Employee JOIN Acc ON Employee.Account = Acc.UserName";
+            PreparedStatement st = connection.prepareStatement(sql);
+            CinemaDAO cnd = new CinemaDAO();
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"), rs.getString("Account"), rs.getInt("Role"), rs.getString("Password"), cnd.getCinemaByID(rs.getInt("cinID")).getCinName());
+                list.add(e);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public Employee empD(int id) {
+        try {
+            String sql = "SELECT Employee.*, Acc.Role, Acc.Password FROM Employee JOIN Acc ON Employee.Account = Acc.UserName WHERE Employee.EmpID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"), rs.getString("Account"), rs.getInt("Role"), rs.getString("Password"));
+                return e;
             }
         } catch (Exception e) {
             System.out.println(e);

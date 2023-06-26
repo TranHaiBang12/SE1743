@@ -136,6 +136,14 @@
         <servlet-name>ExcPoint</servlet-name>
         <servlet-class>controller.ExcPoint</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListEmployee</servlet-name>
+        <servlet-class>controller.ListEmployee</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EmpDetail</servlet-name>
+        <servlet-class>controller.EmpDetail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -271,6 +279,14 @@
     <servlet-mapping>
         <servlet-name>ExcPoint</servlet-name>
         <url-pattern>/excp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListEmployee</servlet-name>
+        <url-pattern>/liste</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmpDetail</servlet-name>
+        <url-pattern>/empdt</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

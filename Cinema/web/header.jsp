@@ -95,6 +95,22 @@
                         </div>
                     </div>
                 </li>
+                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                    <li>
+                        <div class="dropdown">
+                            <div class="dropbtn">
+                                <img class="memberIcon" src="images/memberIcon.jpg" />
+                                <a class ="lnk" href="#">NHÂN VIÊN</a>
+                            </div>
+                            <div class="dropdown-content">
+                                <div class=insidedropdown-content>
+                                    <a class ="lnk" href="liste">Danh Sách</a>
+                                    <a class ="lnk" href="#">Báo cáo</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </c:if>
                 <li>
                     <div class="dropdown">
                         <div class="dropbtn">
