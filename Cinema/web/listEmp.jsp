@@ -60,6 +60,10 @@
                 padding-bottom: 20px;
                 font-size: 20px;
             }
+            
+            .dlt{
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -89,10 +93,9 @@
                         <td>${i.getCinName()}</td>
                         <td>
                             <a href = "empdt?id=${i.getEmpID()}">XEM CHI TIẾT</a>
+                            
                             /
-                            <a href = "#">SỬA</a>
-                            /
-                            <a href = "#">XÓA</a>
+                            <span class ="dlt" onclick = "dlt('${i.getEmpID()}')">XÓA</span>
                         </td>
                     </tr>
                 </c:forEach>
@@ -107,5 +110,12 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function dlt(id) {
+                if(confirm("Bạn có chắc muốn xóa nhân viên với id = " + id)) {
+                    window.location = "dele?id=" + id;
+                }
+            }
+        </script>
     </body>
 </html>

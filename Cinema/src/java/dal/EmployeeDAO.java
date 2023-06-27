@@ -7,6 +7,7 @@ package dal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Employee;
@@ -332,10 +333,10 @@ public class EmployeeDAO extends DBContext {
     public int insertEmp(String ln, String fn, String gender, Date dob, String address, String cccd, String phone, String email, Date hiredDate, String position, int cinID, int managerID, double salary, String img, String user) {
         int id = 0;
         try {
-            
+
             if (managerID != 0) {
                 String sql = "INSERT INTO Employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement st = connection.prepareStatement(sql);
+                PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, ln);
                 st.setString(2, fn);
                 st.setString(3, gender);
@@ -358,7 +359,7 @@ public class EmployeeDAO extends DBContext {
                 }
             } else {
                 String sql = "INSERT INTO Employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
-                PreparedStatement st = connection.prepareStatement(sql);
+                PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, ln);
                 st.setString(2, fn);
                 st.setString(3, gender);
@@ -384,5 +385,33 @@ public class EmployeeDAO extends DBContext {
         }
         return id;
     }
+
+    public Employee checkCCCD(String cccd, int empID) {
+        try {
+            String sql = "SELECT * FROM Employee WHERE CCCD = ? AND EmpID != ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, cccd);
+            st.setInt(2, empID);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"));
+                return e;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
     
+    public void deleteEmp(int id) {
+        try {
+            String sql = "DELETE FROM Employee WHERE EmpID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
 }

@@ -166,7 +166,6 @@ public class AddEmployee extends HttpServlet {
             }
             dateH = t.substring(cnt + 1);
             AccountDAO acd = new AccountDAO();
-            
 
             String gen;
             if (gen_raw.equals("1")) {
@@ -179,10 +178,9 @@ public class AddEmployee extends HttpServlet {
             CinemaDAO cnd = new CinemaDAO();
             PointDAO pd = new PointDAO();
             int point = 0;
-            if(pd.getAccountPoint(user) == null) {
+            if (pd.getAccountPoint(user) == null) {
                 point = 0;
-            }
-            else {
+            } else {
                 point = pd.getAccountPoint(user).getPoint();
             }
             OrderDAO ord = new OrderDAO();
@@ -194,44 +192,115 @@ public class AddEmployee extends HttpServlet {
             } catch (Exception e) {
                 String ms = "Vui lòng nhập đúng số điện thoại";
                 request.setAttribute("ms", ms);
+                request.setAttribute("mn", position);
                 request.setAttribute("allP", ed.getAllPosition());
                 request.setAttribute("allR", ed.getAllRole());
                 request.setAttribute("check", 1);
                 request.setAttribute("allM", ed.getAllManagerByCinID(cinID, 0));
                 request.setAttribute("allCin", cnd.getAllCinema());
-                request.setAttribute("cin", cnd.getCinemaByID(cinID));
-                request.setAttribute("point", point);
-                request.setAttribute("dob", date + "-" + month + "-" + year);
-
+                request.setAttribute("user", user);
+                request.setAttribute("ln", ln);
+                request.setAttribute("user", fn);
+                request.setAttribute("gen", gen);
+                request.setAttribute("cccd", cccd);
+                request.setAttribute("dob_raw", dob_raw);
+                request.setAttribute("sdt", sdt);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("cin_raw", cinID);
+                request.setAttribute("hiredDate_raw", hiredDate_raw);
+                request.setAttribute("position", position);
+                request.setAttribute("mngID_raw", mngID);
+                request.setAttribute("img", img);
+                request.setAttribute("salary", salary);
+                request.setAttribute("role_raw", role_raw);
+                request.setAttribute("pass", pass);
                 request.getRequestDispatcher("addEmp.jsp").forward(request, response);
             }
             if (ed.checkDuplicatePhone(sdt, user) != null) {
                 String ms = "Số điện thoại đã tồn tại";
                 request.setAttribute("ms", ms);
+                request.setAttribute("mn", position);
                 request.setAttribute("allP", ed.getAllPosition());
                 request.setAttribute("allR", ed.getAllRole());
                 request.setAttribute("check", 1);
                 request.setAttribute("allM", ed.getAllManagerByCinID(cinID, 0));
                 request.setAttribute("allCin", cnd.getAllCinema());
-                request.setAttribute("cin", cnd.getCinemaByID(cinID));
-                request.setAttribute("point", point);
-                request.setAttribute("dob", date + "-" + month + "-" + year);
-
+                request.setAttribute("user", user);
+                request.setAttribute("ln", ln);
+                request.setAttribute("user", fn);
+                request.setAttribute("gen", gen);
+                request.setAttribute("cccd", cccd);
+                request.setAttribute("dob_raw", dob_raw);
+                request.setAttribute("sdt", sdt);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("cin_raw", cinID);
+                request.setAttribute("hiredDate_raw", hiredDate_raw);
+                request.setAttribute("position", position);
+                request.setAttribute("mngID_raw", mngID);
+                request.setAttribute("img", img);
+                request.setAttribute("salary", salary);
+                request.setAttribute("role_raw", role_raw);
+                request.setAttribute("pass", pass);
                 request.getRequestDispatcher("addEmp.jsp").forward(request, response);
             }
 
             if (checkEmail(email) == false) {
                 String ms = "Vui lòng nhập đúng email";
                 request.setAttribute("ms", ms);
+                request.setAttribute("mn", position);
                 request.setAttribute("allP", ed.getAllPosition());
                 request.setAttribute("allR", ed.getAllRole());
                 request.setAttribute("check", 1);
                 request.setAttribute("allM", ed.getAllManagerByCinID(cinID, 0));
                 request.setAttribute("allCin", cnd.getAllCinema());
-                request.setAttribute("cin", cnd.getCinemaByID(cinID));
-                request.setAttribute("point", point);
-                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("user", user);
+                request.setAttribute("ln", ln);
+                request.setAttribute("user", fn);
+                request.setAttribute("gen", gen);
+                request.setAttribute("cccd", cccd);
+                request.setAttribute("dob_raw", dob_raw);
+                request.setAttribute("sdt", sdt);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("cin_raw", cinID);
+                request.setAttribute("hiredDate_raw", hiredDate_raw);
+                request.setAttribute("position", position);
+                request.setAttribute("mngID_raw", mngID);
+                request.setAttribute("img", img);
+                request.setAttribute("salary", salary);
+                request.setAttribute("role_raw", role_raw);
+                request.setAttribute("pass", pass);
+                request.getRequestDispatcher("addEmp.jsp").forward(request, response);
+            }
 
+            if (ed.checkCCCD(cccd, 0) != null) {
+                String ms = "CCCD đã tồn tại";
+                request.setAttribute("ms", ms);
+                request.setAttribute("mn", position);
+                request.setAttribute("allP", ed.getAllPosition());
+                request.setAttribute("allR", ed.getAllRole());
+                request.setAttribute("check", 1);
+                request.setAttribute("allM", ed.getAllManagerByCinID(cinID, 0));
+                request.setAttribute("allCin", cnd.getAllCinema());
+                request.setAttribute("user", user);
+                request.setAttribute("ln", ln);
+                request.setAttribute("user", fn);
+                request.setAttribute("gen", gen);
+                request.setAttribute("cccd", cccd);
+                request.setAttribute("dob_raw", dob_raw);
+                request.setAttribute("sdt", sdt);
+                request.setAttribute("email", email);
+                request.setAttribute("address", address);
+                request.setAttribute("cin_raw", cinID);
+                request.setAttribute("hiredDate_raw", hiredDate_raw);
+                request.setAttribute("position", position);
+                request.setAttribute("mngID_raw", mngID);
+                request.setAttribute("img", img);
+                request.setAttribute("salary", salary);
+                request.setAttribute("role_raw", role_raw);
+                request.setAttribute("pass", pass);
                 request.getRequestDispatcher("addEmp.jsp").forward(request, response);
             }
 
@@ -241,35 +310,66 @@ public class AddEmployee extends HttpServlet {
                     ed.insertAccEmp(user, pass, role);
                     int a = ed.insertEmp(ln, fn, gen, Date.valueOf(dob_raw), address, cccd, sdt, email, dd, position, cinID, mngID, salary, img, user);
                     String ms = "Add thành công";
+                    request.setAttribute("empID", a);
                     request.setAttribute("ms", ms);
-                    request.setAttribute("check", 1);
+                    request.setAttribute("mp", t);
+                    request.setAttribute("mn", position);
                     request.setAttribute("allP", ed.getAllPosition());
                     request.setAttribute("allR", ed.getAllRole());
-                    request.setAttribute("id", a);
+                    request.setAttribute("check", 1);
+                    request.setAttribute("allM", ed.getAllManagerByCinID(cinID, 0));
                     request.setAttribute("allCin", cnd.getAllCinema());
-       
-                    request.setAttribute("point", point);
-                    request.setAttribute("dob", date + "-" + month + "-" + year);
-              
-                    request.getRequestDispatcher("empDetail.jsp").forward(request, response);
+                    request.setAttribute("user", user);
+                    request.setAttribute("ln", ln);
+                    request.setAttribute("fn", fn);
+                    request.setAttribute("gen", gen);
+                    request.setAttribute("cccd", cccd);
+                    request.setAttribute("dob_raw", dob_raw);
+                    request.setAttribute("sdt", sdt);
+                    request.setAttribute("email", email);
+                    request.setAttribute("address", address);
+                    request.setAttribute("cin_raw", cinID);
+                    request.setAttribute("hiredDate_raw", hiredDate_raw);
+                    request.setAttribute("position", position);
+                    request.setAttribute("mngID_raw", mngID);
+                    request.setAttribute("img", img);
+                    request.setAttribute("salary", salary);
+                    request.setAttribute("role_raw", role_raw);
+                    request.setAttribute("pass", pass);
+                    request.getRequestDispatcher("addEmp.jsp").forward(request, response);
                 } else {
                     String ms = "Mật khẩu cần có ít nhất 8 ký tự và nhiều nhất là 20 ký tự, bao gồm ít nhất 1 ký tự thường, 1 ký tự viết hoa, 1 chữ số và 1 trong các ký tự đặc biệt sau: ! # $ @ _ + , ? . -";
                     request.setAttribute("ms", ms);
+                    
+                    request.setAttribute("mn", position);
                     request.setAttribute("allP", ed.getAllPosition());
-                request.setAttribute("allR", ed.getAllRole());
-                request.setAttribute("check", 1);
-                request.setAttribute("allM", ed.getAllManagerByCinID(cinID, 0));
-                request.setAttribute("allCin", cnd.getAllCinema());
-                request.setAttribute("cin", cnd.getCinemaByID(cinID));
-                request.setAttribute("point", point);
-                request.setAttribute("dob", date + "-" + month + "-" + year);
-
-                request.getRequestDispatcher("addEmp.jsp").forward(request, response);
+                    request.setAttribute("allR", ed.getAllRole());
+                    request.setAttribute("check", 1);
+                    request.setAttribute("allM", ed.getAllManagerByCinID(cinID, 0));
+                    request.setAttribute("allCin", cnd.getAllCinema());
+                    request.setAttribute("user", user);
+                    request.setAttribute("ln", ln);
+                    request.setAttribute("user", fn);
+                    request.setAttribute("gen", gen);
+                    request.setAttribute("cccd", cccd);
+                    request.setAttribute("dob_raw", dob_raw);
+                    request.setAttribute("sdt", sdt);
+                    request.setAttribute("email", email);
+                    request.setAttribute("address", address);
+                    request.setAttribute("cin_raw", cinID);
+                    request.setAttribute("hiredDate_raw", hiredDate_raw);
+                    request.setAttribute("position", position);
+                    request.setAttribute("mngID_raw", mngID);
+                    request.setAttribute("img", img);
+                    request.setAttribute("salary", salary);
+                    request.setAttribute("role_raw", role_raw);
+                    request.setAttribute("pass", pass);
+                    request.getRequestDispatcher("addEmp.jsp").forward(request, response);
                 }
-            } 
+            }
         }
     }
-    
+
     public boolean checkEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(regex);
