@@ -18,7 +18,7 @@ import model.Schedule;
  * @author acer
  */
 public class MovieDAO extends DBContext {
-    
+
     public List<Movies> getAllMovies() {
         List<Movies> mv = new ArrayList<>();
         try {
@@ -26,7 +26,7 @@ public class MovieDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             int i = 0;
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
@@ -79,7 +79,7 @@ public class MovieDAO extends DBContext {
             int i = 0;
             if (rs.next()) {
                 Movies m;
-                
+
                 if (rs.getString("img").substring(0, 2).equals("??")) {
                     m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
                 } else if (rs.getString("img").substring(0, 1).equals("?")) {
@@ -87,7 +87,7 @@ public class MovieDAO extends DBContext {
                 } else {
                     m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
                 }
-                
+
                 return m;
             }
         } catch (SQLException e) {
@@ -129,8 +129,6 @@ public class MovieDAO extends DBContext {
         return list;
     }
 
-   
-
     public List<Movies> getAllMoviesNotShownYet() {
         List<Movies> mv = new ArrayList<>();
         try {
@@ -168,6 +166,63 @@ public class MovieDAO extends DBContext {
             st.setString(7, studio);
             st.setString(8, img);
             st.setInt(9, movID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public Movies checkID(int ID) {
+        try {
+            String sql = "SELECT * FROM Movies WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, ID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Movies m;
+                if (rs.getString("img").substring(0, 2).equals("??")) {
+                    m = new Movies(0, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
+                } else if (rs.getString("img").substring(0, 1).equals("?")) {
+                    m = new Movies(0, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                } else {
+                    m = new Movies(0, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
+                }
+                return m;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public void insertMovie(int id, String name, Date startDate, double time, String lang, String origin, double rate, String note, String stt, String studio, String img) {
+        try {
+            String sql = "INSERT INTO Movies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            st.setString(2, name);
+            st.setDate(3, startDate);
+            st.setDouble(4, time);
+            st.setString(5, lang);
+            st.setString(6, origin);
+            st.setDouble(7, rate);
+            st.setString(8, note);
+            st.setString(9, stt);
+            st.setString(10, studio);
+            st.setString(11, img);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void insertStar(int movID, String star) {
+        try {
+            String sql = "INSERT INTO Stars VALUES (?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.setString(2, star);
+            st.setString(3, "");
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

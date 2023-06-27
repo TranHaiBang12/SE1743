@@ -152,6 +152,10 @@
         <servlet-name>DeleteEmp</servlet-name>
         <servlet-class>controller.DeleteEmp</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddMov</servlet-name>
+        <servlet-class>controller.AddMov</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -303,6 +307,10 @@
     <servlet-mapping>
         <servlet-name>DeleteEmp</servlet-name>
         <url-pattern>/dele</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddMov</servlet-name>
+        <url-pattern>/addmov</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

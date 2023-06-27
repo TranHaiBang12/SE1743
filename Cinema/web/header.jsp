@@ -61,6 +61,9 @@
                             <div class=insidedropdown-content>
                                 <a class ="lnk" href="nowshowing">Phim Đang Chiếu</a>
                                 <a class ="lnk" href="comingsoon">Phim Sắp Chiếu</a>
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="addmov">Thêm Phim Mới</a>
+                                </c:if>
                             </div>
                         </div>
                     </div>
