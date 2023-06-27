@@ -58,9 +58,6 @@ public class ListEmployee extends HttpServlet {
         //processRequest(request, response);
         EmployeeDAO ed = new EmployeeDAO();
         CinemaDAO cnd = new CinemaDAO();
-        for (int i = 0; i < ed.getAllEmployee().size(); i++) {
-            System.out.println(ed.getAllEmployee().get(i).getEmpID());
-        }
         request.setAttribute("listE", ed.getAllEmployee());
         request.getRequestDispatcher("listEmp.jsp").forward(request, response);
     } 

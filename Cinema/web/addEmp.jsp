@@ -17,42 +17,38 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <div class = "IN4">
-                <div>
-                    <img src ="${requestScope.accE.getImg()}">
+            <form>
+                <div>Tên đăng nhập: 
+
+                    <input type ="text" required readonly value ="${requestScope.accE.getUsername()}" name ="user"/>
                 </div>
-                <div class = "eIN4">
-                    <div>Tên đăng nhập: <input type = "text"/></div>
-                    <div>Họ: <span class = "rd">${requestScope.accE.getLastName()}</span></div>
-                    <div>Tên: <span class = "rd">${requestScope.accE.getFirstName()}</span></div>
-                    <div>Giới tính: <span class = "rd">${requestScope.accE.getGender()}</span></div>
-                    <div>CCCD: <span class = "rd">${requestScope.accE.getCccd()}</span></div>
-                    <div>Ngày sinh: <span class = "rd">${requestScope.dob}</span></div>
-                    <div>Số điện thoại: <span class = "rd">${requestScope.accE.getPhone()}</span></div>
-                    <div>Email: <span class = "rd">${requestScope.accE.getEmail()}</span></div>
-                    <div>Địa chỉ: <span class = "rd">${requestScope.accE.getAddress()}</span></div>
-                    <div>Ngày vào làm: <span class = "rd">${requestScope.hiredDate}</span></div>
-                    <div>Vị trí: <span class = "rd">${requestScope.accE.getPosition()}</span></div>
-                    <div>Rạp làm việc: <span class = "rd">${requestScope.cin.getCinName()}</span></div>
-                    <div>Số lần mua hàng: <span class = "rd">${requestScope.totalOrd}</span></div>
-                        <c:if test = "${requestScope.mng != null}">
-                        <div>Quản lý: <span class = "rd">${requestScope.mng.getFirstName() }</span></div>
-                        </c:if>
-                    <div>Điểm tích lũy: <span class = "rd">${requestScope.point}</span></div>
-                    <div>
-                        <a href = "transact"><input class ="t" type ="button" value ="DELETE"></a>
-                        <input type ="button" class ="t" onclick ="check()" value ="UPDATE"/>
-                    </div>
-                    <div id = "t">
-                        <label id = "ms" hidden></label>
-                        <label for = "pass">Mật khẩu(<span class = "rd">*</span>)</label>
-                        <br/>
-                        <input type ="password" required id ="pass" name ="pass"/>
-                        <br/><!-- comment -->
-                        <input type ="button" value ="Submit" onclick = "checkAcc('${sessionScope.account.getPassword()}')"/>
-                    </div>
+                <div>Họ: 
+                    <input type ="text" required placeholder ="${requestScope.accE.getLastName()}" name ="ln"/>
                 </div>
-            </div> 
+                <div>Tên: 
+                    <input type ="text" required placeholder ="${requestScope.accE.getFirstName()}" name ="fn"/>
+                </div>
+                <div>Giới tính: 
+                    Nam<input type ="radio" name ="gen" value = "1" ${requestScope.accE.getGender().equals("Nam") ?"checked":""}/>
+                    Nữ<input type ="radio" name ="gen" value = "0" ${requestScope.accE.getGender().equals("Nữ") ?"checked":""}/>
+                    Khác<input type ="radio" name ="gen" value = "-1" ${requestScope.gen == -1 ?"checked":""}/>
+                </div>
+                <div>CCCD:
+                    <input type ="text" required placeholder ="${requestScope.accE.getCccd()}" name ="cccd"/>
+                </div>
+                <div>Ngày sinh: 
+                    <input type ="date" required name ="dob"/>
+                </div>
+                <div>Số điện thoại:
+                    <input type ="text" required placeholder ="${requestScope.accE.getPhone()}" name ="sdt"/>
+                </div>
+                <div>Email: 
+                    <input type ="text" required placeholder ="${requestScope.accE.getEmail()}" name ="email"/>
+                </div>
+                <div>Địa chỉ: 
+                    <input type ="text" required placeholder ="${requestScope.accE.getAddress()}" name ="address"/>
+                </div> 
+            </form> 
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

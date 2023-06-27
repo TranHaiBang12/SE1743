@@ -30,6 +30,7 @@ public class Employee {
     private int role;
     private String password;
     private String cinName;
+    private String roleName;
 
     public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary) {
         this.empID = empID;
@@ -49,7 +50,7 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary, String username, int role, String password) {
+    public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary, String username, int role, String password, String cinName, String roleName) {
         this.empID = empID;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -68,6 +69,8 @@ public class Employee {
         this.username = username;
         this.role = role;
         this.password = password;
+        this.roleName = roleName;
+        this.cinName = cinName;
     }
     
     public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary, String username, int role, String password, String cinName) {
@@ -91,6 +94,23 @@ public class Employee {
         this.password = password;
         this.cinName = cinName;
     }
+
+    public Employee(int role, String roleName) {
+        this.role = role;
+        this.roleName = roleName;
+    }
+    
+    
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+    
+    
 
     public String getCinName() {
         return cinName;

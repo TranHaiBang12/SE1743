@@ -14,6 +14,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 import model.AccountPoint;
 import model.Employee;
 
@@ -62,6 +63,7 @@ public class EmpDetail extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id_raw = request.getParameter("id");
+        DecimalFormat decimalFormat = new DecimalFormat("#");
         EmployeeDAO ed = new EmployeeDAO();
         int id = 0;
         try {
@@ -107,6 +109,12 @@ public class EmpDetail extends HttpServlet {
         }
         OrderDAO ord = new OrderDAO();
         CinemaDAO cnd = new CinemaDAO();
+        request.setAttribute("salary", decimalFormat.format(ed.getAccEmpByUserName(ed.empD(id).getUsername()).getSalary()));
+        request.setAttribute("allP", ed.getAllPosition());
+        request.setAttribute("allR", ed.getAllRole());
+        request.setAttribute("id", id);
+        request.setAttribute("allM", ed.getAllManagerByCinID(cnd.getCinemaByID(ed.getAccEmpByUserName(ed.empD(id).getUsername()).getCinID()).getCinID()));
+        request.setAttribute("allCin", cnd.getAllCinema());
         request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(ed.empD(id).getUsername()).getCinID()));
         request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(ed.empD(id).getUsername()).getManagerID()));
         request.setAttribute("point", point);
@@ -128,7 +136,105 @@ public class EmpDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String check = request.getParameter("check");
+        String check1 = request.getParameter("check1");
+        DecimalFormat decimalFormat = new DecimalFormat("#");
+        if (check1.equals("1")) {
+            if (check.equals("1")) {
+                String cin_raw = request.getParameter("cin");
+                int cinID = 0;
+                CinemaDAO cnd = new CinemaDAO();
+                try {
+                    cinID = Integer.parseInt(cin_raw);
+                    if (cnd.getCinemaByID(cinID) == null) {
+                        throw new Exception("Loi");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                String id_raw = request.getParameter("id");
+                EmployeeDAO ed = new EmployeeDAO();
+                int id = 0;
+                try {
+                    id = Integer.parseInt(id_raw);
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+                Employee e = ed.empD(id);
+                String date = "", month = "", year = "";
+                String dateH = "", monthH = "", yearH = "";
+                int cnt = 0;
+                String t = ed.empD(id).getDob().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        year = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        month = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
+                }
+                date = t.substring(cnt + 1);
+                cnt = 0;
+                PointDAO pd = new PointDAO();
+                t = ed.empD(id).getHiredDate().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        yearH = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        monthH = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
+                }
+                dateH = t.substring(cnt + 1);
+                int point;
+                AccountPoint ap = pd.getAccountPoint(ed.empD(id).getUsername());
+
+                if (ap != null) {
+                    point = ap.getPoint();
+                } else {
+                    point = 0;
+                }
+                OrderDAO ord = new OrderDAO();
+                request.setAttribute("id", id);
+                request.setAttribute("check", check);
+                request.setAttribute("salary", decimalFormat.format(ed.getAccEmpByUserName(ed.empD(id).getUsername()).getSalary()));
+                request.setAttribute("allP", ed.getAllPosition());
+                request.setAttribute("allR", ed.getAllRole());
+                request.setAttribute("allM", ed.getAllManagerByCinID(cinID));
+                request.setAttribute("allCin", cnd.getAllCinema());
+                request.setAttribute("cin", cnd.getCinemaByID(cinID));
+                request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(ed.empD(id).getUsername()).getManagerID()));
+                request.setAttribute("point", point);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("accE", ed.getAccEmpByUserName(ed.empD(id).getUsername()));
+                request.setAttribute("hiredDate", dateH + "-" + monthH + "-" + yearH);
+                request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(ed.empD(id).getUsername()));
+                request.getRequestDispatcher("empDetail.jsp").forward(request, response);
+            }
+        }
+        else {
+            String empID = request.getParameter("empID");
+            String user = request.getParameter("user");
+            String ln = request.getParameter("ln");
+            String fn = request.getParameter("fn");
+            String gen_raw = request.getParameter("gen");
+            String id_raw = request.getParameter("id");
+            String cccd = request.getParameter("cccd");
+            String dob_raw = request.getParameter("dob");
+            String sdt = request.getParameter("sdt");
+            String email = request.getParameter("email");
+            String address = request.getParameter("address");
+            String cin_raw = request.getParameter("cin");
+            String hiredDate_raw = request.getParameter("hiredDate");
+            String position = request.getParameter("position");
+            String mngID_raw = request.getParameter("mng");
+            String img = request.getParameter("img");
+            String salary_raw = request.getParameter("salary");
+            String role_raw = request.getParameter("role");
+            System.out.println(empID + " " + user + " " + ln + " " + fn + " " + gen_raw + " " + id_raw + " " + cccd + " " + dob_raw + " " + sdt + " " + email + " " + address + " " + cin_raw + " " + hiredDate_raw + " " + position + " " + mngID_raw + " " + img + " " + salary_raw + " " + role_raw);
+        }
     }
 
     /**

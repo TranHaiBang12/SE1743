@@ -504,7 +504,7 @@ public class PaymentServlet extends HttpServlet {
                                 pd.updPoint(a.getUserName(), point1);
                             } else {
                                 int pointUse = Integer.parseInt(request.getParameter("pntUse"));
-                                pd.insertIntoAUP(a.getUserName(), pointUse, orderID, date1, timeEnd);
+                                pd.insertIntoAUP(a.getUserName(), pointUse, orderID, dd, tt);
                                 System.out.println(point1 - pointUse);
                                 pd.updPoint(a.getUserName(), point1 - pointUse);
                                 List<AccountPoint> listAP = pd.getAccountPointDetail(a.getUserName());
