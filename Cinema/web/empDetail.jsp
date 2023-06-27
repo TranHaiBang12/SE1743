@@ -112,6 +112,12 @@
             .k{
                 margin-left: 10px;
             }
+
+            .ms{
+                margin-top: 20px;
+                font-size: 20px;
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -218,20 +224,32 @@
                                             <input type ="date" required name ="hiredDate"/>
                                         </div>
                                         <div>Vị trí:
-                                            <select name ="position">
+
+                                            <select onchange ="cnge()" name ="position">
                                                 <c:forEach items = "${requestScope.allP}" var = "i">
-                                                    <option value ="${i}" ${requestScope.accE.getPosition().equals(i)?"selected":""}>${i}</option>
+                                                    <c:if test = "${requestScope.mn != null}">
+                                                        <option value ="${i}" ${(i.equals(requestScope.mn))?"selected":""}>${i}</option>
+                                                    </c:if>
+                                                    <c:if test = "${requestScope.mn == null}">
+
+                                                        <option value ="${i}" ${(requestScope.accE.getPosition().equals(i))?"selected":""}>${i}</option>
+                                                    </c:if>
                                                 </c:forEach>
                                             </select>
                                         </div>
-                                        <c:if test = "${requestScope.mng != null}">
-                                            <div>Quản lý:
-                                                <select name = "mng">
-                                                    <c:forEach items = "${requestScope.allM}" var = "i">
-                                                        <option value ="${i.getEmpID()}" ${requestScope.mng.getEmpID() == i.getEmpID()?"selected":""}>${i.getFirstName()}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
+                                        <c:if test = "${requestScope.mng != null || requestScope.mn != null}">
+                                            <c:if test = "${requestScope.mn == 'Nhân Viên'}">
+                                                <div>Quản lý:
+                                                    <select name = "mng">
+                                                        <c:forEach items = "${requestScope.allM}" var = "i">
+                                                            <option value ="${i.getEmpID()}" ${(requestScope.mng != null && requestScope.mn != null && requestScope.mn.equals("Nhân Viên") && requestScope.mng.getEmpID() == i.getEmpID())?"selected":""}>${i.getFirstName()}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                            </c:if>
+                                            <c:if test = "${requestScope.mn != 'Nhân Viên'}">
+                                                <input hidden type ="text" name ="mngD" value ="0"/>
+                                            </c:if> 
                                         </c:if>
                                         <div>Ảnh:
                                             <input type ="text" name ="img" value ="${requestScope.accE.getImg()}"/>

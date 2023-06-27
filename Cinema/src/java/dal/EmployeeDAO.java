@@ -99,57 +99,118 @@ public class EmployeeDAO extends DBContext {
     }
 
     public void adminUpdCngPassE(String lastName, String firstName, String gender, Date dob, String address, String cccd, String phone, String email, Date hiredDate, String position, int cinID, int mngID, double salary, String img, String username, String password) {
-        try {
-            String sql = "UPDATE Employee SET LastName = ?, FirstName = ?, Gender = ?, Dob = ?, Address = ?, CCCD = ?, Phone = ?, Email = ?, HiredDate = ?, Position = ?, cinID = ?, ManagerID = ?, Salary = ?, Img = ? WHERE Account = ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            String sql1 = "UPDATE Acc SET Password = ? WHERE UserName = ?";
-            st.setString(1, lastName);
-            st.setString(2, firstName);
-            st.setString(3, gender);
-            st.setDate(4, dob);
-            st.setString(5, address);
-            st.setString(6, cccd);
-            st.setString(7, phone);
-            st.setString(8, email);
-            st.setString(9, username);
-            st.setDate(10, hiredDate);
-            st.setString(11, position);
-            st.setInt(12, cinID);
-            st.setInt(13, mngID);
-            st.setDouble(14, salary);
-            st.setString(15, img);
-            st.executeUpdate();
-            PreparedStatement st1 = connection.prepareStatement(sql1);
-            st1.setString(1, password);
-            st1.setString(2, username);
-            st1.executeUpdate();
-        } catch (Exception e) {
-            System.out.println(e);
+        if (mngID != 0) {
+            try {
+                String sql = "UPDATE Employee SET LastName = ?, FirstName = ?, Gender = ?, Dob = ?, Address = ?, CCCD = ?, Phone = ?, Email = ?, HiredDate = ?, Position = ?, cinID = ?, ManagerID = ?, Salary = ?, Img = ? WHERE Account = ?";
+                PreparedStatement st = connection.prepareStatement(sql);
+                String sql1 = "UPDATE Acc SET Password = ? WHERE UserName = ?";
+                st.setString(1, lastName);
+                st.setString(2, firstName);
+                st.setString(3, gender);
+                st.setDate(4, dob);
+                st.setString(5, address);
+                st.setString(6, cccd);
+
+                st.setString(7, phone);
+
+                st.setString(8, email);
+                st.setDate(9, hiredDate);
+                st.setString(10, position);
+                st.setInt(11, cinID);
+                st.setInt(12, mngID);
+                st.setDouble(13, salary);
+                st.setString(14, img);
+                st.setString(15, username);
+                st.executeUpdate();
+                PreparedStatement st1 = connection.prepareStatement(sql1);
+                st1.setString(1, password);
+                st1.setString(2, username);
+                st1.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("12");
+                System.out.println(e);
+            }
+        } else {
+            try {
+                String sql = "UPDATE Employee SET LastName = ?, FirstName = ?, Gender = ?, Dob = ?, Address = ?, CCCD = ?, Phone = ?, Email = ?, HiredDate = ?, ManagerID = NULL, Position = ?, cinID = ?, Salary = ?, Img = ? WHERE Account = ?";
+                PreparedStatement st = connection.prepareStatement(sql);
+                String sql1 = "UPDATE Acc SET Password = ? WHERE UserName = ?";
+                st.setString(1, lastName);
+                st.setString(2, firstName);
+                st.setString(3, gender);
+                st.setDate(4, dob);
+                st.setString(5, address);
+                st.setString(6, cccd);
+
+                st.setString(7, phone);
+
+                st.setString(8, email);
+                st.setDate(9, hiredDate);
+                st.setString(10, position);
+                st.setInt(11, cinID);
+                st.setDouble(12, salary);
+                st.setString(13, img);
+                st.setString(14, username);
+                st.executeUpdate();
+                PreparedStatement st1 = connection.prepareStatement(sql1);
+                st1.setString(1, password);
+                st1.setString(2, username);
+                st1.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("12");
+                System.out.println(e);
+            }
         }
     }
 
     public void adminUpdNoCngPassE(String lastName, String firstName, String gender, Date dob, String address, String cccd, String phone, String email, Date hiredDate, String position, int cinID, int mngID, double salary, String img, String username) {
         try {
-            String sql = "UPDATE Employee SET LastName = ?, FirstName = ?, Gender = ?, Dob = ?, Address = ?, CCCD = ?, Phone = ?, Email = ?, HiredDate = ?, Position = ?, cinID = ?, ManagerID = ?, Salary = ?, Img = ? WHERE Account = ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, lastName);
-            st.setString(2, firstName);
-            st.setString(3, gender);
-            st.setDate(4, dob);
-            st.setString(5, address);
-            st.setString(6, cccd);
-            st.setString(7, phone);
-            st.setString(8, email);
-            st.setString(9, username);
-            st.setDate(10, hiredDate);
-            st.setString(11, position);
-            st.setInt(12, cinID);
-            st.setInt(13, mngID);
-            st.setDouble(14, salary);
-            st.setString(15, img);
-            st.executeUpdate();
+            System.out.println(dob + " " + hiredDate);
+            if (mngID != 0) {
+                String sql = "UPDATE Employee SET LastName = ?, FirstName = ?, Gender = ?, Dob = ?, Address = ?, CCCD = ?, Phone = ?, Email = ?, HiredDate = ?, Position = ?, cinID = ?, ManagerID = ?, Salary = ?, Img = ? WHERE Account = ?";
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, lastName);
+                st.setString(2, firstName);
+                st.setString(3, gender);
+                st.setDate(4, dob);
+                st.setString(5, address);
+                st.setString(6, cccd);
+
+                st.setString(7, phone);
+
+                st.setString(8, email);
+                st.setDate(9, hiredDate);
+                st.setString(10, position);
+                st.setInt(11, cinID);
+                st.setInt(12, mngID);
+                st.setDouble(13, salary);
+                st.setString(14, img);
+                st.setString(15, username);
+                st.executeUpdate();
+            } else {
+                String sql = "UPDATE Employee SET LastName = ?, FirstName = ?, ManagerID = NULL, Gender = ?, Dob = ?, Address = ?, CCCD = ?, Phone = ?, Email = ?, HiredDate = ?, Position = ?, cinID = ?, Salary = ?, Img = ? WHERE Account = ?";
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, lastName);
+                st.setString(2, firstName);
+                st.setString(3, gender);
+                st.setDate(4, dob);
+                st.setString(5, address);
+                st.setString(6, cccd);
+
+                st.setString(7, phone);
+
+                st.setString(8, email);
+                st.setDate(9, hiredDate);
+                st.setString(10, position);
+                st.setInt(11, cinID);
+                st.setDouble(12, salary);
+                st.setString(13, img);
+                st.setString(14, username);
+                st.executeUpdate();
+            }
 
         } catch (Exception e) {
+            System.out.println("11");
             System.out.println(e);
         }
     }
@@ -236,12 +297,13 @@ public class EmployeeDAO extends DBContext {
         return null;
     }
 
-    public List<Employee> getAllManagerByCinID(int id) {
+    public List<Employee> getAllManagerByCinID(int id, int eID) {
         List<Employee> list = new ArrayList<>();
         try {
-            String sql = "SELECT Employee.*, Acc.Role, Acc.Password FROM Employee JOIN Acc ON Employee.Account = Acc.UserName WHERE Position = N'Quản lý' AND cinID = ?";
+            String sql = "SELECT Employee.*, Acc.Role, Acc.Password FROM Employee JOIN Acc ON Employee.Account = Acc.UserName WHERE Position = N'Quản lý' AND cinID = ? AND EmpID != ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
+            st.setInt(2, eID);
             CinemaDAO cnd = new CinemaDAO();
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -249,9 +311,78 @@ public class EmployeeDAO extends DBContext {
                 list.add(e);
             }
         } catch (Exception e) {
-            System.out.println("4");
             System.out.println(e);
         }
         return list;
     }
+
+    public void insertAccEmp(String username, String pass, int role) {
+        try {
+            String sql = "INSERT INTO Acc VALUES (?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            st.setInt(2, role);
+            st.setString(3, pass);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public int insertEmp(String ln, String fn, String gender, Date dob, String address, String cccd, String phone, String email, Date hiredDate, String position, int cinID, int managerID, double salary, String img, String user) {
+        int id = 0;
+        try {
+            
+            if (managerID != 0) {
+                String sql = "INSERT INTO Employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, ln);
+                st.setString(2, fn);
+                st.setString(3, gender);
+                st.setDate(4, dob);
+                st.setString(5, address);
+                st.setString(6, cccd);
+                st.setString(7, phone);
+                st.setString(8, email);
+                st.setDate(9, hiredDate);
+                st.setString(10, position);
+                st.setInt(11, cinID);
+                st.setInt(12, managerID);
+                st.setDouble(13, salary);
+                st.setString(14, img);
+                st.setString(15, user);
+                st.executeUpdate();
+                ResultSet rs = st.getGeneratedKeys();
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            } else {
+                String sql = "INSERT INTO Employee VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?)";
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setString(1, ln);
+                st.setString(2, fn);
+                st.setString(3, gender);
+                st.setDate(4, dob);
+                st.setString(5, address);
+                st.setString(6, cccd);
+                st.setString(7, phone);
+                st.setString(8, email);
+                st.setDate(9, hiredDate);
+                st.setString(10, position);
+                st.setInt(11, cinID);
+                st.setDouble(12, salary);
+                st.setString(13, img);
+                st.setString(14, user);
+                st.executeUpdate();
+                ResultSet rs = st.getGeneratedKeys();
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return id;
+    }
+    
 }

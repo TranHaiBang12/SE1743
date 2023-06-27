@@ -16,15 +16,13 @@ import model.Account;
 public class AccountDAO extends DBContext{
     public Account check(String u, String p) {
         try {
-            String sql = "SELECT * FROM Account WHERE (UserName = ? OR Email = ? OR Phone = ?) AND Password = ?";
+            String sql = "SELECT * FROM Acc WHERE (UserName = ?) AND Password = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, u);
-            st.setString(2, u);
-            st.setString(3, u);
-            st.setString(4, p);
+            st.setString(2, p);
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
-                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"),rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                Account a = new Account(rs.getString("UserName"), rs.getString("Password"), rs.getInt("Role"));
                 return a;               
             }
         } catch (Exception e) {
@@ -176,5 +174,17 @@ public class AccountDAO extends DBContext{
             System.out.println(e);
         }
         return null;
+    }
+    
+    public void updRole(String u, int role) {
+        try {
+            String sql = "UPDATE Acc SET Role = ? WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, role);
+            st.setString(2, u);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("e");
+        }
     }
 }

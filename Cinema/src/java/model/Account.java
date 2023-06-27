@@ -20,7 +20,10 @@ public class Account {
     private int role;
     private String Password;
 
-    public Account() {
+    public Account(String UserName, String Password, int role) {
+        this.UserName = UserName;
+        this.Password = Password;
+        this.role = role;
     }
 
     public Account(String UserName, String Gender, Date Dob,  String Phone, String Email, String City, int role, String Password) {
