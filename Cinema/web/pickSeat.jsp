@@ -363,7 +363,7 @@
                         <c:forEach items = "${requestScope.tk}" var = "i">
                             <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
                             <c:if test = "${i.getSeatType() == 1}">
-                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"insideSeatRed":"insideSeat"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"insideSeatRed":"insideSeat"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}')">
                                     <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
                                     <div class = "sat">
 
@@ -374,7 +374,7 @@
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 2}">
-                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"vipRed":"vip"}"  onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"vipRed":"vip"}"  onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}')">
                                     <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -384,7 +384,7 @@
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 3}">
-                                <div  id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"speRed":"spe"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}')">
+                                <div  id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"speRed":"spe"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}')">
                                     <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
@@ -426,7 +426,8 @@
             var cnt = 0;
             var sum = 0;
             console.log(getCookie("thbang"));
-            function pckSeat(id, code, type, col, row) {
+            function pckSeat(id, code, type, col, row, price) {
+                console.log(price);
                 let color = document.getElementById(id).style.backgroundColor;
                 if (color !== 'green') {
                     if (document.getElementById(id).className !== "insideSeatRed" && document.getElementById(id).className !== "vipRed" && document.getElementById(id).className !== "speRed") {
@@ -440,16 +441,18 @@
                         idP += "p";
                         idP += col;
                         idP += row;
+              
+                        
                         document.getElementById("ghe").innerHTML = t;
                         document.getElementById("qtt").innerHTML = ++cnt;
                         if (type === "1") {
-                            sum += (65000);
+                            sum += (Number(price));
                             document.getElementById("sum").innerHTML = sum;
                         } else if (type === "2") {
-                            sum += (80000);
+                            sum += (Number(price));
                             document.getElementById("sum").innerHTML = sum;
                         } else if (type === "3") {
-                            sum += (160000);
+                            sum += (Number(price));
                             document.getElementById("sum").innerHTML = sum;
                         }
                     }
@@ -457,14 +460,14 @@
                     if (t.includes(String(col + row))) {
                         t = t.replace(String(col + row), "");
                         cnt--;
-                        if (idP.includes(String("/" + code + "p" + col + row)))
-                            idP = idP.replace(String("/" + code + "p" + col + row), "");
+                        if (idP.includes(String("/" + code + "p" + col + row )))
+                            idP = idP.replace(String("/" + code + "p" + col + row ), "");
                         if (type === "1") {
-                            sum -= (65000);
+                            sum -= (Number(price));
                         } else if (type === "2") {
-                            sum -= (80000);
+                            sum -= (Number(price));
                         } else if (type === "3") {
-                            sum -= (160000);
+                            sum -= (Number(price));
                         }
                         document.getElementById("ghe").innerHTML = t;
                         document.getElementById("qtt").innerHTML = cnt;

@@ -99,7 +99,7 @@
 
             .sbmit{
             }
-            
+
             .ms{
                 margin-left: 450px;
                 color: red;
@@ -107,12 +107,12 @@
             .frm{
                 margin-left: 450px;
             }
-            
+
             .tket{
                 cursor: pointer;
             }
-            
-            
+
+
         </style>
     </head>
     <body>
@@ -120,41 +120,43 @@
             <%@include file = "header.jsp" %>
         </div><!-- comment -->
         <div class = "body">
-            <table>
-                <tr>
-                    <th>MÃ LỊCH CHIẾU</th>
-                    <th>NGÀY CHIẾU</th>
-                    <th>GIỜ CHIẾU</th>
-                    <th>PHIM</th><!-- comment -->
-                    <th>KIỂU CHIẾU</th><!-- comment -->
-                    <th>RẠP</th>
-                    <th>PHÒNG</th>
-                    <th>NGÀY CHIẾU XONG</th>
-                    <th>GIỜ CHIẾU XONG</th>
-                </tr>
-                <c:forEach items = "${requestScope.s}" var = "i">
+            <c:if test = "${requestScope.s != null}">
+                <table>
                     <tr>
-                        <td>${i.getScheNo()}</td>
-                        <td>${i.getStart()}</td>
-                        <td>${i.getStartTim()}</td>
-                        <td>${i.getMovName()}</td>
-                        <td>${i.getFormName()}</td>
-                        <td>${i.getCinName()}</td>
-                        <td>${i.getRoomID()}</td>
-                        <td>${i.getEnd()}</td>
-                        <td>${i.getEndTim()}</td>
-                        <c:set var="movName" value="${i.getMovName()}"/>
-                        <c:set var="movID" value="${i.getMovID()}"/>
+                        <th>MÃ LỊCH CHIẾU</th>
+                        <th>NGÀY CHIẾU</th>
+                        <th>GIỜ CHIẾU</th>
+                        <th>PHIM</th><!-- comment -->
+                        <th>KIỂU CHIẾU</th><!-- comment -->
+                        <th>RẠP</th>
+                        <th>PHÒNG</th>
+                        <th>NGÀY CHIẾU XONG</th>
+                        <th>GIỜ CHIẾU XONG</th>
                     </tr>
-                </c:forEach>
-            </table>
-            <div class = "pagination">
-                <a href ="addsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
-                <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
-                    <a class ="${i == page ? "active":"noActive"}" href ="addsche?page=${i}&id=${requestScope.id}">${i}</a>
-                </c:forEach>
-                <a href ="addsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
-            </div>
+                    <c:forEach items = "${requestScope.s}" var = "i">
+                        <tr>
+                            <td>${i.getScheNo()}</td>
+                            <td>${i.getStart()}</td>
+                            <td>${i.getStartTim()}</td>
+                            <td>${i.getMovName()}</td>
+                            <td>${i.getFormName()}</td>
+                            <td>${i.getCinName()}</td>
+                            <td>${i.getRoomID()}</td>
+                            <td>${i.getEnd()}</td>
+                            <td>${i.getEndTim()}</td>
+                            <c:set var="movName" value="${i.getMovName()}"/>
+                            <c:set var="movID" value="${i.getMovID()}"/>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <div class = "pagination">
+                    <a href ="addsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
+                    <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                        <a class ="${i == page ? "active":"noActive"}" href ="addsche?page=${i}&id=${requestScope.id}">${i}</a>
+                    </c:forEach>
+                    <a href ="addsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
+                </div>
+            </c:if>
             <div class = "ms">
                 <h2>${requestScope.ms}</h2>
             </div>
@@ -184,7 +186,7 @@
                     <div>
                         <label for ="movName">Phim: </label>
                         <input type ="text" id ="movName" name ="movName" readonly value = "${movName}"/>
-                        <input type ="text" id ="movID" name ="movID" readonly hidden value = "${movID}"/>
+                        <input type ="text" id ="movID" name ="movID" readonly hidden value = "${id}"/>
                     </div>
 
                     <c:if test = "${form != null}">

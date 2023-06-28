@@ -156,6 +156,10 @@
         <servlet-name>AddMov</servlet-name>
         <servlet-class>controller.AddMov</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MovieReport</servlet-name>
+        <servlet-class>controller.MovieReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -311,6 +315,10 @@
     <servlet-mapping>
         <servlet-name>AddMov</servlet-name>
         <url-pattern>/addmov</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MovieReport</servlet-name>
+        <url-pattern>/rpm</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
