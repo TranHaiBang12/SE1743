@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.MovieGenre;
 import model.Movies;
 import model.Schedule;
 
@@ -216,6 +217,23 @@ public class MovieDAO extends DBContext {
         }
     }
     
+    public List<MovieGenre> getAllGenre() {
+        List<MovieGenre> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM MoviesGenre";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                MovieGenre mg = new MovieGenre(rs.getInt("genreID"), rs.getString("genreName"));
+                list.add(mg);
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }  
+        return list;
+    }
+    
     public void insertStar(int movID, String star) {
         try {
             String sql = "INSERT INTO Stars VALUES (?, ?, ?)";
@@ -228,4 +246,46 @@ public class MovieDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public void insertDirector(int movID, String directorName) {
+        try {
+            String sql = "INSERT INTO Directors VALUES (?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.setString(2, directorName);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void insertGenre(int movID, int genreID) {
+        try {
+            String sql = "INSERT INTO Genre VALUES (?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.setInt(2, genreID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public MovieGenre getGenreByID(int genreID) {
+        try {
+            String sql = "SELECT * FROM MoviesGenre WHERE genreID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, genreID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                MovieGenre mg = new MovieGenre(rs.getInt("genreID"), rs.getString("genreName"));
+                return mg;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    
 }

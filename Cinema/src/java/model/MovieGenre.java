@@ -14,12 +14,30 @@ public class MovieGenre {
     private int movID;
     private int genreID;
     private List<String> genreName;
+    private String genre;
+
+    public MovieGenre(int genreID, String genre) {
+        this.genreID = genreID;
+        this.genre = genre;
+    }
+    
+    
 
     public MovieGenre(int movID, int genreID, List<String> genreName) {
         this.movID = movID;
         this.genreID = genreID;
         this.genreName = genreName;
     }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+    
+    
 
     public int getMovID() {
         return movID;

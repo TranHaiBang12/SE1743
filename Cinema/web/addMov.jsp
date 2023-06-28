@@ -155,6 +155,14 @@
             #newstar{
                 margin-left: 77px;
             }
+
+            #newgenre{
+                margin-left: 77px;
+            }
+
+            #newgenre select{
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
@@ -162,29 +170,146 @@
             <%@include file = "header.jsp" %>
         </div><!-- comment -->
         <div class = "body">
-            <div class = "IN4">
-                <c:if test = "${requestScope.img != null}">
-                    <div>
-                        <img src ="${requestScope.accE.getImg()}">
-                    </div>
-                </c:if>
-                <div class = "eIN4">
-
-                    <div class = "ms">${requestScope.ms}</div>
-                    <form id ="frm" action = "addmov" method = "post">
-                        <div>ID: 
-
-                            <input type ="text" required readonly value ="${requestScope.accE.getEmpID()}" name ="id"/>
+            <c:if test = "${requestScope.msT == null}">
+                <div class = "IN4">
+                    <c:if test = "${requestScope.img != null}">
+                        <div>
+                            <img src ="${requestScope.img}">
                         </div>
-                        <div>Tên phim: 
+                    </c:if>
+                    <div class = "eIN4">
 
-                            <input type ="text" readonly value ="${requestScope.accE.getUsername()}" name ="name"/>
+                        <div class = "ms">${requestScope.ms}</div>
+                        <form id ="frm" action = "addmov" method = "post">
+                            <div>ID: 
+
+                                <input type ="text" required  value ="${requestScope.id}" name ="id"/>
+                            </div>
+                            <div>Tên phim: 
+
+                                <input type ="text" required value ="${requestScope.name}" name ="name"/>
+                            </div>
+                            <div id = "dir"> 
+                                <div class = "insidedir">
+                                    Đạo diễn:
+                                    <input type ="text"  required value ="${requestScope.accE.getLastName()}" name ="dir"/>
+                                    <img onclick ="createNewDir()" src ="images/plusIcon.png"/>
+                                </div>
+                                <div id = "newdir">
+
+                                </div>
+                            </div>
+                            <div id = "star">
+                                <div class = "insidestar">
+                                    Diễn viên:
+                                    <input type ="text"  required value ="${requestScope.accE.getLastName()}" name ="star"/>
+                                    <img onclick ="createNewStar()" src ="images/plusIcon.png"/>
+                                </div>
+                                <div id = "newstar">
+
+                                </div>
+                            </div>
+
+                            <div>Thể loại:
+                                <select name ="genre">
+                                    <c:forEach items = "${requestScope.list}" var = "i">
+                                        <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                    </c:forEach>
+                                </select>
+                                <img onclick ="createNewGenre('${requestScope.list}')" src ="images/plusIcon.png"/>
+                                <div id = "newgenre">
+                                    <select hidden id ="slt1" name ="genre">
+                                        <c:forEach items = "${requestScope.list}" var = "i">
+                                            <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                        </c:forEach>
+                                    </select><!-- comment -->
+                                    <select hidden id ="slt2" name ="genre">
+                                        <c:forEach items = "${requestScope.list}" var = "i">
+                                            <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <select hidden id ="slt3" name ="genre">
+                                        <c:forEach items = "${requestScope.list}" var = "i">
+                                            <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <select hidden id ="slt4" name ="genre">
+                                        <c:forEach items = "${requestScope.list}" var = "i">
+                                            <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <select hidden id ="slt5" name ="genre">
+                                        <c:forEach items = "${requestScope.list}" var = "i">
+                                            <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <select hidden id ="slt6" name ="genre">
+                                        <c:forEach items = "${requestScope.list}" var = "i">
+                                            <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <input hidden type ="text" id ="gN" name ="gN" value ="0"/>
+
+                            <div>Khởi chiếu: 
+                                <input type ="date"  name ="startDate"/>
+                            </div>
+
+                            <div>Thời lượng: 
+                                <input type ="number" required value ="${requestScope.time}" min ="0" name ="time"/>
+                            </div>
+                            <div>Ngôn ngữ:
+                                <input type ="text" required value ="${requestScope.lang}" name ="lang"/>
+                            </div>
+                            <div>Xuất xứ: 
+                                <input type ="text" required value ="${requestScope.org}" name ="org"/>
+                            </div>
+                            <div>Tinh trạng:
+                                <select name ="stt">
+                                    <c:forEach items = "${requestScope.stt}" var = "i">
+                                        <option value = "${i}">${i}</option>
+                                    </c:forEach>
+                                </select>
+
+                            </div>
+                            <div>Studio: 
+                                <input type ="text" required value ="${requestScope.studio}" name ="studio"/>
+                            </div>
+                            <div>Hình ảnh: 
+                                <input type ="text" required value ="${requestScope.img}" name ="img"/>
+                            </div>
+
+                            <div>Ghi chú:
+                                <input type ="text" required value ="${requestScope.note}" name ="note"/>
+                            </div>
+                            <div><!-- comment -->
+                                <input type ="submit" class ="t"  value ="ADD"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </c:if>
+            <c:if test = "${requestScope.msT != null}">
+                <div class = "IN4">
+                    <c:if test = "${requestScope.img != null}">
+                        <div>
+                            <img src ="${requestScope.img}">
+                        </div>
+                    </c:if>
+                    <div class = "eIN4">
+
+                        <div class = "ms">${requestScope.ms}</div>
+                        <div>
+                            ID: ${requestScope.id}
+                        </div>
+                        <div>
+                            Tên phim: ${requestScope.name}
                         </div>
                         <div id = "dir"> 
                             <div class = "insidedir">
                                 Đạo diễn:
-                                <input type ="text"  required value ="${requestScope.accE.getLastName()}" name ="dir"/>
-                                <img onclick ="createNewDir()" src ="images/plusIcon.png"/>
                             </div>
                             <div id = "newdir">
 
@@ -193,50 +318,51 @@
                         <div id = "star">
                             <div class = "insidestar">
                                 Diễn viên:
-                                <input type ="text"  required value ="${requestScope.accE.getLastName()}" name ="star"/>
-                                <img onclick ="createNewStar()" src ="images/plusIcon.png"/>
                             </div>
                             <div id = "newstar">
 
                             </div>
                         </div>
 
-                        <div>Khởi chiếu: 
-                            <input type ="date"  name ="startDate"/>
+                        <div>Thể loại:
+                            <c:forEach items = "${requestScope.list}" var = "i">
+                                <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                            </c:forEach>
+
                         </div>
 
-                        <div>Thời lượng: 
-                            <input type ="number" required value ="${requestScope.accE.getFirstName()}" min ="0" name ="time"/>
-                        </div>
-                        <div>Ngôn ngữ:
-                            <input type ="text" required value ="${requestScope.accE.getCccd()}" name ="lang"/>
-                        </div>
-                        <div>Xuất xứ: 
-                            <input type ="text" required name ="org"/>
-                        </div>
-                        <div>Tinh trạng:
-                            <select name ="stt">
-                                <c:forEach items = "${requestScope.stt}" var = "i">
-                                    <option value = "${i}">${i}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
-                        <div>Studio: 
-                            <input type ="text" required value ="${requestScope.accE.getEmail()}" name ="studio"/>
-                        </div>
-                        <div>Hình ảnh: 
-                            <input type ="text" required value ="${requestScope.accE.getAddress()}" name ="img"/>
+                        <div>
+                            Khởi chiếu: ${requestScope.startDate}
                         </div>
 
-                        <div>Ghi chú:
-                            <input type ="text" required value ="${requestScope.accE.getAddress()}" name ="note"/>
+                        <div>
+                            Thời lượng: ${requestScope.time}
+                        </div>
+                        <div>
+                            Ngôn ngữ: ${requestScope.lang}
+                        </div>
+                        <div>
+                            Xuất xứ: ${requestScope.org}
+                        </div>
+                        <div>
+                            Tinh trạng:${requestScope.stt}
+                        </div>
+                        <div>
+                            Studio: ${requestScope.studio}
+                        </div>
+                        <div
+                            >Hình ảnh: ${requestScope.img}
+                        </div>
+
+                        <div>
+                            Ghi chú: ${requestScope.note}
                         </div>
                         <div><!-- comment -->
-                            <input type ="submit" class ="t"  value ="ADD"/>
+                            <a href = "addmov"><input type ="button" class ="t"  value ="ADD AGAIN"/></a>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </c:if>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
@@ -244,6 +370,7 @@
         <script type = "text/javascript">
             var a = 0;
             var b = 0;
+            var c = 0;
             function createNewDir() {
                 if (a <= 5) {
                     // First create a DIV element.
@@ -265,6 +392,7 @@
                     // First create a DIV element.
                     var txtNewInputBox = document.createElement('div');
 
+
                     // Then add the content (a new input box) of the element.
                     txtNewInputBox.innerHTML = "<input type='text' id='newInputBox' name = 'star'>";
 
@@ -274,6 +402,13 @@
                 } else {
                     alert("Lượng đạo diễn tối đa bạn có thể thêm là 6");
                 }
+            }
+
+            function createNewGenre() {
+                c++;
+                document.getElementById("gN").value = c;
+                console.log(c);
+                document.getElementById("slt" + c).style.display = 'block';
             }
         </script>
     </body>

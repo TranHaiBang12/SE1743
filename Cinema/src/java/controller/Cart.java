@@ -101,7 +101,7 @@ public class Cart extends HttpServlet {
                         }
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
                         for (int j = 0; j < tkB.size(); j++) {
-                            if (cart.substring(i + 1, i + 7).equals(tkB.get(i).getProductCode()) && Integer.parseInt(cart.substring(i + 9, i + 10)) == tkB.get(j).getRow() && cart.substring(i + 8, i + 9).equals(tkB.get(j).getCol())) {
+                            if (cart.substring(i + 1, i + 7).equals(tkB.get(j).getProductCode()) && Integer.parseInt(cart.substring(i + 9, i + 10)) == tkB.get(j).getRow() && cart.substring(i + 8, i + 9).equals(tkB.get(j).getCol())) {
                                 cntT++;
                             }
                         }
