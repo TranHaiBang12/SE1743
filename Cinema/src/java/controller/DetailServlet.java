@@ -19,6 +19,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import model.Account;
@@ -241,16 +242,18 @@ public class DetailServlet extends HttpServlet {
         String name = request.getParameter("name1");
         String cmt = request.getParameter("cmt");
         String anoy = request.getParameter("anoy");
+        Date dd = Date.valueOf((Calendar.getInstance().getTime().getYear() + 1900) + "-" + (Calendar.getInstance().getTime().getMonth() + 1) + "-" + Calendar.getInstance().getTime().getDate());
+
         RateDAO rd = new RateDAO();
         if (anoy != null && anoy.equals("on")) {
             name = "Khách hàng";
             int star = Integer.parseInt(star_raw);
             int movID = Integer.parseInt(request.getParameter("movID"));
-            rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name);
+            rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name, dd);
         } else {
             int star = Integer.parseInt(star_raw);
             int movID = Integer.parseInt(request.getParameter("movID"));
-            rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name);
+            rd.insertRate(a.getUserName(), movID, cmt, star, "Chờ duyệt", name, dd);
         }
         request.setAttribute("stat", 1);
         String id_raw = request.getParameter("movID");

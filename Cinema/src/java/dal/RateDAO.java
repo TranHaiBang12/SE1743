@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -16,9 +17,9 @@ import model.Rate;
  */
 public class RateDAO extends DBContext {
 
-    public void insertRate(String username, int movID, String comment, int rate, String status, String displayName) {
+    public void insertRate(String username, int movID, String comment, int rate, String status, String displayName, Date dte) {
         try {
-            String sql = "INSERT INTO Rate VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Rate VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
             st.setInt(2, movID);
@@ -26,6 +27,7 @@ public class RateDAO extends DBContext {
             st.setInt(4, rate);
             st.setString(5, status);
             st.setString(6, displayName);
+            st.setDate(7, dte);
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

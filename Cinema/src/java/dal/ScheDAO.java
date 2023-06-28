@@ -302,4 +302,34 @@ public class ScheDAO extends DBContext {
         }
         return list;
     }
+    
+    public int[] getAllScheInTime(Date a, Date b) {
+        List<String> list = new ArrayList<>();
+        try {
+            int cnt = 0;
+            String sql0 = "SELECT COUNT(DISTINCT movID) AS T FROM Schedule LEFT JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo WHERE ProductCode IS NOT NULL AND (startDate BETWEEN ? AND ?)";
+            String sql = "SELECT DISTINCT movID FROM Schedule LEFT JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo WHERE ProductCode IS NOT NULL AND (startDate BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql0);
+            st.setDate(1, a);
+            st.setDate(2, b);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                cnt = rs.getInt("T");
+            }
+            st = connection.prepareStatement(sql);
+            int mov[] = new int[cnt];
+            st.setDate(1, a);
+            st.setDate(2, b);
+            rs = st.executeQuery();
+            int i = 0;
+            while(rs.next()) {
+                mov[i] = rs.getInt("movID");
+                i++;
+            }
+            return mov;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }

@@ -18,11 +18,27 @@ public class Movies {
     private double time;
     private String language;
     private String origin;
-    private double avrRate;
+    
     private String notes;
     private String status;
     private String studio;
     private String img;
+    private int noRate5;
+    private int noRate4;
+    private int noRate3;
+    private int noRate2;
+    private int noRate1;
+    
+    private double pRate5;
+    private double pRate4;
+    private double pRate3;
+    private double pRate2;
+    private double pRate1;
+    
+    private int sumRate;
+    private int noRate;
+    private double avrRate;
+    
 
     public Movies() {
     }
@@ -41,6 +57,106 @@ public class Movies {
         this.studio = studio;
         this.img = img;
     }
+
+    public double getpRate5() {
+        return pRate5;
+    }
+
+    public void setpRate5(double pRate5) {
+        this.pRate5 = pRate5;
+    }
+
+    public double getpRate4() {
+        return pRate4;
+    }
+
+    public void setpRate4(double pRate4) {
+        this.pRate4 = pRate4;
+    }
+
+    public double getpRate3() {
+        return pRate3;
+    }
+
+    public void setpRate3(double pRate3) {
+        this.pRate3 = pRate3;
+    }
+
+    public double getpRate2() {
+        return pRate2;
+    }
+
+    public void setpRate2(double pRate2) {
+        this.pRate2 = pRate2;
+    }
+
+    public double getpRate1() {
+        return pRate1;
+    }
+
+    public void setpRate1(double pRate1) {
+        this.pRate1 = pRate1;
+    }
+    
+    
+
+    public int getNoRate5() {
+        return noRate5;
+    }
+
+    public void setNoRate5(int noRate5) {
+        this.noRate5 = noRate5;
+    }
+
+    public int getNoRate4() {
+        return noRate4;
+    }
+
+    public void setNoRate4(int noRate4) {
+        this.noRate4 = noRate4;
+    }
+
+    public int getNoRate3() {
+        return noRate3;
+    }
+
+    public void setNoRate3(int noRate3) {
+        this.noRate3 = noRate3;
+    }
+
+    public int getNoRate2() {
+        return noRate2;
+    }
+
+    public void setNoRate2(int noRate2) {
+        this.noRate2 = noRate2;
+    }
+
+    public int getNoRate1() {
+        return noRate1;
+    }
+
+    public void setNoRate1(int noRate1) {
+        this.noRate1 = noRate1;
+    }
+
+    public int getSumRate() {
+        return sumRate;
+    }
+
+    public void setSumRate(int sumRate) {
+        this.sumRate = sumRate;
+    }
+
+    public int getNoRate() {
+        return noRate;
+    }
+
+    public void setNoRate(int noRate) {
+        this.noRate = noRate;
+    }
+    
+    
 
     public int getID() {
         return ID;
