@@ -462,14 +462,47 @@ public class TicketDAO extends DBContext {
             st.setDate(5, dS);
             st.setDate(6, eS);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
-                TIcketDate td = new TIcketDate(rs.getDate("PaymentDate"));
+            while (rs.next()) {
+                String t = rs.getDate("PaymentDate").toString();
+                String year = "", month = "", date = "";
+                int cnt = 0;
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        year = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        month = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
+                }
+                date = t.substring(cnt + 1);
+                TIcketDate td = new TIcketDate(date + "-" + month + "-" + year);
                 list.add(td);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
+    }
+
+    public int getNumTickByMovID(int movID) {
+        try {
+            String sql = "SELECT COUNT(*) AS [T] FROM\n"
+                    + "(SELECT TicketOnlDetail.*, TickTypeInSche.scheNo, Schedule.movID, OrderOnline.PaymentDate FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE movID = ? \n"
+                    + "UNION\n"
+                    + "SELECT TicketOffDetail.*, TickTypeInSche.scheNo, Schedule.movID, OrderOffline.Date FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE  movID = ? \n"
+                    + ") AS [T]";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.setInt(2, movID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 
 }

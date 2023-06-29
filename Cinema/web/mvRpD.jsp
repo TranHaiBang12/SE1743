@@ -274,6 +274,31 @@
                 margin-left: 40px;
             }
 
+            .det{
+                margin-left: 100px;
+            }
+
+            .btS button{
+                font-size: 18px;
+                padding: 5px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+            }
+            
+            .btR button{
+                font-size: 18px;
+                padding: 5px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+            }
+            
+            .btR{
+                text-align: center;
+                margin-top: 20px;
+            }
+
 
         </style>
     </head>
@@ -315,6 +340,9 @@
                                 <div><span class = "rte">Số lượt đánh giá 1 sao: <span class = "blk">${requestScope.m.getNoRate1()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.m.getpRate1()}%</span></span></div>
 
                             </div>
+                            <div class = "btS">
+                                <a href  = "detail?id=${requestScope.id}"><button type ="submit" value ="XEM CHI TIẾT">XEM CHI TIẾT</button></a>
+                            </div>
                         </div.>
                     </div>
                 </div>
@@ -325,7 +353,7 @@
                     <div class = "insider1">
 
                         <div>
-                            <div>Tổng đánh giá: <span class = "blk">${requestScope.mr.getSum()}</span></div><!-- <div></div> -->
+                            <div>Trong khoảng thời gian này có: <span class = "blk">${requestScope.mr.getSum()}</span>, chiếm <span  class = "blk">${requestScope.pcARate}%</span> tổng số đánh giá</div><!-- <div></div> -->
                             <div>Số lượng đánh giá: <span class = "blk">${requestScope.mr.getNoD()}</span></div>
                             <div>Trung bình: <span class = "blk">${requestScope.mr.getAvr()}</span></div>
                         </div>
@@ -341,7 +369,7 @@
                     <div class = "SSttle">b. Bình luận</div>
                     <c:set var="cnt" value="0"/>
                     <div class = "insider2">
-                        <div>Hiện có <span class = "blk" id = "nm">${requestScope.mr.getSum()}</span> bình luận về bộ phim này</div>
+                        <div>Trong khoảng thời gian này có <span class = "blk" id = "nm">${requestScope.mr.getSum()}</span> bình luận về bộ phim này, chiếm <span  class = "blk">${requestScope.pcARate}%</span> tổng số bình luận</div>
                         <input type ="text" id ="num" hidden value ="${requestScope.mr.getSum()}"/>
                         <div id ="comment" class = "comment">
 
@@ -387,7 +415,7 @@
                     <div class = "Sttle">2. VÉ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
                     <div class = "insider1">
                         <div>
-                            Hiện đã bán được <span class = "blk">${requestScope.numTick}</span> vé của bộ phim này
+                            Trong khoảng thời gian này đã bán được <span class = "blk">${requestScope.numTick}</span> vé của bộ phim này, chiếm <span  class = "blk">${requestScope.pcATick}%</span> tổng số vé
                         </div>
                         <div>
                             Có <span class = "blk">${requestScope.listTT.size()}</span> loại vé:
@@ -395,13 +423,13 @@
                                 <div class = "ttype">
                                     <c:if test = "${t == 'Thường'}">
                                         + Vé ${t}: <span class = "blk">${requestScope.mt.nm}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.mt.pcnm}%</span></span>
-                                        </c:if>
-                                        <c:if test = "${t == 'VIP'}">
+                                    </c:if>
+                                    <c:if test = "${t == 'VIP'}">
                                         + Vé ${t}: <span class = "blk">${requestScope.mt.vp}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.mt.pcvp}%</span></span>
-                                        </c:if>
-                                        <c:if test = "${t == 'Đôi'}">
+                                    </c:if>
+                                    <c:if test = "${t == 'Đôi'}">
                                         + Vé ${t}: <span class = "blk">${requestScope.mt.vt}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.mt.pcvt}%</span></span>
-                                        </c:if>
+                                    </c:if>
                                 </div>
                             </c:forEach>
                         </div>
@@ -415,11 +443,14 @@
                         </div>
                         <c:forEach items = "${requestScope.listTID}" var = "t">
                             <div>
-                                Ngày ${t.getdS()}: ${t.getNo()}
+                                Ngày ${t.getdS()}: <span class = "blk">${t.getNo()}</span> vé được bán ra, chiếm <span class = "blk">${t.getPc()}%</span> vé được bán ra trong khoảng thời gian này <span class = "det"><a href = "ordr?id=${requestScope.id}&date=${t.getdS()}">XEM CHI TIẾT</a></span>
                             </div>
                         </c:forEach>
                     </div>
                 </div>
+            </div>
+            <div class = "btR">
+                <a href  = "rpm"><button type ="submit" value ="VỀ TRANG THỐNG KÊ PHIM">VỀ TRANG THỐNG KÊ PHIM</button></a>
             </div>
         </div>
         <div id = "footer">

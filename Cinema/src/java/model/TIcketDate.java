@@ -11,23 +11,35 @@ import java.sql.Date;
  * @author acer
  */
 public class TIcketDate {
-    private Date dS;
+    private String dS;
     private int no;
+    private String pc;
+    
 
-    public TIcketDate(Date dS) {
+    public TIcketDate(String dS) {
         this.dS = dS;
     }
 
-    public TIcketDate(Date dS, int no) {
+    public TIcketDate(String dS, int no) {
         this.dS = dS;
         this.no = no;
     }
 
-    public Date getdS() {
+    public String getPc() {
+        return pc;
+    }
+
+    public void setPc(String pc) {
+        this.pc = pc;
+    }
+    
+    
+
+    public String getdS() {
         return dS;
     }
 
-    public void setdS(Date dS) {
+    public void setdS(String dS) {
         this.dS = dS;
     }
 

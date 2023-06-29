@@ -99,6 +99,7 @@ public class In4ODServlet extends HttpServlet {
             List<TransactionCode> listTCF = tcd.getAllCodeFByOrderID(orderID);
             List<TransactionCode> listTCT = tcd.getAllCodeTByOrderID(orderID);
             PointDAO pd = new PointDAO();
+            request.setAttribute("tk", ord.getOrderOnlByID(orderID));
             request.setAttribute("point", pd.getPointByOrderID(orderID));
             request.setAttribute("pointAchieve", pd.getPointAchieveByOrderID(orderID));
             request.setAttribute("type", "onl");
@@ -112,6 +113,7 @@ public class In4ODServlet extends HttpServlet {
         }
         else {
             OrderDAO ord = new OrderDAO();
+            
             List<OrderOff> listO = ord.getAllIn4OrderOffByID(orderID);
             OrderDetailDAO odd = new OrderDetailDAO();
             List<OrderDetail> listOD = odd.getAllProductInOrderOffByOrderID(orderID);
@@ -141,6 +143,7 @@ public class In4ODServlet extends HttpServlet {
             System.out.println(pd.getPointByOrderID(orderID));
             System.out.println("1");
             request.setAttribute("point", pd.getPointByOrderID(orderID));
+            request.setAttribute("tk", ord.getOrderOffByID(orderID));
             request.setAttribute("pointAchieve", pd.getPointAchieveByOrderID(orderID));
             request.setAttribute("orderID", orderID);
             request.setAttribute("listO", listO);

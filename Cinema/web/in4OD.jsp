@@ -110,7 +110,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <div class = "uName">Tài Khoản: <span class = "rd">${sessionScope.account.getUserName()}<span></div>
+            <div class = "uName">Tài Khoản: <span class = "rd">${requestScope.tk.getUserName()}<span></div>
                         <div class = "uName">Mã Hóa Đơn: <span class = "rd">${requestScope.orderID}<span></div>
                                     <c:if test = "${requestScope.type != null}">
                                         <div class = "in4O">

@@ -133,12 +133,12 @@ public class MovieReportDetail extends HttpServlet {
 
         String b, p5, p4, p3, p2, p1;
         if (rd.getNoRate(id) != 0) {
-            b = decimalFormat.format((double) rd.getSumRate(id) / (double) rd.getNoRate(id));
-            p5 = decimalFormat.format((double) rd.getNoRate5(id) / (double) rd.getNoRate(id));
-            p4 = decimalFormat.format((double) rd.getNoRate4(id) / (double) rd.getNoRate(id));
-            p3 = decimalFormat.format((double) rd.getNoRate3(id) / (double) rd.getNoRate(id));
-            p2 = decimalFormat.format((double) rd.getNoRate2(id) / (double) rd.getNoRate(id));
-            p1 = decimalFormat.format((double) rd.getNoRate1(id) / (double) rd.getNoRate(id));
+            b = decimalFormat.format((double) rd.getSumRate(id) / (double) rd.getNoRate(id)  * 100);
+            p5 = decimalFormat.format((double) rd.getNoRate5(id) / (double) rd.getNoRate(id)  * 100);
+            p4 = decimalFormat.format((double) rd.getNoRate4(id) / (double) rd.getNoRate(id)  * 100);
+            p3 = decimalFormat.format((double) rd.getNoRate3(id) / (double) rd.getNoRate(id)  * 100);
+            p2 = decimalFormat.format((double) rd.getNoRate2(id) / (double) rd.getNoRate(id)  * 100);
+            p1 = decimalFormat.format((double) rd.getNoRate1(id) / (double) rd.getNoRate(id)  * 100);
         } else {
             decimalFormat = new DecimalFormat("#");
             b = decimalFormat.format(0);
@@ -172,11 +172,11 @@ public class MovieReportDetail extends HttpServlet {
 
         String pc5 = "", pc4 = "", pc3 = "", pc2 = "", pc1 = "";
         if (noD != 0) {
-            pc5 = decimalFormat.format((double) no5 / (double) noD);
-            pc4 = decimalFormat.format((double) no4 / (double) noD);
-            pc3 = decimalFormat.format((double) no3 / (double) noD);
-            pc2 = decimalFormat.format((double) no2 / (double) noD);
-            pc1 = decimalFormat.format((double) no1 / (double) noD);
+            pc5 = decimalFormat.format((double) no5 / (double) noD  * 100);
+            pc4 = decimalFormat.format((double) no4 / (double) noD  * 100);
+            pc3 = decimalFormat.format((double) no3 / (double) noD  * 100);
+            pc2 = decimalFormat.format((double) no2 / (double) noD  * 100);
+            pc1 = decimalFormat.format((double) no1 / (double) noD  * 100);
         } else {
             pc5 = "0";
             pc4 = "0";
@@ -225,36 +225,68 @@ public class MovieReportDetail extends HttpServlet {
 
         String pcnm = "", pcvp = "", pcvt = "";
         if (numTick != 0) {
-            pcnm = decimalFormat.format((double) nm / (double) numTick);
-            pcvp = decimalFormat.format((double) vp / (double) numTick);
-            pcvt = decimalFormat.format((double) vt / (double) numTick);
-        }
-        else {
+            pcnm = decimalFormat.format((double) nm / (double) numTick  * 100);
+            pcvp = decimalFormat.format((double) vp / (double) numTick  * 100);
+            pcvt = decimalFormat.format((double) vt / (double) numTick  * 100);
+        } else {
             pcnm = "0";
             pcvp = "0";
             pcvt = "0";
         }
-        
+
         MovieTicket mt = new MovieTicket(nm, vp, vt, pcnm, pcvp, pcvt);
         List<MovieForm> listMF = new ArrayList<>();
         ScheDAO sd = new ScheDAO();
         List<Schedule> listS = sd.getScheTypeByTime(dS, eS, id);
         for (int i = 0; i < listS.size(); i++) {
             String PC = "";
-            if(numTick == 0) {
+            if (numTick == 0) {
                 PC = "0";
-            }
-            else {
-                PC = decimalFormat.format((double)tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()) / (double)numTick);
+            } else {
+                PC = decimalFormat.format((double) tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()) / (double) numTick  * 100);
             }
             listMF.add(new MovieForm(listS.get(i).getFormID(), listS.get(i).getFormName(), tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()), PC));
         }
-        
+
         List<TIcketDate> listTID = tkd.getAllTicketBoughtDateByTime(dS, eS, id);
         for (int i = 0; i < listTID.size(); i++) {
-            listTID.get(i).setNo(tkd.getNumTickByDate(dS, eS, id, listTID.get(i).getdS()));
+            String p = "";
+            cnt = 0;
+            t = "";
+            for (int j = 0; j < listTID.get(i).getdS().length(); j++) {
+
+                if (listTID.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                    p += listTID.get(i).getdS().substring(0, j);
+                    cnt = j;
+                } else if (listTID.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                    t = p;
+                    p = listTID.get(i).getdS().substring(cnt, j + 1);
+                    p += t;
+                    cnt = j;
+                    break;
+                }
+            }
+            t = p;
+            p = listTID.get(i).getdS().substring(cnt + 1);
+            p += t;
+            listTID.get(i).setNo(tkd.getNumTickByDate(dS, eS, id, Date.valueOf(p)));
+            if (numTick != 0) {
+                listTID.get(i).setPc(decimalFormat.format((double) listTID.get(i).getNo() / (double) numTick  * 100));
+            } else {
+                listTID.get(i).setPc("0");
+            }
         }
-        
+        if (rd.getNoRate(id) != 0) {
+            request.setAttribute("pcARate", decimalFormat.format((double) mr.getNoD() / (double) rd.getNoRate(id) * 100 ));
+        } else {
+            request.setAttribute("pcARate", 0);
+        }
+        if (tkd.getNumTickByMovID(id) != 0) {
+            request.setAttribute("pcATick", decimalFormat.format((double) numTick / (double) tkd.getNumTickByMovID(id) * 100));
+        }
+        else {
+            request.setAttribute("pcATick", 0);
+        }
         request.setAttribute("listTID", listTID);
         request.setAttribute("listMF", listMF);
         request.setAttribute("mt", mt);
