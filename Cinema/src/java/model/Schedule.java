@@ -29,6 +29,13 @@ public class Schedule {
     private boolean hasTick;
     private boolean hasSellTick;
 
+    public Schedule(int formID, String formName) {
+        this.formID = formID;
+        this.formName = formName;
+    }
+    
+    
+
     public Schedule(String cinName, String cinType, Date start, Date end, String startTim, String endTim) {
         this.cinName = cinName;
         this.cinType = cinType;

@@ -18,9 +18,13 @@ import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import model.MovieForm;
 import model.MovieRate;
+import model.MovieTicket;
 import model.Movies;
 import model.Rate;
+import model.Schedule;
+import model.TIcketDate;
 
 /**
  *
@@ -193,30 +197,67 @@ public class MovieReportDetail extends HttpServlet {
         int endP = (page == totalPage) ? (list.size() - 1) : (page * numPerPage - 1);
 
         MovieRate mr = new MovieRate(noD, sumD, avr, no5, no4, no3, no2, no1, pc5, pc4, pc3, pc2, pc1);
-        
+
         TicketDAO tkd = new TicketDAO();
         int numTick = tkd.getNumTicketSellByTime(dS, eS, id);
 
         if (!rd.getRateByPage(list, startP, endP).isEmpty()) {
             request.setAttribute("listPerPage", rd.getRateByPage(list, startP, endP));
-        }
-        else {
+        } else {
             request.setAttribute("msC", "Bộ phim này chưa có lượt bình luận nào");
         }
-        
+
         List<String> listTT = tkd.getAllTickTypeByTime(dS, eS, id);
+
         for (int i = 0; i < listTT.size(); i++) {
-            if(listTT.get(i).equals("NM")) {
+            if (listTT.get(i).equals("NM")) {
                 listTT.set(i, "Thường");
-            }
-            else if(listTT.get(i).equals("VP")) {
+            } else if (listTT.get(i).equals("VP")) {
                 listTT.set(i, "VIP");
-            }
-            else if(listTT.get(i).equals("VT")) {
+            } else if (listTT.get(i).equals("VT")) {
                 listTT.set(i, "Đôi");
             }
         }
+
+        int nm = tkd.getNumTickTypeSellByTime(dS, eS, id, "NM");
+        int vp = tkd.getNumTickTypeSellByTime(dS, eS, id, "VP");
+        int vt = tkd.getNumTickTypeSellByTime(dS, eS, id, "VT");
+
+        String pcnm = "", pcvp = "", pcvt = "";
+        if (numTick != 0) {
+            pcnm = decimalFormat.format((double) nm / (double) numTick);
+            pcvp = decimalFormat.format((double) vp / (double) numTick);
+            pcvt = decimalFormat.format((double) vt / (double) numTick);
+        }
+        else {
+            pcnm = "0";
+            pcvp = "0";
+            pcvt = "0";
+        }
         
+        MovieTicket mt = new MovieTicket(nm, vp, vt, pcnm, pcvp, pcvt);
+        List<MovieForm> listMF = new ArrayList<>();
+        ScheDAO sd = new ScheDAO();
+        List<Schedule> listS = sd.getScheTypeByTime(dS, eS, id);
+        for (int i = 0; i < listS.size(); i++) {
+            String PC = "";
+            if(numTick == 0) {
+                PC = "0";
+            }
+            else {
+                PC = decimalFormat.format((double)tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()) / (double)numTick);
+            }
+            listMF.add(new MovieForm(listS.get(i).getFormID(), listS.get(i).getFormName(), tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()), PC));
+        }
+        
+        List<TIcketDate> listTID = tkd.getAllTicketBoughtDateByTime(dS, eS, id);
+        for (int i = 0; i < listTID.size(); i++) {
+            listTID.get(i).setNo(tkd.getNumTickByDate(dS, eS, id, listTID.get(i).getdS()));
+        }
+        
+        request.setAttribute("listTID", listTID);
+        request.setAttribute("listMF", listMF);
+        request.setAttribute("mt", mt);
         request.setAttribute("listTT", listTT);
         request.setAttribute("numTick", numTick);
         request.setAttribute("id", id);

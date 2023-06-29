@@ -183,7 +183,7 @@ public class ScheDAO extends DBContext {
 
         return list2;
     }
-    
+
     public Schedule getScheduleUPDByIn4(String scheNo, int movID, Date start, Time startTim, int roomID, int cinID, int tgianChieu) {
         try {
             int tg = 0 - tgianChieu;
@@ -278,9 +278,6 @@ public class ScheDAO extends DBContext {
         }
         return list;
     }
-    
-  
-    
 
     public List<Schedule> getAllScheduleByDateAMov(Date start, int movID) {
         List<Schedule> list = new ArrayList<>();
@@ -302,7 +299,7 @@ public class ScheDAO extends DBContext {
         }
         return list;
     }
-    
+
     public int[] getAllScheInTime(Date a, Date b) {
         List<String> list = new ArrayList<>();
         try {
@@ -313,7 +310,7 @@ public class ScheDAO extends DBContext {
             st.setDate(1, a);
             st.setDate(2, b);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 cnt = rs.getInt("T");
             }
             st = connection.prepareStatement(sql);
@@ -322,7 +319,7 @@ public class ScheDAO extends DBContext {
             st.setDate(2, b);
             rs = st.executeQuery();
             int i = 0;
-            while(rs.next()) {
+            while (rs.next()) {
                 mov[i] = rs.getInt("movID");
                 i++;
             }
@@ -331,5 +328,25 @@ public class ScheDAO extends DBContext {
             System.out.println(e);
         }
         return null;
+    }
+
+    public List<Schedule> getScheTypeByTime(Date dS, Date eS, int movID) {
+        List<Schedule> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT Schedule.formID FROM TickTypeInSche JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE Schedule.movID = ? AND (startDate BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            FormDAO fd = new FormDAO();
+            st.setDate(2, dS);
+            st.setDate(3, eS);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Schedule s = new Schedule(rs.getInt("formID"), fd.getFormById(rs.getInt("formID")).getFormName());
+                list.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
     }
 }

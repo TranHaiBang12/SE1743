@@ -269,7 +269,7 @@
             .b{
                 filter: invert(75%) sepia(9%) saturate(35%) hue-rotate(31deg) brightness(97%) contrast(94%);
             }
-            
+
             .ttype{
                 margin-left: 40px;
             }
@@ -393,10 +393,31 @@
                             Có <span class = "blk">${requestScope.listTT.size()}</span> loại vé:
                             <c:forEach items = "${requestScope.listTT}" var = "t">
                                 <div class = "ttype">
-                                    + Vé ${t}
+                                    <c:if test = "${t == 'Thường'}">
+                                        + Vé ${t}: <span class = "blk">${requestScope.mt.nm}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.mt.pcnm}%</span></span>
+                                        </c:if>
+                                        <c:if test = "${t == 'VIP'}">
+                                        + Vé ${t}: <span class = "blk">${requestScope.mt.vp}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.mt.pcvp}%</span></span>
+                                        </c:if>
+                                        <c:if test = "${t == 'Đôi'}">
+                                        + Vé ${t}: <span class = "blk">${requestScope.mt.vt}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.mt.pcvt}%</span></span>
+                                        </c:if>
                                 </div>
                             </c:forEach>
                         </div>
+                        <div>
+                            Có <span class = "blk">${requestScope.listMF.size()}</span> thể loại:
+                            <c:forEach items = "${requestScope.listMF}" var = "t">
+                                <div class = "ttype">
+                                    + Thể loại ${t.getFormName()}: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        <c:forEach items = "${requestScope.listTID}" var = "t">
+                            <div>
+                                Ngày ${t.getdS()}: ${t.getNo()}
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
