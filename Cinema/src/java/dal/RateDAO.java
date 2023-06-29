@@ -188,4 +188,55 @@ public class RateDAO extends DBContext {
         return 0;
     }
     
+    public int getNoRateByTime(Date sD, Date eD, int movID) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE (Date BETWEEN ? AND ?) AND movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, sD);
+            st.setDate(2, eD);
+            st.setInt(3, movID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNoRateDByTime(Date sD, Date eD, int r, int movID) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Rate = ? AND (Date BETWEEN ? AND ?) AND movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, r);
+            st.setDate(2, sD);
+            st.setDate(3, eD);
+            st.setInt(4, movID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getSumRateByTime(Date sD, Date eD, int movID) {
+        try {
+            String sql = "SELECT SUM(Rate) AS T FROM Rate WHERE (Date BETWEEN ? AND ?) AND movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, sD);
+            st.setDate(2, eD);
+            st.setInt(3, movID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 }

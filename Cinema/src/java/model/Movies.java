@@ -18,6 +18,7 @@ public class Movies {
     private double time;
     private String language;
     private String origin;
+    private Date endDate;
     
     private String notes;
     private String status;
@@ -57,6 +58,32 @@ public class Movies {
         this.studio = studio;
         this.img = img;
     }
+    
+    public Movies(int ID, int movID, String movName, Date startDate, double time, String language, String origin, double avrRate, String notes, String status, String studio, String img, Date endDate) {
+        this.ID = ID;
+        this.movID = movID;
+        this.movName = movName;
+        this.startDate = startDate;
+        this.time = time;
+        this.language = language;
+        this.origin = origin;
+        this.avrRate = avrRate;
+        this.notes = notes;
+        this.status = status;
+        this.studio = studio;
+        this.img = img;
+        this.endDate = endDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
+    
 
     public double getpRate5() {
         return pRate5;

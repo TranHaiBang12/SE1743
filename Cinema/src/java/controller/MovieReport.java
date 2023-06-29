@@ -155,6 +155,11 @@ public class MovieReport extends HttpServlet {
                 listM.add(m);
 
             }
+            if(listM.isEmpty()){
+                request.setAttribute("msT", "Không có bất kỳ bộ phim nào được chiếu trong khung giờ này");
+            }
+            request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
+            request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
             request.setAttribute("listM", listM);
             request.getRequestDispatcher("mvRp.jsp").forward(request, response);
         }
