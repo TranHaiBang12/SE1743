@@ -7,6 +7,7 @@ package controller;
 import dal.MovieDAO;
 import dal.RateDAO;
 import dal.ScheDAO;
+import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.MovieRate;
 import model.Movies;
+import model.Rate;
 
 /**
  *
@@ -148,26 +150,78 @@ public class MovieReportDetail extends HttpServlet {
         m.setpRate3(Double.parseDouble(p3));
         m.setpRate2(Double.parseDouble(p2));
         m.setpRate1(Double.parseDouble(p1));
-        
+
         int noD = rd.getNoRateByTime(dS, eS, id);
         int sumD = rd.getSumRateByTime(dS, eS, id);
-        double avr = Double.parseDouble(decimalFormat.format((double)sumD / (double)noD));
-        
+        double avr = 0;
+        if (noD != 0) {
+            avr = Double.parseDouble(decimalFormat.format((double) sumD / (double) noD));
+        } else {
+            avr = 0;
+        }
+
         int no5 = rd.getNoRateDByTime(dS, eS, 5, id);
         int no4 = rd.getNoRateDByTime(dS, eS, 4, id);
         int no3 = rd.getNoRateDByTime(dS, eS, 3, id);
         int no2 = rd.getNoRateDByTime(dS, eS, 2, id);
         int no1 = rd.getNoRateDByTime(dS, eS, 1, id);
-        
-        String pc5 = decimalFormat.format((double)no5 / (double)noD);
-        String pc4 = decimalFormat.format((double)no4 / (double)noD);
-        String pc3 = decimalFormat.format((double)no3 / (double)noD);
-        String pc2 = decimalFormat.format((double)no2 / (double)noD);
-        String pc1 = decimalFormat.format((double)no1 / (double)noD);
-        
-        MovieRate mr = new MovieRate(noD, sumD, avr, no5, no4, no3, no2, no1, pc5, pc4, pc3, pc2, pc1);
-       
 
+        String pc5 = "", pc4 = "", pc3 = "", pc2 = "", pc1 = "";
+        if (noD != 0) {
+            pc5 = decimalFormat.format((double) no5 / (double) noD);
+            pc4 = decimalFormat.format((double) no4 / (double) noD);
+            pc3 = decimalFormat.format((double) no3 / (double) noD);
+            pc2 = decimalFormat.format((double) no2 / (double) noD);
+            pc1 = decimalFormat.format((double) no1 / (double) noD);
+        } else {
+            pc5 = "0";
+            pc4 = "0";
+            pc3 = "0";
+            pc2 = "0";
+            pc1 = "0";
+        }
+
+        List<Rate> list = rd.getCommentByTime(dS, eS, id);
+        String page_raw = request.getParameter("page");
+        int page = 1;
+        if (page_raw != null) {
+            page = Integer.parseInt(page_raw);
+        }
+        int numPerPage = 5;
+        int totalPage = (list.size() % numPerPage == 0) ? (list.size() / numPerPage) : (list.size() / numPerPage + 1);
+        int startP = (page - 1) * 5;
+        int endP = (page == totalPage) ? (list.size() - 1) : (page * numPerPage - 1);
+
+        MovieRate mr = new MovieRate(noD, sumD, avr, no5, no4, no3, no2, no1, pc5, pc4, pc3, pc2, pc1);
+        
+        TicketDAO tkd = new TicketDAO();
+        int numTick = tkd.getNumTicketSellByTime(dS, eS, id);
+
+        if (!rd.getRateByPage(list, startP, endP).isEmpty()) {
+            request.setAttribute("listPerPage", rd.getRateByPage(list, startP, endP));
+        }
+        else {
+            request.setAttribute("msC", "Bộ phim này chưa có lượt bình luận nào");
+        }
+        
+        List<String> listTT = tkd.getAllTickTypeByTime(dS, eS, id);
+        for (int i = 0; i < listTT.size(); i++) {
+            if(listTT.get(i).equals("NM")) {
+                listTT.set(i, "Thường");
+            }
+            else if(listTT.get(i).equals("VP")) {
+                listTT.set(i, "VIP");
+            }
+            else if(listTT.get(i).equals("VT")) {
+                listTT.set(i, "Đôi");
+            }
+        }
+        
+        request.setAttribute("listTT", listTT);
+        request.setAttribute("numTick", numTick);
+        request.setAttribute("id", id);
+        request.setAttribute("page", page);
+        request.setAttribute("totalPage", totalPage);
         request.setAttribute("start", start);
         request.setAttribute("mr", mr);
         request.setAttribute("end", end);

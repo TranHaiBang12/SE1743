@@ -295,6 +295,7 @@
             }
 
             .avt img{
+                margin-top:7px;
                 width: 20px;
             }
 

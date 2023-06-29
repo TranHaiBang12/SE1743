@@ -159,6 +159,7 @@
             .insider1{
                 font-size: 20px;
                 margin-left: 40px;
+                margin-bottom: 10px
             }
 
             .insider1 div{
@@ -166,10 +167,111 @@
                 margin-bottom: 10px;
             }
 
+            .insider2{
+                font-size: 20px;
+                margin-left: 40px;
+            }
+
+            .insider2 div{
+                margin-top: 6px;
+                padding-bottom: 10px;
+            }
+
+
             .SSttle {
                 font-size: 20px;
                 margin-top: 10px;
                 font-weight: bold;
+            }
+
+            .comment{
+                border: 1px solid black;
+                padding-left: 20px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                display: flex;
+                flex-direction: column;
+                border-radius: 10px;
+                margin-bottom: 20px;
+
+            }
+
+            .avt{
+            }
+
+            .avt img{
+                margin-top:10px;
+                width: 20px;
+            }
+
+            .insidecmt {
+                display: flex;
+            }
+
+            .cmtIN4{
+                display: flex;
+                flex-direction: column;
+                margin-left: 20px;
+                font-size: 18px;
+
+            }
+
+            .cmtIN4 div{
+            }
+
+            .insidecmt{
+                margin-top: 20px;
+                border-bottom: 2px solid black;
+                display: flex;
+            }
+
+            .pagination{
+                text-align: center;
+                padding-bottom: 15px;
+                padding-top: 20px;
+            }
+
+            .pagination a{
+                text-decoration: none;
+
+            }
+
+            .noActive{
+                text-decoration: none;
+                color: black;
+                border: 1px solid black;
+                padding: 5px;
+                border-radius: 18px;
+            }
+
+            .active{
+                text-decoration: none;
+                border: 1px solid black;
+                padding: 5px;
+                color: white;
+                border-radius: 18px;
+                background-color: black;
+            }
+
+            .rating-box{
+                display: flex;
+            }
+
+            .rating-box div{
+                width: 15px;
+                margin-right: 10px;
+            }
+
+            .rating-box img{
+                width: 100%;
+            }
+
+            .b{
+                filter: invert(75%) sepia(9%) saturate(35%) hue-rotate(31deg) brightness(97%) contrast(94%);
+            }
+            
+            .ttype{
+                margin-left: 40px;
             }
 
 
@@ -237,16 +339,93 @@
                         </div>
                     </div>
                     <div class = "SSttle">b. Bình luận</div>
+                    <c:set var="cnt" value="0"/>
+                    <div class = "insider2">
+                        <div>Hiện có <span class = "blk" id = "nm">${requestScope.mr.getSum()}</span> bình luận về bộ phim này</div>
+                        <input type ="text" id ="num" hidden value ="${requestScope.mr.getSum()}"/>
+                        <div id ="comment" class = "comment">
+
+                            <c:forEach items = "${requestScope.listPerPage}" var = "t">
+                                <div class ="insidecmt">
+                                    <div class = "avt">
+                                        <img src ="images/avatarIcon.png" name ="avt"/>
+                                    </div>
+                                    <div class = "cmtIN4">
+                                        <div class = "displayName">
+                                            <div>
+                                                Tài khoản: <span class = "rd">${t.getUserName()}</span> (Tên hiển thị: ${t.getDisplayName()}) 
+                                            </div>
+                                            <input type ="text" hidden id ="n${cnt}" value ="${t.getRate()}"/>
+                                            <div class = "rating-box" id = "${cnt}">
+                                                <div><image class ="b" id ="${cnt}1" src ="images/star-icon.svg"/></div>
+                                                <div><image class ="b" id ="${cnt}2" src ="images/star-icon.svg"/></div>
+                                                <div><image class ="b" id ="${cnt}3" src ="images/star-icon.svg"/></div>
+                                                <div><image class ="b" id ="${cnt}4" src ="images/star-icon.svg"/></div><!-- comment -->
+                                                <div><image class ="b" id ="${cnt}5" src ="images/star-icon.svg"/></div>
+                                            </div>
+                                            <c:set var="cnt" value="${cnt+1}"/>
+                                        </div>
+                                        <div class = "CMT">
+                                            ${t.getComments()}
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                            <div class = "pagination">
+                                <a href ="rpmd?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}&start=${requestScope.start}&end=${requestScope.end}"><</a>
+                                <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                                    <a class ="${i == page ? "active":"noActive"}" href ="rpmd?page=${i}&id=${requestScope.id}&start=${requestScope.start}&end=${requestScope.end}">${i}</a>
+                                </c:forEach>
+                                <a href ="rpmd?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}&start=${requestScope.start}&end=${requestScope.end}">></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
                 <div class = "TKET">
                     <div class = "Sttle">2. VÉ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "insider1">
+                        <div>
+                            Hiện đã bán được <span class = "blk">${requestScope.numTick}</span> vé của bộ phim này
+                        </div>
+                        <div>
+                            Có <span class = "blk">${requestScope.listTT.size()}</span> loại vé:
+                            <c:forEach items = "${requestScope.listTT}" var = "t">
+                                <div class = "ttype">
+                                    + Vé ${t}
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type="text/javascript">
+            var a = document.getElementById("nm").innerHTML;
+            console.log(${cnt});
+            for (var i = 0; i < ${cnt}; i++) {
+                var star = document.getElementById("n" + i).value;
+                for (var j = 1; j <= star; j++) {
+                    console.log(star);
+                    document.getElementById(String(i) + String(j)).style.filter = 'invert(82%) sepia(44%) saturate(769%) hue-rotate(11deg) brightness(113%) contrast(86%)';
+                }
+            }
+            console.log(document.getElementById("n1").value);
+//            for (var i = 0; i < Number(a); i++) {
+//                console.log(document.getElementById("n" + a).value);
+//            }
+//            for (var i = 0; i < Number(a); i++) {
+//                for (var j = 0; j < Number(a); j++) {
+//                    var t = j + a;
+//                    console.log(t);
+//                    document.getElementById(t).style.filter = 'invert(82%) sepia(44%) saturate(769%) hue-rotate(11deg) brightness(113%) contrast(86%)';
+//                }
+//            }
+
+        </script>
     </body>
 </html>

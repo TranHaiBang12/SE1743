@@ -193,10 +193,10 @@
                                         </div>
                                         <div>
                                             <div><span class = "rte">Số lượt đánh giá 5 sao: <span class = "blk">${i.getNoRate5()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate5()}%</span></span></div>
-                                            <div><span class = "rte">Số lượt đánh giá 4 sao: <span class = "blk">${i.getNoRate4()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate5()}%</span></span></div>
-                                            <div><span class = "rte">Số lượt đánh giá 3 sao: <span class = "blk">${i.getNoRate3()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate5()}%</span></span></div><!-- <div></div> -->
-                                            <div><span class = "rte">Số lượt đánh giá 2 sao: <span class = "blk">${i.getNoRate2()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate5()}%</span></span></div>
-                                            <div><span class = "rte">Số lượt đánh giá 1 sao: <span class = "blk">${i.getNoRate1()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate5()}%</span></span></div>
+                                            <div><span class = "rte">Số lượt đánh giá 4 sao: <span class = "blk">${i.getNoRate4()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate4()}%</span></span></div>
+                                            <div><span class = "rte">Số lượt đánh giá 3 sao: <span class = "blk">${i.getNoRate3()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate3()}%</span></span></div><!-- <div></div> -->
+                                            <div><span class = "rte">Số lượt đánh giá 2 sao: <span class = "blk">${i.getNoRate2()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate2()}%</span></span></div>
+                                            <div><span class = "rte">Số lượt đánh giá 1 sao: <span class = "blk">${i.getNoRate1()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate1()}%</span></span></div>
 
                                         </div>
                                         <div class = "btn">

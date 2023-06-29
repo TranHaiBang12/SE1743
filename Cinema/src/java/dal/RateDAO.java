@@ -67,6 +67,25 @@ public class RateDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<Rate> getCommentByTime(Date dS, Date eS, int movID) {
+        List<Rate> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Rate WHERE Status = N'Được duyệt' AND Comments IS NOT NULL AND movID = ? AND (Date BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.setDate(2, dS);
+            st.setDate(3, eS);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Rate r = new Rate(rs.getString("UserName"), rs.getInt("movID"), rs.getString("Comments"), rs.getInt("Rate"), rs.getString("Status"), rs.getString("DisplayName"));
+                list.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public List<Rate> getRateByPage(List<Rate> list, int start, int end) {
         List<Rate> list2 = new ArrayList<>();
