@@ -60,7 +60,7 @@ public class TicketDAO extends DBContext {
         List<Ticket> list = new ArrayList<>();
         int i = 1;
         try {
-            String sql = "SELECT Schedule.scheNo, TickTypeInSche.ProductCode, TickTypeInSche.NumberLeft, TickTypeInSche.Status, TickTypeInSche.Discontinued, Product.Price, Product.Discout, Seat.Row , Seat.Col, Seat.Type FROM Schedule JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode JOIN TicketType ON TicketType.ttID = TickTypeInSche.Type JOIN Seat ON Schedule.roomID = Seat.roomID AND Schedule.cinID = Seat.cinID AND TicketType.SeatType = Seat.Type WHERE Schedule.scheNo = ? ORDER BY Row";
+            String sql = "SELECT Schedule.scheNo, TickTypeInSche.ProductCode, TickTypeInSche.NumberLeft, TickTypeInSche.Status, TickTypeInSche.Discontinued, Product.Price, Product.Discout, Seat.Row , Seat.Col, Seat.Type FROM Schedule JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode JOIN TicketType ON TicketType.ttID = TickTypeInSche.Type JOIN Seat ON Schedule.roomID = Seat.roomID AND Schedule.cinID = Seat.cinID AND TicketType.SeatType = Seat.Type WHERE Schedule.scheNo = ? ORDER BY Row, Col";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, sche);
             ResultSet rs = st.executeQuery();
@@ -496,7 +496,46 @@ public class TicketDAO extends DBContext {
             st.setInt(1, movID);
             st.setInt(2, movID);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public int getNumTickSellByDate(Date dS, Date eS) {
+        try {
+            String sql = "SELECT\n"
+                    + "(SELECT COUNT(*) FROM TicketOnlDetail JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate BETWEEN ? AND ?) \n"
+                    + "+\n"
+                    + "(SELECT COUNT(*) FROM TicketOffDetail JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE Date BETWEEN ? AND ?) AS T";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setDate(3, dS);
+            st.setDate(4, eS);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumTickSellOfAllTime() {
+        try {
+            String sql = "SELECT\n"
+                    + "(SELECT COUNT(*) FROM TicketOnlDetail JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID) \n"
+                    + "+\n"
+                    + "(SELECT COUNT(*) FROM TicketOffDetail JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID) AS T";
+            PreparedStatement st = connection.prepareStatement(sql);
+ 
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {

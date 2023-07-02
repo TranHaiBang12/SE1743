@@ -131,6 +131,22 @@
                         </div>
                     </div>
                 </li>
+                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                    <li>
+                        <div class="dropdown">
+                            <div class="dropbtn">
+                                <img class="memberIcon" src="images/productIcon.png" />
+                                <a class ="lnk" href="#">SẢN PHẨM</a>
+                            </div>
+                            <div class="dropdown-content">
+                                <div class=insidedropdown-content>
+                                    <a class ="lnk" href="rpp?type=TK">VÉ</a>
+                                    <a class ="lnk" href="rpp?type=FD">ĐỒ ĂN</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </c:if>
                 <li><a href="store"><img class="storeLogo" src="images/storeiCON.png" /></a></li>
             </ul>
 

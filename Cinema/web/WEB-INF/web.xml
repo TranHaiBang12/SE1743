@@ -168,6 +168,10 @@
         <servlet-name>OrderReport</servlet-name>
         <servlet-class>controller.OrderReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductReport</servlet-name>
+        <servlet-class>controller.ProductReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -335,6 +339,10 @@
     <servlet-mapping>
         <servlet-name>OrderReport</servlet-name>
         <url-pattern>/ordr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductReport</servlet-name>
+        <url-pattern>/rpp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
