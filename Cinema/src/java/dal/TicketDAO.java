@@ -12,6 +12,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import model.Cinema;
+import model.Movies;
 import model.TIcketDate;
 import model.Ticket;
 
@@ -811,6 +812,38 @@ public class TicketDAO extends DBContext {
             while (rs.next()) {
                 Cinema c = new Cinema(rs.getInt("cinID"), rs.getString("cinName"));
                 list.add(c);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Movies> getAllMovSellTicketByDate(Date dS, Date eS) {
+        List<Movies> list = new ArrayList<>();
+        try {
+            String sql = "SELECT Movies.*FROM (SELECT DISTINCT movID FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE (PaymentDate BETWEEN ? AND ?) \n"
+                    + "UNION\n"
+                    + "SELECT DISTINCT Schedule.movID FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE (Date BETWEEN ? AND ?)) \n"
+                    + "AS T JOIN Movies ON T.movID = Movies.movID";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setDate(3, dS);
+            st.setDate(4, eS);
+            int i = 0;
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movies m;
+                if (rs.getString("img").substring(0, 2).equals("??")) {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
+                } else if (rs.getString("img").substring(0, 1).equals("?")) {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                } else {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
+                }
+                list.add(m);
+                i++;
             }
         } catch (Exception e) {
             System.out.println(e);

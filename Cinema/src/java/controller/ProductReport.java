@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.FoodDAO;
 import dal.RateDAO;
 import dal.TicketDAO;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cinema;
+import model.Movies;
 import model.TIcketDate;
 
 /**
@@ -559,7 +561,8 @@ public class ProductReport extends HttpServlet {
                         listTID6.get(i).setTkd(TID7);
                     }
                 }
-
+                List<Movies> listM = tkd.getAllMovSellTicketByDate(start, end);
+                request.setAttribute("listM", listM);
                 request.setAttribute("listTID6", listTID6);
 
                 request.setAttribute("listTIDOnl", listTIDOnl);
@@ -589,6 +592,7 @@ public class ProductReport extends HttpServlet {
                         cnt = i;
                     }
                 }
+                
                 dateS = t.substring(cnt + 1);
                 cnt = 0;
                 t = end_raw;
@@ -602,6 +606,15 @@ public class ProductReport extends HttpServlet {
                     }
                 }
                 dateE = t.substring(cnt + 1);
+                
+                FoodDAO fd = new FoodDAO();
+                int numFood = fd.getNumFoodByDate(start, end);
+                int numFoodAllTime = fd.getNumFood();
+                
+                String pcF = decimalFormat.format((double)numFood / (double)numFoodAllTime * 100);
+                
+                request.setAttribute("numFood", numFood);
+                request.setAttribute("pcF", pcF);
                 request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
                 request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
                 request.getRequestDispatcher("fdRp.jsp").forward(request, response);

@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class FoodDAO extends DBContext {
 
     public List<Food> getFoodByPage(List<Food> list, int start, int end) {
         List<Food> list2 = new ArrayList<>();
-    
+
         try {
             for (int i = start; i <= end; i++) {
                 list2.add(list.get(i));
@@ -145,7 +146,7 @@ public class FoodDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public List<Food> getAllFoodType() {
         List<Food> list = new ArrayList<>();
         try {
@@ -153,7 +154,7 @@ public class FoodDAO extends DBContext {
             String sql = "SELECT * FROM FoodType";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Food f = new Food(i, rs.getString("ftID"), rs.getString("ftName"));
                 list.add(f);
                 i++;
@@ -163,7 +164,7 @@ public class FoodDAO extends DBContext {
         }
         return list;
     }
-    
+
     public void deleteFoodByID(String productCode) {
         try {
             String sql = "DELETE FROM Product WHERE ProductCode = ?";
@@ -177,6 +178,59 @@ public class FoodDAO extends DBContext {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public int getNumFood() {
+        int a = 0, b = 0;
+        try {
+            String sql = "SELECT SUM(Quantity) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID";
+            String sql1 = "SELECT SUM(Quantity) AS T FROM OrderOfflineDetail JOIN OrderOffline ON OrderOfflineDetail.OrderID = OrderOffline.OrderID";
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                a = rs.getInt("T");
+            }
+
+            st = connection.prepareStatement(sql1);
+
+            rs = st.executeQuery();
+            if (rs.next()) {
+                b = rs.getInt("T");
+            }
+            return a + b;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+
+    }
+
+    public int getNumFoodByDate(Date dS, Date eS) {
+        int a = 0, b = 0;
+        try {
+            String sql = "SELECT SUM(Quantity) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate BETWEEN ? AND ?";
+            String sql1 = "SELECT SUM(Quantity) AS T FROM OrderOfflineDetail JOIN OrderOffline ON OrderOfflineDetail.OrderID = OrderOffline.OrderID WHERE Date BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                a = rs.getInt("T");
+            }
+
+            st = connection.prepareStatement(sql1);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                b = rs.getInt("T");
+            }
+            return a + b;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 
 }
