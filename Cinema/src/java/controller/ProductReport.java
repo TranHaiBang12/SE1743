@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cinema;
+import model.Food;
 import model.Movies;
 import model.TIcketDate;
 
@@ -515,8 +516,6 @@ public class ProductReport extends HttpServlet {
                         listTID6.get(i).setPc("0");
                     }
                 }
-                
-       
 
                 //numSellEachDay
                 for (int i = 0; i < listTID6.size(); i++) {
@@ -592,7 +591,7 @@ public class ProductReport extends HttpServlet {
                         cnt = i;
                     }
                 }
-                
+
                 dateS = t.substring(cnt + 1);
                 cnt = 0;
                 t = end_raw;
@@ -606,13 +605,117 @@ public class ProductReport extends HttpServlet {
                     }
                 }
                 dateE = t.substring(cnt + 1);
-                
+
                 FoodDAO fd = new FoodDAO();
                 int numFood = fd.getNumFoodByDate(start, end);
                 int numFoodAllTime = fd.getNumFood();
+
+                String pcF = decimalFormat.format((double) numFood / (double) numFoodAllTime * 100);
+
+                //foodType
+                List<TIcketDate> listTID = new ArrayList<>();
+                List<Food> ft = fd.getAllFoodTypeByDate(start, end);
+                for (int i = 0; i < ft.size(); i++) {
+                    if (numFood == 0) {
+                        String PC = "0";
+                        listTID.add(new TIcketDate(ft.get(i).getFoodDescript(), fd.getNumFoodTypeSellByDateAType(start, end, ft.get(i).getFoodType()), PC));
+                    } else {
+                        String PC = decimalFormat.format((double) fd.getNumFoodTypeSellByDateAType(start, end, ft.get(i).getFoodType()) / (double) numFood * 100);
+                        listTID.add(new TIcketDate(ft.get(i).getTypeName(), fd.getNumFoodTypeSellByDateAType(start, end, ft.get(i).getFoodType()), PC));
+                    }
+                }
+
+                //cin
+                List<TIcketDate> listTID1 = new ArrayList<>();
+                List<Cinema> c = fd.getAllCinByDate(start, end);
+                for (int i = 0; i < c.size(); i++) {
+                    if (numFood == 0) {
+                        String PC = "0";
+                        listTID1.add(new TIcketDate(c.get(i).getCinName(), fd.getNumFoodSellByCinAndDate(start, end, c.get(i).getCinID()), PC));
+                    } else {
+                        String PC = decimalFormat.format((double) fd.getNumFoodSellByCinAndDate(start, end, c.get(i).getCinID()) / (double) numFood * 100);
+                        listTID1.add(new TIcketDate(c.get(i).getCinName(), fd.getNumFoodSellByCinAndDate(start, end, c.get(i).getCinID()), PC));
+                    }
+                }
+
+                //onl off
+                TIcketDate tONL;
+                TIcketDate tOFF;
+                if (numFood == 0) {
+                    String PC = "0";
+                    tONL = new TIcketDate("Bán online", fd.getNumFoodByOnlAndOff(start, end, "ONL"), PC);
+                    tOFF = new TIcketDate("Bán trực tiếp", fd.getNumFoodByOnlAndOff(start, end, "OFF"), PC);
+                } else {
+                    String PC1 = decimalFormat.format((double) fd.getNumFoodByOnlAndOff(start, end, "ONL") / (double) numFood * 100);
+                    String PC2 = decimalFormat.format((double) fd.getNumFoodByOnlAndOff(start, end, "OFF") / (double) numFood * 100);
+                    tONL = new TIcketDate("Bán online", fd.getNumFoodByOnlAndOff(start, end, "ONL"), PC1);
+                    tOFF = new TIcketDate("Bán trực tiếp", fd.getNumFoodByOnlAndOff(start, end, "OFF"), PC2);
+                }
                 
-                String pcF = decimalFormat.format((double)numFood / (double)numFoodAllTime * 100);
+                //date
+                List<TIcketDate> listTID2 = fd.getDateByNumTickDate(start, end);
+                for (int i = 0; i < listTID2.size(); i++) {
+                    String p = "";
+                    cnt = 0;
+                    t = "";
+                    for (int j = 0; j < listTID2.get(i).getdS().length(); j++) {
+
+                        if (listTID2.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                            p += listTID2.get(i).getdS().substring(0, j);
+                            cnt = j;
+                        } else if (listTID2.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                            t = p;
+                            p = listTID2.get(i).getdS().substring(cnt, j + 1);
+                            p += t;
+                            cnt = j;
+                            break;
+                        }
+                    }
+                    t = p;
+                    p = listTID2.get(i).getdS().substring(cnt + 1);
+                    p += t;
+                    System.out.println(p);
+                    listTID2.get(i).setNo(fd.getNumFoodByDateEXACT(start, end, Date.valueOf(p)));
+                    if (numFood != 0) {
+                        listTID2.get(i).setPc(decimalFormat.format((double) listTID2.get(i).getNo() / (double) numFood * 100));
+                    } else {
+                        listTID2.get(i).setPc("0");
+                    }
+                }
+
+                //numSellEachDay
+                for (int i = 0; i < listTID2.size(); i++) {
+                    String p = "";
+                    cnt = 0;
+                    t = "";
+                    for (int j = 0; j < listTID2.get(i).getdS().length(); j++) {
+
+                        if (listTID2.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                            p += listTID2.get(i).getdS().substring(0, j);
+                            cnt = j;
+                        } else if (listTID2.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                            t = p;
+                            p = listTID2.get(i).getdS().substring(cnt, j + 1);
+                            p += t;
+                            cnt = j;
+                            break;
+                        }
+                    }
+                    t = p;
+                    p = listTID2.get(i).getdS().substring(cnt + 1);
+                    p += t;
+
+                    int numInDay = listTID2.get(i).getNo();
+
+                    List<TIcketDate> TID7 = new ArrayList<>();
+     
+                }
                 
+                request.setAttribute("listTID2", listTID2);
+                request.setAttribute("tONL", tONL);
+                request.setAttribute("tOFF", tOFF);
+                request.setAttribute("listTID1", listTID1);
+                request.setAttribute("listTID", listTID);
                 request.setAttribute("numFood", numFood);
                 request.setAttribute("pcF", pcF);
                 request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);

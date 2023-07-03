@@ -162,7 +162,7 @@
                     <div class = "in4">
 
                         <div. class = "oIn4">
-             
+
                             <div>
                                 <div>Tổng số món ăn được bán: <span class = "blk">${requestScope.numFood}</span>, chiếm <span  class = "blk">${requestScope.pcF}%</span> tổng số món ăn được bán từ trước đến nay</div><!-- <div></div> -->
                             </div>
@@ -176,12 +176,47 @@
             <div class = "TKET">
                 <div class = "Sttle">2. CHI TIẾT (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
 
-                <div class = "SSttle">e. Tỉ lệ vé bán online và bán trực tiếp:</div>
+                <div class = "SSttle">a. Tỉ lệ các loại đồ ăn:</div>
+                <div class = "insider1">
+                    <c:forEach items = "${requestScope.listTID}" var = "t">
+                        <div>
+                            + ${t.getdS()}: <span class = "blk">${t.getNo()}</span> suất đồ ăn được bán ra, chiếm <span class = "blk">${t.getPc()}%</span> suất đồ ăn được bán ra trong khoảng thời gian này 
+
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <div class = "SSttle">b. Tỉ lệ suất đồ ăn bán giữa các rạp:</div>
                 <div class = "insider1">
 
+                    <c:forEach items = "${requestScope.listTID1}" var = "t">
+                        <div>
+                            + <span class = "blk">${t.getdS()}</span>: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <div class = "SSttle">c. Tỉ lệ đồ ăn bán online và bán trực tiếp:</div>
+                <div class = "insider1">
+                    <div>
+                        + <span class = "blk">${requestScope.tONL.getdS()}</span>: <span class = "blk">${requestScope.tONL.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.tONL.getPc()}%</span></span>
+                    </div>
+                    <div>
+                        + <span class = "blk">${requestScope.tOFF.getdS()}</span>: <span class = "blk">${requestScope.tOFF.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.tOFF.getPc()}%</span></span>
+                    </div>
                 </div>
             </div>
-
+            <div class = "TKET">
+                <div class = "Sttle">3. CHI TIẾT CÁC NGÀY BÁN ĐỒ ĂN (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                <div class = "insider1">
+                    <c:forEach items = "${requestScope.listTID2}" var = "t">
+                        <div>
+                            + Ngày ${t.getdS()}: <span class = "blk">${t.getNo()}</span> suất đồ ăn được bán ra, chiếm <span class = "blk">${t.getPc()}%</span> suất đồ ăn được bán ra trong khoảng thời gian này <span class = "det"><a href = "ordr?id=0&date=${t.getdS()}">XEM CHI TIẾT</a></span>
+                      
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

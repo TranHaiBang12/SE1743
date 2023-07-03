@@ -105,13 +105,13 @@ public class OrderReport extends HttpServlet {
         List<OrderOffByDate> listOFBD = new ArrayList<>();
         listOFBD.add(off);
         if (onl.getO().isEmpty()) {
-            request.setAttribute("msONL", "Không có vé nào của bộ phim này được mua thông qua website vào ngày này");
+            request.setAttribute("msONL", "Không có sản phẩm nào được mua thông qua website vào ngày này");
         } else {
             request.setAttribute("listOBD", listOBD);
         }
         if (off.getOf().isEmpty()) {
             System.out.println("2");
-            request.setAttribute("msOFF", "Không có vé nào của bộ phim này được mua trực tiếp vào ngày này");
+            request.setAttribute("msOFF", "Không có sản phẩm nào được mua trực tiếp vào ngày này");
         } else {
             request.setAttribute("listOFBD", listOFBD);
         }

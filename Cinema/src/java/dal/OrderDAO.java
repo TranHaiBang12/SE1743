@@ -72,6 +72,90 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
+    public OrderOnlByDate getAllOrderFoodOnlByIDAD(Date d) {
+        List<OrderOnl> listO = new ArrayList<>();
+        try {
+            String sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
+                    + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                    + "                        (SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID  WHERE PaymentDate = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, d);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                OrderOnl o = new OrderOnl(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"), rs.getDouble("TotalAmount"));
+
+                listO.add(o);
+            }
+            String date = "", month = "", year = "";
+            int k = 0;
+            for (int i = 0; i < d.toString().length(); i++) {
+                if (d.toString().charAt(i) == '-') {
+                    if (k == 0) {
+                        year = d.toString().substring(0, i);
+                        k = i;
+                    }
+                    if (!year.equals("") && k < i) {
+                        month = d.toString().substring(i - 2, i);
+                        k = i;
+                    }
+                }
+                if (i == d.toString().length() - 1) {
+                    date = d.toString().substring(i - 1);
+                    break;
+                }
+
+            }
+            OrderOnlByDate obd = new OrderOnlByDate(date + "-" + month + "-" + year, listO);
+            return obd;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public OrderOffByDate getAllOrderFoodOffByIDAD(Date d) {
+        List<OrderOff> listO = new ArrayList<>();
+        try {
+            String sql = "SELECT OrderOffline.*, P.TotalAmount FROM OrderOffline JOIN\n"
+                    + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                    + "                        (SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOffline JOIN OrderOfflineDetail ON OrderOffline.OrderID = OrderOfflineDetail.OrderID GROUP BY OrderOffline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOffline.OrderID = P.OrderID  WHERE Date = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, d);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                OrderOff o = new OrderOff(rs.getString("OrderID"), rs.getString("Account"), rs.getString("CusName"), rs.getString("CusPhone"), rs.getInt("EmpID"), rs.getInt("cinID"), rs.getString("PaymentType"), rs.getDate("Date"), rs.getTime("Time"));
+
+                listO.add(o);
+            }
+            String date = "", month = "", year = "";
+            int k = 0;
+            for (int i = 0; i < d.toString().length(); i++) {
+                if (d.toString().charAt(i) == '-') {
+                    if (k == 0) {
+                        year = d.toString().substring(0, i);
+                        k = i;
+                    }
+                    if (!year.equals("") && k < i) {
+                        month = d.toString().substring(i - 2, i);
+                        k = i;
+                    }
+                }
+                if (i == d.toString().length() - 1) {
+                    date = d.toString().substring(i - 1);
+                    break;
+                }
+
+            }
+            OrderOffByDate obd = new OrderOffByDate(date + "-" + month + "-" + year, listO);
+            return obd;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public OrderOnlByDate getAllOrderTicketOnlByIDAD(int movID, Date d) {
         List<OrderOnl> listO = new ArrayList<>();
         try {
@@ -172,8 +256,7 @@ public class OrderDAO extends DBContext {
             if (movID != 0) {
                 st.setInt(1, movID);
                 st.setDate(2, d);
-            }
-            else {
+            } else {
                 st.setDate(1, d);
             }
             CinemaDAO cnd = new CinemaDAO();
