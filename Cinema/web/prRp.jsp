@@ -52,7 +52,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <div class = "ttle">THỐNG KÊ VỀ PHIM</div>
+            <div class = "ttle">THỐNG KÊ VỀ SẢN PHẨM</div>
             <form action = "rpp" method = "post">
                 <div class = "search">
                     <div>

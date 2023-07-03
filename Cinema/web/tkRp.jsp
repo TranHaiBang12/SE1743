@@ -135,6 +135,11 @@
                 margin-top: 10px;
                 font-weight: bold;
                 margin-left: 40px;
+                color: deeppink;
+            }
+            
+            .ttype2{
+                margin-left: 120px;
             }
         </style>
     </head>
@@ -191,10 +196,35 @@
                             + ${t.getdS()}: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
                         </div>
                         <c:forEach items = "${t.getTkd()}" var = "p">
-                            <div class = "ttype">
-                                + Vé ${p.getdS()}: <span class = "blk">${p.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${p.getPc()}%</span></span>
+                            <div class = "ttype2">
+                                * Vé ${p.getdS()}: <span class = "blk">${p.getNo()}</span>, <span class = "rte">chiếm: <span class = "blk">${p.getPc()}%</span> số vé của ngày này</span>
                             </div>
                         </c:forEach>
+                    </c:forEach>
+                </div>
+                
+                <div class = "SSttle">c. Tỉ lệ các khung giờ được bán:</div>
+                <div class = "insider1">
+
+                    <c:forEach items = "${requestScope.listTID4}" var = "t">
+                        <div>
+                            + <span class = "blk">${t.getdS()}</span>: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
+                        </div>
+                        <c:forEach items = "${t.getTkd()}" var = "p">
+                            <div class = "ttype2">
+                                *  <span class = "blk">${p.getdS()}</span>: <span class = "blk">${p.getNo()}</span>, <span class = "rte">chiếm <span class = "blk">${p.getPc()}%</span> số vé của khung giờ này</span>
+                            </div>
+                        </c:forEach>
+                    </c:forEach>
+                </div>
+                
+                <div class = "SSttle">d. Tỉ lệ vé bán giữa các rạp:</div>
+                <div class = "insider1">
+
+                    <c:forEach items = "${requestScope.listTID5}" var = "t">
+                        <div>
+                            + <span class = "blk">${t.getdS()}</span>: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
+                        </div>
                     </c:forEach>
                 </div>
             </div>

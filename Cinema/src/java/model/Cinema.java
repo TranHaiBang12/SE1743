@@ -23,6 +23,13 @@ public class Cinema {
     private String status;
     private String ctypeName;
 
+    public Cinema(int cinID, String cinName) {
+        this.cinID = cinID;
+        this.cinName = cinName;
+    }
+    
+    
+
     public Cinema(int ID, int cinID, String cinName, int cinType, String city, String street, String address, int noRoom, String fax, String hotline, String managerPhone, String status, String ctypeName) {
         this.ID = ID;
         this.cinID = cinID;
