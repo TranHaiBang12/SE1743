@@ -314,13 +314,13 @@ public class MovieReportDetail extends HttpServlet {
             List<TIcketDate> TID2 = new ArrayList<>();
             if (numInDay != 0) {
                 String PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM") / (double) numInDay * 100);
-                TID2.add(new TIcketDate("NM", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM"), PC));
+                TID2.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM"), PC));
 
                 PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP") / (double) numInDay * 100);
-                TID2.add(new TIcketDate("VP", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP"), PC));
+                TID2.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP"), PC));
 
                 PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT") / (double) numInDay * 100);
-                TID2.add(new TIcketDate("VT", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
+                TID2.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
                 listTID.get(i).setTkd(TID2);
             }
             else {

@@ -396,8 +396,7 @@ public class TicketDAO extends DBContext {
                 st.setDate(4, dS);
                 st.setDate(5, eS);
                 st.setString(6, type);
-            }
-            else {
+            } else {
                 st.setDate(1, dS);
                 st.setDate(2, eS);
                 st.setInt(3, movID);
@@ -440,8 +439,7 @@ public class TicketDAO extends DBContext {
                 st.setString(2, type);
                 st.setDate(3, dS);
                 st.setString(4, type);
-            }
-            else {
+            } else {
                 st.setDate(1, dS);
                 st.setInt(2, movID);
                 st.setString(3, type);
@@ -627,6 +625,83 @@ public class TicketDAO extends DBContext {
             System.out.println(e);
         }
         return listS;
+    }
+
+    public int getNumTickSellByDay(List<Date> day) {
+
+        try {
+            String sql = "(SELECT COUNT(*) AS T FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate IN(";
+            String un = " + ";
+            String sql1 = "(SELECT COUNT(*) AS T FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE Date IN(";
+            for (int i = 0; i < day.size(); i++) {
+                sql += "?";
+                sql1 += "?";
+                if(i != day.size() - 1) {
+                    sql += ",";
+                    sql1 += ",";
+                }
+                else {
+                    sql += ")";
+                    sql += ")";
+                    sql1 += ")";
+                    sql1 += ")";
+                }
+            }
+            PreparedStatement st = connection.prepareStatement("SELECT " + sql + un + sql1 + "AS T");
+            for (int i = 0; i < day.size(); i++) {
+                st.setDate(i + 1, day.get(i));
+                st.setDate(i + 1 + day.size(), day.get(i));
+                System.out.println(i + 1);
+                System.out.println(i + 1 + day.size());
+                System.out.println(day.get(i));
+            }
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumTickTypeSellByDay(List<Date> day, String type) {
+
+        try {
+            String sql = "(SELECT COUNT(*) AS T FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate IN(";
+            String un = " + ";
+            String sql1 = "(SELECT COUNT(*) AS T FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE Date IN(";
+            for (int i = 0; i < day.size(); i++) {
+                sql += "?";
+                sql1 += "?";
+                if(i != day.size() - 1) {
+                    sql += ",";
+                    sql1 += ",";
+                }
+                else {
+                    sql += ")";
+                    sql += ")";
+                    sql1 += ")";
+                    sql1 += ")";
+                }
+            }
+            sql += " AND Type = ?";
+            sql1 += " AND Type = ?";
+            PreparedStatement st = connection.prepareStatement("SELECT " + sql + un + sql1 + "AS T");
+            for (int i = 0; i < day.size(); i++) {
+                st.setDate(i + 1, day.get(i));
+                st.setDate(i + 2 + day.size(), day.get(i));
+            }
+            st.setString(day.size() + 1, type);
+            st.setString((day.size() + 1) * 2, type);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 
 }

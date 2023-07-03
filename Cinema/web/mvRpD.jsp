@@ -381,7 +381,7 @@
                                     <div class = "cmtIN4">
                                         <div class = "displayName">
                                             <div>
-                                                Tài khoản: <span class = "rd">${t.getUserName()}</span> (Tên hiển thị: ${t.getDisplayName()}) 
+                                                Tài khoản: <span class = "rd">${t.getUserName()}</span> (Tên hiển thị: ${t.getDisplayName()}, ngày: ${t.getDate()}) 
                                             </div>
                                             <input type ="text" hidden id ="n${cnt}" value ="${t.getRate()}"/>
                                             <div class = "rating-box" id = "${cnt}">

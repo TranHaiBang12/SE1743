@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
  *
  * @author acer
@@ -15,6 +17,7 @@ public class Rate {
     private int rate;
     private String status;
     private String displayName;
+    private Date date;
 
     public Rate(String userName, int movID, String comments, int rate, String status, String displayName) {
         this.userName = userName;
@@ -24,6 +27,26 @@ public class Rate {
         this.status = status;
         this.displayName = displayName;
     }
+    
+    public Rate(String userName, int movID, String comments, int rate, String status, String displayName, Date date) {
+        this.userName = userName;
+        this.movID = movID;
+        this.comments = comments;
+        this.rate = rate;
+        this.status = status;
+        this.displayName = displayName;
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
+    
 
     public String getUserName() {
         return userName;

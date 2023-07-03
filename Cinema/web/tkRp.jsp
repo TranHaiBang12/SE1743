@@ -48,7 +48,6 @@
                 margin-left: 40px;
                 background-color: white;
                 padding-bottom: 20px;
-                border-bottom: 3px solid black;
             }
 
             .imGE img{
@@ -111,6 +110,32 @@
                 color: white;
                 cursor: pointer;
             }
+
+            .insider1{
+                font-size: 20px;
+                margin-left: 80px;
+                margin-bottom: 10px
+            }
+
+            .insider1 div{
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            .TKET{
+                margin-top: 20px;
+                margin-left: 40px;
+                background-color: white;
+                padding-bottom: 20px;
+                border-bottom: 3px solid black;
+            }
+
+            .SSttle {
+                font-size: 20px;
+                margin-top: 10px;
+                font-weight: bold;
+                margin-left: 40px;
+            }
         </style>
     </head>
     <body>
@@ -138,25 +163,40 @@
                             <div>
                                 <div>Tổng số vé được bán: <span class = "blk">${requestScope.numTick}</span>, chiếm <span  class = "blk">${requestScope.pcNumTick}%</span> tổng số vé được bán từ trước đến nay</div><!-- <div></div> -->
                             </div>
-                            <div>
-                                <div>Chi tiết các loại vé:</div><!-- <div></div> -->
-                            </div>
-                            <c:forEach items = "${requestScope.listTID}" var = "t">
-                                <div>
-                                    + Vé ${t.getdS()}: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
-                                </div>
-                            </c:forEach>
-                            <div>
-                                <div><span class = "rte">Số lượt đánh giá 5 sao: <span class = "blk">${requestScope.m.getNoRate5()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.m.getpRate5()}%</span></span></div>
 
-                            </div>
-                            <div class = "btS">
-                                <a href  = "detail?id=${requestScope.id}"><button type ="submit" value ="XEM CHI TIẾT">XEM CHI TIẾT</button></a>
-                            </div>
+
                         </div.>
                     </div>
                 </div>
 
+            </div>
+
+            <div class = "TKET">
+                <div class = "Sttle">2. CHI TIẾT (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                <div class = "SSttle">a. Các loại vé:</div>
+                <div class = "insider1">
+
+                    <c:forEach items = "${requestScope.listTID}" var = "t">
+                        <div>
+                            + Vé ${t.getdS()}: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <div class = "SSttle">b. Tỉ lệ các ngày được bán:</div>
+                <div class = "insider1">
+
+                    <c:forEach items = "${requestScope.listTID3}" var = "t">
+                        <div>
+                            + ${t.getdS()}: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
+                        </div>
+                        <c:forEach items = "${t.getTkd()}" var = "p">
+                            <div class = "ttype">
+                                + Vé ${p.getdS()}: <span class = "blk">${p.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${p.getPc()}%</span></span>
+                            </div>
+                        </c:forEach>
+                    </c:forEach>
+                </div>
             </div>
         </div>
         <div id = "footer">

@@ -78,7 +78,7 @@ public class RateDAO extends DBContext {
             st.setDate(3, eS);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Rate r = new Rate(rs.getString("UserName"), rs.getInt("movID"), rs.getString("Comments"), rs.getInt("Rate"), rs.getString("Status"), rs.getString("DisplayName"));
+                Rate r = new Rate(rs.getString("UserName"), rs.getInt("movID"), rs.getString("Comments"), rs.getInt("Rate"), rs.getString("Status"), rs.getString("DisplayName"), rs.getDate("Date"));
                 list.add(r);
             }
         } catch (Exception e) {
