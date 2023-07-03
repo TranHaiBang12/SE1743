@@ -146,7 +146,7 @@ public class ProductReport extends HttpServlet {
                         tpe = "Đôi";
                     }
                     int numSellType = tkd.getNumTickTypeSellByTime(start, end, 0, listType.get(i));
-                    String a = decimalFormat.format((double) numSellType / (double) numTick  * 100);
+                    String a = decimalFormat.format((double) numSellType / (double) numTick * 100);
                     TIcketDate ticd = new TIcketDate(tpe, numSellType);
                     ticd.setPc(a);
                     listTID.add(ticd);
@@ -216,9 +216,9 @@ public class ProductReport extends HttpServlet {
                     String PC3 = "";
                     String PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t2) / (double) numTick);
                     if (tkd.getNumTickSellByDay(t2) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t2, "NM") / (double) tkd.getNumTickSellByDay(t2)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t2, "NM") / (double) tkd.getNumTickSellByDay(t2) * 100);
                         PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t2, "VP") / (double) tkd.getNumTickSellByDay(t2) * 100);
-                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t2, "VT") / (double) tkd.getNumTickSellByDay(t2)  * 100);
+                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t2, "VT") / (double) tkd.getNumTickSellByDay(t2) * 100);
                     } else {
                         PC1 = "0";
                         PC2 = "0";
@@ -228,7 +228,7 @@ public class ProductReport extends HttpServlet {
 
                     List<TIcketDate> listTIDte = new ArrayList<>();
                     if (tkd.getNumTickSellByDay(t2) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t2, "NM") / (double) tkd.getNumTickSellByDay(t2)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t2, "NM") / (double) tkd.getNumTickSellByDay(t2) * 100);
                     } else {
                         PC1 = "0";
                     }
@@ -240,9 +240,9 @@ public class ProductReport extends HttpServlet {
 
                     //T3
                     if (tkd.getNumTickSellByDay(t3) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t3, "NM") / (double) tkd.getNumTickSellByDay(t3)  * 100);
-                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t3, "VP") / (double) tkd.getNumTickSellByDay(t3)  * 100);
-                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t3, "VT") / (double) tkd.getNumTickSellByDay(t3)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t3, "NM") / (double) tkd.getNumTickSellByDay(t3) * 100);
+                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t3, "VP") / (double) tkd.getNumTickSellByDay(t3) * 100);
+                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t3, "VT") / (double) tkd.getNumTickSellByDay(t3) * 100);
                     } else {
                         PC1 = "0";
                         PC2 = "0";
@@ -251,16 +251,16 @@ public class ProductReport extends HttpServlet {
                     listTIDte.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDay(t3, "NM"), PC1));
                     listTIDte.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDay(t3, "VP"), PC2));
                     listTIDte.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDay(t3, "VT"), PC3));
-                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t3) / (double) numTick  * 100);
+                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t3) / (double) numTick * 100);
                     listTID3.add(new TIcketDate("Thứ 3", tkd.getNumTickSellByDay(t3), PC));
                     listTID3.get(listTID3.size() - 1).setTkd(listTIDte);
                     listTIDte = new ArrayList<>();
 
                     //T4
                     if (tkd.getNumTickSellByDay(t4) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t4, "NM") / (double) tkd.getNumTickSellByDay(t4)  * 100);
-                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t4, "VP") / (double) tkd.getNumTickSellByDay(t4)  * 100);
-                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t4, "VT") / (double) tkd.getNumTickSellByDay(t4)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t4, "NM") / (double) tkd.getNumTickSellByDay(t4) * 100);
+                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t4, "VP") / (double) tkd.getNumTickSellByDay(t4) * 100);
+                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t4, "VT") / (double) tkd.getNumTickSellByDay(t4) * 100);
                     } else {
                         PC1 = "0";
                         PC2 = "0";
@@ -269,16 +269,16 @@ public class ProductReport extends HttpServlet {
                     listTIDte.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDay(t4, "NM"), PC1));
                     listTIDte.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDay(t4, "VP"), PC2));
                     listTIDte.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDay(t4, "VT"), PC3));
-                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t4) / (double) numTick  * 100);
+                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t4) / (double) numTick * 100);
                     listTID3.add(new TIcketDate("Thứ 4", tkd.getNumTickSellByDay(t4), PC));
                     listTID3.get(listTID3.size() - 1).setTkd(listTIDte);
                     listTIDte = new ArrayList<>();
 
                     //T5
                     if (tkd.getNumTickSellByDay(t5) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t5, "NM") / (double) tkd.getNumTickSellByDay(t5)  * 100);
-                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t5, "VP") / (double) tkd.getNumTickSellByDay(t5)  * 100);
-                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t5, "VT") / (double) tkd.getNumTickSellByDay(t5)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t5, "NM") / (double) tkd.getNumTickSellByDay(t5) * 100);
+                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t5, "VP") / (double) tkd.getNumTickSellByDay(t5) * 100);
+                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t5, "VT") / (double) tkd.getNumTickSellByDay(t5) * 100);
                     } else {
                         PC1 = "0";
                         PC2 = "0";
@@ -287,16 +287,16 @@ public class ProductReport extends HttpServlet {
                     listTIDte.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDay(t5, "NM"), PC1));
                     listTIDte.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDay(t5, "VP"), PC2));
                     listTIDte.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDay(t5, "VT"), PC3));
-                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t5) / (double) numTick  * 100);
+                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t5) / (double) numTick * 100);
                     listTID3.add(new TIcketDate("Thứ 5", tkd.getNumTickSellByDay(t5), PC));
                     listTID3.get(listTID3.size() - 1).setTkd(listTIDte);
                     listTIDte = new ArrayList<>();
 
                     //T6
                     if (tkd.getNumTickSellByDay(t6) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t6, "NM") / (double) tkd.getNumTickSellByDay(t6)  * 100);
-                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t6, "VP") / (double) tkd.getNumTickSellByDay(t6)  * 100);
-                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t6, "VT") / (double) tkd.getNumTickSellByDay(t6)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t6, "NM") / (double) tkd.getNumTickSellByDay(t6) * 100);
+                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t6, "VP") / (double) tkd.getNumTickSellByDay(t6) * 100);
+                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t6, "VT") / (double) tkd.getNumTickSellByDay(t6) * 100);
                     } else {
                         PC1 = "0";
                         PC2 = "0";
@@ -305,16 +305,16 @@ public class ProductReport extends HttpServlet {
                     listTIDte.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDay(t6, "NM"), PC1));
                     listTIDte.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDay(t6, "VP"), PC2));
                     listTIDte.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDay(t6, "VT"), PC3));
-                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t6) / (double) numTick  * 100);
+                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t6) / (double) numTick * 100);
                     listTID3.add(new TIcketDate("Thứ 6", tkd.getNumTickSellByDay(t6), PC));
                     listTID3.get(listTID3.size() - 1).setTkd(listTIDte);
                     listTIDte = new ArrayList<>();
 
                     //T7
                     if (tkd.getNumTickSellByDay(t7) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t7, "NM") / (double) tkd.getNumTickSellByDay(t7)  * 100);
-                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t7, "VP") / (double) tkd.getNumTickSellByDay(t7)  * 100);
-                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t7, "VT") / (double) tkd.getNumTickSellByDay(t7)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t7, "NM") / (double) tkd.getNumTickSellByDay(t7) * 100);
+                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t7, "VP") / (double) tkd.getNumTickSellByDay(t7) * 100);
+                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(t7, "VT") / (double) tkd.getNumTickSellByDay(t7) * 100);
                     } else {
                         PC1 = "0";
                         PC2 = "0";
@@ -323,16 +323,16 @@ public class ProductReport extends HttpServlet {
                     listTIDte.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDay(t7, "NM"), PC1));
                     listTIDte.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDay(t7, "VP"), PC2));
                     listTIDte.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDay(t7, "VT"), PC3));
-                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t7) / (double) numTick  * 100);
+                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(t7) / (double) numTick * 100);
                     listTID3.add(new TIcketDate("Thứ 7", tkd.getNumTickSellByDay(t7), PC));
                     listTID3.get(listTID3.size() - 1).setTkd(listTIDte);
                     listTIDte = new ArrayList<>();
 
                     //CN
                     if (tkd.getNumTickSellByDay(cn) != 0) {
-                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(cn, "NM") / (double) tkd.getNumTickSellByDay(cn)  * 100);
-                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(cn, "VP") / (double) tkd.getNumTickSellByDay(cn)  * 100);
-                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(cn, "VT") / (double) tkd.getNumTickSellByDay(cn)  * 100);
+                        PC1 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(cn, "NM") / (double) tkd.getNumTickSellByDay(cn) * 100);
+                        PC2 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(cn, "VP") / (double) tkd.getNumTickSellByDay(cn) * 100);
+                        PC3 = decimalFormat.format((double) tkd.getNumTickTypeSellByDay(cn, "VT") / (double) tkd.getNumTickSellByDay(cn) * 100);
                     } else {
                         PC1 = "0";
                         PC2 = "0";
@@ -341,7 +341,7 @@ public class ProductReport extends HttpServlet {
                     listTIDte.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDay(cn, "NM"), PC1));
                     listTIDte.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDay(cn, "VP"), PC2));
                     listTIDte.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDay(cn, "VT"), PC3));
-                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(cn) / (double) numTick  * 100);
+                    PC = decimalFormat.format((double) tkd.getNumTickSellByDay(cn) / (double) numTick * 100);
                     listTID3.add(new TIcketDate("Chủ nhật", tkd.getNumTickSellByDay(cn), PC));
                     listTID3.get(listTID3.size() - 1).setTkd(listTIDte);
                     for (int i = 0; i < listTID3.get(listTID3.size() - 1).getTkd().size(); i++) {
@@ -374,104 +374,196 @@ public class ProductReport extends HttpServlet {
                     List<TIcketDate> listTIDte = new ArrayList<>();
                     PC = decimalFormat.format((double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) / (double) numTick * 100);
                     listTID4.add(new TIcketDate(ts1 + " - " + te1, tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)), PC));
-                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) != 0)  {
-                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double)tkd.getNumTickByHAD(t2, Time.valueOf(ts1), Time.valueOf(te1)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double)tkd.getNumTickByHAD(t3, Time.valueOf(ts1), Time.valueOf(te1)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double)tkd.getNumTickByHAD(t4, Time.valueOf(ts1), Time.valueOf(te1)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double)tkd.getNumTickByHAD(t5, Time.valueOf(ts1), Time.valueOf(te1)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double)tkd.getNumTickByHAD(t6, Time.valueOf(ts1), Time.valueOf(te1)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double)tkd.getNumTickByHAD(t7, Time.valueOf(ts1), Time.valueOf(te1)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
-                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double)tkd.getNumTickByHAD(cn, Time.valueOf(ts1), Time.valueOf(te1)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
+                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) != 0) {
+                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double) tkd.getNumTickByHAD(t2, Time.valueOf(ts1), Time.valueOf(te1)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double) tkd.getNumTickByHAD(t3, Time.valueOf(ts1), Time.valueOf(te1)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double) tkd.getNumTickByHAD(t4, Time.valueOf(ts1), Time.valueOf(te1)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double) tkd.getNumTickByHAD(t5, Time.valueOf(ts1), Time.valueOf(te1)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double) tkd.getNumTickByHAD(t6, Time.valueOf(ts1), Time.valueOf(te1)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double) tkd.getNumTickByHAD(t7, Time.valueOf(ts1), Time.valueOf(te1)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
+                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts1), Time.valueOf(te1)), decimalFormat.format((double) tkd.getNumTickByHAD(cn, Time.valueOf(ts1), Time.valueOf(te1)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts1), Time.valueOf(te1)) * 100)));
                         listTID4.get(listTID4.size() - 1).setTkd(listTIDte);
                         listTIDte = new ArrayList<>();
                     }
-                    
+
                     PC = decimalFormat.format((double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) / (double) numTick * 100);
                     listTID4.add(new TIcketDate(ts2 + " - " + te2, tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)), PC));
-                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) != 0)  {
-                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double)tkd.getNumTickByHAD(t2, Time.valueOf(ts2), Time.valueOf(te2)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)))));
-                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double)tkd.getNumTickByHAD(t3, Time.valueOf(ts2), Time.valueOf(te2)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double)tkd.getNumTickByHAD(t4, Time.valueOf(ts2), Time.valueOf(te2)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double)tkd.getNumTickByHAD(t5, Time.valueOf(ts2), Time.valueOf(te2)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double)tkd.getNumTickByHAD(t6, Time.valueOf(ts2), Time.valueOf(te2)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double)tkd.getNumTickByHAD(t7, Time.valueOf(ts2), Time.valueOf(te2)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
-                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double)tkd.getNumTickByHAD(cn, Time.valueOf(ts2), Time.valueOf(te2)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
+                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) != 0) {
+                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double) tkd.getNumTickByHAD(t2, Time.valueOf(ts2), Time.valueOf(te2)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)))));
+                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double) tkd.getNumTickByHAD(t3, Time.valueOf(ts2), Time.valueOf(te2)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double) tkd.getNumTickByHAD(t4, Time.valueOf(ts2), Time.valueOf(te2)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double) tkd.getNumTickByHAD(t5, Time.valueOf(ts2), Time.valueOf(te2)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double) tkd.getNumTickByHAD(t6, Time.valueOf(ts2), Time.valueOf(te2)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double) tkd.getNumTickByHAD(t7, Time.valueOf(ts2), Time.valueOf(te2)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
+                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts2), Time.valueOf(te2)), decimalFormat.format((double) tkd.getNumTickByHAD(cn, Time.valueOf(ts2), Time.valueOf(te2)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts2), Time.valueOf(te2)) * 100)));
                         listTID4.get(listTID4.size() - 1).setTkd(listTIDte);
                         listTIDte = new ArrayList<>();
                     }
 
                     PC = decimalFormat.format((double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) / (double) numTick * 100);
                     listTID4.add(new TIcketDate(ts3 + " - " + te3, tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)), PC));
-                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) != 0)  {
-                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double)tkd.getNumTickByHAD(t2, Time.valueOf(ts3), Time.valueOf(te3)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double)tkd.getNumTickByHAD(t3, Time.valueOf(ts3), Time.valueOf(te3)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double)tkd.getNumTickByHAD(t4, Time.valueOf(ts3), Time.valueOf(te3)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double)tkd.getNumTickByHAD(t5, Time.valueOf(ts3), Time.valueOf(te3)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double)tkd.getNumTickByHAD(t6, Time.valueOf(ts3), Time.valueOf(te3)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double)tkd.getNumTickByHAD(t7, Time.valueOf(ts3), Time.valueOf(te3)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
-                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double)tkd.getNumTickByHAD(cn, Time.valueOf(ts3), Time.valueOf(te3)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
+                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) != 0) {
+                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double) tkd.getNumTickByHAD(t2, Time.valueOf(ts3), Time.valueOf(te3)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double) tkd.getNumTickByHAD(t3, Time.valueOf(ts3), Time.valueOf(te3)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double) tkd.getNumTickByHAD(t4, Time.valueOf(ts3), Time.valueOf(te3)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double) tkd.getNumTickByHAD(t5, Time.valueOf(ts3), Time.valueOf(te3)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double) tkd.getNumTickByHAD(t6, Time.valueOf(ts3), Time.valueOf(te3)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double) tkd.getNumTickByHAD(t7, Time.valueOf(ts3), Time.valueOf(te3)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
+                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts3), Time.valueOf(te3)), decimalFormat.format((double) tkd.getNumTickByHAD(cn, Time.valueOf(ts3), Time.valueOf(te3)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts3), Time.valueOf(te3)) * 100)));
                         listTID4.get(listTID4.size() - 1).setTkd(listTIDte);
                         listTIDte = new ArrayList<>();
                     }
 
                     PC = decimalFormat.format((double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) / (double) numTick * 100);
                     listTID4.add(new TIcketDate(ts4 + " - " + te4, tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)), PC));
-                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) != 0)  {
-                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double)tkd.getNumTickByHAD(t2, Time.valueOf(ts4), Time.valueOf(te4)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double)tkd.getNumTickByHAD(t3, Time.valueOf(ts4), Time.valueOf(te4)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double)tkd.getNumTickByHAD(t4, Time.valueOf(ts4), Time.valueOf(te4)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double)tkd.getNumTickByHAD(t5, Time.valueOf(ts4), Time.valueOf(te4)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double)tkd.getNumTickByHAD(t6, Time.valueOf(ts4), Time.valueOf(te4)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double)tkd.getNumTickByHAD(t7, Time.valueOf(ts4), Time.valueOf(te4)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
-                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double)tkd.getNumTickByHAD(cn, Time.valueOf(ts4), Time.valueOf(te4)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
+                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) != 0) {
+                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double) tkd.getNumTickByHAD(t2, Time.valueOf(ts4), Time.valueOf(te4)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double) tkd.getNumTickByHAD(t3, Time.valueOf(ts4), Time.valueOf(te4)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double) tkd.getNumTickByHAD(t4, Time.valueOf(ts4), Time.valueOf(te4)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double) tkd.getNumTickByHAD(t5, Time.valueOf(ts4), Time.valueOf(te4)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double) tkd.getNumTickByHAD(t6, Time.valueOf(ts4), Time.valueOf(te4)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double) tkd.getNumTickByHAD(t7, Time.valueOf(ts4), Time.valueOf(te4)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
+                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts4), Time.valueOf(te4)), decimalFormat.format((double) tkd.getNumTickByHAD(cn, Time.valueOf(ts4), Time.valueOf(te4)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts4), Time.valueOf(te4)) * 100)));
                         listTID4.get(listTID4.size() - 1).setTkd(listTIDte);
                         listTIDte = new ArrayList<>();
                     }
 
                     PC = decimalFormat.format((double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) / (double) numTick * 100);
                     listTID4.add(new TIcketDate(ts5 + " - " + te5, tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)), PC));
-                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) != 0)  {
-                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double)tkd.getNumTickByHAD(t2, Time.valueOf(ts5), Time.valueOf(te5)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double)tkd.getNumTickByHAD(t3, Time.valueOf(ts5), Time.valueOf(te5)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double)tkd.getNumTickByHAD(t4, Time.valueOf(ts5), Time.valueOf(te5)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double)tkd.getNumTickByHAD(t5, Time.valueOf(ts5), Time.valueOf(te5)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double)tkd.getNumTickByHAD(t6, Time.valueOf(ts5), Time.valueOf(te5)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double)tkd.getNumTickByHAD(t7, Time.valueOf(ts5), Time.valueOf(te5)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
-                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double)tkd.getNumTickByHAD(cn, Time.valueOf(ts5), Time.valueOf(te5)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
+                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) != 0) {
+                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double) tkd.getNumTickByHAD(t2, Time.valueOf(ts5), Time.valueOf(te5)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double) tkd.getNumTickByHAD(t3, Time.valueOf(ts5), Time.valueOf(te5)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double) tkd.getNumTickByHAD(t4, Time.valueOf(ts5), Time.valueOf(te5)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double) tkd.getNumTickByHAD(t5, Time.valueOf(ts5), Time.valueOf(te5)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double) tkd.getNumTickByHAD(t6, Time.valueOf(ts5), Time.valueOf(te5)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double) tkd.getNumTickByHAD(t7, Time.valueOf(ts5), Time.valueOf(te5)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
+                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts5), Time.valueOf(te5)), decimalFormat.format((double) tkd.getNumTickByHAD(cn, Time.valueOf(ts5), Time.valueOf(te5)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts5), Time.valueOf(te5)) * 100)));
                         listTID4.get(listTID4.size() - 1).setTkd(listTIDte);
                         listTIDte = new ArrayList<>();
                     }
 
                     PC = decimalFormat.format((double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) / (double) numTick * 100);
                     listTID4.add(new TIcketDate(ts6 + " - " + te6, tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)), PC));
-                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) != 0)  {
-                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double)tkd.getNumTickByHAD(t2, Time.valueOf(ts6), Time.valueOf(te6)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double)tkd.getNumTickByHAD(t3, Time.valueOf(ts6), Time.valueOf(te6)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double)tkd.getNumTickByHAD(t4, Time.valueOf(ts6), Time.valueOf(te6)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double)tkd.getNumTickByHAD(t5, Time.valueOf(ts6), Time.valueOf(te6)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double)tkd.getNumTickByHAD(t6, Time.valueOf(ts6), Time.valueOf(te6)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
-                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double)tkd.getNumTickByHAD(t7, Time.valueOf(ts6), Time.valueOf(te6)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
-                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double)tkd.getNumTickByHAD(cn, Time.valueOf(ts6), Time.valueOf(te6)) / (double)tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
+                    if (tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) != 0) {
+                        listTIDte.add(new TIcketDate("Thứ 2", tkd.getNumTickByHAD(t2, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double) tkd.getNumTickByHAD(t2, Time.valueOf(ts6), Time.valueOf(te6)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 3", tkd.getNumTickByHAD(t3, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double) tkd.getNumTickByHAD(t3, Time.valueOf(ts6), Time.valueOf(te6)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 4", tkd.getNumTickByHAD(t4, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double) tkd.getNumTickByHAD(t4, Time.valueOf(ts6), Time.valueOf(te6)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 5", tkd.getNumTickByHAD(t5, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double) tkd.getNumTickByHAD(t5, Time.valueOf(ts6), Time.valueOf(te6)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 6", tkd.getNumTickByHAD(t6, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double) tkd.getNumTickByHAD(t6, Time.valueOf(ts6), Time.valueOf(te6)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
+                        listTIDte.add(new TIcketDate("Thứ 7", tkd.getNumTickByHAD(t7, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double) tkd.getNumTickByHAD(t7, Time.valueOf(ts6), Time.valueOf(te6)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
+                        listTIDte.add(new TIcketDate("Chủ nhật", tkd.getNumTickByHAD(cn, Time.valueOf(ts6), Time.valueOf(te6)), decimalFormat.format((double) tkd.getNumTickByHAD(cn, Time.valueOf(ts6), Time.valueOf(te6)) / (double) tkd.getNumTickByHour(start, end, Time.valueOf(ts6), Time.valueOf(te6)) * 100)));
                         listTID4.get(listTID4.size() - 1).setTkd(listTIDte);
                         listTIDte = new ArrayList<>();
                     }
                 }
-                
+
                 //Cinema
                 List<Cinema> cin = tkd.getAllCinemaSellTicketByDate(start, end);
                 List<TIcketDate> listTID5 = new ArrayList<>();
                 for (int i = 0; i < cin.size(); i++) {
-                    if(numTick == 0) {
+                    if (numTick == 0) {
                         String PC = "0";
                         listTID5.add(new TIcketDate(cin.get(i).getCinName(), tkd.getNumTickSellByCAD(start, end, cin.get(i).getCinID()), PC));
-                    }
-                    else {
-                        String PC = decimalFormat.format((double)tkd.getNumTickSellByCAD(start, end, cin.get(i).getCinID()) / (double)numTick * 100);
+                    } else {
+                        String PC = decimalFormat.format((double) tkd.getNumTickSellByCAD(start, end, cin.get(i).getCinID()) / (double) numTick * 100);
                         listTID5.add(new TIcketDate(cin.get(i).getCinName(), tkd.getNumTickSellByCAD(start, end, cin.get(i).getCinID()), PC));
                     }
-                    
+
+                }
+
+                //onl off
+                TIcketDate listTIDOnl;
+                TIcketDate listTIDOff;
+
+                if (numTick == 0) {
+                    listTIDOnl = new TIcketDate("Bán online", tkd.getNumTickSellByOOAD(start, end, "ONL"), "0");
+                    listTIDOff = new TIcketDate("Bán trực tiếp", tkd.getNumTickSellByOOAD(start, end, "OFF"), "0");
+                } else {
+                    listTIDOnl = new TIcketDate("Bán online", tkd.getNumTickSellByOOAD(start, end, "ONL"), decimalFormat.format((double) tkd.getNumTickSellByOOAD(start, end, "ONL") / (double) numTick));
+                    listTIDOff = new TIcketDate("Bán trực tiếp", tkd.getNumTickSellByOOAD(start, end, "OFF"), decimalFormat.format((double) tkd.getNumTickSellByOOAD(start, end, "OFF") / (double) numTick));
+                }
+
+                //date
+                List<TIcketDate> listTID6 = tkd.getAllTicketBoughtDateByTime(start, end, 0);
+                for (int i = 0; i < listTID6.size(); i++) {
+                    String p = "";
+                    cnt = 0;
+                    t = "";
+                    for (int j = 0; j < listTID6.get(i).getdS().length(); j++) {
+
+                        if (listTID6.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                            p += listTID6.get(i).getdS().substring(0, j);
+                            cnt = j;
+                        } else if (listTID6.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                            t = p;
+                            p = listTID6.get(i).getdS().substring(cnt, j + 1);
+                            p += t;
+                            cnt = j;
+                            break;
+                        }
+                    }
+                    t = p;
+                    p = listTID6.get(i).getdS().substring(cnt + 1);
+                    p += t;
+                    System.out.println(p);
+                    listTID6.get(i).setNo(tkd.getNumTickByDate(start, end, 0, Date.valueOf(p)));
+                    if (numTick != 0) {
+                        listTID6.get(i).setPc(decimalFormat.format((double) listTID6.get(i).getNo() / (double) numTick * 100));
+                    } else {
+                        listTID6.get(i).setPc("0");
+                    }
                 }
                 
+       
+
+                //numSellEachDay
+                for (int i = 0; i < listTID6.size(); i++) {
+                    String p = "";
+                    cnt = 0;
+                    t = "";
+                    for (int j = 0; j < listTID6.get(i).getdS().length(); j++) {
+
+                        if (listTID6.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                            p += listTID6.get(i).getdS().substring(0, j);
+                            cnt = j;
+                        } else if (listTID6.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                            t = p;
+                            p = listTID6.get(i).getdS().substring(cnt, j + 1);
+                            p += t;
+                            cnt = j;
+                            break;
+                        }
+                    }
+                    t = p;
+                    p = listTID6.get(i).getdS().substring(cnt + 1);
+                    p += t;
+
+                    int numInDay = listTID6.get(i).getNo();
+
+                    List<TIcketDate> TID7 = new ArrayList<>();
+                    if (numInDay != 0) {
+                        String PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM") / (double) numInDay * 100);
+                        TID7.add(new TIcketDate("Thường", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM"), PC));
+
+                        PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP") / (double) numInDay * 100);
+                        TID7.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP"), PC));
+
+                        PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT") / (double) numInDay * 100);
+                        TID7.add(new TIcketDate("VT", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
+                        listTID6.get(i).setTkd(TID7);
+                    } else {
+                        String PC = "0";
+                        TID7.add(new TIcketDate("NM", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM"), PC));
+                        TID7.add(new TIcketDate("VP", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP"), PC));
+                        TID7.add(new TIcketDate("VT", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
+                        listTID6.get(i).setTkd(TID7);
+                    }
+                }
+
+                request.setAttribute("listTID6", listTID6);
+
+                request.setAttribute("listTIDOnl", listTIDOnl);
+                request.setAttribute("listTIDOff", listTIDOff);
                 request.setAttribute("listTID5", listTID5);
                 request.setAttribute("listTID4", listTID4);
                 request.setAttribute("listTID3", listTID3);

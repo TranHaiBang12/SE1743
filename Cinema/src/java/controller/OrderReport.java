@@ -96,8 +96,10 @@ public class OrderReport extends HttpServlet {
         p += t;
         Date date = Date.valueOf(p);
         OrderDAO ord = new OrderDAO();
+
         OrderOnlByDate onl = ord.getAllOrderTicketOnlByIDAD(id, date);
         OrderOffByDate off = ord.getAllOrderTicketOffByIDAD(id, date);
+
         List<OrderOnlByDate> listOBD = new ArrayList<>();
         listOBD.add(onl);
         List<OrderOffByDate> listOFBD = new ArrayList<>();
@@ -113,7 +115,7 @@ public class OrderReport extends HttpServlet {
         } else {
             request.setAttribute("listOFBD", listOFBD);
         }
-        
+
         request.setAttribute("date", date);
         request.getRequestDispatcher("ordr.jsp").forward(request, response);
     }
