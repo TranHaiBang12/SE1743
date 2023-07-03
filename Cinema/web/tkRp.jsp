@@ -41,7 +41,7 @@
                 margin-left: 40px;
                 margin-top: 20px;
             }
-            
+
             .mvIN4{
                 display: flex;
                 margin-top: 20px;
@@ -91,7 +91,7 @@
             .oIn4{
                 font-size: 20px;
             }
-            
+
             .btn{
                 margin-top: 20px;
             }
@@ -103,7 +103,7 @@
                 background-color: red;
                 cursor: pointer;
             }
-            
+
             .btS button{
                 font-size: 18px;
                 padding: 5px;
@@ -138,10 +138,17 @@
                             <div>
                                 <div>Tổng số vé được bán: <span class = "blk">${requestScope.numTick}</span>, chiếm <span  class = "blk">${requestScope.pcNumTick}%</span> tổng số vé được bán từ trước đến nay</div><!-- <div></div> -->
                             </div>
-               
+                            <div>
+                                <div>Chi tiết các loại vé:</div><!-- <div></div> -->
+                            </div>
+                            <c:forEach items = "${requestScope.listTID}" var = "t">
+                                <div>
+                                    + Vé ${t.getdS()}: <span class = "blk">${t.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${t.getPc()}%</span></span>
+                                </div>
+                            </c:forEach>
                             <div>
                                 <div><span class = "rte">Số lượt đánh giá 5 sao: <span class = "blk">${requestScope.m.getNoRate5()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${requestScope.m.getpRate5()}%</span></span></div>
-                   
+
                             </div>
                             <div class = "btS">
                                 <a href  = "detail?id=${requestScope.id}"><button type ="submit" value ="XEM CHI TIẾT">XEM CHI TIẾT</button></a>

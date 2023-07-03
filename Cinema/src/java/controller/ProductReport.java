@@ -14,6 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import model.TIcketDate;
 
 /**
  *
@@ -123,7 +126,29 @@ public class ProductReport extends HttpServlet {
                 int numTickOfAllTime = tkd.getNumTickSellOfAllTime();
                 String pcNumTick = decimalFormat.format((double)numTick / (double)numTickOfAllTime * 100);
                 
+                //tickType
+                List<TIcketDate> listTID = new ArrayList<>();
+                List<String> listType = tkd.getAllTickTypeByDate(start, end);
+                for (int i = 0; i < listType.size(); i++) {
+                    String tpe = "";
+                    if(listType.get(i).equals("NM")) {
+                        tpe = "Thường";
+                    }
+                    else if(listType.get(i).equals("VP")) {
+                        tpe = "VIP";
+                    }
+                    else if(listType.get(i).equals("VT")) {
+                        tpe = "Đôi";
+                    }
+                    int numSellType = tkd.getNumTickTypeSellByTime(start, end, 0, listType.get(i));
+                    String a = decimalFormat.format((double)numSellType / (double)numTick);
+                    TIcketDate ticd = new TIcketDate(tpe, numSellType);
+                    ticd.setPc(a);
+                    listTID.add(ticd);
+                }
                 
+                
+                request.setAttribute("listTID", listTID);
                 request.setAttribute("pcNumTick", pcNumTick);
                 request.setAttribute("numTick", numTick);
                 request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);

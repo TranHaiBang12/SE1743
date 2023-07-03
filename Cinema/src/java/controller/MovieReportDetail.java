@@ -133,12 +133,12 @@ public class MovieReportDetail extends HttpServlet {
 
         String b, p5, p4, p3, p2, p1;
         if (rd.getNoRate(id) != 0) {
-            b = decimalFormat.format((double) rd.getSumRate(id) / (double) rd.getNoRate(id)  * 100);
-            p5 = decimalFormat.format((double) rd.getNoRate5(id) / (double) rd.getNoRate(id)  * 100);
-            p4 = decimalFormat.format((double) rd.getNoRate4(id) / (double) rd.getNoRate(id)  * 100);
-            p3 = decimalFormat.format((double) rd.getNoRate3(id) / (double) rd.getNoRate(id)  * 100);
-            p2 = decimalFormat.format((double) rd.getNoRate2(id) / (double) rd.getNoRate(id)  * 100);
-            p1 = decimalFormat.format((double) rd.getNoRate1(id) / (double) rd.getNoRate(id)  * 100);
+            b = decimalFormat.format((double) rd.getSumRate(id) / (double) rd.getNoRate(id) * 100);
+            p5 = decimalFormat.format((double) rd.getNoRate5(id) / (double) rd.getNoRate(id) * 100);
+            p4 = decimalFormat.format((double) rd.getNoRate4(id) / (double) rd.getNoRate(id) * 100);
+            p3 = decimalFormat.format((double) rd.getNoRate3(id) / (double) rd.getNoRate(id) * 100);
+            p2 = decimalFormat.format((double) rd.getNoRate2(id) / (double) rd.getNoRate(id) * 100);
+            p1 = decimalFormat.format((double) rd.getNoRate1(id) / (double) rd.getNoRate(id) * 100);
         } else {
             decimalFormat = new DecimalFormat("#");
             b = decimalFormat.format(0);
@@ -172,11 +172,11 @@ public class MovieReportDetail extends HttpServlet {
 
         String pc5 = "", pc4 = "", pc3 = "", pc2 = "", pc1 = "";
         if (noD != 0) {
-            pc5 = decimalFormat.format((double) no5 / (double) noD  * 100);
-            pc4 = decimalFormat.format((double) no4 / (double) noD  * 100);
-            pc3 = decimalFormat.format((double) no3 / (double) noD  * 100);
-            pc2 = decimalFormat.format((double) no2 / (double) noD  * 100);
-            pc1 = decimalFormat.format((double) no1 / (double) noD  * 100);
+            pc5 = decimalFormat.format((double) no5 / (double) noD * 100);
+            pc4 = decimalFormat.format((double) no4 / (double) noD * 100);
+            pc3 = decimalFormat.format((double) no3 / (double) noD * 100);
+            pc2 = decimalFormat.format((double) no2 / (double) noD * 100);
+            pc1 = decimalFormat.format((double) no1 / (double) noD * 100);
         } else {
             pc5 = "0";
             pc4 = "0";
@@ -225,9 +225,9 @@ public class MovieReportDetail extends HttpServlet {
 
         String pcnm = "", pcvp = "", pcvt = "";
         if (numTick != 0) {
-            pcnm = decimalFormat.format((double) nm / (double) numTick  * 100);
-            pcvp = decimalFormat.format((double) vp / (double) numTick  * 100);
-            pcvt = decimalFormat.format((double) vt / (double) numTick  * 100);
+            pcnm = decimalFormat.format((double) nm / (double) numTick * 100);
+            pcvp = decimalFormat.format((double) vp / (double) numTick * 100);
+            pcvt = decimalFormat.format((double) vt / (double) numTick * 100);
         } else {
             pcnm = "0";
             pcvp = "0";
@@ -243,7 +243,7 @@ public class MovieReportDetail extends HttpServlet {
             if (numTick == 0) {
                 PC = "0";
             } else {
-                PC = decimalFormat.format((double) tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()) / (double) numTick  * 100);
+                PC = decimalFormat.format((double) tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()) / (double) numTick * 100);
             }
             listMF.add(new MovieForm(listS.get(i).getFormID(), listS.get(i).getFormName(), tkd.getNumTickFormByTime(dS, eS, id, listS.get(i).getFormID()), PC));
         }
@@ -271,22 +271,67 @@ public class MovieReportDetail extends HttpServlet {
             p += t;
             listTID.get(i).setNo(tkd.getNumTickByDate(dS, eS, id, Date.valueOf(p)));
             if (numTick != 0) {
-                listTID.get(i).setPc(decimalFormat.format((double) listTID.get(i).getNo() / (double) numTick  * 100));
+                listTID.get(i).setPc(decimalFormat.format((double) listTID.get(i).getNo() / (double) numTick * 100));
             } else {
                 listTID.get(i).setPc("0");
             }
         }
         if (rd.getNoRate(id) != 0) {
-            request.setAttribute("pcARate", decimalFormat.format((double) mr.getNoD() / (double) rd.getNoRate(id) * 100 ));
+            request.setAttribute("pcARate", decimalFormat.format((double) mr.getNoD() / (double) rd.getNoRate(id) * 100));
         } else {
             request.setAttribute("pcARate", 0);
         }
         if (tkd.getNumTickByMovID(id) != 0) {
             request.setAttribute("pcATick", decimalFormat.format((double) numTick / (double) tkd.getNumTickByMovID(id) * 100));
-        }
-        else {
+        } else {
             request.setAttribute("pcATick", 0);
         }
+
+        //numSellEachDay
+        for (int i = 0; i < listTID.size(); i++) {
+            String p = "";
+            cnt = 0;
+            t = "";
+            for (int j = 0; j < listTID.get(i).getdS().length(); j++) {
+
+                if (listTID.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                    p += listTID.get(i).getdS().substring(0, j);
+                    cnt = j;
+                } else if (listTID.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                    t = p;
+                    p = listTID.get(i).getdS().substring(cnt, j + 1);
+                    p += t;
+                    cnt = j;
+                    break;
+                }
+            }
+            t = p;
+            p = listTID.get(i).getdS().substring(cnt + 1);
+            p += t;
+
+            int numInDay = listTID.get(i).getNo();
+
+            List<TIcketDate> TID2 = new ArrayList<>();
+            if (numInDay != 0) {
+                String PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM") / (double) numInDay * 100);
+                TID2.add(new TIcketDate("NM", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM"), PC));
+
+                PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP") / (double) numInDay * 100);
+                TID2.add(new TIcketDate("VP", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP"), PC));
+
+                PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT") / (double) numInDay * 100);
+                TID2.add(new TIcketDate("VT", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
+                listTID.get(i).setTkd(TID2);
+            }
+            else {
+                String PC = "0";
+                TID2.add(new TIcketDate("NM", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "NM"), PC));
+                TID2.add(new TIcketDate("VP", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP"), PC));
+                TID2.add(new TIcketDate("VT", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
+                listTID.get(i).setTkd(TID2);
+            }
+        }
+
         request.setAttribute("listTID", listTID);
         request.setAttribute("listMF", listMF);
         request.setAttribute("mt", mt);

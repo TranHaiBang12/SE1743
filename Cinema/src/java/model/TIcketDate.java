@@ -5,6 +5,7 @@
 package model;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -14,6 +15,7 @@ public class TIcketDate {
     private String dS;
     private int no;
     private String pc;
+    private List<TIcketDate> tkd;
     
 
     public TIcketDate(String dS) {
@@ -24,6 +26,22 @@ public class TIcketDate {
         this.dS = dS;
         this.no = no;
     }
+    
+    public TIcketDate(String dS, int no, String pc) {
+        this.dS = dS;
+        this.no = no;
+        this.pc = pc;
+    }
+
+    public List<TIcketDate> getTkd() {
+        return tkd;
+    }
+
+    public void setTkd(List<TIcketDate> tkd) {
+        this.tkd = tkd;
+    }
+    
+    
 
     public String getPc() {
         return pc;

@@ -285,7 +285,7 @@
                 color: white;
                 cursor: pointer;
             }
-            
+
             .btR button{
                 font-size: 18px;
                 padding: 5px;
@@ -293,7 +293,7 @@
                 color: white;
                 cursor: pointer;
             }
-            
+
             .btR{
                 text-align: center;
                 margin-top: 20px;
@@ -444,6 +444,11 @@
                         <c:forEach items = "${requestScope.listTID}" var = "t">
                             <div>
                                 Ngày ${t.getdS()}: <span class = "blk">${t.getNo()}</span> vé được bán ra, chiếm <span class = "blk">${t.getPc()}%</span> vé được bán ra trong khoảng thời gian này <span class = "det"><a href = "ordr?id=${requestScope.id}&date=${t.getdS()}">XEM CHI TIẾT</a></span>
+                                <c:forEach items = "${t.getTkd()}" var = "p">
+                                    <div class = "ttype">
+                                        + Vé ${p.getdS()}: <span class = "blk">${p.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${p.getPc()}%</span></span>
+                                    </div>
+                                </c:forEach>
                             </div>
                         </c:forEach>
                     </div>
