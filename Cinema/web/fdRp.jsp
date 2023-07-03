@@ -140,6 +140,40 @@
             .ttype2{
                 margin-left: 120px;
             }
+            .pagination{
+                text-align: center;
+                padding-bottom: 15px;
+                padding-top: 20px;
+            }
+
+            .pagination a{
+                text-decoration: none;
+
+            }
+
+            .noActive{
+                text-decoration: none;
+                color: black;
+                border: 1px solid black;
+                padding: 5px;
+                border-radius: 18px;
+                cursor: pointer;
+            }
+
+            .active{
+                text-decoration: none;
+                border: 1px solid black;
+                padding: 5px;
+                color: white;
+                border-radius: 18px;
+                background-color: black;
+                cursor: pointer;
+            }
+            
+            .k{
+                cursor: pointer;
+            }
+
         </style>
     </head>
     <body>
@@ -165,6 +199,9 @@
 
                             <div>
                                 <div>Tổng số món ăn được bán: <span class = "blk">${requestScope.numFood}</span>, chiếm <span  class = "blk">${requestScope.pcF}%</span> tổng số món ăn được bán từ trước đến nay</div><!-- <div></div> -->
+                            </div>
+                            <div class = "btS">
+                                <a href  = "store"><button type ="submit" value ="XEM CHI TIẾT">XEM TẤT CẢ ĐỒ ĂN </button></a>
                             </div>
 
                         </div.>
@@ -211,15 +248,61 @@
                 <div class = "insider1">
                     <c:forEach items = "${requestScope.listTID2}" var = "t">
                         <div>
-                            + Ngày ${t.getdS()}: <span class = "blk">${t.getNo()}</span> suất đồ ăn được bán ra, chiếm <span class = "blk">${t.getPc()}%</span> suất đồ ăn được bán ra trong khoảng thời gian này <span class = "det"><a href = "ordr?id=0&date=${t.getdS()}">XEM CHI TIẾT</a></span>
-                      
+                            + Ngày ${t.getdS()}: <span class = "blk">${t.getNo()}</span> suất đồ ăn được bán ra, chiếm <span class = "blk">${t.getPc()}%</span> suất đồ ăn được bán ra trong khoảng thời gian này <span class = "det"><a href = "ordr?id=0&date=${t.getdS()}&t=1">XEM CHI TIẾT</a></span>
+
                         </div>
                     </c:forEach>
+                </div>
+            </div>
+            <div class = "TKET">
+                <div class = "Sttle">4. CHI TIẾT ĐỒ ĂN (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                <div class = "insider1">
+                    <div>
+                        <c:forEach items = "${requestScope.listPerPage}" var = "i">
+                            <div class = "mvIN4">
+                                <div class = "imGE"><img src = "${i.getImg()}"></div>
+                                <div class = "in4">
+                                    <div class = "mName">
+                                        <div>${i.getFoodDescript()}</div>
+                                    </div>
+                                    <div class = "oIn4">
+                                        <div>
+                                            <div>Thể loại: <span class = "blk">${i.getTypeName()}</span></div>
+                                        </div>
+
+                                        <div class = "btn">
+                                            <a href = "viewf?id=${i.getProductCode()}"><input type ="button" value ="XEM CHI TIẾT"/></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </c:forEach>
+                        <div class = "pagination">
+                            <form id ="frm" action = "rpp" method = "post">
+                                <input type ="text" hidden name ="start" value ="${requestScope.startR}"/>
+                                <input type ="text" hidden name ="end" value ="${requestScope.endR}"/>
+                                <input type ="text" hidden name ="type" value ="${requestScope.type}"/>
+                                <input type ="text" hidden name ="page" id ="page" value ="${requestScope.page}"/>
+                                <a class ="k" onclick = "dpA('${(page - 1) < 1?(1):(page-1)}')"><</a>
+                                <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                                    <a class ="${i == page ? "active":"noActive"}" onclick = "dpA('${i}')">${i}</a>
+                                </c:forEach>
+                                <a class ="k" onclick = "dpA('${(page + 1) > totalPage?(1):(page+1)}')">></a>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type="text/javascript">
+            function dpA(id) {
+                document.getElementById("page").value = id;
+                document.getElementById("frm").submit();
+            }
+        </script>
     </body>
 </html>

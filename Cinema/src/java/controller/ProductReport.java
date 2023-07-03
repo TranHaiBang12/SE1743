@@ -98,6 +98,7 @@ public class ProductReport extends HttpServlet {
         String start_raw = request.getParameter("start");
         String end_raw = request.getParameter("end");
         String type = request.getParameter("type");
+        System.out.println(start_raw + " " + end_raw + " " + request.getParameter("page"));
         if (type != null) {
             Date start = Date.valueOf(start_raw);
             Date end = Date.valueOf(end_raw);
@@ -563,7 +564,7 @@ public class ProductReport extends HttpServlet {
                 List<Movies> listM = tkd.getAllMovSellTicketByDate(start, end);
                 request.setAttribute("listM", listM);
                 request.setAttribute("listTID6", listTID6);
-
+                request.setAttribute("type", type);
                 request.setAttribute("listTIDOnl", listTIDOnl);
                 request.setAttribute("listTIDOff", listTIDOff);
                 request.setAttribute("listTID5", listTID5);
@@ -572,6 +573,8 @@ public class ProductReport extends HttpServlet {
                 request.setAttribute("listTID", listTID);
                 request.setAttribute("pcNumTick", pcNumTick);
                 request.setAttribute("numTick", numTick);
+                request.setAttribute("startR", start);
+                request.setAttribute("endR", end);
                 request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
                 request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
                 request.getRequestDispatcher("tkRp.jsp").forward(request, response);
@@ -651,7 +654,7 @@ public class ProductReport extends HttpServlet {
                     tONL = new TIcketDate("Bán online", fd.getNumFoodByOnlAndOff(start, end, "ONL"), PC1);
                     tOFF = new TIcketDate("Bán trực tiếp", fd.getNumFoodByOnlAndOff(start, end, "OFF"), PC2);
                 }
-                
+
                 //date
                 List<TIcketDate> listTID2 = fd.getDateByNumTickDate(start, end);
                 for (int i = 0; i < listTID2.size(); i++) {
@@ -708,9 +711,25 @@ public class ProductReport extends HttpServlet {
                     int numInDay = listTID2.get(i).getNo();
 
                     List<TIcketDate> TID7 = new ArrayList<>();
-     
+
                 }
+
+                //allFood
+                List<Food> listF = fd.getAllFood();
+                String page_raw = request.getParameter("page");
+                int page = 1;
+                if (page_raw != null) {
+                    page = Integer.parseInt(page_raw);
+                }
+                int numPerPage = 5;
+                int totalPage = (listF.size() % numPerPage == 0) ? (listF.size() / numPerPage) : (listF.size() / numPerPage + 1);
+                int startP = (page - 1) * 5;
+                int endP = (page == totalPage) ? (listF.size() - 1) : (page * numPerPage - 1);
                 
+                request.setAttribute("type", type);
+                request.setAttribute("listPerPage", fd.getFoodByPage(listF, startP, endP));
+                request.setAttribute("page", page);
+                request.setAttribute("totalPage", totalPage);
                 request.setAttribute("listTID2", listTID2);
                 request.setAttribute("tONL", tONL);
                 request.setAttribute("tOFF", tOFF);
@@ -718,6 +737,8 @@ public class ProductReport extends HttpServlet {
                 request.setAttribute("listTID", listTID);
                 request.setAttribute("numFood", numFood);
                 request.setAttribute("pcF", pcF);
+                request.setAttribute("startR", start);
+                request.setAttribute("endR", end);
                 request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
                 request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
                 request.getRequestDispatcher("fdRp.jsp").forward(request, response);
