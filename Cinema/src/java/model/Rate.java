@@ -18,7 +18,8 @@ public class Rate {
     private String status;
     private String displayName;
     private Date date;
-
+    private String movName;
+    
     public Rate(String userName, int movID, String comments, int rate, String status, String displayName) {
         this.userName = userName;
         this.movID = movID;
@@ -37,6 +38,27 @@ public class Rate {
         this.displayName = displayName;
         this.date = date;
     }
+    
+    public Rate(String userName, int movID, String comments, int rate, String status, String displayName, Date date, String movName) {
+        this.userName = userName;
+        this.movID = movID;
+        this.comments = comments;
+        this.rate = rate;
+        this.status = status;
+        this.displayName = displayName;
+        this.date = date;
+        this.movName = movName;
+    }
+
+    public String getMovName() {
+        return movName;
+    }
+
+    public void setMovName(String movName) {
+        this.movName = movName;
+    }
+    
+    
 
     public Date getDate() {
         return date;

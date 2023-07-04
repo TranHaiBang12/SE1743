@@ -65,8 +65,9 @@
                                     <a class ="lnk" href="addmov">Thêm Phim Mới</a>
                                 </c:if>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
-                                    <a class ="lnk" href="rpm">Thống Kê</a>
+                                    <a class ="lnk" href="rpm">Thống Kê Phim</a>
                                 </c:if>
+
 
                             </div>
                         </div>
@@ -142,6 +143,22 @@
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="rpp?type=TK">VÉ</a>
                                     <a class ="lnk" href="rpp?type=FD">ĐỒ ĂN</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                    <li>
+                        <div class="dropdown">
+                            <div class="dropbtn">
+                                <img class="memberIcon" src="images/rateIcon.png" />
+                                <a class ="lnk" href="#">ĐÁNH GIÁ</a>
+                            </div>
+                            <div class="dropdown-content">
+                                <div class=insidedropdown-content>
+                                    <a class ="lnk" href="sr">Xem Đánh Giá</a>
+                                    <a class ="lnk" href="rpp?type=FD">Thống Kê</a>
                                 </div>
                             </div>
                         </div>

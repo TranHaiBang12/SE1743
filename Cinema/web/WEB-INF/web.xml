@@ -172,6 +172,18 @@
         <servlet-name>ProductReport</servlet-name>
         <servlet-class>controller.ProductReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SeeAllRate</servlet-name>
+        <servlet-class>controller.SeeAllRate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DelRate</servlet-name>
+        <servlet-class>controller.DelRate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdRate</servlet-name>
+        <servlet-class>controller.UpdRate</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -343,6 +355,18 @@
     <servlet-mapping>
         <servlet-name>ProductReport</servlet-name>
         <url-pattern>/rpp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SeeAllRate</servlet-name>
+        <url-pattern>/sr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DelRate</servlet-name>
+        <url-pattern>/dlr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdRate</servlet-name>
+        <url-pattern>/updr</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
