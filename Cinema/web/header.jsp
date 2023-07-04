@@ -158,7 +158,7 @@
                             <div class="dropdown-content">
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="sr">Xem Đánh Giá</a>
-                                    <a class ="lnk" href="rpp?type=FD">Thống Kê</a>
+                                    <a class ="lnk" href="rrp">Thống Kê</a>
                                 </div>
                             </div>
                         </div>

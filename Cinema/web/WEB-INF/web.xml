@@ -184,6 +184,10 @@
         <servlet-name>UpdRate</servlet-name>
         <servlet-class>controller.UpdRate</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RateReport</servlet-name>
+        <servlet-class>controller.RateReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -367,6 +371,10 @@
     <servlet-mapping>
         <servlet-name>UpdRate</servlet-name>
         <url-pattern>/updr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RateReport</servlet-name>
+        <url-pattern>/rrp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

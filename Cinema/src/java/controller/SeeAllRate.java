@@ -59,22 +59,24 @@ public class SeeAllRate extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RateDAO rd = new RateDAO();
-        List<Rate> list = rd.getAllAllRate();
+
         String page_raw = request.getParameter("page");
         String type_raw = request.getParameter("type");
         int type = 1;
         if (type_raw != null) {
             type = Integer.parseInt(type_raw);
         }
-        int page = 1;
-        if (page_raw != null) {
-            page = Integer.parseInt(page_raw);
-        }
-        int numPerPage = 5;
-        int totalPage = (list.size() % numPerPage == 0) ? (list.size() / numPerPage) : (list.size() / numPerPage + 1);
-        int startP = (page - 1) * 5;
-        int endP = (page == totalPage) ? (list.size() - 1) : (page * numPerPage - 1);
+
         if (type == 1) {
+            List<Rate> list = rd.getAllAllRate();
+            int page = 1;
+            if (page_raw != null) {
+                page = Integer.parseInt(page_raw);
+            }
+            int numPerPage = 5;
+            int totalPage = (list.size() % numPerPage == 0) ? (list.size() / numPerPage) : (list.size() / numPerPage + 1);
+            int startP = (page - 1) * 5;
+            int endP = (page == totalPage) ? (list.size() - 1) : (page * numPerPage - 1);
             if (!rd.getRateByPage(list, startP, endP).isEmpty()) {
                 request.setAttribute("type", type);
                 request.setAttribute("listPerPage", rd.getRateByPage(list, startP, endP));
@@ -86,6 +88,15 @@ public class SeeAllRate extends HttpServlet {
                 request.getRequestDispatcher("seeAllRate.jsp").forward(request, response);
             }
         } else if (type == 2) {
+            List<Rate> list = rd.getAllAllRate("Được duyệt");
+            int page = 1;
+            if (page_raw != null) {
+                page = Integer.parseInt(page_raw);
+            }
+            int numPerPage = 5;
+            int totalPage = (list.size() % numPerPage == 0) ? (list.size() / numPerPage) : (list.size() / numPerPage + 1);
+            int startP = (page - 1) * 5;
+            int endP = (page == totalPage) ? (list.size() - 1) : (page * numPerPage - 1);
             if (!rd.getAllAllRate("Được duyệt").isEmpty()) {
                 request.setAttribute("type", type);
                 request.setAttribute("listPerPage", rd.getRateByPage(rd.getAllAllRate("Được duyệt"), startP, endP));
@@ -97,6 +108,15 @@ public class SeeAllRate extends HttpServlet {
                 request.getRequestDispatcher("seeAllRate.jsp").forward(request, response);
             }
         } else if (type == 3) {
+            List<Rate> list = rd.getAllAllRate("Chờ duyệt");
+            int page = 1;
+            if (page_raw != null) {
+                page = Integer.parseInt(page_raw);
+            }
+            int numPerPage = 5;
+            int totalPage = (list.size() % numPerPage == 0) ? (list.size() / numPerPage) : (list.size() / numPerPage + 1);
+            int startP = (page - 1) * 5;
+            int endP = (page == totalPage) ? (list.size() - 1) : (page * numPerPage - 1);
             request.setAttribute("type", type);
             if (!rd.getAllAllRate("Chờ duyệt").isEmpty()) {
                 request.setAttribute("listPerPage", rd.getRateByPage(rd.getAllAllRate("Chờ duyệt"), startP, endP));

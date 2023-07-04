@@ -84,6 +84,42 @@ public class RateDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<Rate> getAllAllRate(Date dS, Date eS) {
+        List<Rate> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Rate WHERE Date BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            MovieDAO mvd = new MovieDAO();
+            while (rs.next()) {
+                Rate r = new Rate(rs.getString("UserName"), rs.getInt("movID"), rs.getString("Comments"), rs.getInt("Rate"), rs.getString("Status"), rs.getString("DisplayName"), rs.getDate("Date"), mvd.getMovieById(rs.getInt("movID")).getMovName());
+                list.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public int getCntAllAllRate(Date dS, Date eS) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Date BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            MovieDAO mvd = new MovieDAO();
+            while (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 
     public List<Rate> getAllAllRate(String status) {
         List<Rate> list = new ArrayList<>();
@@ -101,6 +137,44 @@ public class RateDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public List<Rate> getAllAllRate(String status, Date dS, Date eS) {
+        List<Rate> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Rate WHERE Status = ? AND (Date BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, status);
+            st.setDate(2, dS);
+            st.setDate(3, eS);
+            ResultSet rs = st.executeQuery();
+            MovieDAO mvd = new MovieDAO();
+            while (rs.next()) {
+                Rate r = new Rate(rs.getString("UserName"), rs.getInt("movID"), rs.getString("Comments"), rs.getInt("Rate"), rs.getString("Status"), rs.getString("DisplayName"), rs.getDate("Date"), mvd.getMovieById(rs.getInt("movID")).getMovName());
+                list.add(r);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public int getCntAllAllRate(String status, Date dS, Date eS) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Status = ? AND (Date BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, status);
+            st.setDate(2, dS);
+            st.setDate(3, eS);
+            ResultSet rs = st.executeQuery();
+            MovieDAO mvd = new MovieDAO();
+            while (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 
     public List<Rate> getCommentByTime(Date dS, Date eS, int movID) {
@@ -320,4 +394,6 @@ public class RateDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    
 }
