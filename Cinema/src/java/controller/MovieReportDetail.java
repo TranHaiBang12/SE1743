@@ -320,7 +320,7 @@ public class MovieReportDetail extends HttpServlet {
                 TID2.add(new TIcketDate("VIP", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VP"), PC));
 
                 PC = decimalFormat.format((double) tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT") / (double) numInDay * 100);
-                TID2.add(new TIcketDate("Đôi", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
+                TID2.add(new TIcketDate("VT", tkd.getNumTickTypeSellByDateEXCTLY(Date.valueOf(p), 0, "VT"), PC));
                 listTID.get(i).setTkd(TID2);
             }
             else {
@@ -331,7 +331,19 @@ public class MovieReportDetail extends HttpServlet {
                 listTID.get(i).setTkd(TID2);
             }
         }
-
+        
+        int allTick = tkd.getAllNumTickOfMovies(dS, eS, id);
+        
+        String tPC;
+        if(allTick == 0) {
+            tPC = "0";
+        }
+        else {
+            tPC = decimalFormat.format((double)numTick / (double)allTick * 100);
+        }
+        
+        request.setAttribute("tPC", tPC);
+        request.setAttribute("allTick", allTick);
         request.setAttribute("listTID", listTID);
         request.setAttribute("listMF", listMF);
         request.setAttribute("mt", mt);

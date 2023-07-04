@@ -20,6 +20,7 @@ public class Food {
     private String typeName;
     private int discontinued;
     
+    
     public Food(int id, String foodType, String typeName) {
         this.id = id;
         this.foodType = foodType;

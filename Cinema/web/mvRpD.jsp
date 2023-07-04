@@ -415,7 +415,10 @@
                     <div class = "Sttle">2. VÉ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
                     <div class = "insider1">
                         <div>
-                            Trong khoảng thời gian này đã bán được <span class = "blk">${requestScope.numTick}</span> vé của bộ phim này, chiếm <span  class = "blk">${requestScope.pcATick}%</span> tổng số vé
+                            Trong khoảng thời gian này đã bán được <span class = "blk">${requestScope.numTick}</span> vé của bộ phim này, chiếm <span  class = "blk">${requestScope.pcATick}%</span> tổng số vé bán
+                        </div>
+                        <div>
+                            Phim có tổng cộng <span class = "blk">${requestScope.allTick}</span> vé, bán được <span  class = "blk">${requestScope.tPC}%</span> số vé 
                         </div>
                         <div>
                             Có <span class = "blk">${requestScope.listTT.size()}</span> loại vé:

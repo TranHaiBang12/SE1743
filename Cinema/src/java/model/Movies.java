@@ -40,6 +40,9 @@ public class Movies {
     private int noRate;
     private double avrRate;
     
+    private int numTickSell;
+    private int allNumTick;
+    private String pcNumTickSell;
 
     public Movies() {
     }
@@ -74,6 +77,32 @@ public class Movies {
         this.img = img;
         this.endDate = endDate;
     }
+
+    public int getNumTickSell() {
+        return numTickSell;
+    }
+
+    public void setNumTickSell(int numTickSell) {
+        this.numTickSell = numTickSell;
+    }
+
+    public int getAllNumTick() {
+        return allNumTick;
+    }
+
+    public void setAllNumTick(int allNumTick) {
+        this.allNumTick = allNumTick;
+    }
+
+    public String getPcNumTickSell() {
+        return pcNumTickSell;
+    }
+
+    public void setPcNumTickSell(String pcNumTickSell) {
+        this.pcNumTickSell = pcNumTickSell;
+    }
+    
+    
 
     public Date getEndDate() {
         return endDate;

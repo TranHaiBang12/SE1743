@@ -561,7 +561,40 @@ public class ProductReport extends HttpServlet {
                         listTID6.get(i).setTkd(TID7);
                     }
                 }
+                //phim ban dc ve va phim chua ban dc ve
                 List<Movies> listM = tkd.getAllMovSellTicketByDate(start, end);
+                for (int i = 0; i < listM.size(); i++) {
+                    listM.get(i).setAllNumTick(tkd.getAllNumTickOfMovies(start, end, listM.get(i).getMovID()));
+                    listM.get(i).setNumTickSell(tkd.getNumTicketSellByTime(start, end, listM.get(i).getMovID()));
+                    if(listM.get(i).getAllNumTick() != 0) {
+                        String PC = decimalFormat.format((double)listM.get(i).getNumTickSell() / (double)listM.get(i).getAllNumTick() * 100);
+                        listM.get(i).setPcNumTickSell(PC);
+                    }
+                    else {
+                        String PC = "0";
+                        listM.get(i).setPcNumTickSell(PC);
+                    }
+                }
+                
+                List<Movies> listMNS = tkd.getAllMoviesSellTicketButNotB(start, end);
+                for (int i = 0; i < listMNS.size(); i++) {
+                    listMNS.get(i).setAllNumTick(tkd.getAllNumTickOfMovies(start, end, listMNS.get(i).getMovID()));
+                    listMNS.get(i).setNumTickSell(tkd.getNumTicketSellByTime(start, end, listMNS.get(i).getMovID()));
+                    if(listMNS.get(i).getAllNumTick() != 0) {
+                        String PC = decimalFormat.format((double)listMNS.get(i).getNumTickSell() / (double)listMNS.get(i).getAllNumTick() * 100);
+                        listMNS.get(i).setPcNumTickSell(PC);
+                    }
+                    else {
+                        String PC = "0";
+                        listMNS.get(i).setPcNumTickSell(PC);
+                    }
+                }
+
+                if (listMNS.size() > 0) {
+                    request.setAttribute("listMNS", listMNS);
+                } else {
+                    request.setAttribute("msMNS", "Không có bộ phim nào chưa bán được vé");
+                }
                 request.setAttribute("listM", listM);
                 request.setAttribute("listTID6", listTID6);
                 request.setAttribute("type", type);
@@ -725,7 +758,7 @@ public class ProductReport extends HttpServlet {
                 int totalPage = (listF.size() % numPerPage == 0) ? (listF.size() / numPerPage) : (listF.size() / numPerPage + 1);
                 int startP = (page - 1) * 5;
                 int endP = (page == totalPage) ? (listF.size() - 1) : (page * numPerPage - 1);
-                
+
                 request.setAttribute("type", type);
                 request.setAttribute("listPerPage", fd.getFoodByPage(listF, startP, endP));
                 request.setAttribute("page", page);

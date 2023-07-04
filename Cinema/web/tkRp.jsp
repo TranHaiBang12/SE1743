@@ -141,6 +141,10 @@
             .ttype2{
                 margin-left: 120px;
             }
+
+            .ms{
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -254,8 +258,9 @@
                 </div>
             </div>
             <div class = "TKET">
-                <div class = "Sttle">4. CHI TIẾT CÁC PHIM (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                <div class = "Sttle">4. CHI TIẾT CÁC PHIM CÓ VÉ MUA (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
                 <div class = "insider1">
+
                     <div>
                         <c:forEach items = "${requestScope.listM}" var = "i">
                             <div class = "mvIN4">
@@ -270,10 +275,10 @@
                                             <div>Ngày dừng chiếu: <span class = "blk">${i.getEndDate()}</span></div>
                                         </div>
                                         <div>
-                                            <div>Tổng đánh giá: <span class = "blk">${i.getSumRate()}</span></div><!-- <div></div> -->
-                                            <div>Số lượng đánh giá: <span class = "blk">${i.getNoRate()}</span></div>
-                                            <div>Trung bình: <span class = "blk">${i.getAvrRate()}</span></div>
-                                        </div>
+                                                <div>Tổng số vé: <span class = "blk">${i.getAllNumTick()}</span></div><!-- <div></div> -->
+                                                <div>Số vé bán ra : <span class = "blk">${i.getNumTickSell()}</span></div>
+                                                <div>Tỉ lệ bán vé: <span class = "blk">${i.getPcNumTickSell()}%</span></div>
+                                            </div>
                                         <div>
                                             <div><span class = "rte">Số lượt đánh giá 5 sao: <span class = "blk">${i.getNoRate5()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate5()}%</span></span></div>
                                             <div><span class = "rte">Số lượt đánh giá 4 sao: <span class = "blk">${i.getNoRate4()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate4()}%</span></span></div>
@@ -291,6 +296,54 @@
                             </div>
                         </c:forEach>
                     </div>
+
+                </div>
+            </div>
+            <div class = "TKET">
+                <div class = "Sttle">5. CHI TIẾT CÁC PHIM CHƯA BÁN ĐƯỢC VÉ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                <div class = "insider1">
+                    <c:if test = "${msMNS == null}">
+                        <div>
+                            <c:forEach items = "${requestScope.listMNS}" var = "i">
+                                <div class = "mvIN4">
+                                    <div class = "imGE"><img src = "${i.getImg()}"></div>
+                                    <div class = "in4">
+                                        <div class = "mName">
+                                            <div>${i.getMovName()}</div>
+                                        </div>
+                                        <div. class = "oIn4">
+                                            <div>
+                                                <div>Ngày khởi chiếu: <span class = "blk">${i.getStartDate()}</span></div>
+                                                <div>Ngày dừng chiếu: <span class = "blk">${i.getEndDate()}</span></div>
+                                            </div>
+                                            <div>
+                                                <div>Tổng số vé: <span class = "blk">${i.getAllNumTick()}</span></div><!-- <div></div> -->
+                                                <div>Số vé bán ra : <span class = "blk">${i.getNumTickSell()}</span></div>
+                                                <div>Tỉ lệ bán vé: <span class = "blk">${i.getPcNumTickSell()}%</span></div>
+                                            </div>
+                                            <div>
+                                                <div><span class = "rte">Số lượt đánh giá 5 sao: <span class = "blk">${i.getNoRate5()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate5()}%</span></span></div>
+                                                <div><span class = "rte">Số lượt đánh giá 4 sao: <span class = "blk">${i.getNoRate4()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate4()}%</span></span></div>
+                                                <div><span class = "rte">Số lượt đánh giá 3 sao: <span class = "blk">${i.getNoRate3()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate3()}%</span></span></div><!-- <div></div> -->
+                                                <div><span class = "rte">Số lượt đánh giá 2 sao: <span class = "blk">${i.getNoRate2()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate2()}%</span></span></div>
+                                                <div><span class = "rte">Số lượt đánh giá 1 sao: <span class = "blk">${i.getNoRate1()}</span></span><span class = "rte">Tỉ lệ: <span class = "blk">${i.getpRate1()}%</span></span></div>
+
+                                            </div>
+                                            <div class = "btn">
+                                                <a href = "rpmd?id=${i.getMovID()}&start=${requestScope.start}&end=${requestScope.end}"><input type ="button" value ="XEM CHI TIẾT"/></a>
+                                            </div>
+                                        </div.>
+                                    </div>
+
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:if>
+                    <c:if test = "${msMNS != null}">
+                        <div class = "ms">
+                            ${requestScope.msMNS}
+                        </div>
+                    </c:if>
                 </div>
             </div>
         </div>

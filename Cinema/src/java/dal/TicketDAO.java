@@ -512,8 +512,7 @@ public class TicketDAO extends DBContext {
                 st.setDate(6, eS);
                 st.setInt(7, movID);
                 st.setDate(8, nS);
-            }
-            else {
+            } else {
                 st.setDate(1, dS);
                 st.setDate(2, eS);
                 st.setDate(3, nS);
@@ -818,7 +817,7 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Movies> getAllMovSellTicketByDate(Date dS, Date eS) {
         List<Movies> list = new ArrayList<>();
         try {
@@ -836,11 +835,11 @@ public class TicketDAO extends DBContext {
             while (rs.next()) {
                 Movies m;
                 if (rs.getString("img").substring(0, 2).equals("??")) {
-                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2));
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2), rs.getDate("EndDate"));
                 } else if (rs.getString("img").substring(0, 1).equals("?")) {
-                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1));
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1), rs.getDate("EndDate"));
                 } else {
-                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"));
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"), rs.getDate("EndDate"));
                 }
                 list.add(m);
                 i++;
@@ -890,6 +889,59 @@ public class TicketDAO extends DBContext {
             st.setDate(2, eS);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+
+    public List<Movies> getAllMoviesSellTicketButNotB(Date dS, Date eS) {
+        List<Movies> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT Movies.movID, movName FROM Schedule JOIN Movies ON Schedule.movID = Movies.movID JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo WHERE (Schedule.startDate BETWEEN ? AND ?) AND Movies.movID NOT IN (\n"
+                    + "SELECT Movies.movID FROM (SELECT DISTINCT movID FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE (PaymentDate BETWEEN ? AND ?)\n"
+                    + "                    UNION\n"
+                    + "                    SELECT DISTINCT Schedule.movID FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE (Date BETWEEN ? AND ?)) AS T JOIN Movies ON T.movID = Movies.movID\n"
+                    + "\n"
+                    + ")";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setDate(3, dS);
+            st.setDate(4, eS);
+            st.setDate(5, dS);
+            st.setDate(6, eS);
+            ResultSet rs = st.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                Movies m;
+                if (rs.getString("img").substring(0, 2).equals("??")) {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2), rs.getDate("EndDate"));
+                } else if (rs.getString("img").substring(0, 1).equals("?")) {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1), rs.getDate("EndDate"));
+                } else {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"), rs.getDate("EndDate"));
+                }
+                list.add(m);
+                i++;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public int getAllNumTickOfMovies(Date dS, Date eS, int movID) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM Schedule JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo JOIN Seat ON Schedule.cinID = Seat.cinID AND Schedule.roomID = Seat.roomID JOIN SeatType ON TickTypeInSche.Type = SeatType.typeNameEN WHERE (Schedule.startDate BETWEEN ? AND ?) AND movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setInt(3, movID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
