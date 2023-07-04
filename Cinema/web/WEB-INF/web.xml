@@ -192,6 +192,10 @@
         <servlet-name>AccountReport</servlet-name>
         <servlet-class>controller.AccountReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderReportL</servlet-name>
+        <servlet-class>controller.OrderReportL</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -383,6 +387,10 @@
     <servlet-mapping>
         <servlet-name>AccountReport</servlet-name>
         <url-pattern>/arp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderReportL</servlet-name>
+        <url-pattern>/orl</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

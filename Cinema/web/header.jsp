@@ -98,10 +98,10 @@
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
                                 <a class ="lnk" href="#">Tài Khoản</a>
-                                <a class ="lnk" href="#">Quyền Lợi</a>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                                     <a class ="lnk" href="arp">Danh Sách</a>
-                                    <a class ="lnk" href="ordr?p=1">Hóa Đơn</a>
+                                    <a class ="lnk" href="ordr?p=1">Danh Sách Hóa Đơn</a>
+                                    <a class ="lnk" href="orl">Thống Kê Hóa Đơn</a>
                                 </c:if>
                             </div>
                         </div>

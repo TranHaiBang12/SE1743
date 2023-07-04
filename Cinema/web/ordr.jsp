@@ -77,6 +77,7 @@
                 width: 80%;
                 height: 30px;
                 cursor: pointer;
+                margin-bottom: 10px;
             }
 
             .uName{
@@ -159,7 +160,7 @@
                                                 <th>NGÀY THANH TOÁN</th>
                                                 <th>THỜI GIAN THANH TOÁN</th>
                                                 <th>TỔNG TIỀN</th>
-                                                <th>XEM CHI TIẾT</th>
+                                                <th>HÀNH ĐỘNG</th>
                                             </tr>
                                             <c:forEach items = "${i.getO()}" var = "k">
                                                 <tr>
@@ -168,7 +169,11 @@
                                                     <td>${k.getPaymentDate()}</td>
                                                     <td>${k.getPaymentTime()}</td>
                                                     <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
-                                                    <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/></td>
+                                                    <td>
+                                                        <input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/>
+                                                        
+                                                        <input type ="button" value = "XÓA"/>
+                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </table>

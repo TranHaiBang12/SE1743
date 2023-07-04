@@ -181,12 +181,10 @@ public class OrderReport extends HttpServlet {
             OrderDAO ord = new OrderDAO();
             List<OrderOnl> list = ord.getAllOrderOnlByUserName(null);
             List<OrderOff> listOff = ord.getAllOrderOffByUserName(null);
-            System.out.println(list.size() + " " + listOff.size());
             List<Date> dte = new ArrayList<>();
             List<Date> dte2 = new ArrayList<>();
             dte.add(list.get(0).getPaymentDate());
             dte2.add(listOff.get(0).getPaymentDate());
-            System.out.println(dte.size() + " " + dte2.size());
             int k = 0;
             for (int i = 1; i < list.size(); i++) {
                 if (!list.get(i).getPaymentDate().toString().equals(dte.get(k).toString())) {

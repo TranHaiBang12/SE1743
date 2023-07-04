@@ -53,6 +53,49 @@ public class OrderDAO extends DBContext {
         return id;
     }
 
+    public List<OrderOnl> getAllOrderOnlByDate(Date dS, Date eS) {
+        List<OrderOnl> list = new ArrayList<>();
+        try {
+            String sql = "";
+            sql = "SELECT * FROM OrderOnline WHERE PaymentDate BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                OrderOnl o = new OrderOnl(rs.getString("OrderID"), rs.getString("UserName"), rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Phone"), rs.getString("Email"), rs.getString("Country"), rs.getString("Street"), rs.getString("District"), rs.getString("City"), rs.getString("PaymentType"), rs.getDate("PaymentDate"), rs.getTime("PaymentTime"));
+                list.add(o);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<OrderOff> getAllOrderOffByDate(Date dS, Date eS) {
+        List<OrderOff> list = new ArrayList<>();
+        try {
+            String sql = "";
+            sql = "SELECT * FROM OrderOffline WHERE Date BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                OrderOff o = new OrderOff(rs.getString("OrderID"), rs.getString("Account"), rs.getString("CusName"), rs.getString("CusPhone"), rs.getInt("EmpID"), rs.getInt("cinID"), rs.getString("PaymentType"), rs.getDate("Date"), rs.getTime("Time"));
+
+                list.add(o);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public List<OrderOnl> getAllOrderOnlByUserName(String userName) {
         List<OrderOnl> list = new ArrayList<>();
         try {
@@ -458,8 +501,7 @@ public class OrderDAO extends DBContext {
             if (userName != null) {
                 st.setString(1, userName);
                 st.setDate(2, paymentDate);
-            }
-            else {
+            } else {
                 st.setDate(1, paymentDate);
             }
             ResultSet rs = st.executeQuery();
@@ -576,4 +618,5 @@ public class OrderDAO extends DBContext {
         }
         return cnt;
     }
+
 }
