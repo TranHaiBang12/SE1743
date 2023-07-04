@@ -101,7 +101,7 @@
                                 <a class ="lnk" href="#">Quyền Lợi</a>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                                     <a class ="lnk" href="arp">Danh Sách</a>
-                                    <a class ="lnk" href="#">Thống Kê</a>
+                                    <a class ="lnk" href="ordr?p=1">Hóa Đơn</a>
                                 </c:if>
                             </div>
                         </div>

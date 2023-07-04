@@ -56,9 +56,16 @@ public class OrderDAO extends DBContext {
     public List<OrderOnl> getAllOrderOnlByUserName(String userName) {
         List<OrderOnl> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM OrderOnline WHERE UserName = ?";
+            String sql = "";
+            if (userName != null) {
+                sql = "SELECT * FROM OrderOnline WHERE UserName = ?";
+            } else {
+                sql = "SELECT * FROM OrderOnline";
+            }
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, userName);
+            if (userName != null) {
+                st.setString(1, userName);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
@@ -75,11 +82,20 @@ public class OrderDAO extends DBContext {
     public OrderOnlByDate getAllOrderFoodOnlByIDAD(Date d) {
         List<OrderOnl> listO = new ArrayList<>();
         try {
-            String sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
-                    + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
-                    + "                        (SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID  WHERE PaymentDate = ?";
+            String sql = "";
+            if (d != null) {
+                sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
+                        + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "                        (SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID  WHERE PaymentDate = ?";
+            } else {
+                sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
+                        + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "                        (SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID";
+            }
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setDate(1, d);
+            if (d != null) {
+                st.setDate(1, d);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
@@ -117,11 +133,22 @@ public class OrderDAO extends DBContext {
     public OrderOffByDate getAllOrderFoodOffByIDAD(Date d) {
         List<OrderOff> listO = new ArrayList<>();
         try {
-            String sql = "SELECT OrderOffline.*, P.TotalAmount FROM OrderOffline JOIN\n"
-                    + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
-                    + "                        (SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOffline JOIN OrderOfflineDetail ON OrderOffline.OrderID = OrderOfflineDetail.OrderID GROUP BY OrderOffline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOffline.OrderID = P.OrderID  WHERE Date = ?";
+            String sql = "";
+            if (d != null) {
+                sql = "SELECT OrderOffline.*, P.TotalAmount FROM OrderOffline JOIN\n"
+                        + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "                        (SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOffline JOIN OrderOfflineDetail ON OrderOffline.OrderID = OrderOfflineDetail.OrderID GROUP BY OrderOffline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOffline.OrderID = P.OrderID  WHERE Date = ?";
+
+            } else {
+                sql = "SELECT OrderOffline.*, P.TotalAmount FROM OrderOffline JOIN\n"
+                        + "                        (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "                        (SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOffline JOIN OrderOfflineDetail ON OrderOffline.OrderID = OrderOfflineDetail.OrderID GROUP BY OrderOffline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOffline.OrderID = P.OrderID";
+            }
+
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setDate(1, d);
+            if (d != null) {
+                st.setDate(1, d);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
@@ -218,10 +245,17 @@ public class OrderDAO extends DBContext {
     public List<OrderOff> getAllOrderOffByUserName(String userName) {
         List<OrderOff> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM OrderOffline WHERE Account = ?";
+            String sql = "";
+            if (userName != null) {
+                sql = "SELECT * FROM OrderOffline WHERE Account = ?";
+            } else {
+                sql = "SELECT * FROM OrderOffline";
+            }
             PreparedStatement st = connection.prepareStatement(sql);
             CinemaDAO cnd = new CinemaDAO();
-            st.setString(1, userName);
+            if (userName != null) {
+                st.setString(1, userName);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 OrderOff o = new OrderOff(rs.getString("OrderID"), rs.getString("Account"), rs.getString("CusName"), rs.getString("CusPhone"), rs.getInt("EmpID"), rs.getInt("cinID"), rs.getString("PaymentType"), rs.getDate("Date"), rs.getTime("Time"));
@@ -405,14 +439,29 @@ public class OrderDAO extends DBContext {
     public OrderOnlByDate getAllOrderOnlByUserNameAPDate(String userName, Date paymentDate) {
         List<OrderOnl> listO = new ArrayList<>();
         try {
-            String sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
-                    + "(SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
-                    + "(SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID\n"
-                    + "UNION\n"
-                    + "SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID WHERE UserName = ? AND PaymentDate = ?";
+            String sql = "";
+            if (userName != null) {
+                sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
+                        + "(SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "(SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID\n"
+                        + "UNION\n"
+                        + "SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID WHERE UserName = ? AND PaymentDate = ?";
+            } else {
+                sql = "SELECT OrderOnline.*, P.TotalAmount FROM OrderOnline JOIN\n"
+                        + "(SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "(SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOnline JOIN OrderOnlineDetail ON OrderOnline.OrderID = OrderOnlineDetail.OrderID GROUP BY OrderOnline.OrderID\n"
+                        + "UNION\n"
+                        + "SELECT OrderOnline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOnline JOIN TicketOnlDetail ON OrderOnline.OrderID = TicketOnlDetail.OrderID GROUP BY OrderOnline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOnline.OrderID = P.OrderID WHERE PaymentDate = ?";
+            }
+
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, userName);
-            st.setDate(2, paymentDate);
+            if (userName != null) {
+                st.setString(1, userName);
+                st.setDate(2, paymentDate);
+            }
+            else {
+                st.setDate(1, paymentDate);
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
 
@@ -451,14 +500,27 @@ public class OrderDAO extends DBContext {
     public OrderOffByDate getAllOrderOffByUserNameAPDate(String userName, Date paymentDate) {
         List<OrderOff> listO = new ArrayList<>();
         try {
-            String sql = "SELECT OrderOffline.*, P.TotalAmount FROM OrderOffline JOIN\n"
-                    + "                     (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
-                    + "                     (SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOffline JOIN OrderOfflineDetail ON OrderOffline.OrderID = OrderOfflineDetail.OrderID GROUP BY OrderOffline.OrderID\n"
-                    + "                   UNION\n"
-                    + "                     SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOffline JOIN TicketOffDetail ON OrderOffline.OrderID = TicketOffDetail.OrderID GROUP BY OrderOffline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOffline.OrderID = P.OrderID WHERE Account = ? AND Date = ?";
+            String sql = "";
+            if (userName != null) {
+                sql = "SELECT OrderOffline.*, P.TotalAmount FROM OrderOffline JOIN\n"
+                        + "                     (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "                     (SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOffline JOIN OrderOfflineDetail ON OrderOffline.OrderID = OrderOfflineDetail.OrderID GROUP BY OrderOffline.OrderID\n"
+                        + "                   UNION\n"
+                        + "                     SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOffline JOIN TicketOffDetail ON OrderOffline.OrderID = TicketOffDetail.OrderID GROUP BY OrderOffline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOffline.OrderID = P.OrderID WHERE Account = ? AND Date = ?";
+            } else {
+                sql = "SELECT OrderOffline.*, P.TotalAmount FROM OrderOffline JOIN\n"
+                        + "                     (SELECT OrderID, Sum(TotalAmount) AS TotalAmount FROM\n"
+                        + "                     (SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount) * Quantity) AS TotalAmount FROM OrderOffline JOIN OrderOfflineDetail ON OrderOffline.OrderID = OrderOfflineDetail.OrderID GROUP BY OrderOffline.OrderID\n"
+                        + "                   UNION\n"
+                        + "                     SELECT OrderOffline.OrderID, SUM(Price * (1 - Discount)) FROM OrderOffline JOIN TicketOffDetail ON OrderOffline.OrderID = TicketOffDetail.OrderID GROUP BY OrderOffline.OrderID) AS [T]  GROUP BY OrderID) AS [P] ON OrderOffline.OrderID = P.OrderID WHERE Date = ?";
+            }
             PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, userName);
-            st.setDate(2, paymentDate);
+            if (userName != null) {
+                st.setString(1, userName);
+                st.setDate(2, paymentDate);
+            } else {
+                st.setDate(1, paymentDate);
+            }
             CinemaDAO cnd = new CinemaDAO();
             ResultSet rs = st.executeQuery();
             while (rs.next()) {

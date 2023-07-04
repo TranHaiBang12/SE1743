@@ -63,118 +63,180 @@ public class OrderReport extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getParameter("t") == null) {
-            String id_raw = "", date_raw = "";
-            if (request.getParameter("id") != null) {
-                id_raw = request.getParameter("id");
-            }
-            if (request.getParameter("date") != null) {
-                date_raw = request.getParameter("date");
-            }
-            int id = 0;
-            try {
-                id = Integer.parseInt(id_raw);
-            } catch (Exception e) {
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-            }
-            String p = "", t;
-            int cnt = 0;
-            for (int j = 0; j < date_raw.length(); j++) {
+        if (request.getParameter("p") == null) {
+            if (request.getParameter("t") == null) {
+                String id_raw = "", date_raw = "";
+                if (request.getParameter("id") != null) {
+                    id_raw = request.getParameter("id");
+                }
+                if (request.getParameter("date") != null) {
+                    date_raw = request.getParameter("date");
+                }
+                int id = 0;
+                try {
+                    id = Integer.parseInt(id_raw);
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+                String p = "", t;
+                int cnt = 0;
+                for (int j = 0; j < date_raw.length(); j++) {
 
-                if (date_raw.charAt(j) == '-' && cnt == 0) {
-                    p += date_raw.substring(0, j);
-                    cnt = j;
-                } else if (date_raw.charAt(j) == '-' && cnt != 0) {
-                    t = p;
-                    p = date_raw.substring(cnt, j + 1);
-                    p += t;
-                    cnt = j;
-                    break;
+                    if (date_raw.charAt(j) == '-' && cnt == 0) {
+                        p += date_raw.substring(0, j);
+                        cnt = j;
+                    } else if (date_raw.charAt(j) == '-' && cnt != 0) {
+                        t = p;
+                        p = date_raw.substring(cnt, j + 1);
+                        p += t;
+                        cnt = j;
+                        break;
+                    }
+                }
+                t = p;
+                p = date_raw.substring(cnt + 1);
+                p += t;
+                Date date = Date.valueOf(p);
+                OrderDAO ord = new OrderDAO();
+
+                OrderOnlByDate onl = ord.getAllOrderTicketOnlByIDAD(id, date);
+                OrderOffByDate off = ord.getAllOrderTicketOffByIDAD(id, date);
+
+                List<OrderOnlByDate> listOBD = new ArrayList<>();
+                listOBD.add(onl);
+                List<OrderOffByDate> listOFBD = new ArrayList<>();
+                listOFBD.add(off);
+                if (onl.getO().isEmpty()) {
+                    request.setAttribute("msONL", "Không có sản phẩm nào được mua thông qua website vào ngày này");
+                } else {
+                    request.setAttribute("listOBD", listOBD);
+                }
+                if (off.getOf().isEmpty()) {
+                    System.out.println("2");
+                    request.setAttribute("msOFF", "Không có sản phẩm nào được mua trực tiếp vào ngày này");
+                } else {
+                    request.setAttribute("listOFBD", listOFBD);
+                }
+
+                request.setAttribute("date", date);
+                request.getRequestDispatcher("ordr.jsp").forward(request, response);
+            } else {
+                String id_raw = "", date_raw = "";
+                if (request.getParameter("id") != null) {
+                    id_raw = request.getParameter("id");
+                }
+                if (request.getParameter("date") != null) {
+                    date_raw = request.getParameter("date");
+                }
+                int id = 0;
+                try {
+                    id = Integer.parseInt(id_raw);
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+                String p = "", t;
+                int cnt = 0;
+                for (int j = 0; j < date_raw.length(); j++) {
+
+                    if (date_raw.charAt(j) == '-' && cnt == 0) {
+                        p += date_raw.substring(0, j);
+                        cnt = j;
+                    } else if (date_raw.charAt(j) == '-' && cnt != 0) {
+                        t = p;
+                        p = date_raw.substring(cnt, j + 1);
+                        p += t;
+                        cnt = j;
+                        break;
+                    }
+                }
+                t = p;
+                p = date_raw.substring(cnt + 1);
+                p += t;
+                Date date = Date.valueOf(p);
+                OrderDAO ord = new OrderDAO();
+
+                OrderOnlByDate onl = ord.getAllOrderFoodOnlByIDAD(date);
+                OrderOffByDate off = ord.getAllOrderFoodOffByIDAD(date);
+
+                List<OrderOnlByDate> listOBD = new ArrayList<>();
+                listOBD.add(onl);
+                List<OrderOffByDate> listOFBD = new ArrayList<>();
+                listOFBD.add(off);
+                if (onl.getO().isEmpty()) {
+                    request.setAttribute("msONL", "Không có sản phẩm nào được mua thông qua website vào ngày này");
+                } else {
+                    request.setAttribute("listOBD", listOBD);
+                }
+                if (off.getOf().isEmpty()) {
+                    System.out.println("2");
+                    request.setAttribute("msOFF", "Không có sản phẩm nào được mua trực tiếp vào ngày này");
+                } else {
+                    request.setAttribute("listOFBD", listOFBD);
+                }
+
+                request.setAttribute("date", date);
+                request.getRequestDispatcher("ordr.jsp").forward(request, response);
+            }
+        } else {
+            OrderDAO ord = new OrderDAO();
+            List<OrderOnl> list = ord.getAllOrderOnlByUserName(null);
+            List<OrderOff> listOff = ord.getAllOrderOffByUserName(null);
+            System.out.println(list.size() + " " + listOff.size());
+            List<Date> dte = new ArrayList<>();
+            List<Date> dte2 = new ArrayList<>();
+            dte.add(list.get(0).getPaymentDate());
+            dte2.add(listOff.get(0).getPaymentDate());
+            System.out.println(dte.size() + " " + dte2.size());
+            int k = 0;
+            for (int i = 1; i < list.size(); i++) {
+                if (!list.get(i).getPaymentDate().toString().equals(dte.get(k).toString())) {
+                    k++;
+                    dte.add(list.get(i).getPaymentDate());
                 }
             }
-            t = p;
-            p = date_raw.substring(cnt + 1);
-            p += t;
-            Date date = Date.valueOf(p);
-            OrderDAO ord = new OrderDAO();
+            Date swap;
+            for (int i = 0; i < dte.size() - 1; i++) {
+                for (int j = i + 1; j < dte.size(); j++) {
+                    if (dte.get(i).compareTo(dte.get(j)) >= 0) {
+                        swap = dte.get(i);
+                        dte.set(i, dte.get(j));
+                        dte.set(j, swap);
+                    }
+                }
 
-            OrderOnlByDate onl = ord.getAllOrderTicketOnlByIDAD(id, date);
-            OrderOffByDate off = ord.getAllOrderTicketOffByIDAD(id, date);
-
+            }
             List<OrderOnlByDate> listOBD = new ArrayList<>();
-            listOBD.add(onl);
-            List<OrderOffByDate> listOFBD = new ArrayList<>();
-            listOFBD.add(off);
-            if (onl.getO().isEmpty()) {
-                request.setAttribute("msONL", "Không có sản phẩm nào được mua thông qua website vào ngày này");
-            } else {
-                request.setAttribute("listOBD", listOBD);
+            for (int i = 0; i < dte.size(); i++) {
+                listOBD.add(ord.getAllOrderOnlByUserNameAPDate(null, dte.get(i)));
             }
-            if (off.getOf().isEmpty()) {
-                System.out.println("2");
-                request.setAttribute("msOFF", "Không có sản phẩm nào được mua trực tiếp vào ngày này");
-            } else {
-                request.setAttribute("listOFBD", listOFBD);
-            }
-
-            request.setAttribute("date", date);
-            request.getRequestDispatcher("ordr.jsp").forward(request, response);
-        }
-        else {
-            String id_raw = "", date_raw = "";
-            if (request.getParameter("id") != null) {
-                id_raw = request.getParameter("id");
-            }
-            if (request.getParameter("date") != null) {
-                date_raw = request.getParameter("date");
-            }
-            int id = 0;
-            try {
-                id = Integer.parseInt(id_raw);
-            } catch (Exception e) {
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-            }
-            String p = "", t;
-            int cnt = 0;
-            for (int j = 0; j < date_raw.length(); j++) {
-
-                if (date_raw.charAt(j) == '-' && cnt == 0) {
-                    p += date_raw.substring(0, j);
-                    cnt = j;
-                } else if (date_raw.charAt(j) == '-' && cnt != 0) {
-                    t = p;
-                    p = date_raw.substring(cnt, j + 1);
-                    p += t;
-                    cnt = j;
-                    break;
+            k = 0;
+            
+            for (int i = 1; i < listOff.size(); i++) {
+                if (!listOff.get(i).getPaymentDate().toString().equals(dte2.get(k).toString())) {
+                    k = i;
+                    System.out.println("2");
+                    dte2.add(listOff.get(i).getPaymentDate());
                 }
             }
-            t = p;
-            p = date_raw.substring(cnt + 1);
-            p += t;
-            Date date = Date.valueOf(p);
-            OrderDAO ord = new OrderDAO();
+            for (int i = 0; i < dte2.size() - 1; i++) {
+                for (int j = i + 1; j < dte2.size(); j++) {
+                    if (dte2.get(i).compareTo(dte2.get(j)) >= 0) {
+                        swap = dte2.get(i);
+                        dte2.set(i, dte2.get(j));
+                        dte2.set(j, swap);
+                    }
+                }
 
-            OrderOnlByDate onl = ord.getAllOrderFoodOnlByIDAD(date);
-            OrderOffByDate off = ord.getAllOrderFoodOffByIDAD(date);
-
-            List<OrderOnlByDate> listOBD = new ArrayList<>();
-            listOBD.add(onl);
+            }
             List<OrderOffByDate> listOFBD = new ArrayList<>();
-            listOFBD.add(off);
-            if (onl.getO().isEmpty()) {
-                request.setAttribute("msONL", "Không có sản phẩm nào được mua thông qua website vào ngày này");
-            } else {
-                request.setAttribute("listOBD", listOBD);
-            }
-            if (off.getOf().isEmpty()) {
-                System.out.println("2");
-                request.setAttribute("msOFF", "Không có sản phẩm nào được mua trực tiếp vào ngày này");
-            } else {
-                request.setAttribute("listOFBD", listOFBD);
+            for (int i = 0; i < dte2.size(); i++) {
+                listOFBD.add(ord.getAllOrderOffByUserNameAPDate(null, dte2.get(i)));
             }
 
-            request.setAttribute("date", date);
+        
+
+            request.setAttribute("listOBD", listOBD);
+            request.setAttribute("listOFBD", listOFBD);
             request.getRequestDispatcher("ordr.jsp").forward(request, response);
         }
     }
