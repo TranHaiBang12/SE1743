@@ -7,13 +7,16 @@ package dal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import model.Account;
 
 /**
  *
  * @author acer
  */
-public class AccountDAO extends DBContext{
+public class AccountDAO extends DBContext {
+
     public Account check(String u, String p) {
         try {
             String sql = "SELECT * FROM Acc WHERE (UserName = ?) AND Password = ?";
@@ -21,16 +24,16 @@ public class AccountDAO extends DBContext{
             st.setString(1, u);
             st.setString(2, p);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Account a = new Account(rs.getString("UserName"), rs.getString("Password"), rs.getInt("Role"));
-                return a;               
+                return a;
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
-    
+
     public void insert(String user, String gender, Date dob, String phone, String email, String city, int role, String pass) {
         String sql = "INSERT INTO Account VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         String sql1 = "INSERT INTO Acc VALUES (?, ?, ?)";
@@ -50,67 +53,19 @@ public class AccountDAO extends DBContext{
             st.setInt(7, role);
             st.setString(8, pass);
             st.executeUpdate();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
+
     public Account checkU(String u) {
         try {
             String sql = "SELECT * FROM Account WHERE UserName = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, u);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
-                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"),rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
-                return a;               
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-    
-    public Account checkP(String u) {
-        try {
-            String sql = "SELECT * FROM Account WHERE Password = ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, u);
-            ResultSet rs = st.executeQuery();
-            if(rs.next()) {
-                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"),rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
-                return a;               
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-    
-    public Account checkE(String u) {
-        try {
-            String sql = "SELECT * FROM Account WHERE Email = ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, u);
-            ResultSet rs = st.executeQuery();
-            if(rs.next()) {
-                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"),rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
-                return a;               
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return null;
-    }
-    
-    public Account getAccountByUserName(String username) {
-        try {
-            String sql = "SELECT Account.* FROM Acc JOIN Account ON Acc.UserName = Account.UserName WHERE Acc.UserName = ?";
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, username);
-            ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"), rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
                 return a;
             }
@@ -119,9 +74,55 @@ public class AccountDAO extends DBContext{
         }
         return null;
     }
-    
-    
-    
+
+    public Account checkP(String u) {
+        try {
+            String sql = "SELECT * FROM Account WHERE Password = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, u);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"), rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                return a;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Account checkE(String u) {
+        try {
+            String sql = "SELECT * FROM Account WHERE Email = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, u);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"), rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                return a;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public Account getAccountByUserName(String username) {
+        try {
+            String sql = "SELECT Account.* FROM Acc JOIN Account ON Acc.UserName = Account.UserName WHERE Acc.UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"), rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                return a;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public void updAccountNoCngPass(String username, String gen, Date dob, String phone, String email, String city) {
         try {
             String sql = "UPDATE Account SET Gender = ?, Dob = ?, Phone = ?, Email = ?, City = ? WHERE UserName = ?";
@@ -137,7 +138,7 @@ public class AccountDAO extends DBContext{
             System.out.println(e);
         }
     }
-    
+
     public void updAccountCngPass(String username, String gen, Date dob, String phone, String email, String pass, String city) {
         try {
             String sql = "UPDATE Account SET Gender = ?, Dob = ?, Phone = ?, Email = ?, City = ?, Password = ? WHERE UserName = ?";
@@ -159,7 +160,7 @@ public class AccountDAO extends DBContext{
             System.out.println(e);
         }
     }
-    
+
     public String checkDuplicatePhone(String phone, String username) {
         try {
             String sql = "SELECT Phone FROM Account WHERE Phone = ? AND UserName != ?";
@@ -167,7 +168,7 @@ public class AccountDAO extends DBContext{
             st.setString(1, phone);
             st.setString(2, username);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getString("Phone");
             }
         } catch (Exception e) {
@@ -175,7 +176,7 @@ public class AccountDAO extends DBContext{
         }
         return null;
     }
-    
+
     public void updRole(String u, int role) {
         try {
             String sql = "UPDATE Acc SET Role = ? WHERE UserName = ?";
@@ -186,5 +187,107 @@ public class AccountDAO extends DBContext{
         } catch (Exception e) {
             System.out.println("e");
         }
+    }
+
+    public int getNumBuy(String user) {
+        int a = 0, b = 0;
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM OrderOnline WHERE UserName = ?";
+            String sql1 = "SELECT COUNT(*) AS T FROM OrderOffline WHERE OrderOffline.Account = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, user);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                a = rs.getInt("T");
+            }
+
+            st = connection.prepareStatement(sql1);
+            st.setString(1, user);
+            rs = st.executeQuery();
+            if (rs.next()) {
+                b = rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return a + b;
+    }
+    
+    public int getNumBuyOnl(String user) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM OrderOnline WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, user);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumBuyOff(String user) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM OrderOffline WHERE OrderOffline.Account = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, user);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public List<Account> getAllAcount() {
+        List<Account> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Account";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"), rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                list.add(a);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<String> getCusCity() {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT City FROM Account";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("City"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public int getNumCusCity(String city) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM Account WHERE City = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, city);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 }

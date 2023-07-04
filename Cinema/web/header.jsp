@@ -99,6 +99,10 @@
                             <div class=insidedropdown-content>
                                 <a class ="lnk" href="#">Tài Khoản</a>
                                 <a class ="lnk" href="#">Quyền Lợi</a>
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="arp">Danh Sách</a>
+                                    <a class ="lnk" href="#">Thống Kê</a>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -141,8 +145,8 @@
                             </div>
                             <div class="dropdown-content">
                                 <div class=insidedropdown-content>
-                                    <a class ="lnk" href="rpp?type=TK">VÉ</a>
-                                    <a class ="lnk" href="rpp?type=FD">ĐỒ ĂN</a>
+                                    <a class ="lnk" href="rpp?type=TK">Vé</a>
+                                    <a class ="lnk" href="rpp?type=FD">Đồ Ăn</a>
                                 </div>
                             </div>
                         </div>

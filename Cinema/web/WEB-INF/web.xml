@@ -188,6 +188,10 @@
         <servlet-name>RateReport</servlet-name>
         <servlet-class>controller.RateReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AccountReport</servlet-name>
+        <servlet-class>controller.AccountReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -375,6 +379,10 @@
     <servlet-mapping>
         <servlet-name>RateReport</servlet-name>
         <url-pattern>/rrp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountReport</servlet-name>
+        <url-pattern>/arp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

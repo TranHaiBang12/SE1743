@@ -19,6 +19,31 @@ public class Account {
     private String City;
     private int role;
     private String Password;
+    
+    private int numBuy;
+    private int numBuyOnl;
+    private int numBuyOff;
+    private String pcOnl;
+    private String pcOff;
+    private int point;
+    private int pointUse;
+    private String pcPointUse;
+    private int numRate;
+
+    public Account(String UserName, int numBuy, int numBuyOnl, int numBuyOff, String pcOnl, String pcOff, int point, int pointUse, String pcPointUse, int numRate) {
+        this.UserName = UserName;
+        this.numBuy = numBuy;
+        this.numBuyOnl = numBuyOnl;
+        this.numBuyOff = numBuyOff;
+        this.pcOnl = pcOnl;
+        this.pcOff = pcOff;
+        this.point = point;
+        this.pointUse = pointUse;
+        this.pcPointUse = pcPointUse;
+        this.numRate = numRate;
+    }
+    
+    
 
     public Account(String UserName, String Password, int role) {
         this.UserName = UserName;
@@ -36,6 +61,80 @@ public class Account {
         this.role = role;
         this.Password = Password;
     }
+
+    public int getNumBuy() {
+        return numBuy;
+    }
+
+    public void setNumBuy(int numBuy) {
+        this.numBuy = numBuy;
+    }
+
+    public int getNumBuyOnl() {
+        return numBuyOnl;
+    }
+
+    public void setNumBuyOnl(int numBuyOnl) {
+        this.numBuyOnl = numBuyOnl;
+    }
+
+    public int getNumBuyOff() {
+        return numBuyOff;
+    }
+
+    public void setNumBuyOff(int numBuyOff) {
+        this.numBuyOff = numBuyOff;
+    }
+
+    public String getPcOnl() {
+        return pcOnl;
+    }
+
+    public void setPcOnl(String pcOnl) {
+        this.pcOnl = pcOnl;
+    }
+
+    public String getPcOff() {
+        return pcOff;
+    }
+
+    public void setPcOff(String pcOff) {
+        this.pcOff = pcOff;
+    }
+
+    public int getPoint() {
+        return point;
+    }
+
+    public void setPoint(int point) {
+        this.point = point;
+    }
+
+    public int getPointUse() {
+        return pointUse;
+    }
+
+    public void setPointUse(int pointUse) {
+        this.pointUse = pointUse;
+    }
+
+    public String getPcPointUse() {
+        return pcPointUse;
+    }
+
+    public void setPcPointUse(String pcPointUse) {
+        this.pcPointUse = pcPointUse;
+    }
+
+    public int getNumRate() {
+        return numRate;
+    }
+
+    public void setNumRate(int numRate) {
+        this.numRate = numRate;
+    }
+    
+    
 
     public String getUserName() {
         return UserName;

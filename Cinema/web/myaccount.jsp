@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <<link rel="stylesheet" href="style.css"/>
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         <style>
             .uName{
                 font-size: 40px;
@@ -66,19 +67,20 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: flex-start;
-                margin-left: 100px;;
+                margin-left: 100px;
+                ;
 
             }
-            
+
             .eIN4 {
                 font-size: 20px;
                 margin-left: 50px;
             }
-            
+
             .eIN4 div{
                 margin-bottom: 20px;
             }
-            
+
             .t{
                 width: 200px;
                 height: 30px;
@@ -105,7 +107,12 @@
                                 <div>Số lần mua hàng: <span class = "rd">${requestScope.totalOrd}</span></div>
                                 <div>Điểm tích lũy: <span class = "rd">${requestScope.point}</span></div>
                                 <div>
-                                    <a href = "transact"><input type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                    <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                        <a href = "transact?acc=${requestScope.acc.getUserName()}"><input type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                        </c:if>
+                                        <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() != 3}">
+                                        <a href = "transact"><input type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                        </c:if>
                                     <input type ="button" onclick ="check()" value ="UPDATE"/>
                                 </div>
                                 <div id = "t">
@@ -142,7 +149,12 @@
                                         </c:if>
                                     <div>Điểm tích lũy: <span class = "rd">${requestScope.point}</span></div>
                                     <div>
-                                        <a href = "transact"><input class ="t" type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                        <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                            <a href = "transact?acc=${requestScope.accE.getUsername()}"><input class ="t" type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                            </c:if>
+                                            <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() != 3}">
+                                            <a href = "transact><input class ="t" type ="button" value ="LỊCH SỬ GIAO DỊCH"/></a>
+                                        </c:if>
                                         <input type ="button" class ="t" onclick ="check()" value ="UPDATE"/>
                                     </div>
                                     <div id = "t">

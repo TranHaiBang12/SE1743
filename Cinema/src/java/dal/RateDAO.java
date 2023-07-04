@@ -395,5 +395,18 @@ public class RateDAO extends DBContext {
         }
     }
     
-    
+    public int getNumRateByAcc(String user) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, user);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 }

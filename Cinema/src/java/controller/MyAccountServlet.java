@@ -69,77 +69,151 @@ public class MyAccountServlet extends HttpServlet {
         AccountDAO acd = new AccountDAO();
         OrderDAO ord = new OrderDAO();
         PointDAO pd = new PointDAO();
-        String date = "", month = "", year = "";
-        int cnt = 0;
-        int point = 0;
-        if (a.getRole() == 2) {
-            String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
-            for (int i = 0; i < t.length(); i++) {
-                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
-                    year = t.substring(cnt, i);
-                    cnt = i;
-                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
-                    month = t.substring(cnt + 1, i);
-                    cnt = i;
+        if (request.getParameter("user") == null) {
+            String date = "", month = "", year = "";
+            int cnt = 0;
+            int point = 0;
+            if (a.getRole() == 2) {
+                String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        year = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        month = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
                 }
-            }
-            date = t.substring(cnt + 1);
-            AccountPoint ap = pd.getAccountPoint(a.getUserName());
+                date = t.substring(cnt + 1);
+                AccountPoint ap = pd.getAccountPoint(a.getUserName());
 
-            if (ap != null) {
-                point = ap.getPoint();
+                if (ap != null) {
+                    point = ap.getPoint();
+                } else {
+                    point = 0;
+                }
+                request.setAttribute("point", point);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
+                request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));
+                request.getRequestDispatcher("myaccount.jsp").forward(request, response);
             } else {
-                point = 0;
-            }
-            request.setAttribute("point", point);
-            request.setAttribute("dob", date + "-" + month + "-" + year);
-            request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
-            request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));
-            request.getRequestDispatcher("myaccount.jsp").forward(request, response);
-        } else {
-            String dateH = "", monthH = "", yearH = "";
-            EmployeeDAO ed = new EmployeeDAO();
-            String t = ed.getAccEmpByUserName(a.getUserName()).getDob().toString();
-            for (int i = 0; i < t.length(); i++) {
-                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
-                    year = t.substring(cnt, i);
-                    cnt = i;
-                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
-                    month = t.substring(cnt + 1, i);
-                    cnt = i;
+                String dateH = "", monthH = "", yearH = "";
+                EmployeeDAO ed = new EmployeeDAO();
+                String t = ed.getAccEmpByUserName(a.getUserName()).getDob().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        year = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        month = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
                 }
-            }
-            date = t.substring(cnt + 1);
-            cnt = 0;
-            t = ed.getAccEmpByUserName(a.getUserName()).getDob().toString();
-            for (int i = 0; i < t.length(); i++) {
-                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
-                    yearH = t.substring(cnt, i);
-                    cnt = i;
-                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
-                    monthH = t.substring(cnt + 1, i);
-                    cnt = i;
+                date = t.substring(cnt + 1);
+                cnt = 0;
+                t = ed.getAccEmpByUserName(a.getUserName()).getDob().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        yearH = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        monthH = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
                 }
-            }
-            dateH = t.substring(cnt + 1);
-            AccountPoint ap = pd.getAccountPoint(a.getUserName());
+                dateH = t.substring(cnt + 1);
+                AccountPoint ap = pd.getAccountPoint(a.getUserName());
 
-            if (ap != null) {
-                point = ap.getPoint();
-            } else {
-                point = 0;
+                if (ap != null) {
+                    point = ap.getPoint();
+                } else {
+                    point = 0;
+                }
+                CinemaDAO cnd = new CinemaDAO();
+                request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(a.getUserName()).getCinID()));
+                request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(a.getUserName()).getManagerID()));
+                request.setAttribute("point", point);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
+                request.setAttribute("hiredDate", dateH + "-" + monthH + "-" + yearH);
+                request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));
+                request.getRequestDispatcher("myaccount.jsp").forward(request, response);
             }
-            CinemaDAO cnd = new CinemaDAO();
-            request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(a.getUserName()).getCinID()));
-            request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(a.getUserName()).getManagerID()));
-            request.setAttribute("point", point);
-            request.setAttribute("dob", date + "-" + month + "-" + year);
-            request.setAttribute("accE", ed.getAccEmpByUserName(a.getUserName()));
-            request.setAttribute("hiredDate", dateH + "-" + monthH + "-" + yearH);
-            request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));
-            request.getRequestDispatcher("myaccount.jsp").forward(request, response);
         }
+        else {
+            a = acd.getAccountByUserName(request.getParameter("user"));
+            String date = "", month = "", year = "";
+            int cnt = 0;
+            int point = 0;
+            if (a.getRole() == 2) {
+                String t = acd.getAccountByUserName(a.getUserName()).getDob().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        year = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        month = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
+                }
+                date = t.substring(cnt + 1);
+                AccountPoint ap = pd.getAccountPoint(a.getUserName());
 
+                if (ap != null) {
+                    point = ap.getPoint();
+                } else {
+                    point = 0;
+                }
+                request.setAttribute("point", point);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
+                request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(a.getUserName()));
+                request.getRequestDispatcher("myaccount.jsp").forward(request, response);
+            } else {
+                String dateH = "", monthH = "", yearH = "";
+                EmployeeDAO ed = new EmployeeDAO();
+                String t = ed.getAccEmpByUserName(request.getParameter("user")).getDob().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        year = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        month = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
+                }
+                date = t.substring(cnt + 1);
+                cnt = 0;
+                t = ed.getAccEmpByUserName(request.getParameter("user")).getDob().toString();
+                for (int i = 0; i < t.length(); i++) {
+                    if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                        yearH = t.substring(cnt, i);
+                        cnt = i;
+                    } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                        monthH = t.substring(cnt + 1, i);
+                        cnt = i;
+                    }
+                }
+                dateH = t.substring(cnt + 1);
+                AccountPoint ap = pd.getAccountPoint(request.getParameter("user"));
+
+                if (ap != null) {
+                    point = ap.getPoint();
+                } else {
+                    point = 0;
+                }
+                CinemaDAO cnd = new CinemaDAO();
+                request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(request.getParameter("user")).getCinID()));
+                request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(request.getParameter("user")).getManagerID()));
+                request.setAttribute("point", point);
+                request.setAttribute("dob", date + "-" + month + "-" + year);
+                request.setAttribute("accE", ed.getAccEmpByUserName(request.getParameter("user")));
+                request.setAttribute("hiredDate", dateH + "-" + monthH + "-" + yearH);
+                request.setAttribute("totalOrd", ord.getNumberOfOrderByUserName(request.getParameter("user")));
+                request.getRequestDispatcher("myaccount.jsp").forward(request, response);
+            }
+        }
     }
 
     /**

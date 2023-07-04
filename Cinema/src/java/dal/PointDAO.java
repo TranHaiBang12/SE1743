@@ -138,6 +138,21 @@ public class PointDAO extends DBContext {
         return 0;
     }
     
+    public int getNumAccountUsedPoint(String username) {
+        try {
+            String sql = "SELECT COUNT(*) AS TotalPoint FROM AccountUsedPoint WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("TotalPoint");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
     public void updStatusAPD(String username, String orderID, String status) {
         try {
             String sql = "UPDATE AccountPointDetail SET Status = ? WHERE UserName = ? AND OrderID = ?";
