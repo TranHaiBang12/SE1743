@@ -172,7 +172,15 @@
                             <div>
                                 <div>Tổng số vé được bán: <span class = "blk">${requestScope.numTick}</span>, chiếm <span  class = "blk">${requestScope.pcNumTick}%</span> tổng số vé được bán từ trước đến nay</div><!-- <div></div> -->
                             </div>
-
+                            <div>
+                                <div>Doanh thu bán: <span class = "rd">${requestScope.numIA}đ</span>
+                            </div>
+                            <div>
+                                <div>Doanh thu bán online: <span class = "rd">${requestScope.numOnl}đ</span>, chiếm <span  class = "blk">${requestScope.PCnumONL}%</span> doanh thu</div><!-- <div></div> -->
+                            </div>
+                            <div>
+                                <div>Doanh thu bán offline: <span class = "rd">${requestScope.numOff}đ</span>, chiếm <span  class = "blk">${requestScope.PCnumOFF}%</span> doanh thu</div><!-- <div></div> -->
+                            </div>
 
                         </div.>
                     </div>

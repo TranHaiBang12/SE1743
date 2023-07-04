@@ -11,12 +11,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         <style>
             #userN{
                 font-size:20px;
                 text-decoration: none;
                 color: white;
                 cursor: pointer;
+                margin-right: 20px;
             }
 
 
@@ -32,7 +34,6 @@
                 <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
                 </c:if>
             <li><a href="#">CSKH</a></li>
-            <li><a href="#">EN</a></li>
                 <c:if test = "${sessionScope.account!=null}">
                 <li><a href="transact">LỊCH SỬ GIAO DỊCH</a></li>
                 <div class="dropdown">
@@ -41,6 +42,18 @@
                         <div class=insidedropdown-content>
                             <a href="acc">Thông Tin Tài Khoản</a>
                             <a href="logout">Đăng Xuất</a>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+                <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
+                <div class="dropdown">
+                    <li id = "userN">BÁO CÁO</li>
+                    <div class="dropdown-content">
+                        <div class=insidedropdown-content>
+                            <a href="#">Báo Cáo Tổng</a>
+                            <a href="icr">Báo Cáo Doanh Thu</a>
+                            <a href="itr">Báo Cáo Lợi Nhuận</a>
                         </div>
                     </div>
                 </div>

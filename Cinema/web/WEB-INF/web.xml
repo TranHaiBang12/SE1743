@@ -196,6 +196,14 @@
         <servlet-name>OrderReportL</servlet-name>
         <servlet-class>controller.OrderReportL</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>IncomeReport</servlet-name>
+        <servlet-class>controller.IncomeReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InterestReport</servlet-name>
+        <servlet-class>controller.InterestReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -391,6 +399,14 @@
     <servlet-mapping>
         <servlet-name>OrderReportL</servlet-name>
         <url-pattern>/orl</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IncomeReport</servlet-name>
+        <url-pattern>/icr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InterestReport</servlet-name>
+        <url-pattern>/itr</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

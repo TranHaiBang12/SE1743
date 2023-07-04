@@ -417,5 +417,37 @@ public class FoodDAO extends DBContext {
         }
         return list;
     }
+    
+    public int getIncomeOnl(Date dS, Date eS) {
+        try {
+            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getIncomeOff(Date dS, Date eS) {
+        try {
+            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM OrderOfflineDetail JOIN OrderOffline ON OrderOfflineDetail.OrderID = OrderOffline.OrderID WHERE Date BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 
 }

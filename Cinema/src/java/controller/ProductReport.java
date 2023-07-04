@@ -98,7 +98,6 @@ public class ProductReport extends HttpServlet {
         String start_raw = request.getParameter("start");
         String end_raw = request.getParameter("end");
         String type = request.getParameter("type");
-        System.out.println(start_raw + " " + end_raw + " " + request.getParameter("page"));
         if (type != null) {
             Date start = Date.valueOf(start_raw);
             Date end = Date.valueOf(end_raw);
@@ -566,25 +565,23 @@ public class ProductReport extends HttpServlet {
                 for (int i = 0; i < listM.size(); i++) {
                     listM.get(i).setAllNumTick(tkd.getAllNumTickOfMovies(start, end, listM.get(i).getMovID()));
                     listM.get(i).setNumTickSell(tkd.getNumTicketSellByTime(start, end, listM.get(i).getMovID()));
-                    if(listM.get(i).getAllNumTick() != 0) {
-                        String PC = decimalFormat.format((double)listM.get(i).getNumTickSell() / (double)listM.get(i).getAllNumTick() * 100);
+                    if (listM.get(i).getAllNumTick() != 0) {
+                        String PC = decimalFormat.format((double) listM.get(i).getNumTickSell() / (double) listM.get(i).getAllNumTick() * 100);
                         listM.get(i).setPcNumTickSell(PC);
-                    }
-                    else {
+                    } else {
                         String PC = "0";
                         listM.get(i).setPcNumTickSell(PC);
                     }
                 }
-                
+
                 List<Movies> listMNS = tkd.getAllMoviesSellTicketButNotB(start, end);
                 for (int i = 0; i < listMNS.size(); i++) {
                     listMNS.get(i).setAllNumTick(tkd.getAllNumTickOfMovies(start, end, listMNS.get(i).getMovID()));
                     listMNS.get(i).setNumTickSell(tkd.getNumTicketSellByTime(start, end, listMNS.get(i).getMovID()));
-                    if(listMNS.get(i).getAllNumTick() != 0) {
-                        String PC = decimalFormat.format((double)listMNS.get(i).getNumTickSell() / (double)listMNS.get(i).getAllNumTick() * 100);
+                    if (listMNS.get(i).getAllNumTick() != 0) {
+                        String PC = decimalFormat.format((double) listMNS.get(i).getNumTickSell() / (double) listMNS.get(i).getAllNumTick() * 100);
                         listMNS.get(i).setPcNumTickSell(PC);
-                    }
-                    else {
+                    } else {
                         String PC = "0";
                         listMNS.get(i).setPcNumTickSell(PC);
                     }
@@ -595,6 +592,25 @@ public class ProductReport extends HttpServlet {
                 } else {
                     request.setAttribute("msMNS", "Không có bộ phim nào chưa bán được vé");
                 }
+
+                //income
+                int numOnl = tkd.getOnlineIncome(start, end);
+                int numOff = tkd.getOfflineIncome(start, end);
+                int numIA = numOnl + numOff;
+
+                String PCnumONL = "0";
+                String PCnumOFF = "0";
+                if(numIA != 0) {
+                    PCnumONL = decimalFormat.format((double)numOnl / (double)numIA * 100);
+                    PCnumOFF = decimalFormat.format((double)numOff / (double)numIA * 100);
+                }
+                
+                request.setAttribute("PCnumONL", PCnumONL);
+                request.setAttribute("PCnumOFF", PCnumOFF);
+                
+                request.setAttribute("numOnl", numOnl);
+                request.setAttribute("numOff", numOff);
+                request.setAttribute("numIA", numIA);
                 request.setAttribute("listM", listM);
                 request.setAttribute("listTID6", listTID6);
                 request.setAttribute("type", type);
@@ -758,7 +774,26 @@ public class ProductReport extends HttpServlet {
                 int totalPage = (listF.size() % numPerPage == 0) ? (listF.size() / numPerPage) : (listF.size() / numPerPage + 1);
                 int startP = (page - 1) * 5;
                 int endP = (page == totalPage) ? (listF.size() - 1) : (page * numPerPage - 1);
-
+                
+                //income
+                
+                int numOnl = fd.getIncomeOnl(start, end);
+                int numOff = fd.getIncomeOff(start, end);                      
+                int numIA = numOnl + numOff;
+                
+                String PCnumONL = "0";
+                String PCnumOFF = "0";
+                if(numIA != 0) {
+                    PCnumONL = decimalFormat.format((double)numOnl / (double)numIA * 100);
+                    PCnumOFF = decimalFormat.format((double)numOff / (double)numIA * 100);
+                }
+                
+                request.setAttribute("PCnumONL", PCnumONL);
+                request.setAttribute("PCnumOFF", PCnumOFF);
+                
+                request.setAttribute("numOnl", numOnl);
+                request.setAttribute("numOff", numOff);
+                request.setAttribute("numIA", numIA);
                 request.setAttribute("type", type);
                 request.setAttribute("listPerPage", fd.getFoodByPage(listF, startP, endP));
                 request.setAttribute("page", page);

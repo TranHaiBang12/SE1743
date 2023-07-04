@@ -200,6 +200,15 @@
                             <div>
                                 <div>Tổng số món ăn được bán: <span class = "blk">${requestScope.numFood}</span>, chiếm <span  class = "blk">${requestScope.pcF}%</span> tổng số món ăn được bán từ trước đến nay</div><!-- <div></div> -->
                             </div>
+                             <div>
+                                <div>Doanh thu bán: <span class = "rd">${requestScope.numIA}đ</span>
+                            </div>
+                            <div>
+                                <div>Doanh thu bán online: <span class = "rd">${requestScope.numOnl}đ</span>, chiếm <span  class = "blk">${requestScope.PCnumONL}%</span> doanh thu</div><!-- <div></div> -->
+                            </div>
+                            <div>
+                                <div>Doanh thu bán offline: <span class = "rd">${requestScope.numOff}đ</span>, chiếm <span  class = "blk">${requestScope.PCnumOFF}%</span> doanh thu</div><!-- <div></div> -->
+                            </div>
                             <div class = "btS">
                                 <a href  = "store"><button type ="submit" value ="XEM CHI TIẾT">XEM TẤT CẢ ĐỒ ĂN </button></a>
                             </div>
