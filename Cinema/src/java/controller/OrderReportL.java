@@ -145,7 +145,7 @@ public class OrderReportL extends HttpServlet {
             }
 
         
-
+            request.setAttribute("check", 1);
             request.setAttribute("listOBD", listOBD);
             request.setAttribute("listOFBD", listOFBD);
             request.getRequestDispatcher("rRpD.jsp").forward(request, response);

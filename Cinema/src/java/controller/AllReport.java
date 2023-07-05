@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
  *
  * @author acer
  */
-public class InterestReport extends HttpServlet {
+public class AllReport extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +38,10 @@ public class InterestReport extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InterestReport</title>");  
+            out.println("<title>Servlet AllReport</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InterestReport at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AllReport at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,7 +58,7 @@ public class InterestReport extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        request.getRequestDispatcher("itR.jsp").forward(request, response);
+        request.getRequestDispatcher("allRp.jsp").forward(request, response);
     } 
 
     /** 
@@ -112,79 +112,14 @@ public class InterestReport extends HttpServlet {
                 }
             }
             dateE = t.substring(cnt + 1);
-            //food
-            int numOnlF = fd.getIncomeOnl(start, end);
-            int numOffF = fd.getIncomeOff(start, end);
-            int numIAF = numOnlF + numOffF;
-
-            String PCnumONLF = "0";
-            String PCnumOFFF = "0";
-            if (numIAF != 0) {
-                PCnumONLF = decimalFormat.format((double) numOnlF / (double) numIAF * 100);
-                PCnumOFFF = decimalFormat.format((double) numOffF / (double) numIAF * 100);
-            }
-
-            //TICKET
-            int numOnlT = tkd.getOnlineIncome(start, end);
-            int numOffT = tkd.getOfflineIncome(start, end);
-            int numIAT = numOnlT + numOffT;
-
-            String PCnumONLT = "0";
-            String PCnumOFFT = "0";
-            if (numIAT != 0) {
-                PCnumONLT = decimalFormat.format((double) numOnlT / (double) numIAT * 100);
-                PCnumOFFT = decimalFormat.format((double) numOffT / (double) numIAT * 100);
-            }
             
-            //all
-            String PCTAll = "0";
-            String PCFAll = "0";
-            if ((numIAT + numIAF) != 0) {
-                PCTAll = decimalFormat.format((double) numIAT / (double) (numIAT + numIAF) * 100);
-                PCFAll = decimalFormat.format((double) numIAF / (double) (numIAT + numIAF) * 100);
-            }
-            
-            //cost
-            
-            //costBuy
-            DeviceDAO dvd = new DeviceDAO();
-            int costBuy = dvd.getCostBuyDeviceByDate(start, end);
-            
-            //costFixed
-            int costFixed = dvd.getCostFixedByDate(start, end);
-            
-            String PCBuy = "0";
-            String PCFixed = "0";
-            if(costBuy  + costFixed != 0) {
-                PCBuy = decimalFormat.format((double)costBuy / (double)(costBuy + costFixed) * 100);
-                PCFixed = decimalFormat.format((double)costFixed / (double)(costBuy + costFixed) * 100);
-            }
-            
-            request.setAttribute("PCBuy", PCBuy);
-            request.setAttribute("PCFixed", PCFixed);
-            request.setAttribute("costBuy", costBuy);
-            request.setAttribute("costFixed", costFixed);
-            request.setAttribute("PCTAll", PCTAll);
-            request.setAttribute("PCFAll", PCFAll);
-            
-            request.setAttribute("PCnumONLT", PCnumONLT);
-            request.setAttribute("PCnumOFFT", PCnumOFFT);
-
-            request.setAttribute("numOnlT", numOnlT);
-            request.setAttribute("numOffT", numOffT);
-            request.setAttribute("numIAT", numIAT);
-
-            request.setAttribute("PCnumONLF", PCnumONLF);
-            request.setAttribute("PCnumOFFF", PCnumOFFF);
-
-            request.setAttribute("numOnlF", numOnlF);
-            request.setAttribute("numOffF", numOffF);
-            request.setAttribute("numIAF", numIAF);
 
             request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
             request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
+            request.setAttribute("startR", start);
+            request.setAttribute("endR", end);
             request.setAttribute("check", 1);
-            request.getRequestDispatcher("itR.jsp").forward(request, response);
+            request.getRequestDispatcher("allRp.jsp").forward(request, response);
         }
     }
 

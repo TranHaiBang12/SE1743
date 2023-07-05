@@ -264,101 +264,105 @@
         </div>
         <div class = "body">
             <div class = "ttle">THỐNG KÊ VỀ PHIM</div>
-            <form action = "orl" method = "post">
-                <div class = "search">
-                    <div>
-                        Ngày bắt đầu: <input type ="date" name ="start"/>
-                    </div>
-
-                    <div>
-                        Ngày kết thúc: <input type ="date" name ="end"/>
-                    </div>
-                </div>
-                <br/>
-                <div class = "srchBtn">
-                    <input type = "submit" value ="THỐNG KÊ"/>
-                </div>
-            </form>
-            <div class = "choice">
-                <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">MUA QUA WEB</div>
-                <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">MUA TRỰC TIẾP</div>
-
-            </div>
-            <div id ="web">
-                <c:if test = "${requestScope.msONL == null}">
-                    <c:forEach items = "${requestScope.listOBD}" var = "i">
-                        <div class = "outsiteO">
-                            <div class = "oDate">${i.getDate()}</div>
-                            <table>
-                                <tr>
-                                    <th>MÃ HÓA ĐƠN</th>
-                                    <th>KIỂU THANH TOÁN</th>
-                                    <th>NGÀY THANH TOÁN</th>
-                                    <th>THỜI GIAN THANH TOÁN</th>
-                                    <th>TỔNG TIỀN</th>
-                                    <th>HÀNH ĐỘNG</th>
-                                </tr>
-                                <c:forEach items = "${i.getO()}" var = "k">
-                                    <tr>
-                                        <td>${k.getOrderID()}</td>
-                                        <td>${k.getPaymentType()}</td><!-- <td></td> -->
-                                        <td>${k.getPaymentDate()}</td>
-                                        <td>${k.getPaymentTime()}</td>
-                                        <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
-                                        <td>
-                                            <input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/>
-
-                                            <input type ="button" value = "XÓA"/>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
+            <c:if test = "${requestScope.check == null}">
+                <form action = "orl" method = "post">
+                    <div class = "search">
+                        <div>
+                            Ngày bắt đầu: <input type ="date" name ="start"/>
                         </div>
-                    </c:forEach>
-                </c:if>
-                <c:if test = "${requestScope.msONL != null}">
-                    <div class = "ms">
-                        ${requestScope.msONL}
-                    </div>
-                </c:if>
-            </div>
-            <div id = "tt">
-                <c:if test = "${requestScope.msOFF == null}">
-                    <c:forEach items = "${requestScope.listOFBD}" var = "j">
-                        <div class = "outsiteO">
-                            <div class = "oDate">${j.getDate()}</div>
-                            <table>
-                                <tr>
-                                    <th>MÃ HÓA ĐƠN</th>
-                                    <th>KIỂU THANH TOÁN</th>
-                                    <th>NGÀY THANH TOÁN</th>
-                                    <th>THỜI GIAN THANH TOÁN</th>
-                                    <th>TỔNG TIỀN</th>
-                                    <th>XEM CHI TIẾT</th>
-                                </tr>
 
-
-                                <c:forEach items = "${j.getOf()}" var = "q">
-                                    <tr>
-                                        <td>${q.getOrderID()}</td>
-                                        <td>${q.getPaymentType()}</td>
-                                        <td>${q.getPaymentDate()}</td>
-                                        <td>${q.getPaymentTime()}</td>
-                                        <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
-                                        <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
-                                    </tr>
-                                </c:forEach>
-
-                            </table>
+                        <div>
+                            Ngày kết thúc: <input type ="date" name ="end"/>
                         </div>
-                    </c:forEach>
-                </c:if>
-                <c:if test = "${requestScope.msOFF != null}">
-                    <div class = "ms">
-                        ${requestScope.msOFF}
                     </div>
-                </c:if>
-            </div>
+                    <br/>
+                    <div class = "srchBtn">
+                        <input type = "submit" value ="THỐNG KÊ"/>
+                    </div>
+                </form>
+            </c:if>
+            <c:if test = "${requestScope.check != null}">
+                <div class = "choice">
+                    <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">MUA QUA WEB</div>
+                    <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">MUA TRỰC TIẾP</div>
+
+                </div>
+                <div id ="web">
+                    <c:if test = "${requestScope.msONL == null}">
+                        <c:forEach items = "${requestScope.listOBD}" var = "i">
+                            <div class = "outsiteO">
+                                <div class = "oDate">${i.getDate()}</div>
+                                <table>
+                                    <tr>
+                                        <th>MÃ HÓA ĐƠN</th>
+                                        <th>KIỂU THANH TOÁN</th>
+                                        <th>NGÀY THANH TOÁN</th>
+                                        <th>THỜI GIAN THANH TOÁN</th>
+                                        <th>TỔNG TIỀN</th>
+                                        <th>HÀNH ĐỘNG</th>
+                                    </tr>
+                                    <c:forEach items = "${i.getO()}" var = "k">
+                                        <tr>
+                                            <td>${k.getOrderID()}</td>
+                                            <td>${k.getPaymentType()}</td><!-- <td></td> -->
+                                            <td>${k.getPaymentDate()}</td>
+                                            <td>${k.getPaymentTime()}</td>
+                                            <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
+                                            <td>
+                                                <input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/>
+
+                                                <input type ="button" value = "XÓA"/>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test = "${requestScope.msONL != null}">
+                        <div class = "ms">
+                            ${requestScope.msONL}
+                        </div>
+                    </c:if>
+                </div>
+                <div id = "tt">
+                    <c:if test = "${requestScope.msOFF == null}">
+                        <c:forEach items = "${requestScope.listOFBD}" var = "j">
+                            <div class = "outsiteO">
+                                <div class = "oDate">${j.getDate()}</div>
+                                <table>
+                                    <tr>
+                                        <th>MÃ HÓA ĐƠN</th>
+                                        <th>KIỂU THANH TOÁN</th>
+                                        <th>NGÀY THANH TOÁN</th>
+                                        <th>THỜI GIAN THANH TOÁN</th>
+                                        <th>TỔNG TIỀN</th>
+                                        <th>XEM CHI TIẾT</th>
+                                    </tr>
+
+
+                                    <c:forEach items = "${j.getOf()}" var = "q">
+                                        <tr>
+                                            <td>${q.getOrderID()}</td>
+                                            <td>${q.getPaymentType()}</td>
+                                            <td>${q.getPaymentDate()}</td>
+                                            <td>${q.getPaymentTime()}</td>
+                                            <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
+                                            <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
+                                        </tr>
+                                    </c:forEach>
+
+                                </table>
+                            </div>
+                        </c:forEach>
+                    </c:if>
+                    <c:if test = "${requestScope.msOFF != null}">
+                        <div class = "ms">
+                            ${requestScope.msOFF}
+                        </div>
+                    </c:if>
+                </div>
+            </c:if>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

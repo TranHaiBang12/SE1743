@@ -51,7 +51,7 @@
                     <li id = "userN">BÁO CÁO</li>
                     <div class="dropdown-content">
                         <div class=insidedropdown-content>
-                            <a href="#">Báo Cáo Tổng</a>
+                            <a href="alr">Báo Cáo Tổng</a>
                             <a href="icr">Báo Cáo Doanh Thu</a>
                             <a href="itr">Báo Cáo Lợi Nhuận</a>
                         </div>

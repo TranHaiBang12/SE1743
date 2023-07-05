@@ -83,7 +83,7 @@
                 font-weight: bold;
                 color: magenta;
             }
-            
+
             .RATE{
                 padding-top: 20px;
                 margin-left: 40px;
@@ -98,7 +98,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <div class = "ttle">THỐNG KÊ VỀ DOANH THU</div>
+            <div class = "ttle">THỐNG KÊ VỀ LỢI NHUẬN</div>
             <c:if test = "${requestScope.check == null}">
                 <form action = "itr" method = "post">
                     <div class = "search">
@@ -126,47 +126,95 @@
                 </div><!-- comment -->
                 <div class = "RATE">
                     <div class = "Sttle">1. DOANH THU </div>
-                        <div class = "SSttle">a. Doanh Thu Tổng(Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
-                        <div class = "insider1">
-                            <div>
-                                <div>Doanh thu tổng: <span class = "rd">${requestScope.numIAT + requestScope.numIAF}đ</span>
-                                </div>
-
+                    <div class = "SSttle">a. Doanh Thu Tổng(Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "insider1">
+                        <div>
+                            <div>Doanh thu tổng: <span class = "rd">${requestScope.numIAT + requestScope.numIAF}đ</span>
                             </div>
 
                         </div>
-                        <div class = "SSttle">b. Doanh Thu Vé(Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
-                        <div class = "insider1">
-                            <div>
 
-                                <div>Doanh thu tổng: <span class = "rd">${requestScope.numIAT}đ</span>, chiếm <span class = "rd">${requestScope.PCTAll}%</span>
-                                </div>
-                                <div>Doanh thu bán online: <span class = "rd">${requestScope.numOnlT}đ</span>, chiếm <span class = "rd">${requestScope.PCnumONLT}%</span> doanh thu vé
-                                </div><!-- comment -->
-                                <div>Doanh thu bán offline: <span class = "rd">${requestScope.numOffT}đ</span>, chiếm <span class = "rd">${requestScope.PCnumOFFT}%</span> doanh thu vé
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class = "SSttle">3. Doanh Thu Đồ Ăn(Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
-                        <div class = "insider1">
-                            <div>
-                                <div>Doanh thu tổng: <span class = "rd">${requestScope.numIAF}đ</span>, chiếm <span class = "rd">${requestScope.PCFAll}%</span>
-                                </div>
-                                <div>Doanh thu bán online: <span class = "rd">${requestScope.numOnlF}đ</span>, chiếm <span class = "rd">${requestScope.PCnumONLF}%</span> doanh thu đồ ăn
-                                </div><!-- comment -->
-                                <div>Doanh thu bán offline: <span class = "rd">${requestScope.numOffF}đ</span>, chiếm <span class = "rd">${requestScope.PCnumOFFF}%</span> doanh thu đồ ăn
-                                </div>
-
-                            </div>
-
-                        </div>
                     </div>
-                </c:if>
-            </div>
-            <div id = "footer">
-                <%@include file = "footer.jsp" %>
-            </div>
+                    <div class = "SSttle">b. Doanh Thu Vé(Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "insider1">
+                        <div>
+
+                            <div>Doanh thu tổng: <span class = "rd">${requestScope.numIAT}đ</span>, chiếm <span class = "rd">${requestScope.PCTAll}%</span>
+                            </div>
+                            <div>Doanh thu bán online: <span class = "rd">${requestScope.numOnlT}đ</span>, chiếm <span class = "rd">${requestScope.PCnumONLT}%</span> doanh thu vé
+                            </div><!-- comment -->
+                            <div>Doanh thu bán offline: <span class = "rd">${requestScope.numOffT}đ</span>, chiếm <span class = "rd">${requestScope.PCnumOFFT}%</span> doanh thu vé
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class = "SSttle">c. Doanh Thu Đồ Ăn(Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "insider1">
+                        <div>
+                            <div>Doanh thu tổng: <span class = "rd">${requestScope.numIAF}đ</span>, chiếm <span class = "rd">${requestScope.PCFAll}%</span>
+                            </div>
+                            <div>Doanh thu bán online: <span class = "rd">${requestScope.numOnlF}đ</span>, chiếm <span class = "rd">${requestScope.PCnumONLF}%</span> doanh thu đồ ăn
+                            </div><!-- comment -->
+                            <div>Doanh thu bán offline: <span class = "rd">${requestScope.numOffF}đ</span>, chiếm <span class = "rd">${requestScope.PCnumOFFF}%</span> doanh thu đồ ăn
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class = "RATE">
+                    <div class = "Sttle">2. CHI PHÍ </div>
+                    <div class = "insider1">
+                        <div>
+                            <div>Chi phí tổng: <span class = "rd">${costBuy + costFixed}đ</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class = "insider1">
+                        <div>
+                            <div>Chi phí mua thiết bị: <span class = "rd">${costBuy}đ</span>, chiếm <span class = "rd">${requestScope.PCBuy}%</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class = "insider1">
+                        <div>
+
+                            <div>Chi phí sửa chữa thiết bị: <span class = "rd">${requestScope.costFixed}đ</span>, chiếm <span class = "rd">${requestScope.PCFixed}%</span>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class = "RATE">
+                    <div class = "Sttle">3. LỢI NHUẬN </div>
+                    <div class = "insider1">
+                        <div>
+                            <c:if test = "${requestScope.numIAT + requestScope.numIAF - requestScope.costBuy - requestScope.costFixed >= 0}">
+                            <div>Lợi nhuận: <span class = "rd">Lời ${requestScope.numIAT + requestScope.numIAF - requestScope.costBuy - requestScope.costFixed}đ</span>
+                            </div>
+                            </c:if>
+                            <c:if test = "${requestScope.numIAT + requestScope.numIAF - requestScope.costBuy - requestScope.costFixed < 0}">
+                                <div>Lợi nhuận: <span class = "rd">Lỗ ${requestScope.costBuy + requestScope.costFixed - requestScope.numIAT - requestScope.numIAF}đ</span>
+                            </div>
+                            </c:if>
+
+                        </div>
+
+                    </div>
+          
+                </div>
+            </c:if>
+        </div>
+        <div id = "footer">
+            <%@include file = "footer.jsp" %>
+        </div>
     </body>
 </html>

@@ -204,6 +204,10 @@
         <servlet-name>InterestReport</servlet-name>
         <servlet-class>controller.InterestReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AllReport</servlet-name>
+        <servlet-class>controller.AllReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -407,6 +411,10 @@
     <servlet-mapping>
         <servlet-name>InterestReport</servlet-name>
         <url-pattern>/itr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AllReport</servlet-name>
+        <url-pattern>/alr</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
