@@ -208,6 +208,18 @@
         <servlet-name>AllReport</servlet-name>
         <servlet-class>controller.AllReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Device</servlet-name>
+        <servlet-class>controller.Device</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdDevice</servlet-name>
+        <servlet-class>controller.UpdDevice</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddDevice</servlet-name>
+        <servlet-class>controller.AddDevice</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -415,6 +427,18 @@
     <servlet-mapping>
         <servlet-name>AllReport</servlet-name>
         <url-pattern>/alr</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Device</servlet-name>
+        <url-pattern>/dv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdDevice</servlet-name>
+        <url-pattern>/upddv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddDevice</servlet-name>
+        <url-pattern>/adddv</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

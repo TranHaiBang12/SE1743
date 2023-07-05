@@ -46,14 +46,28 @@
                     </div>
                 </div>
             </c:if>
-                <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
+            <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                 <div class="dropdown">
-                    <li id = "userN">BÁO CÁO</li>
+                    <li id = "userN">THỐNG KÊ</li>
                     <div class="dropdown-content">
                         <div class=insidedropdown-content>
-                            <a href="alr">Báo Cáo Tổng</a>
-                            <a href="icr">Báo Cáo Doanh Thu</a>
-                            <a href="itr">Báo Cáo Lợi Nhuận</a>
+                            <a href="alr">Thống Kê Tổng</a>
+                            <a href="icr">Thống Kê Doanh Thu</a>
+                            <a href="itr">Thống Kê Lợi Nhuận</a>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+            <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
+                <div class="dropdown">
+                    <li id = "userN">CƠ SỞ VẬT CHẤT</li>
+                    <div class="dropdown-content">
+                        <div class=insidedropdown-content>
+                            <a href="dv">Thiết Bị </a>
+                            <a href="#">Phân Bố Thiết Bị </a>
+                            <a href="#">Tình Trạng Thiết Bị </a>
+                            <a href="#">Thống Kê Về Sửa Chữa </a>
+                            <a href="#">Thống Kê Rạp</a>
                         </div>
                     </div>
                 </div>

@@ -14,14 +14,33 @@ public class DeviceImport {
     private String typeName;
     private double price;
     private String descript;
+    private String img;
 
-    public DeviceImport(String deviceCode, String idType, String typeName, double price, String descript) {
+    public DeviceImport(String idType, String typeName) {
+        this.idType = idType;
+        this.typeName = typeName;
+    }
+    
+    
+
+    public DeviceImport(String deviceCode, String idType, String typeName, double price, String descript, String img) {
         this.deviceCode = deviceCode;
         this.idType = idType;
         this.typeName = typeName;
         this.price = price;
         this.descript = descript;
+        this.img = img;
     }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+    
+    
 
     public String getDeviceCode() {
         return deviceCode;
