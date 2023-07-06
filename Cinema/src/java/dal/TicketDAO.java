@@ -950,9 +950,42 @@ public class TicketDAO extends DBContext {
         return 0;
     }
     
+    public int getOfflineIncomeByCinAD(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOffDetail JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE cinID = ? AND (Date BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            st.setDate(2, dS);
+            st.setDate(3, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
     public int getOfflineIncome(Date dS, Date eS) {
         try {
             String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOffDetail JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE Date BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getOnlineIncomeCinAD(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOnlDetail JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate BETWEEN ? AND ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);

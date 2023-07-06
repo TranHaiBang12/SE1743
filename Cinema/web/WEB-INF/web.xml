@@ -244,6 +244,10 @@
         <servlet-name>DeviceReport</servlet-name>
         <servlet-class>controller.DeviceReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CinemaReport</servlet-name>
+        <servlet-class>controller.CinemaReport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -487,6 +491,10 @@
     <servlet-mapping>
         <servlet-name>DeviceReport</servlet-name>
         <url-pattern>/dvrp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CinemaReport</servlet-name>
+        <url-pattern>/cnrp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

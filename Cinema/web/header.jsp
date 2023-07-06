@@ -56,7 +56,7 @@
                             <a href="dvd">Phân Bố Thiết Bị </a>
                             <a href="dvs">Danh Sách Thiết Bị Lỗi</a>
                             <a href="dvrp">Thống Kê Về Thiết Bị </a>
-                            <a href="#">Thống Kê Rạp</a>
+                            <a href="cnrp">Thống Kê Rạp</a>
                             <a href="#">Danh Sách Phòng</a><!-- <a href="#">Thống Kê Rạp</a> -->
                         </div>
                     </div>
