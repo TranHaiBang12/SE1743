@@ -22,6 +22,24 @@ public class DeviceError {
     private Date dteFixed;
     private Time tmeFixed;
     private double costIncured;
+    private String img;
+    private String status;
+
+    public DeviceError(String deviceCode, String deviceBarCode, int cinID, String cinName, int roomID, Date dteDetected, Time tmeDetected, Date dteFixed, Time tmeFixed, double costIncured, String img) {
+        this.deviceCode = deviceCode;
+        this.deviceBarCode = deviceBarCode;
+        this.cinID = cinID;
+        this.cinName = cinName;
+        this.roomID = roomID;
+        this.dteDetected = dteDetected;
+        this.tmeDetected = tmeDetected;
+        this.dteFixed = dteFixed;
+        this.tmeFixed = tmeFixed;
+        this.costIncured = costIncured;
+        this.img = img;
+    }
+    
+    
 
     public DeviceError(String deviceCode, String deviceBarCode, int cinID, String cinName, int roomID, Date dteDetected, Time tmeDetected, Date dteFixed, Time tmeFixed, double costIncured) {
         this.deviceCode = deviceCode;
@@ -35,6 +53,24 @@ public class DeviceError {
         this.tmeFixed = tmeFixed;
         this.costIncured = costIncured;
     }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
 
     public String getDeviceCode() {
         return deviceCode;

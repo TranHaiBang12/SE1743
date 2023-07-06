@@ -236,6 +236,10 @@
         <servlet-name>DeleteDevice</servlet-name>
         <servlet-class>controller.DeleteDevice</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeviceStat</servlet-name>
+        <servlet-class>controller.DeviceStat</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -471,6 +475,10 @@
     <servlet-mapping>
         <servlet-name>DeleteDevice</servlet-name>
         <url-pattern>/dltdv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeviceStat</servlet-name>
+        <url-pattern>/dvs</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -320,4 +320,23 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    
+    
+    public List<DeviceError> getADeviceErr() {
+        List<DeviceError> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM DeviceError";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            CinemaDAO cnd = new CinemaDAO();
+            while(rs.next()) {
+                DeviceError de = new DeviceError(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("DateDetected"), rs.getTime("DateDetected"), rs.getDate("DateFixed"), rs.getTime("DateFixed"), rs.getDouble("CostIncured"), getDeviceByCode(rs.getString("DeviceCode")).getImg());
+                list.add(de);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 }
