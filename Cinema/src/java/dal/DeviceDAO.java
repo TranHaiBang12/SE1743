@@ -158,16 +158,16 @@ public class DeviceDAO extends DBContext {
             st.setInt(2, roomID);
             ResultSet rs = st.executeQuery();
             CinemaDAO cnd = new CinemaDAO();
-            while(rs.next()) {
+            while (rs.next()) {
                 DeviceDistribution dd = new DeviceDistribution(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("Date"), rs.getTime("Date"), rs.getString("DeviceType"), getTypeNameByID(rs.getString("DeviceType")), rs.getDouble("PriceImport"), rs.getString("DeviceDescript"), rs.getString("Img"));
-                list.add(dd);                        
+                list.add(dd);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
     }
-    
+
     public DeviceDistribution getAllDeviceByCAR(String barCode) {
         try {
             String sql = "SELECT * FROM DeviceImport JOIN DeviceDist ON DeviceImport.DeviceCode = DeviceDist.DeviceCode WHERE DeviceBarCode = ?";
@@ -175,16 +175,16 @@ public class DeviceDAO extends DBContext {
             st.setString(1, barCode);
             ResultSet rs = st.executeQuery();
             CinemaDAO cnd = new CinemaDAO();
-            if(rs.next()) {
+            if (rs.next()) {
                 DeviceDistribution dd = new DeviceDistribution(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("Date"), rs.getTime("Date"), rs.getString("DeviceType"), getTypeNameByID(rs.getString("DeviceType")), rs.getDouble("PriceImport"), rs.getString("DeviceDescript"), rs.getString("Img"));
-                return dd;                        
+                return dd;
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
-    
+
     public void dltDevice(String barcode) {
         try {
             String sql = "DELETE FROM DeviceError WHERE DeviceBarCode = ?";
@@ -199,7 +199,7 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public List<DeviceError> getAllDeviceError() {
         List<DeviceError> list = new ArrayList<>();
         try {
@@ -207,7 +207,7 @@ public class DeviceDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             CinemaDAO cnd = new CinemaDAO();
-            while(rs.next()) {
+            while (rs.next()) {
                 DeviceError de = new DeviceError(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("DateDetected"), rs.getTime("DateDetected"), rs.getDate("DateFixed"), rs.getTime("DateFixed"), rs.getDouble("CostIncured"));
                 list.add(de);
             }
@@ -216,7 +216,7 @@ public class DeviceDAO extends DBContext {
         }
         return list;
     }
-    
+
     public void updDeviceDist(String barCode, int cinID, int roomID, String oBarCode, Timestamp t) {
         try {
             String sql = "UPDATE DeviceDist SET cinID = ?, roomID = ?, Date = ?, DeviceBarCode = ? WHERE DeviceBarCode = ?";
@@ -231,7 +231,7 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public DeviceDistribution checkBarCode(String code) {
         try {
             String sql = "SELECT * FROM DeviceDist WHERE DeviceBarCode = ?";
@@ -239,16 +239,16 @@ public class DeviceDAO extends DBContext {
             st.setString(1, code);
             CinemaDAO cnd = new CinemaDAO();
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 DeviceDistribution dd = new DeviceDistribution(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("Date"), rs.getTime("Date"), rs.getString("DeviceType"), getTypeNameByID(rs.getString("DeviceType")), rs.getDouble("PriceImport"), rs.getString("DeviceDescript"), rs.getString("Img"));
-                return dd;                        
+                return dd;
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
     }
-    
+
     public void insertNewDeviceError(String deviceCode, int cinID, int roomID, String barCode) {
         try {
             String sql = "INSERT INTO DeviceError (DeviceCode, cinID, roomID, DateDetected, DateFixed, CostIncured, DeviceBarCode) VALUES (?, ?, ?, ?, NULL, NULL, ?)";
@@ -264,7 +264,7 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void updDeviceErrorNotFixed(String barCode) {
         try {
             String sql = "UPDATE DeviceError SET DateDetected = ? WHERE DeviceBarCode = ? AND DateFixed IS NULL";
@@ -276,7 +276,7 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void updDeviceErrorFixed(String barCode, double price) {
         try {
             String sql = "UPDATE DeviceError SET DateFixed = ?, CostIncured = ? WHERE DeviceBarCode = ? AND DateFixed IS NULL";
@@ -289,7 +289,7 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public List<String> getAllDeviceImpCode() {
         List<String> list = new ArrayList<>();
         try {
@@ -305,7 +305,7 @@ public class DeviceDAO extends DBContext {
         }
         return list;
     }
-    
+
     public void insertDeviceDist(String deviceCode, int cinID, int roomID, Timestamp t, String barCode) {
         try {
             String sql = "INSERT INTO DeviceDist VALUES (?, ?, ?, ?, ?)";
@@ -320,9 +320,7 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
-    
-    
+
     public List<DeviceError> getADeviceErr() {
         List<DeviceError> list = new ArrayList<>();
         try {
@@ -330,9 +328,113 @@ public class DeviceDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             CinemaDAO cnd = new CinemaDAO();
-            while(rs.next()) {
+            while (rs.next()) {
                 DeviceError de = new DeviceError(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("DateDetected"), rs.getTime("DateDetected"), rs.getDate("DateFixed"), rs.getTime("DateFixed"), rs.getDouble("CostIncured"), getDeviceByCode(rs.getString("DeviceCode")).getImg());
                 list.add(de);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<DeviceError> getADeviceErrByDate(Date dS, Date eS) {
+        List<DeviceError> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM DeviceError WHERE DateDetected BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            CinemaDAO cnd = new CinemaDAO();
+            while (rs.next()) {
+                DeviceError de = new DeviceError(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("DateDetected"), rs.getTime("DateDetected"), rs.getDate("DateFixed"), rs.getTime("DateFixed"), rs.getDouble("CostIncured"), getDeviceByCode(rs.getString("DeviceCode")).getImg());
+                list.add(de);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public int getNumDeviceDistByDate(Date dS, Date eS) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM DeviceImport JOIN DeviceDist ON DeviceImport.DeviceCode = DeviceDist.DeviceCode WHERE Date BETWEEN ? AND ?";
+            CinemaDAO cnd = new CinemaDAO();
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getSumPriceDeviceDistByDate(Date dS, Date eS) {
+        try {
+            String sql = "SELECT SUM(PriceImport) AS T FROM DeviceImport JOIN DeviceDist ON DeviceImport.DeviceCode = DeviceDist.DeviceCode WHERE Date BETWEEN ? AND ?";
+            CinemaDAO cnd = new CinemaDAO();
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDeviceErrorByDate(Date dS, Date eS) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM DeviceError WHERE DateDetected BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getSumPriceDeviceErrorByDate(Date dS, Date eS) {
+        try {
+            String sql = "SELECT SUM(CostIncured) AS T FROM DeviceError WHERE DateDetected BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+     public List<DeviceDistribution> getAllDeviceByD(Date dS, Date eS) {
+        List<DeviceDistribution> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM DeviceImport JOIN DeviceDist ON DeviceImport.DeviceCode = DeviceDist.DeviceCode WHERE Date BETWEEN ? AND ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            CinemaDAO cnd = new CinemaDAO();
+            while (rs.next()) {
+                DeviceDistribution dd = new DeviceDistribution(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("Date"), rs.getTime("Date"), rs.getString("DeviceType"), getTypeNameByID(rs.getString("DeviceType")), rs.getDouble("PriceImport"), rs.getString("DeviceDescript"), rs.getString("Img"));
+                list.add(dd);
             }
         } catch (Exception e) {
             System.out.println(e);
