@@ -9,6 +9,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import model.DeviceDistribution;
@@ -198,5 +200,77 @@ public class DeviceDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public void updDeviceDist(String barCode, int cinID, int roomID, String oBarCode) {
+        try {
+            String sql = "UPDATE DeviceDist SET cinID = ?, roomID = ?, Date = ?, DeviceBarCode = ? WHERE DeviceBarCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            st.setInt(2, roomID);
+            st.setTimestamp(3, Timestamp.from(Instant.now()));
+            st.setString(4, barCode);
+            st.setString(5, oBarCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public DeviceDistribution checkBarCode(String code) {
+        try {
+            String sql = "SELECT * FROM DeviceDist WHERE DeviceBarCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, code);
+            CinemaDAO cnd = new CinemaDAO();
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                DeviceDistribution dd = new DeviceDistribution(rs.getString("DeviceCode"), rs.getString("DeviceBarCode"), rs.getInt("cinID"), cnd.getCinemaNameByID(rs.getInt("cinID")), rs.getInt("roomID"), rs.getDate("Date"), rs.getTime("Date"), rs.getString("DeviceType"), getTypeNameByID(rs.getString("DeviceType")), rs.getDouble("PriceImport"), rs.getString("DeviceDescript"), rs.getString("Img"));
+                return dd;                        
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public void insertNewDeviceError(String deviceCode, int cinID, int roomID, String barCode) {
+        try {
+            String sql = "INSERT INTO DeviceError VALUES (?, ?, ?, ?, NULL, NULL, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, deviceCode);
+            st.setInt(2, cinID);
+            st.setInt(3, roomID);
+            st.setTimestamp(4, Timestamp.from(Instant.now()));
+            st.setString(5, barCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updDeviceErrorNotFixed(String barCode) {
+        try {
+            String sql = "UPDATE DeviceError SET DateDetected = ? WHERE DeviceBarCode = ? AND DateFixed IS NULL";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setTimestamp(1, Timestamp.from(Instant.now()));
+            st.setString(2, barCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updDeviceErrorFixed(String barCode, double price) {
+        try {
+            String sql = "UPDATE DeviceError SET DateFixed = ?, CostIncured = ? WHERE DeviceBarCode = ? AND DateFixed IS NULL";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setTimestamp(1, Timestamp.from(Instant.now()));
+            st.setDouble(2, price);
+            st.setString(3, barCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

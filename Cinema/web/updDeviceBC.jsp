@@ -85,7 +85,7 @@
                     <img src ="${requestScope.dd.getImg()}"/>
                 </div>
                 <div class = "oIN4">
-                    <form action = "upddv" method = "post">
+                    <form id ="frm" action = "udbc" method = "post">
                         <div class = "insideoIN4">
                             <c:if test = "${requestScope.check != null}">
                                 <div class = "ms">
@@ -116,30 +116,46 @@
                             </c:if>
                             <input type ="text" name ="ocode" hidden value ="${requestScope.dd.getDeviceCode()}"/>
                             <div>
-                                Mã Thiết Bị: <input type = "text" name ="code" value = "${requestScope.dd.getDeviceCode()}"/>
+                                Mã Thiết Bị: ${requestScope.dd.getDeviceCode()}
                             </div>
                             <div>
-                                Loại Thiết Bị: 
-                                <select name ="type">
-                                    <c:forEach items = "${requestScope.type}" var = "i">
-                                        <option value ="${i.getIdType()}" ${requestScope.dd.getIdType().equals(i.getIdType())?"selected":""}>${i.getTypeName()}</option>
+                                Loại Thiết Bị: ${requestScope.dd.getTypeName()}
+
+                            </div>
+                            <div>
+                                Giá Thiết Bị: ${requestScope.dd.getPrice()}
+                            </div>
+                            <div>
+                                Mô tả: ${requestScope.dd.getDescript()}
+                            </div>
+                            <div>
+                                Rạp:
+                                <select name ="cin" onchange="cngeCin()">
+                                    <c:forEach items = "${requestScope.cin}" var = "i">
+                                        <option value ="${i.getCinID()}" ${cinID == i.getCinID()?"selected":""}>${i.getCinName()}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <div>
-                                Giá Thiết Bị: <input type ="text" name ="price" value ="${requestScope.dd.getPrice()}"/>
+                                Phòng:
+                                <select name ="room">
+                                    <c:forEach items = "${requestScope.room}" var = "i">
+                                        <option value ="${i.getRoomID()}" ${requestScope.dd.getRoomID().equals(i.getRoomID())?"selected":""}>${i.getRoomID()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <input type ="text" hidden name ="check" id ="check" value ="0"/>
+                            <input type ="text" hidden name ="id" id ="check" value ="${requestScope.id}"/>
+                            <input type ="text" hidden name ="obar" value ="${requestScope.dd.getDeviceBarCode()}"/>
+                            <input type ="text" hidden name ="code" value ="${requestScope.dd.getDeviceCode()}"/>
+                            <div>
+                                Ngày phân bố: <input type ="text" required name ="dte" value ="${requestScope.dd.getDte()}"/>
                             </div>
                             <div>
-                                Mô tả: <input type ="text" name ="descript" value ="${requestScope.dd.getDescript()}"/>
+                                Thời gian phân bố: <input type ="text" required name ="tme" value ="${requestScope.dd.getTme()}"/>
                             </div>
                             <div>
-                                Ngày phân bố: <input type ="text" name ="descript" value ="${requestScope.dd.getDte()}"/>
-                            </div>
-                            <div>
-                                Thời gian phân bố: <input type ="text" name ="descript" value ="${requestScope.dd.getTme()}"/>
-                            </div>
-                            <div>
-                                Barcode: <input type ="text" name ="descript" value ="${requestScope.dd.getDeviceBarCode()}"/>
+                                Barcode: <input type ="text" name ="bar" required value ="${requestScope.dd.getDeviceBarCode()}"/>
                             </div>
                             <div>
                                 Tình trạng: 
@@ -149,18 +165,19 @@
                                     </c:forEach>
                                 </select>
                             </div>
-      
+                            <input hidden type ="text" name ="ostat" value ="${requestScope.dd.getStatus()}"/>
                             <div>
-                                Ảnh: <input type ="text" name ="img" value ="${requestScope.dd.getImg()}"/> 
+                                Ảnh: ${requestScope.dd.getImg()} 
                             </div>
                         </c:if>
+
+                        <c:if test = "${requestScope.check == null}">
+                            <div class = "btS">
+                                <button type = "submit">LƯU</button>
+                            </div>
+                        </c:if>
+                    </form>
                 </div>
-                <c:if test = "${requestScope.check == null}">
-                    <div class = "btS">
-                        <button type = "submit">LƯU</button>
-                    </div>
-                </c:if>
-                </form>
             </div>
 
         </div>
@@ -175,6 +192,11 @@
             var value = e.value;
             var text = e.options[e.selectedIndex].text;
             console.log(value + " " + text);
+        }
+        
+        function cngeCin() {
+            document.getElementById("check").value = 1;
+            document.getElementById("frm").submit();
         }
     </script>
 </body>
