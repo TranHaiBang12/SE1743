@@ -185,6 +185,21 @@ public class DeviceDAO extends DBContext {
         return null;
     }
     
+    public void dltDevice(String barcode) {
+        try {
+            String sql = "DELETE FROM DeviceError WHERE DeviceBarCode = ?";
+            String sql1 = "DELETE FROM DeviceDist WHERE DeviceBarCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, barcode);
+            st.executeUpdate();
+            st = connection.prepareStatement(sql1);
+            st.setString(1, barcode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     public List<DeviceError> getAllDeviceError() {
         List<DeviceError> list = new ArrayList<>();
         try {
@@ -202,13 +217,13 @@ public class DeviceDAO extends DBContext {
         return list;
     }
     
-    public void updDeviceDist(String barCode, int cinID, int roomID, String oBarCode) {
+    public void updDeviceDist(String barCode, int cinID, int roomID, String oBarCode, Timestamp t) {
         try {
             String sql = "UPDATE DeviceDist SET cinID = ?, roomID = ?, Date = ?, DeviceBarCode = ? WHERE DeviceBarCode = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, cinID);
             st.setInt(2, roomID);
-            st.setTimestamp(3, Timestamp.from(Instant.now()));
+            st.setTimestamp(3, t);
             st.setString(4, barCode);
             st.setString(5, oBarCode);
             st.executeUpdate();
@@ -236,12 +251,13 @@ public class DeviceDAO extends DBContext {
     
     public void insertNewDeviceError(String deviceCode, int cinID, int roomID, String barCode) {
         try {
-            String sql = "INSERT INTO DeviceError VALUES (?, ?, ?, ?, NULL, NULL, ?)";
+            String sql = "INSERT INTO DeviceError (DeviceCode, cinID, roomID, DateDetected, DateFixed, CostIncured, DeviceBarCode) VALUES (?, ?, ?, ?, NULL, NULL, ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, deviceCode);
             st.setInt(2, cinID);
             st.setInt(3, roomID);
             st.setTimestamp(4, Timestamp.from(Instant.now()));
+            System.out.println(Timestamp.from(Instant.now()));
             st.setString(5, barCode);
             st.executeUpdate();
         } catch (Exception e) {
@@ -268,6 +284,37 @@ public class DeviceDAO extends DBContext {
             st.setTimestamp(1, Timestamp.from(Instant.now()));
             st.setDouble(2, price);
             st.setString(3, barCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public List<String> getAllDeviceImpCode() {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM DeviceImport";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                DeviceImport di = new DeviceImport(rs.getString("DeviceCode"), rs.getString("DeviceType"), "", rs.getDouble("PriceImport"), rs.getString("DeviceDescript"), rs.getString("Img"));
+                list.add(di.getDeviceCode());
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public void insertDeviceDist(String deviceCode, int cinID, int roomID, Timestamp t, String barCode) {
+        try {
+            String sql = "INSERT INTO DeviceDist VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, deviceCode);
+            st.setInt(2, cinID);
+            st.setInt(3, roomID);
+            st.setTimestamp(4, t);
+            st.setString(5, barCode);
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

@@ -55,8 +55,9 @@
                             <a href="dv">Thiết Bị </a>
                             <a href="dvd">Phân Bố Thiết Bị </a>
                             <a href="#">Tình Trạng Thiết Bị </a>
-                            <a href="#">Thống Kê Về Sửa Chữa </a>
+                            <a href="#">Thống Kê Về Thiết Bị </a>
                             <a href="#">Thống Kê Rạp</a>
+                            <a href="#">Danh Sách Phòng</a><!-- <a href="#">Thống Kê Rạp</a> -->
                         </div>
                     </div>
                 </div>

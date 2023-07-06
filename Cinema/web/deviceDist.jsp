@@ -202,6 +202,34 @@
                 font-size: 25px;
                 padding-top: 20px;
             }
+            
+            .addE div{
+                margin-left: 20px;
+            }
+            
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+            
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+            
+            a{
+                cursor: pointer;
+            }
+            
+            button{
+                font-size: 18px;
+                border: none;
+                background-color: white;
+            }
         </style>
     </head>
     <body>
@@ -264,11 +292,17 @@
                             <td>
                                 <a href = "udbc?id=${i.getDeviceBarCode()}">SỬA</a>
                                 /
-                                <a href = "#">XÓA</a>
+                                <a onclick="dlt('${i.getDeviceBarCode()}')">XÓA</a>
                             </td>
                         </tr>
                     </c:forEach>
                 </table>
+                <div class = "addE">
+                <div>
+                    <a href = "adddvd"><img src ="images/plusIcon.png"/></a>
+                </div>
+
+            </div>
             </c:if>
         </div>
 
@@ -287,6 +321,12 @@
 
             function pckCin(cin) {
                 window.location = "dvd?cin=" + cin ;
+            }
+            
+            function dlt(id) {
+                if(confirm("Bạn có chắc muốn xóa thiết bị với mã là " + id)) {
+                    window.location = "dltdv?id=" + id;
+                }
             }
 
         </script>

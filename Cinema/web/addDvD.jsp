@@ -70,10 +70,6 @@
             .ms{
                 color: red;
             }
-            
-            #pr{
-                display: none;
-            }
         </style>
     </head>
     <body>
@@ -82,14 +78,16 @@
         </div><!-- comment -->
         <div class = "body">
             <div class = "ttle">
-                SỬA THÔNG TIN
+                THÊM THÔNG TIN
             </div>
             <div class = "in4">
-                <div class = "imgE">
-                    <img src ="${requestScope.dd.getImg()}"/>
-                </div>
+                <c:if test = "${requestScope.check != null}">
+                    <div class = "imgE">
+                        <img src ="${requestScope.device.getImg()}"/>
+                    </div>
+                </c:if>
                 <div class = "oIN4">
-                    <form id ="frm" action = "udbc" method = "post">
+                    <form id ="frm" action = "adddvd" method = "post">
                         <div class = "insideoIN4">
                             <c:if test = "${requestScope.check != null}">
                                 <div class = "ms">
@@ -97,18 +95,25 @@
                                 </div>
                                 <div>
                                     Mã Thiết Bị: ${requestScope.device.getDeviceCode()}
+
                                 </div>
                                 <div>
-                                    Loại Thiết Bị: ${requestScope.device.getTypeName()}
+                                    Rạp: ${requestScope.device.getCinName()}
                                 </div>
                                 <div>
-                                    Giá Thiết Bị: ${requestScope.device.getPrice()}
+                                    Phòng: ${requestScope.device.getRoomID()}
                                 </div>
                                 <div>
-                                    Mô tả: ${requestScope.device.getDescript()}
+                                    Ngày phân bố: ${requestScope.device.getDte()}
+                                </div><!-- comment -->
+                                <div>
+                                    Thời gian phân bố:  ${requestScope.device.getTme()}
                                 </div>
                                 <div>
-                                    Ảnh: ${requestScope.dd.getImg()}
+                                    Barcode:  ${requestScope.device.getDeviceBarCode()}
+                                </div>
+                                <div>
+                                    Ảnh: ${requestScope.img}
                                 </div>
                             </div>
                         </c:if>
@@ -118,19 +123,14 @@
                                     ${requestScope.ms}
                                 </div>
                             </c:if>
-                            <input type ="text" name ="ocode" hidden value ="${requestScope.dd.getDeviceCode()}"/>
+                            <input type ="text" name ="check" id ="check" hidden value = "0"/>
                             <div>
-                                Mã Thiết Bị: ${requestScope.dd.getDeviceCode()}
-                            </div>
-                            <div>
-                                Loại Thiết Bị: ${requestScope.dd.getTypeName()}
-
-                            </div>
-                            <div>
-                                Giá Thiết Bị: ${requestScope.dd.getPrice()}
-                            </div>
-                            <div>
-                                Mô tả: ${requestScope.dd.getDescript()}
+                                Mã Thiết Bị: 
+                                <select name ="code">
+                                    <c:forEach items = "${requestScope.code}" var = "i">
+                                        <option value ="${i}" >${i}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                             <div>
                                 Rạp:
@@ -144,47 +144,25 @@
                                 Phòng:
                                 <select name ="room">
                                     <c:forEach items = "${requestScope.room}" var = "i">
-                                        <option value ="${i.getRoomID()}" ${requestScope.dd.getRoomID().equals(i.getRoomID())?"selected":""}>${i.getRoomID()}</option>
+                                        <option value ="${i.getRoomID()}" ${requestScope.roomID == i.getRoomID()?"selected":""}>${i.getRoomID()}</option>
                                     </c:forEach>
                                 </select>
                             </div>
-                            <input type ="text" hidden name ="check" id ="check" value ="0"/>
-                            <input type ="text" hidden name ="id" id ="check" value ="${requestScope.id}"/>
-                            <input type ="text" hidden name ="obar" value ="${requestScope.dd.getDeviceBarCode()}"/>
-                            <input type ="text" hidden id ="ocode" name ="code" value ="${requestScope.dd.getDeviceCode()}"/>
                             <div>
-                                Ngày phân bố: <input type ="date" required name ="dte" value ="${requestScope.dd.getDte()}"/>
+                                Ngày phân bố: <input type ="date" required name ="dte" />
                             </div>
                             <div>
-                                Thời gian phân bố: <input type ="time" required name ="tme" value ="${requestScope.dd.getTme()}"/>
+                                Thời gian phân bố: <input type ="time" required name ="tme" />
                             </div>
                             <div>
-                                Barcode: <input type ="text" name ="bar" required value ="${requestScope.dd.getDeviceBarCode()}"/>
+                                Barcode: <input type ="text" name ="bar" required />
                             </div>
-                            <div>
-                                Tình trạng: 
-                                <select name ="stat" id = "stat" onchange="cnge()">
-                                    <c:forEach items = "${requestScope.stat}" var = "i">
-                                        <option value ="${i}" ${requestScope.dd.getStatus().equals(i)?"selected":""}>${i}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <input hidden type ="text" id ="ostat" name ="ostat" value ="${requestScope.dd.getStatus()}"/>
-                            <div>
-                                Ảnh: ${requestScope.dd.getImg()} 
-                            </div>
-                            <c:if test = "${requestScope.price != null}">
-
-                                Giá: ${requestScope.price}
-                            </c:if>
-                            <div id = "pr">
-                                Giá: <input type ="text" id ="price" name ="price" />
-                            </div>
+           
                         </c:if>
 
                         <c:if test = "${requestScope.check == null}">
                             <div class = "btS">
-                                <button type = "submit">LƯU</button>
+                                <button type = "submit">THÊM</button>
                             </div>
                         </c:if>
                     </form>
@@ -197,25 +175,7 @@
     <div id = "footer">
         <%@include file = "footer.jsp" %>
     </div>
-    <script type = "text/javascript">
-
-
-
-        function cnge() {
-            var e = document.getElementById("stat");
-            var value = e.value;
-            var text = e.options[e.selectedIndex].text;
-            console.log(document.getElementById("ostat").value + " " + text);
-            if (String(document.getElementById("ostat").value) === "ERROR" && String(text) === "NORMAL") {
-                document.getElementById("price").required = true;
-                document.getElementById("pr").style.display = 'block';
-            }
-            else if(String(document.getElementById("ostat").value) === "ERROR" && String(text) === "ERROR") {
-                document.getElementById("price").required = false;
-                document.getElementById("pr").style.display = 'none';
-            }
-        }
-
+    <script>
         function cngeCin() {
             document.getElementById("check").value = 1;
             document.getElementById("frm").submit();

@@ -228,6 +228,14 @@
         <servlet-name>UpdDevBC</servlet-name>
         <servlet-class>controller.UpdDevBC</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddDvDist</servlet-name>
+        <servlet-class>controller.AddDvDist</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteDevice</servlet-name>
+        <servlet-class>controller.DeleteDevice</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -455,6 +463,14 @@
     <servlet-mapping>
         <servlet-name>UpdDevBC</servlet-name>
         <url-pattern>/udbc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddDvDist</servlet-name>
+        <url-pattern>/adddvd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteDevice</servlet-name>
+        <url-pattern>/dltdv</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
