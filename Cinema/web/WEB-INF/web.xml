@@ -220,6 +220,14 @@
         <servlet-name>AddDevice</servlet-name>
         <servlet-class>controller.AddDevice</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeviceDist</servlet-name>
+        <servlet-class>controller.DeviceDist</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdDevBC</servlet-name>
+        <servlet-class>controller.UpdDevBC</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -439,6 +447,14 @@
     <servlet-mapping>
         <servlet-name>AddDevice</servlet-name>
         <url-pattern>/adddv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeviceDist</servlet-name>
+        <url-pattern>/dvd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdDevBC</servlet-name>
+        <url-pattern>/udbc</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

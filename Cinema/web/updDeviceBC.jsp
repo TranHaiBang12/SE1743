@@ -78,16 +78,14 @@
         </div><!-- comment -->
         <div class = "body">
             <div class = "ttle">
-                THÊM THÔNG TIN
+                SỬA THÔNG TIN
             </div>
             <div class = "in4">
-                <c:if test = "${requestScope.check != null}">
-                    <div class = "imgE">
-                        <img src ="${requestScope.device.getImg()}"/>
-                    </div>
-                </c:if>
+                <div class = "imgE">
+                    <img src ="${requestScope.dd.getImg()}"/>
+                </div>
                 <div class = "oIN4">
-                    <form action = "adddv" method = "post">
+                    <form action = "upddv" method = "post">
                         <div class = "insideoIN4">
                             <c:if test = "${requestScope.check != null}">
                                 <div class = "ms">
@@ -106,7 +104,7 @@
                                     Mô tả: ${requestScope.device.getDescript()}
                                 </div>
                                 <div>
-                                    Ảnh: ${requestScope.device.getImg()}
+                                    Ảnh: ${requestScope.dd.getImg()}
                                 </div>
                             </div>
                         </c:if>
@@ -116,36 +114,53 @@
                                     ${requestScope.ms}
                                 </div>
                             </c:if>
-                            <input type ="text" name ="ocode" hidden />
+                            <input type ="text" name ="ocode" hidden value ="${requestScope.dd.getDeviceCode()}"/>
                             <div>
-                                Mã Thiết Bị: <input type = "text" name ="code" />
+                                Mã Thiết Bị: <input type = "text" name ="code" value = "${requestScope.dd.getDeviceCode()}"/>
                             </div>
                             <div>
                                 Loại Thiết Bị: 
                                 <select name ="type">
                                     <c:forEach items = "${requestScope.type}" var = "i">
-                                        <option value ="${i.getIdType()}">${i.getTypeName()}</option>
+                                        <option value ="${i.getIdType()}" ${requestScope.dd.getIdType().equals(i.getIdType())?"selected":""}>${i.getTypeName()}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                             <div>
-                                Giá Thiết Bị: <input type ="text" name ="price" />
+                                Giá Thiết Bị: <input type ="text" name ="price" value ="${requestScope.dd.getPrice()}"/>
                             </div>
                             <div>
-                                Mô tả: <input type ="text" name ="descript" />
+                                Mô tả: <input type ="text" name ="descript" value ="${requestScope.dd.getDescript()}"/>
                             </div>
                             <div>
-                                Ảnh: <input type ="text" name ="img" /> 
+                                Ngày phân bố: <input type ="text" name ="descript" value ="${requestScope.dd.getDte()}"/>
+                            </div>
+                            <div>
+                                Thời gian phân bố: <input type ="text" name ="descript" value ="${requestScope.dd.getTme()}"/>
+                            </div>
+                            <div>
+                                Barcode: <input type ="text" name ="descript" value ="${requestScope.dd.getDeviceBarCode()}"/>
+                            </div>
+                            <div>
+                                Tình trạng: 
+                                <select name ="stat" id = "stat" onchange="cnge()">
+                                    <c:forEach items = "${requestScope.stat}" var = "i">
+                                        <option value ="${i}" ${requestScope.dd.getStatus().equals(i)?"selected":""}>${i}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+      
+                            <div>
+                                Ảnh: <input type ="text" name ="img" value ="${requestScope.dd.getImg()}"/> 
                             </div>
                         </c:if>
-
-                        <c:if test = "${requestScope.check == null}">
-                            <div class = "btS">
-                                <button type = "submit">THÊM</button>
-                            </div>
-                        </c:if>
-                    </form>
                 </div>
+                <c:if test = "${requestScope.check == null}">
+                    <div class = "btS">
+                        <button type = "submit">LƯU</button>
+                    </div>
+                </c:if>
+                </form>
             </div>
 
         </div>
@@ -154,5 +169,13 @@
     <div id = "footer">
         <%@include file = "footer.jsp" %>
     </div>
+    <script type = "text/javascript">
+        function cnge() {
+            var e = document.getElementById("stat");
+            var value = e.value;
+            var text = e.options[e.selectedIndex].text;
+            console.log(value + " " + text);
+        }
+    </script>
 </body>
 </html>

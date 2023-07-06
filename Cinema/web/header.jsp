@@ -34,18 +34,7 @@
                 <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
                 </c:if>
             <li><a href="#">CSKH</a></li>
-                <c:if test = "${sessionScope.account!=null}">
-                <li><a href="transact">LỊCH SỬ GIAO DỊCH</a></li>
-                <div class="dropdown">
-                    <li id = "userN">${sessionScope.account.getUserName()}</li>
-                    <div class="dropdown-content">
-                        <div class=insidedropdown-content>
-                            <a href="acc">Thông Tin Tài Khoản</a>
-                            <a href="logout">Đăng Xuất</a>
-                        </div>
-                    </div>
-                </div>
-            </c:if>
+                
             <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                 <div class="dropdown">
                     <li id = "userN">THỐNG KÊ</li>
@@ -64,10 +53,22 @@
                     <div class="dropdown-content">
                         <div class=insidedropdown-content>
                             <a href="dv">Thiết Bị </a>
-                            <a href="#">Phân Bố Thiết Bị </a>
+                            <a href="dvd">Phân Bố Thiết Bị </a>
                             <a href="#">Tình Trạng Thiết Bị </a>
                             <a href="#">Thống Kê Về Sửa Chữa </a>
                             <a href="#">Thống Kê Rạp</a>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+            <c:if test = "${sessionScope.account!=null}">
+                <li><a href="transact">LỊCH SỬ GIAO DỊCH</a></li>
+                <div class="dropdown">
+                    <li id = "userN">${sessionScope.account.getUserName()}</li>
+                    <div class="dropdown-content">
+                        <div class=insidedropdown-content>
+                            <a href="acc">Thông Tin Tài Khoản</a>
+                            <a href="logout">Đăng Xuất</a>
                         </div>
                     </div>
                 </div>
