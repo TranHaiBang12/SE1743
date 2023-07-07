@@ -17,6 +17,7 @@ import model.OrderOnlByDate;
 import model.OrderOnlByDate;
 import model.OrderOff;
 import model.OrderOffByDate;
+import model.Ticket;
 
 /**
  *
@@ -617,6 +618,51 @@ public class OrderDAO extends DBContext {
             System.out.println(e);
         }
         return cnt;
+    }
+    
+    public void upd() {
+        List<Ticket> t = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM TicketOffDetail";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                
+                t.add(new Ticket(rs.getString("ProductCode"), rs.getInt("SeatNumber"), rs.getString("SeatType"), rs.getDouble("Price")));
+            }
+            String sql1 = "UPDATE TicketOffDetail SET Type = ? WHERE ProductCode = ? AND SeatNumber = ? AND SeatType = ?";
+            
+            for (int i = 0; i < t.size(); i++) {
+                if(t.get(i).getPrice() == 65000) {
+                    st = connection.prepareStatement(sql1);
+                    st.setInt(1, 1);
+                    st.setString(2, t.get(i).getProductCode());
+                    st.setInt(3, t.get(i).getRow());
+                    st.setString(4, t.get(i).getCol());
+                    st.executeUpdate();
+                    
+                }
+                else if(t.get(i).getPrice() == 80000) {
+                    st = connection.prepareStatement(sql1);
+                    st.setInt(1, 2);
+                    st.setString(2, t.get(i).getProductCode());
+                    st.setInt(3, t.get(i).getRow());
+                    st.setString(4, t.get(i).getCol());
+                    st.executeUpdate();
+                    
+                }
+                else if(t.get(i).getPrice() == 160000) {
+                    st = connection.prepareStatement(sql1);
+                    st.setInt(1, 3);
+                    st.setString(2, t.get(i).getProductCode());
+                    st.setInt(3, t.get(i).getRow());
+                    st.setString(4, t.get(i).getCol());
+                    st.executeUpdate();
+                    
+                }
+            }
+        } catch (Exception e) {
+        }
     }
 
 }

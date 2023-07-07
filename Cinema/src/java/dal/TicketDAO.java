@@ -1400,6 +1400,8 @@ public class TicketDAO extends DBContext {
         return 0;
     }
     
+    
+    
     public int getNumTickSellByCADMV(Date dS, Date eS, int cinID, int movID) {
         try {
             String sql = "SELECT \n"

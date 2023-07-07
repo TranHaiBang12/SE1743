@@ -18,9 +18,9 @@ import model.OrderTicketDetail;
  * @author acer
  */
 public class OrderTicketDetailDAO extends DBContext{
-    public void insert(String orderID, String productCode, String seatType, int seatNumber, double discount, double price) {
+    public void insert(String orderID, String productCode, String seatType, int seatNumber, double discount, double price, int type) {
         try {
-            String sql = "INSERT INTO TicketOnlDetail VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO TicketOnlDetail VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, orderID);
             st.setString(2, productCode);
@@ -28,6 +28,7 @@ public class OrderTicketDetailDAO extends DBContext{
             st.setInt(4, seatNumber);
             st.setDouble(5, discount);
             st.setDouble(6, price);
+            st.setInt(7, type);
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println("3");

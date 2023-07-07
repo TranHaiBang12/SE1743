@@ -711,7 +711,6 @@ public class ProductReport extends HttpServlet {
                     } catch (Exception e) {
                         request.getRequestDispatcher("error.jsp").forward(request, response);
                     }
-                    System.out.println(cinID);
                     FoodDAO fd = new FoodDAO();
                     int numFood = fd.getNumFoodByDateAC(start, end, cinID);
                     int numFoodAllTime = fd.getNumFoodAC(cinID);

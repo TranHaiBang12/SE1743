@@ -10,6 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
         <link rel="stylesheet" href="style.css"/>
         <script src="https://kit.fontawesome.com/8157308f93.js" crossorigin="anonymous"></script>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -422,6 +424,20 @@
             .seat{
                 margin-bottom: 20px;
             }
+
+            .btS{
+                text-align: center;
+            }
+
+            .btS button{
+                font-size: 18px;
+                padding: 5px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+                border-radius: 12px;
+
+            }
         </style>
     </head>
     <body>
@@ -516,9 +532,12 @@
                         </c:if>
                         -->
                     </div>
-                    <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
+
                     <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
                 </c:forEach>
+            </div>
+            <div class = "btS">
+                <button onclick="sbm()">LƯU</button>
             </div>
             <div class = "ttle">Thiết Bị</div>
             <c:if test = "${requestScope.listDevice != null && requestScope.ms == null}">
@@ -571,7 +590,9 @@
 
 
         </script>
-        <script type = "text/javascript">
+
+        <script type="text/javascript" >
+
             function pckRoom(cin, room) {
                 window.location = "rmrp?cin=" + cin + "&room=" + room;
             }
@@ -605,7 +626,7 @@
                                 }
 
                             }
-                            t = "ID" + id + "-" + cin + "/" + room + "-" + "vip" + "-" + type;
+                            t = "ID" + id + "-" + col + "?" + row + "?"+ cin + "/" + room + "-" + "vip" + "-" + type;
                             if (String(type) !== "vip") {
                                 seatC[i] = String(t);
                             } else {
@@ -619,7 +640,7 @@
                         }
                     }
                     if (check === 0) {
-                        t = "ID" + id + "-" + cin + "/" + room + "-" + "vip" + "-" + "nm";
+                        t = "ID" + id + "-"+ col + "?" + row + "?" + cin + "/" + room + "-" + "vip" + "-" + "nm";
                         seatC.push(t);
                     }
 
@@ -641,7 +662,7 @@
                                     break;
                                 }
                             }
-                            t = "ID" + id + "-" + cin + "/" + room + "-" + "spe" + "-" + type;
+                            t = "ID" + id + "-"+ col + "?" + row + "?" + cin + "/" + room + "-" + "spe" + "-" + type;
                             if (String(type) !== "spe") {
                                 seatC[i] = String(t);
                             } else {
@@ -655,7 +676,7 @@
                         }
                     }
                     if (check === 0) {
-                        t = "ID" + id + "-" + cin + "/" + room + "-" + "spe" + "-" + "vip";
+                        t = "ID" + id + "-" + col + "?" + row + "?" + cin + "/" + room + "-" + "spe" + "-" + "vip";
                         seatC.push(t);
                     }
                     console.log(String(seatC));
@@ -674,11 +695,10 @@
                                     break;
                                 }
                             }
-                            t = "ID" + id + "-" + cin + "/" + room + "-" + "nm" + "-" + type;
+                            t = "ID" + id + "-"+ col + "?" + row + "?" + cin + "/" + room + "-" + "nm" + "-" + type;
                             if (String(type) !== "nm") {
                                 seatC[i] = String(t);
-                            }
-                            else {
+                            } else {
                                 seatC.splice(i, 1);
                             }
                             console.log(t);
@@ -690,7 +710,7 @@
 
                     }
                     if (check === 0) {
-                        t = "ID" + id + "-" + cin + "/" + room + "-" + "nm" + "-" + "spe";
+                        t = "ID" + id + "-" + col + "?" + row + "?" + cin + "/" + room + "-" + "nm" + "-" + "spe";
                         seatC.push(t);
                     }
                     console.log(String(seatC));
@@ -702,6 +722,37 @@
                 if (confirm("Bạn có chắc muốn xóa thiết bị với mã là " + id)) {
                     window.location = "dltdv?id=" + id;
                 }
+            }
+
+            function sbm() {
+                let http = new XMLHttpRequest();
+                http.open('POST', 'http://localhost:9999/cinema/upds?seatC=' + seatC);
+                http.onload = function () {
+                    console.log(1);
+                }
+                http.send(seatC);
+                alert("Lưu thành công");
+//                $.ajax({
+//                    url: 'upds',
+//                    type: 'POST',
+//                    contentType: 'application/json',
+//                    data: JSON.stringify(data),
+//                    dataType: 'json',
+//                    success: function (data) {
+//                        //On ajax success do this
+//                        alert(data);
+//                    },
+//                    error: function (xhr, ajaxOptions, thrownError) {
+//                        //On error do this
+//                        if (xhr.status == 200) {
+//
+//                            alert(ajaxOptions);
+//                        } else {
+//                            alert(xhr.status);
+//                            alert(thrownError);
+//                        }
+//                    }
+//                });
             }
 
         </script>

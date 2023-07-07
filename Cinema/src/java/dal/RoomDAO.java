@@ -49,4 +49,20 @@ public class RoomDAO extends DBContext{
         return list;
     }
     
+    public Room getRoomByTCode(String code) {
+        try {
+            String sql = "SELECT Room.* FROM TickTypeInSche JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN Room ON Schedule.roomID = Room.roomID AND Schedule.cinID = Room.cinID WHERE ProductCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, code);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Room r = new Room(rs.getInt("roomID"), rs.getInt("cinID"), rs.getInt("roomType"), rs.getInt("Floor"), rs.getInt("NoRowSeats"), rs.getInt("NoColumnSeats"), rs.getString("Status"));
+                return r;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
 }

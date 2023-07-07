@@ -50,7 +50,50 @@ public class SeatDAO extends DBContext {
         }
         return list;
     }
-
+    
+    public int getTypeByCALCR(int roomID, int cinID, int row, String col) {
+        try {
+            String sql = "SELECT Type FROM Seat WHERE roomID = ? AND cinID = ? AND Row = ? AND Col = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, roomID);
+            st.setInt(2, cinID);
+            st.setInt(3, row);
+            st.setString(4, col);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("Type");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public void updSeat(int cinID, int roomID, int row, String col, String type) {
+        int tpe = 0;
+        if(type.equals("nm")) {
+            tpe = 1;
+        }
+        else if(type.equals("vip")) {
+            tpe = 2;
+        }
+        else if(type.equals("spe")) {
+            tpe = 3;
+        }
+        try {
+            String sql = "UPDATE Seat SET Type = ? WHERE Row = ? AND Col = ? AND roomID = ? AND cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, tpe);
+            st.setInt(2, row);
+            st.setString(3, col);
+            st.setInt(4, roomID);
+            st.setInt(5, cinID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     public void insertAllSeatInRoom(String id) {
         RoomDAO rmd = new RoomDAO();
         ScheDAO scd = new ScheDAO();

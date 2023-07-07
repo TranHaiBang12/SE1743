@@ -10,6 +10,8 @@ import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.OrderTicketDetailDAO;
 import dal.PointDAO;
+import dal.RoomDAO;
+import dal.SeatDAO;
 import dal.TicketDAO;
 import dal.TransactionCDAO;
 import java.io.IOException;
@@ -38,6 +40,7 @@ import model.CartItemFood;
 import model.CartItemTicket;
 import model.DateMD;
 import model.LocationCinMD;
+import model.Room;
 
 /**
  *
@@ -395,12 +398,9 @@ public class PaymentServlet extends HttpServlet {
                 Date dateEnd = null;
                 Time timeStart = null;
                 Time timeEnd = null;
-                System.out.println(dte.size());
                 for (int i = 0; i < dte.size(); i++) {
-                    System.out.println(Integer.parseInt(request.getParameter("dte")) + "/");
-                    System.out.println(dte.get(i).getId());
+        
                     if (Integer.parseInt(request.getParameter("dte")) == dte.get(i).getId()) {
-                        System.out.println(dte.get(i).getId() + dte.get(i).getDay());
                         datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
                         if (dte.get(i).getId() == 0) {
                             timeStart = tt;
@@ -478,12 +478,19 @@ public class PaymentServlet extends HttpServlet {
                             price1 += (list.get(i).getFood().getPrice() * list.get(i).getQuantity());
                         }
                     }
+                    RoomDAO rmd = new RoomDAO();
+                    SeatDAO sd = new SeatDAO();
                     if (!listT.isEmpty()) {
                         int cID = listT.get(0).getTicket().getCinID();
                         String tkCode = orderID + randomAlpha(20 - orderID.length());
                         tcd.insert(orderID, tkCode, 2, dateStart, timeStart, dateEnd, timeEnd, cID);
+                        
                         for (int i = 0; i < listT.size(); i++) {
-                            otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice());
+                            Room r = rmd.getRoomByTCode(listT.get(i).getTicket().getProductCode());
+                            if(r == null) {
+                                request.getRequestDispatcher("error.jsp").forward(request, response);
+                            }
+                            otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice(), sd.getTypeByCALCR(r.getRoomID(), cID, Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getSeat().substring(0, 1)));
                             price1 += listT.get(i).getTicket().getPrice();
                             if (listT.get(i).getTicket().getCinID() != cID) {
                                 tkCode = orderID + randomAlpha(20 - orderID.length());

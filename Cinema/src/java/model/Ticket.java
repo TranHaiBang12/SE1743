@@ -35,6 +35,12 @@ public class Ticket {
     private Movies movie;
     private String stat;
     
+    public Ticket(String productCode, int row, String col, double price) {
+        this.productCode = productCode;
+        this.row = row;
+        this.col = col;
+        this.price = price;
+    }
     
     public Ticket(String productCode, int row, String col) {
         this.productCode = productCode;
