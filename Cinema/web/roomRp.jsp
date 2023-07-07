@@ -479,7 +479,7 @@
                 <c:forEach items = "${requestScope.tk}" var = "i">
                     <div hidden id = "first${i.getId()}"> ${i.getId()}</div>
                     <c:if test = "${i.getType() == 1}">
-                        <div id ="${i.getId()}" class = "insideSeat" onclick = "upd('${i.getCol()}', '${i.getRow()}', '${i.getId()}')">
+                        <div id ="${i.getId()}" class = "insideSeat" onclick = "upd('${i.getCol()}', '${i.getRow()}', '${i.getCinID()}', '${i.getRoomID()}', ${i.getId()})">
                             <input type ="text" hidden/>
                             <div class = "sat">
 
@@ -490,7 +490,7 @@
                         </div>
                     </c:if>
                     <c:if test = "${i.getType() == 2}">
-                        <div id ="${i.getId()}" class = "vip" onclick = "upd('${i.getCol()}', '${i.getRow()}', '${i.getId()}')">
+                        <div id ="${i.getId()}" class = "vip" onclick = "upd('${i.getCol()}', '${i.getRow()}', '${i.getCinID()}', '${i.getRoomID()}', ${i.getId()})">
                             <input type ="text" hidden/>
                             <div class = "sat">
                                 <span>${i.getCol()}</span>
@@ -500,7 +500,7 @@
                         </div>
                     </c:if>
                     <c:if test = "${i.getType() == 3}">
-                        <div  id ="${i.getId()}" class = "spe" onclick = "upd('${i.getCol()}', '${i.getRow()}', '${i.getId()}')">
+                        <div  id ="${i.getId()}" class = "spe" onclick = "upd('${i.getCol()}', '${i.getRow()}', '${i.getCinID()}', '${i.getRoomID()}', ${i.getId()})">
                             <input type ="text" hidden/>
                             <div class = "sat">
                                 <span>${i.getCol()}</span>
@@ -582,34 +582,118 @@
             var cnt = 0;
             var seatC = [];
 
-            function upd(col, row, id) {
+            function upd(col, row, cin, room, id) {
                 var t = "";
                 var k = 0;
                 var cnt = 0;
+                var check = 0;
+                var tst = "";
+                var type = "";
                 if (String(document.getElementById(id).className) === "insideSeat") {
                     for (var i = 0; i < seatC.length; i++) {
-                        if (String(seatC[i]).includes(id)) {
-                            for (var j = 0; j < seatC[i].length; j++) {
-                                if(seatC[i] === '-' && k === 0) {
-                                    cnt = i;
-                                    k++;
+
+                        if (String(seatC[i]).includes("ID" + id)) {
+                            tst = String(seatC[i]);
+                            for (var j = 0; j < tst.length; j++) {
+                                if (tst.charAt(j) === "-") {
+
+                                    cnt++;
                                 }
-                                else if(seatC[i] === '-' && k === 1) {
-                                    k++;
-                                    console.log(seatC[i].substring(cnt++, i));
+                                if (cnt === 3) {
+                                    type = tst.substring(j + 1);
+                                    break;
                                 }
+
                             }
+                            t = "ID" + id + "-" + cin + "/" + room + "-" + "vip" + "-" + type;
+                            if (String(type) !== "vip") {
+                                seatC[i] = String(t);
+                            } else {
+                                seatC.splice(i, 1);
+                            }
+                            console.log(t);
+                            check++;
+                        }
+                        if (check > 0) {
+                            break;
                         }
                     }
-                    t = id + "-" + document.getElementById(id).className + "-" + "vip";
-                    seatC.push(t);
-                    console.log(t);
-                    console.log(seatC.length);
+                    if (check === 0) {
+                        t = "ID" + id + "-" + cin + "/" + room + "-" + "vip" + "-" + "nm";
+                        seatC.push(t);
+                    }
+
+
+                    console.log(String(seatC));
                     document.getElementById(id).className = "vip";
 
                 } else if (String(document.getElementById(id).className) === "vip") {
+                    for (var i = 0; i < seatC.length; i++) {
+                        if (String(seatC[i]).includes("ID" + id)) {
+                            tst = String(seatC[i]);
+                            for (var j = 0; j < tst.length; j++) {
+                                if (tst.charAt(j) === "-") {
+                                    cnt++;
+                                }
+                                if (cnt === 3) {
+
+                                    type = tst.substring(j + 1);
+                                    break;
+                                }
+                            }
+                            t = "ID" + id + "-" + cin + "/" + room + "-" + "spe" + "-" + type;
+                            if (String(type) !== "spe") {
+                                seatC[i] = String(t);
+                            } else {
+                                seatC.splice(i, 1);
+                            }
+                            console.log(t);
+                            check++;
+                        }
+                        if (check > 0) {
+                            break;
+                        }
+                    }
+                    if (check === 0) {
+                        t = "ID" + id + "-" + cin + "/" + room + "-" + "spe" + "-" + "vip";
+                        seatC.push(t);
+                    }
+                    console.log(String(seatC));
                     document.getElementById(id).className = "spe";
                 } else if (String(document.getElementById(id).className) === "spe") {
+                    for (var i = 0; i < seatC.length; i++) {
+
+                        if (String(seatC[i]).includes("ID" + id)) {
+                            tst = String(seatC[i]);
+                            for (var j = 0; j < tst.length; j++) {
+                                if (tst.charAt(j) === "-") {
+                                    cnt++;
+                                }
+                                if (cnt === 3) {
+                                    type = tst.substring(j + 1);
+                                    break;
+                                }
+                            }
+                            t = "ID" + id + "-" + cin + "/" + room + "-" + "nm" + "-" + type;
+                            if (String(type) !== "nm") {
+                                seatC[i] = String(t);
+                            }
+                            else {
+                                seatC.splice(i, 1);
+                            }
+                            console.log(t);
+                            check++;
+                        }
+                        if (check > 0) {
+                            break;
+                        }
+
+                    }
+                    if (check === 0) {
+                        t = "ID" + id + "-" + cin + "/" + room + "-" + "nm" + "-" + "spe";
+                        seatC.push(t);
+                    }
+                    console.log(String(seatC));
                     document.getElementById(id).className = "insideSeat";
                 }
             }
