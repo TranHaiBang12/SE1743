@@ -168,7 +168,12 @@
                         <div class = "mName">
                             <div>${requestScope.m.getMovName()}</div>
                         </div>
-                        <div. class = "oIn4">
+                        <div class = "oIn4">
+                            <div>
+                                <c:if test = "${requestScope.cinID != null}">
+                                    ${requestScope.cinID.getCinName()}
+                                </c:if>
+                            </div>
                             <div>
                                 <div>Tổng số vé được bán: <span class = "blk">${requestScope.numTick}</span>, chiếm <span  class = "blk">${requestScope.pcNumTick}%</span> tổng số vé được bán từ trước đến nay</div><!-- <div></div> -->
                             </div>
@@ -182,7 +187,7 @@
                                 <div>Doanh thu bán offline: <span class = "rd">${requestScope.numOff}đ</span>, chiếm <span  class = "blk">${requestScope.PCnumOFF}%</span> doanh thu</div><!-- <div></div> -->
                             </div>
 
-                        </div.>
+                        </div>
                     </div>
                 </div>
 

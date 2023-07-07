@@ -329,6 +329,39 @@ public class ScheDAO extends DBContext {
         }
         return null;
     }
+    
+    public int[] getAllScheInTimeAC(Date a, Date b, int cinID) {
+        List<String> list = new ArrayList<>();
+        try {
+            int cnt = 0;
+            String sql0 = "SELECT COUNT(DISTINCT movID) AS T FROM Schedule LEFT JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo WHERE ProductCode IS NOT NULL AND (startDate BETWEEN ? AND ?) AND Schedule.cinID = ?";
+            String sql = "SELECT DISTINCT movID FROM Schedule LEFT JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo WHERE ProductCode IS NOT NULL AND (startDate BETWEEN ? AND ?) AND Schedule.cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql0);
+            st.setDate(1, a);
+            st.setDate(2, b);
+            st.setInt(3, cinID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                cnt = rs.getInt("T");
+            }
+            st = connection.prepareStatement(sql);
+            int mov[] = new int[cnt];
+            st.setDate(1, a);
+            st.setDate(2, b);
+            st.setInt(3, cinID);
+            rs = st.executeQuery();
+            int i = 0;
+            while (rs.next()) {
+                mov[i] = rs.getInt("movID");
+                i++;
+            }
+            return mov;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
 
     public List<Schedule> getScheTypeByTime(Date dS, Date eS, int movID) {
         List<Schedule> list = new ArrayList<>();
@@ -348,5 +381,22 @@ public class ScheDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public int getScheInTimeByCin(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT COUNT(DISTINCT movID) AS T FROM Schedule LEFT JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo WHERE ProductCode IS NOT NULL AND (startDate BETWEEN ? AND ?) AND cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setInt(3, cinID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 }

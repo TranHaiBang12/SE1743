@@ -6,7 +6,9 @@ package controller;
 
 import dal.CinemaDAO;
 import dal.DeviceDAO;
+import dal.EmployeeDAO;
 import dal.FoodDAO;
+import dal.ScheDAO;
 import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -293,7 +295,31 @@ public class CinemaReport extends HttpServlet {
                 listTID8.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName() + ", Lỗ", -(onlT + offT + onlF + offF - dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) - dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID())), PC));
             }
         }
-
+        
+        EmployeeDAO ed = new EmployeeDAO();
+        
+        List<TIcketDate> listTID9 = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            String PC = "0";
+            if(ed.getAllEmployee().size() != 0) {
+                PC = decimalFormat.format((double)ed.getNumEmpByCin(list.get(i).getCinID(), Date.valueOf(start_raw), Date.valueOf(end_raw)) / (double)ed.getAllEmployee().size() * 100);
+            }
+            listTID9.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), ed.getNumEmpByCin(list.get(i).getCinID(), Date.valueOf(start_raw), Date.valueOf(end_raw)), PC));
+        }
+        
+        //movie
+        List<TIcketDate> listTID10 = new ArrayList<>();
+        ScheDAO scd = new ScheDAO();
+        for (int i = 0; i < list.size(); i++) {
+            String PC = "0";
+            if(scd.getScheInTimeByCin(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) != 0) {
+                PC = decimalFormat.format((double)scd.getScheInTimeByCin(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double)scd.getAllScheInTime(Date.valueOf(start_raw), Date.valueOf(end_raw)).length * 100);
+            }
+            listTID10.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), ed.getNumEmpByCin(list.get(i).getCinID(), Date.valueOf(start_raw), Date.valueOf(end_raw)), PC));
+        }
+        
+        request.setAttribute("listTID10", listTID10);
+        request.setAttribute("listTID9", listTID9);
         request.setAttribute("listTID8", listTID8);
 
         request.setAttribute("numD", numD);

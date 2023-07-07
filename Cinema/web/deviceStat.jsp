@@ -87,7 +87,7 @@
             <%@include file = "header.jsp" %>
         </div><!-- comment -->
         <div class = "body">
-            <div class = "ttle">Danh Sách Thiết Bị Lỗi</div>
+            <div class = "ttle">Danh Sách Lỗi</div>
             <table>
                 <tr>
                     <th>ẢNH</th>

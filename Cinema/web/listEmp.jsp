@@ -42,16 +42,16 @@
                 text-decoration: none;
                 color: black;
             }
-            
+
             .addE img{
                 width: 30px;
                 cursor: pointer;
             }
-            
+
             .addE div{
                 margin-left: 20px;
             }
-            
+
             .addE {
                 display: flex;
                 justify-content: center;
@@ -60,9 +60,35 @@
                 padding-bottom: 20px;
                 font-size: 20px;
             }
-            
+
             .dlt{
                 cursor: pointer;
+            }
+
+            .dteS{
+                display: flex;
+                justify-content: center;
+                font-size: 19px;
+                margin-bottom: 20px;
+            }
+
+            .dteS div{
+                margin-right: 15px;
+            }
+
+            .blk{
+                font-weight: bold;
+            }
+
+            .rd{
+                color: red;
+            }
+            
+            .ms{
+                font-weight: bold;
+                color: red;
+                font-size: 25px;
+                text-align: center;
             }
         </style>
     </head>
@@ -71,40 +97,59 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">.
-            <table>
-                <tr>
-                    <th>ẢNH</th>
-                    <th>MÃ NHÂN VIÊN</th>
-                    <th>HỌ</th><!-- comment -->
-                    <th>TÊN</th>
-                    <th>GIỚI TÍNH</th>
-                    <th>VỊ TRÍ CÔNG VIỆC</th>
-                    <th>RẠP LÀM VIỆC</th>
-                    <th>ACTION</th>
-                </tr>
-                <c:forEach items = "${requestScope.listE}" var = "i">
+            <c:if test = "${requestScope.start != null && requestScope.end != null}">
+                <div class = "dteS">
+                    <div><span class = "blk">Ngày: </span><span class = "rd">${requestScope.start}</span></div>
+                    <div>
+                        -
+                    </div>
+                    <div><span class = "blk">Ngày: </span><span class = "rd">${requestScope.end}</span></div>
+                </div>
+                <div class = "dteS">
+                    <span class = "blk">Rạp:</span> <span class = "rd">${requestScope.cin.getCinName()}</span>
+                </div>
+            </c:if>
+            <c:if test = "${requestScope.ms != null}">
+                <div class = "ms">
+                    ${requestScope.ms}
+                </div>
+            </c:if>
+            <c:if test = "${requestScope.listE != null}">
+                <table>
                     <tr>
-                        <td class = "m"><img src = "${i.getImg()}"/></td>
-                        <td>${i.getEmpID()}</td>
-                        <td>${i.getLastName()}</td>
-                        <td>${i.getFirstName()}</td><!-- <td></td> -->
-                        <td>${i.getGender()}</td>
-                        <td>${i.getPosition()}</td><!-- comment -->
-                        <td>${i.getCinName()}</td>
-                        <td>
-                            <a href = "empdt?id=${i.getEmpID()}">XEM CHI TIẾT</a>
-                            
-                            /
-                            <span class ="dlt" onclick = "dlt('${i.getEmpID()}')">XÓA</span>
-                        </td>
+                        <th>ẢNH</th>
+                        <th>MÃ NHÂN VIÊN</th>
+                        <th>HỌ</th><!-- comment -->
+                        <th>TÊN</th>
+                        <th>GIỚI TÍNH</th>
+                        <th>VỊ TRÍ CÔNG VIỆC</th>
+                        <th>RẠP LÀM VIỆC</th>
+                        <th>ACTION</th>
                     </tr>
-                </c:forEach>
-            </table>
+                    <c:forEach items = "${requestScope.listE}" var = "i">
+                        <tr>
+                            <td class = "m"><img src = "${i.getImg()}"/></td>
+                            <td>${i.getEmpID()}</td>
+                            <td>${i.getLastName()}</td>
+                            <td>${i.getFirstName()}</td><!-- <td></td> -->
+                            <td>${i.getGender()}</td>
+                            <td>${i.getPosition()}</td><!-- comment -->
+                            <td>${i.getCinName()}</td>
+                            <td>
+                                <a href = "empdt?id=${i.getEmpID()}">XEM CHI TIẾT</a>
+
+                                /
+                                <span class ="dlt" onclick = "dlt('${i.getEmpID()}')">XÓA</span>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:if>
             <div class = "addE">
                 <div>
                     <a href = "addemp"><img src ="images/plusIcon.png"/></a>
                 </div>
-      
+
             </div>
         </div>
         <div id = "footer">
@@ -112,7 +157,7 @@
         </div>
         <script type = "text/javascript">
             function dlt(id) {
-                if(confirm("Bạn có chắc muốn xóa nhân viên với id = " + id)) {
+                if (confirm("Bạn có chắc muốn xóa nhân viên với id = " + id)) {
                     window.location = "dele?id=" + id;
                 }
             }

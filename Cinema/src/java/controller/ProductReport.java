@@ -6,7 +6,9 @@ package controller;
 
 import dal.CinemaDAO;
 import dal.FoodDAO;
+import dal.MovieDAO;
 import dal.RateDAO;
+import dal.ScheDAO;
 import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -138,7 +140,9 @@ public class ProductReport extends HttpServlet {
 
                     //numTick
                     int numTick = tkd.getNumTickSellByDateAC(start, end, cinID);
+                    System.out.println(numTick);
                     int numTickOfAllTime = tkd.getNumTickSellOfAllTimeAC(cinID);
+                    System.out.println("1");
                     String pcNumTick = decimalFormat.format((double) numTick / (double) numTickOfAllTime * 100);
 
                     //tickType
@@ -352,11 +356,8 @@ public class ProductReport extends HttpServlet {
                         PC = decimalFormat.format((double) tkd.getNumTickSellByDayAC(cn, cinID) / (double) numTick * 100);
                         listTID3.add(new TIcketDate("Chủ nhật", tkd.getNumTickSellByDayAC(cn, cinID), PC));
                         listTID3.get(listTID3.size() - 1).setTkd(listTIDte);
-                        for (int i = 0; i < listTID3.get(listTID3.size() - 1).getTkd().size(); i++) {
-                            System.out.println(listTID3.get(listTID3.size() - 1).getTkd().get(i).getNo());
-                        }
+
                         listTIDte = new ArrayList<>();
-                        System.out.println(listTID3.get(listTID3.size() - 1).getTkd().size());
                     }
 
                     //hourTick
@@ -464,9 +465,10 @@ public class ProductReport extends HttpServlet {
                             listTIDte = new ArrayList<>();
                         }
                     }
-
+                    System.out.println("6");
                     //Cinema
                     List<Cinema> cin = tkd.getAllCinemaSellTicketByDate(start, end);
+
                     List<TIcketDate> listTID5 = new ArrayList<>();
                     for (int i = 0; i < cin.size(); i++) {
                         if (numTick == 0) {
@@ -493,6 +495,7 @@ public class ProductReport extends HttpServlet {
 
                     //date
                     List<TIcketDate> listTID6 = tkd.getAllTicketBoughtDateByTimeAC(start, end, 0, cinID);
+
                     for (int i = 0; i < listTID6.size(); i++) {
                         String p = "";
                         cnt = 0;
@@ -513,7 +516,6 @@ public class ProductReport extends HttpServlet {
                         t = p;
                         p = listTID6.get(i).getdS().substring(cnt + 1);
                         p += t;
-                        System.out.println(p);
                         listTID6.get(i).setNo(tkd.getNumTickByDateAC(start, end, 0, Date.valueOf(p), cinID));
                         if (numTick != 0) {
                             listTID6.get(i).setPc(decimalFormat.format((double) listTID6.get(i).getNo() / (double) numTick * 100));
@@ -521,7 +523,7 @@ public class ProductReport extends HttpServlet {
                             listTID6.get(i).setPc("0");
                         }
                     }
-
+                    System.out.println("7");
                     //numSellEachDay
                     for (int i = 0; i < listTID6.size(); i++) {
                         String p = "";
@@ -565,7 +567,11 @@ public class ProductReport extends HttpServlet {
                             listTID6.get(i).setTkd(TID7);
                         }
                     }
+
                     //phim ban dc ve va phim chua ban dc ve
+                    ScheDAO scd = new ScheDAO();
+                    MovieDAO mvd = new MovieDAO();
+                    RateDAO rd = new RateDAO();
                     List<Movies> listM = tkd.getAllMovSellTicketByDateAC(start, end, cinID);
                     for (int i = 0; i < listM.size(); i++) {
                         listM.get(i).setAllNumTick(tkd.getAllNumTickOfMoviesAC(start, end, listM.get(i).getMovID(), cinID));
@@ -577,6 +583,40 @@ public class ProductReport extends HttpServlet {
                             String PC = "0";
                             listM.get(i).setPcNumTickSell(PC);
                         }
+                        Movies m = listM.get(i);
+                        m.setNoRate(rd.getNoRate(m.getMovID()));
+                        m.setNoRate5(rd.getNoRate5(m.getMovID()));
+                        m.setNoRate4(rd.getNoRate4(m.getMovID()));
+                        m.setNoRate3(rd.getNoRate3(m.getMovID()));
+                        m.setNoRate2(rd.getNoRate2(m.getMovID()));
+                        m.setNoRate1(rd.getNoRate1(m.getMovID()));
+                        m.setNoRate(rd.getNoRate(m.getMovID()));
+                        m.setSumRate(rd.getSumRate(m.getMovID()));
+
+                        String b, p5, p4, p3, p2, p1;
+                        if (rd.getNoRate(m.getMovID()) != 0) {
+                            b = decimalFormat.format((double) rd.getSumRate(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                            p5 = decimalFormat.format((double) rd.getNoRate5(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                            p4 = decimalFormat.format((double) rd.getNoRate4(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                            p3 = decimalFormat.format((double) rd.getNoRate3(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                            p2 = decimalFormat.format((double) rd.getNoRate2(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                            p1 = decimalFormat.format((double) rd.getNoRate1(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                        } else {
+                            decimalFormat = new DecimalFormat("#");
+                            b = decimalFormat.format(0);
+                            p5 = decimalFormat.format(0);
+                            p4 = decimalFormat.format(0);
+                            p3 = decimalFormat.format(0);
+                            p2 = decimalFormat.format(0);
+                            p1 = decimalFormat.format(0);
+                        }
+                        m.setAvrRate(Double.parseDouble(b));
+                        m.setpRate5(Double.parseDouble(p5));
+                        m.setpRate4(Double.parseDouble(p4));
+                        m.setpRate3(Double.parseDouble(p3));
+                        m.setpRate2(Double.parseDouble(p2));
+                        m.setpRate1(Double.parseDouble(p1));
+                        listM.set(i, m);
                     }
 
                     List<Movies> listMNS = tkd.getAllMoviesSellTicketButNotBAC(start, end, cinID);
@@ -591,7 +631,7 @@ public class ProductReport extends HttpServlet {
                             listMNS.get(i).setPcNumTickSell(PC);
                         }
                     }
-
+                    System.out.println("4");
                     if (listMNS.size() > 0) {
                         request.setAttribute("listMNS", listMNS);
                     } else {
@@ -599,8 +639,8 @@ public class ProductReport extends HttpServlet {
                     }
 
                     //income
-                    int numOnl = tkd.getOnlineIncome(start, end);
-                    int numOff = tkd.getOfflineIncome(start, end);
+                    int numOnl = tkd.getOnlineIncomeByCinAD(start, end, cinID);
+                    int numOff = tkd.getOfflineIncomeByCinAD(start, end, cinID);
                     int numIA = numOnl + numOff;
 
                     String PCnumONL = "0";
@@ -609,10 +649,9 @@ public class ProductReport extends HttpServlet {
                         PCnumONL = decimalFormat.format((double) numOnl / (double) numIA * 100);
                         PCnumOFF = decimalFormat.format((double) numOff / (double) numIA * 100);
                     }
-
                     request.setAttribute("PCnumONL", PCnumONL);
                     request.setAttribute("PCnumOFF", PCnumOFF);
-                    request.setAttribute("cinID", cinID);
+                    request.setAttribute("cinID", cnd.getCinemaByID(cinID));
                     request.setAttribute("numOnl", numOnl);
                     request.setAttribute("numOff", numOff);
                     request.setAttribute("numIA", numIA);
@@ -633,6 +672,200 @@ public class ProductReport extends HttpServlet {
                     request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
                     request.getRequestDispatcher("tkRp.jsp").forward(request, response);
                 } else if (type.equals("FD")) {
+
+                    //food
+                    int cnt = 0;
+                    String yearS = "", monthS = "", dateS = "";
+                    String yearE = "", monthE = "", dateE = "";
+                    String t = start_raw;
+                    for (int i = 0; i < t.length(); i++) {
+                        if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                            yearS = t.substring(cnt, i);
+                            cnt = i;
+                        } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                            monthS = t.substring(cnt + 1, i);
+                            cnt = i;
+                        }
+                    }
+
+                    dateS = t.substring(cnt + 1);
+                    cnt = 0;
+                    t = end_raw;
+                    for (int i = 0; i < t.length(); i++) {
+                        if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                            yearE = t.substring(cnt, i);
+                            cnt = i;
+                        } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                            monthE = t.substring(cnt + 1, i);
+                            cnt = i;
+                        }
+                    }
+                    dateE = t.substring(cnt + 1);
+
+                    Date start = null;
+                    Date end = null;
+
+                    try {
+                        start = Date.valueOf(start_raw);
+                        end = Date.valueOf(end_raw);
+                    } catch (Exception e) {
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                    System.out.println(cinID);
+                    FoodDAO fd = new FoodDAO();
+                    int numFood = fd.getNumFoodByDateAC(start, end, cinID);
+                    int numFoodAllTime = fd.getNumFoodAC(cinID);
+
+                    String pcF = "0";
+                    if (numFoodAllTime != 0) {
+                        pcF = decimalFormat.format((double) numFood / (double) numFoodAllTime * 100);
+                    }
+
+                    //foodType
+                    List<TIcketDate> listTID = new ArrayList<>();
+                    List<Food> ft = fd.getAllFoodTypeByDateAC(start, end, cinID);
+                    for (int i = 0; i < ft.size(); i++) {
+                        if (numFood == 0) {
+                            String PC = "0";
+                            listTID.add(new TIcketDate(ft.get(i).getFoodDescript(), fd.getNumFoodTypeSellByDateAType(start, end, ft.get(i).getFoodType()), PC));
+                        } else {
+                            String PC = decimalFormat.format((double) fd.getNumFoodTypeSellByDateATypeAC(start, end, ft.get(i).getFoodType(), cinID) / (double) numFood * 100);
+                            listTID.add(new TIcketDate(ft.get(i).getTypeName(), fd.getNumFoodTypeSellByDateATypeAC(start, end, ft.get(i).getFoodType(), cinID), PC));
+                        }
+                    }
+
+                    //cin
+                    List<TIcketDate> listTID1 = new ArrayList<>();
+                    List<Cinema> c = fd.getAllCinByDate(start, end);
+                    for (int i = 0; i < c.size(); i++) {
+                        if (numFood == 0) {
+                            String PC = "0";
+                            listTID1.add(new TIcketDate(c.get(i).getCinName(), fd.getNumFoodSellByCinAndDate(start, end, c.get(i).getCinID()), PC));
+                        } else {
+                            String PC = decimalFormat.format((double) fd.getNumFoodSellByCinAndDate(start, end, c.get(i).getCinID()) / (double) numFood * 100);
+                            listTID1.add(new TIcketDate(c.get(i).getCinName(), fd.getNumFoodSellByCinAndDate(start, end, c.get(i).getCinID()), PC));
+                        }
+                    }
+
+                    //onl off
+                    TIcketDate tONL;
+                    TIcketDate tOFF;
+                    if (numFood == 0) {
+                        String PC = "0";
+                        tONL = new TIcketDate("Bán online", fd.getNumFoodByOnlAndOffAC(start, end, "ONL", cinID), PC);
+                        tOFF = new TIcketDate("Bán trực tiếp", fd.getNumFoodByOnlAndOffAC(start, end, "OFF", cinID), PC);
+                    } else {
+                        String PC1 = decimalFormat.format((double) fd.getNumFoodByOnlAndOffAC(start, end, "ONL", cinID) / (double) numFood * 100);
+                        String PC2 = decimalFormat.format((double) fd.getNumFoodByOnlAndOffAC(start, end, "OFF", cinID) / (double) numFood * 100);
+                        tONL = new TIcketDate("Bán online", fd.getNumFoodByOnlAndOffAC(start, end, "ONL", cinID), PC1);
+                        tOFF = new TIcketDate("Bán trực tiếp", fd.getNumFoodByOnlAndOffAC(start, end, "OFF", cinID), PC2);
+                    }
+
+                    //date
+                    List<TIcketDate> listTID2 = fd.getDateByNumTickDateAC(start, end, cinID);
+                    for (int i = 0; i < listTID2.size(); i++) {
+                        String p = "";
+                        cnt = 0;
+                        t = "";
+                        for (int j = 0; j < listTID2.get(i).getdS().length(); j++) {
+
+                            if (listTID2.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                                p += listTID2.get(i).getdS().substring(0, j);
+                                cnt = j;
+                            } else if (listTID2.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                                t = p;
+                                p = listTID2.get(i).getdS().substring(cnt, j + 1);
+                                p += t;
+                                cnt = j;
+                                break;
+                            }
+                        }
+                        t = p;
+                        p = listTID2.get(i).getdS().substring(cnt + 1);
+                        p += t;
+                        System.out.println(p);
+                        listTID2.get(i).setNo(fd.getNumFoodByDateEXACTAC(start, end, Date.valueOf(p), cinID));
+                        if (numFood != 0) {
+                            listTID2.get(i).setPc(decimalFormat.format((double) listTID2.get(i).getNo() / (double) numFood * 100));
+                        } else {
+                            listTID2.get(i).setPc("0");
+                        }
+                    }
+
+                    //numSellEachDay
+                    for (int i = 0; i < listTID2.size(); i++) {
+                        String p = "";
+                        cnt = 0;
+                        t = "";
+                        for (int j = 0; j < listTID2.get(i).getdS().length(); j++) {
+
+                            if (listTID2.get(i).getdS().charAt(j) == '-' && cnt == 0) {
+                                p += listTID2.get(i).getdS().substring(0, j);
+                                cnt = j;
+                            } else if (listTID2.get(i).getdS().charAt(j) == '-' && cnt != 0) {
+                                t = p;
+                                p = listTID2.get(i).getdS().substring(cnt, j + 1);
+                                p += t;
+                                cnt = j;
+                                break;
+                            }
+                        }
+                        t = p;
+                        p = listTID2.get(i).getdS().substring(cnt + 1);
+                        p += t;
+
+                        int numInDay = listTID2.get(i).getNo();
+
+                        List<TIcketDate> TID7 = new ArrayList<>();
+
+                    }
+
+                    //allFood
+                    List<Food> listF = fd.getAllFood();
+                    String page_raw = request.getParameter("page");
+                    int page = 1;
+                    if (page_raw != null) {
+                        page = Integer.parseInt(page_raw);
+                    }
+                    int numPerPage = 5;
+                    int totalPage = (listF.size() % numPerPage == 0) ? (listF.size() / numPerPage) : (listF.size() / numPerPage + 1);
+                    int startP = (page - 1) * 5;
+                    int endP = (page == totalPage) ? (listF.size() - 1) : (page * numPerPage - 1);
+
+                    //income
+                    int numOnl = fd.getIncomeOnlByDAC(start, end, cinID);
+                    int numOff = fd.getIncomeOffByDAC(start, end, cinID);
+                    int numIA = numOnl + numOff;
+
+                    String PCnumONL = "0";
+                    String PCnumOFF = "0";
+                    if (numIA != 0) {
+                        PCnumONL = decimalFormat.format((double) numOnl / (double) numIA * 100);
+                        PCnumOFF = decimalFormat.format((double) numOff / (double) numIA * 100);
+                    }
+                    request.setAttribute("cin", cnd.getCinemaByID(cinID));
+                    request.setAttribute("PCnumONL", PCnumONL);
+                    request.setAttribute("PCnumOFF", PCnumOFF);
+
+                    request.setAttribute("numOnl", numOnl);
+                    request.setAttribute("numOff", numOff);
+                    request.setAttribute("numIA", numIA);
+                    request.setAttribute("type", type);
+                    request.setAttribute("listPerPage", fd.getFoodByPage(listF, startP, endP));
+                    request.setAttribute("page", page);
+                    request.setAttribute("totalPage", totalPage);
+                    request.setAttribute("listTID2", listTID2);
+                    request.setAttribute("tONL", tONL);
+                    request.setAttribute("tOFF", tOFF);
+                    request.setAttribute("listTID1", listTID1);
+                    request.setAttribute("listTID", listTID);
+                    request.setAttribute("numFood", numFood);
+                    request.setAttribute("pcF", pcF);
+                    request.setAttribute("startR", start);
+                    request.setAttribute("endR", end);
+                    request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
+                    request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
+                    request.getRequestDispatcher("fdRp.jsp").forward(request, response);
 
                 } else {
                     request.getRequestDispatcher("error.jsp").forward(request, response);
@@ -1121,6 +1354,7 @@ public class ProductReport extends HttpServlet {
                         listTID6.get(i).setTkd(TID7);
                     }
                 }
+                RateDAO rd = new RateDAO();
                 //phim ban dc ve va phim chua ban dc ve
                 List<Movies> listM = tkd.getAllMovSellTicketByDate(start, end);
                 for (int i = 0; i < listM.size(); i++) {
@@ -1133,6 +1367,44 @@ public class ProductReport extends HttpServlet {
                         String PC = "0";
                         listM.get(i).setPcNumTickSell(PC);
                     }
+                    Movies m = listM.get(i);
+                    m.setNoRate(rd.getNoRate(m.getMovID()));
+                    m.setNoRate5(rd.getNoRate5(m.getMovID()));
+                    m.setNoRate4(rd.getNoRate4(m.getMovID()));
+                    m.setNoRate3(rd.getNoRate3(m.getMovID()));
+                    m.setNoRate2(rd.getNoRate2(m.getMovID()));
+                    m.setNoRate1(rd.getNoRate1(m.getMovID()));
+                    m.setNoRate(rd.getNoRate(m.getMovID()));
+                    m.setSumRate(rd.getSumRate(m.getMovID()));
+
+                    String b, p5, p4, p3, p2, p1;
+                    if (rd.getNoRate(m.getMovID()) != 0) {
+                        b = decimalFormat.format((double) rd.getSumRate(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                        p5 = decimalFormat.format((double) rd.getNoRate5(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                        p4 = decimalFormat.format((double) rd.getNoRate4(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                        p3 = decimalFormat.format((double) rd.getNoRate3(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                        p2 = decimalFormat.format((double) rd.getNoRate2(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                        p1 = decimalFormat.format((double) rd.getNoRate1(m.getMovID()) / (double) rd.getNoRate(m.getMovID()));
+                    } else {
+                        decimalFormat = new DecimalFormat("#");
+                        b = decimalFormat.format(0);
+                        p5 = decimalFormat.format(0);
+                        p4 = decimalFormat.format(0);
+                        p3 = decimalFormat.format(0);
+                        p2 = decimalFormat.format(0);
+                        p1 = decimalFormat.format(0);
+                    }
+                    m.setAvrRate(Double.parseDouble(b));
+                    m.setpRate5(Double.parseDouble(p5));
+                    m.setpRate4(Double.parseDouble(p4));
+                    m.setpRate3(Double.parseDouble(p3));
+                    m.setpRate2(Double.parseDouble(p2));
+                    m.setpRate1(Double.parseDouble(p1));
+                    listM.set(i, m);
+                }
+
+                if (listM.isEmpty()) {
+                    request.setAttribute("msT", "Không có bất kỳ bộ phim nào được chiếu trong khung giờ này");
                 }
 
                 List<Movies> listMNS = tkd.getAllMoviesSellTicketButNotB(start, end);

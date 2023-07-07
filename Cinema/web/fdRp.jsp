@@ -196,7 +196,11 @@
                     <div class = "in4">
 
                         <div. class = "oIn4">
-
+                            <c:if test = "${requestScope.cin != null}">
+                                <div>
+                                    <div>${requestScope.cin.getCinName()}</div>
+                                </div>
+                                </c:if>
                             <div>
                                 <div>Tổng số món ăn được bán: <span class = "blk">${requestScope.numFood}</span>, chiếm <span  class = "blk">${requestScope.pcF}%</span> tổng số món ăn được bán từ trước đến nay</div><!-- <div></div> -->
                             </div>

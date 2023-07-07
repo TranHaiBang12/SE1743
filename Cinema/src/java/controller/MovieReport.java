@@ -63,7 +63,12 @@ public class MovieReport extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("mvRp.jsp").forward(request, response);
+        if (request.getParameter("cin") == null) {
+            request.getRequestDispatcher("mvRp.jsp").forward(request, response);
+        }
+        else {
+            
+        }
     }
 
     /**
@@ -136,8 +141,7 @@ public class MovieReport extends HttpServlet {
                     p3 = decimalFormat.format((double) rd.getNoRate3(a[i]) / (double) rd.getNoRate(a[i]));
                     p2 = decimalFormat.format((double) rd.getNoRate2(a[i]) / (double) rd.getNoRate(a[i]));
                     p1 = decimalFormat.format((double) rd.getNoRate1(a[i]) / (double) rd.getNoRate(a[i]));
-                }
-                else {
+                } else {
                     decimalFormat = new DecimalFormat("#");
                     b = decimalFormat.format(0);
                     p5 = decimalFormat.format(0);
@@ -155,7 +159,7 @@ public class MovieReport extends HttpServlet {
                 listM.add(m);
 
             }
-            if(listM.isEmpty()){
+            if (listM.isEmpty()) {
                 request.setAttribute("msT", "Không có bất kỳ bộ phim nào được chiếu trong khung giờ này");
             }
             request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
