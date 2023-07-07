@@ -983,12 +983,13 @@ public class TicketDAO extends DBContext {
         return 0;
     }
     
-    public int getOnlineIncomeCinAD(Date dS, Date eS, int cinID) {
+    public int getOnlineIncomeByCinAD(Date dS, Date eS, int cinID) {
         try {
-            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOnlDetail JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate BETWEEN ? AND ?";
+            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOnlDetail JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON OrderOnline.OrderID = TransactionCode.OrderID WHERE TransactionCode.Type = 2 AND (PaymentDate BETWEEN ? AND ?) AND cinID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);
+            st.setInt(3, cinID);
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
                 return rs.getInt("T");
@@ -998,7 +999,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getOnlineIncome(Date dS, Date eS) {
         try {
             String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOnlDetail JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate BETWEEN ? AND ?";

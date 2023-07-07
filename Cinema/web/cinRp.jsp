@@ -338,14 +338,30 @@
                 text-decoration: none;
                 color: black;
             }
-            
+
             .mn {
                 font-size: 20px;
                 text-align: center;
             }
-            
+
             .mn select {
                 font-size: 20px;
+            }
+
+            .SSttle {
+                font-size: 20px;
+                margin-top: 10px;
+                font-weight: bold;
+                margin-left: 40px;
+                color: deeppink;
+            }
+
+            .m1{
+                margin-left: 40px;
+            }
+            
+            .m2{
+                margin-left: 60px;
             }
 
         </style>
@@ -357,7 +373,7 @@
         <div class = "body">
             <div class = "ttle">THỐNG KÊ VỀ THIẾT BỊ</div>
             <c:if test = "${requestScope.check == null}">
-                <form action = "dvrp" method = "post">
+                <form action = "cnrp" method = "post">
                     <div class = "search">
                         <div>
                             Ngày bắt đầu: <input type ="date" required name ="start"/>
@@ -368,14 +384,7 @@
                         </div>
                     </div>
                     <br/>
-                    <div class = "mn">
-                        Rạp:
-                        <select name ="cin">
-                            <c:forEach items = "${requestScope.cin}" var = "i">
-                                <option value ="${i.getCinID()}">${i.getCinName()}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
+
                     <div class = "srchBtn">
                         <input type = "submit" value ="THỐNG KÊ"/>
                     </div>
@@ -390,12 +399,46 @@
                     <div>Ngày: <span class = "rd">${requestScope.end}</span></div>
                 </div>
                 <div class = "TKET">
-                    <div class = "Sttle">1. TỔNG QUÁT (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "Sttle">1. LỢI NHUẬN (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "SSttle">a. Doanh thu</div>
                     <div class = "mvIN4">
                         <div class = "in4">
                             <div class = "oIn4">
                                 <div>
-                                    <div>Tổng chi phí: <span class = "rd">${requestScope.TID1.getNo() + requestScope.TID2.getNo()}đ</span>
+                                    <div>Doanh thu tổng: <span class = "rd">${requestScope.TIDonl.getNo() + requestScope.TIDonl.getNo()}đ</span>
+                                    </div>
+                                    <div class = "m1">
+                                        <div>
+                                            + ${requestScope.TIDonl.getdS()}: <span class = "rd">${requestScope.TIDonl.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TIDonl.getPc()}% </span> doanh thu tổng
+                                        </div>
+                                        <c:forEach items = "${requestScope.listTID1}" var = "i">
+                                            <div class = "m2">
+                                                + ${i.getdS()}: <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu website
+                                            </div>
+                                        </c:forEach>
+                                        <div>
+                                            + ${requestScope.TIDoff.getdS()}: <span class = "rd">${requestScope.TIDoff.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TIDoff.getPc()}% </span> doanh thu tổng
+                                        </div>
+                                        <c:forEach items = "${requestScope.listTID2}" var = "i">
+                                            <div class = "m2">
+                                                + ${i.getdS()}: <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu website
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "SSttle">b. Chi phí</div> 
+                    <div class = "mvIN4">
+                        <div class = "in4">
+                            <div class = "oIn4">
+                                <div>
+                                    <div>Chi phí tổng: <span class = "rd">${requestScope.TID1.getNo() + requestScope.TID2.getNo()}đ</span>
+                                    </div>
+                                    <div>Chi phí nhập thiết bị: <span class = "rd">${requestScope.TID1.getNo() + requestScope.TID2.getNo()}đ</span>
+                                    </div>
+                                    <div>Chi phí sửa chữa thiết bị <span class = "rd">${requestScope.TID1.getNo() + requestScope.TID2.getNo()}đ</span>
                                     </div>
                                 </div>
                             </div>
@@ -404,7 +447,8 @@
                 </div>
 
                 <div class = "TKET">
-                    <div class = "Sttle">2. NHẬP THIẾT BỊ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "Sttle">2. THIẾT BỊ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "SSttle">a. Nhập thiết bị</div>
                     <div class = "mvIN4">
                         <div class = "in4">
                             <div class = "oIn4">
@@ -417,47 +461,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <table>
-                                <tr>
-                                    <th>ẢNH</th>
-                                    <th>MÃ THIẾT BỊ</th>
-                                    <th>LOẠI THIẾT BỊ</th><!-- comment -->
-                                    <th>GIÁ THIẾT BỊ</th>
-                                    <th>MÔ TẢ</th>    
-                                    <th>NGÀY PHÂN BỐ</th>
-                                    <th>THỜI GIAN PHÂN BỐ</th>
-                                    <th>BAR CODE</th>
-                                    <th>TÌNH TRẠNG</th>
-                                    <th>HÀNH ĐỘNG</th>
-                                </tr>
-                                <c:forEach items = "${requestScope.listDevice}" var = "i">
-                                    <tr>
-                                        <td><img src = "${i.getImg()}"/></td>
-                                        <td>${i.getDeviceCode()}</td>
-                                        <td>${i.getTypeName()}</td>
-                                        <td>${i.getPrice()}</td>
-                                        <td>${i.getDescript()}</td><!-- comment --> 
-                                        <td>${i.getDte()}</td>
-                                        <td>${i.getTme()}</td>
-                                        <td>${i.getDeviceBarCode()}</td>
-                                        <td>${i.getStatus()}</td>
-                                        <td>
-                                            <a href = "udbc?id=${i.getDeviceBarCode()}">SỬA</a>
-                                            /
-                                            <a onclick="dlt('${i.getDeviceBarCode()}')">XÓA</a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </div>
+
                     </div>
 
                 </div>
 
 
                 <div class = "TKET">
-                    <div class = "Sttle">3. SỬA CHỮA THIẾT BỊ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "SSttle">b. Sửa chữa thiết bị (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
                     <div class = "mvIN4">
                         <div class = "in4">
                             <div class = "oIn4">
@@ -470,44 +481,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <table>
-                                <tr>
-                                    <th>ẢNH</th>
-                                    <th>MÃ THIẾT BỊ</th>
-                                    <th>RẠP</th><!-- comment -->
-                                    <th>PHÒNG</th>
-                                    <th>NGÀY PHÁT HIỆN</th>    
-                                    <th>THỜI GIAN PHÁT HIỆN</th>  
-                                    <th>NGÀY SỬA</th>  
-                                    <th>THỜI GIAN SỬA</th>  
-                                    <th>CHI PHÍ</th>
-                                    <th>BARCODE</th>
-                                    <th>TÌNH TRẠNG</th>
-                                    <th>HÀNH ĐỘNG</th>
-                                </tr>
-                                <c:forEach items = "${requestScope.listE}" var = "i">
-                                    <tr>
-                                        <td><img src = "${i.getImg()}"/></td>
-                                        <td>${i.getDeviceCode()}</td>
-                                        <td>${i.getCinName()}</td>
-                                        <td>${i.getRoomID()}</td>
-                                        <td>${i.getDteDetected()}</td>
-                                        <td>${i.getTmeDetected()}</td>
-                                        <td>${i.getDteFixed()}</td>
-                                        <td>${i.getTmeFixed()}</td>
-                                        <td>${i.getCostIncured()}</td>
-                                        <td>${i.getDeviceBarCode()}</td>
-                                        <td><span class = "rd">${i.getStatus()}</span></td>
-                                        <td>
-                                            <a  href = "udbc?id=${i.getDeviceBarCode()}">SỬA</a>
-                                            /
-                                            <a href = "#">XÓA</a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </div>
+
                     </div>
                 </div>
 
@@ -517,6 +491,6 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
-        
+
     </body>
 </html>

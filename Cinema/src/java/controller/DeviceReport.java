@@ -77,8 +77,8 @@ public class DeviceReport extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        CinemaDAO cnd = new CinemaDAO();
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        CinemaDAO cnd = new CinemaDAO();
         String start_raw = request.getParameter("start");
         String end_raw = request.getParameter("end");
         String dateS = "", monthS = "", yearS = "";
@@ -109,6 +109,7 @@ public class DeviceReport extends HttpServlet {
         dateE = t.substring(cnt + 1);
 
         DeviceDAO dvd = new DeviceDAO();
+        
 
         //num device import
         int numD = dvd.getNumDeviceDistByDate(Date.valueOf(start_raw), Date.valueOf(end_raw));
@@ -161,7 +162,7 @@ public class DeviceReport extends HttpServlet {
             }
         }
         request.setAttribute("listDevice", listDevice);
-
+   
         request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
         request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
         request.setAttribute("check", 1);

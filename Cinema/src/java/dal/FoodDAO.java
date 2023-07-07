@@ -420,10 +420,45 @@ public class FoodDAO extends DBContext {
     
     public int getIncomeOnl(Date dS, Date eS) {
         try {
-            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID WHERE PaymentDate BETWEEN ? AND ?";
+            String sql = "SELECT SUM((Price - Price * Discount) * Quantity) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON OrderOnline.OrderID = TransactionCode.OrderID WHERE TransactionCode.Type = 1 AND (PaymentDate BETWEEN ? AND ?) AND cinID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getIncomeOnlByDAC(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT SUM((Price - Price * Discount) * Quantity) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON OrderOnline.OrderID = TransactionCode.OrderID WHERE TransactionCode.Type = 2 AND cinID = ? AND (PaymentDate BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            st.setDate(2, dS);
+            st.setDate(3, eS);
+            
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getIncomeOffByDAC(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM OrderOfflineDetail JOIN OrderOffline ON OrderOfflineDetail.OrderID = OrderOffline.OrderID WHERE cinID = ? AND (Date BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            st.setDate(2, dS);
+            st.setDate(3, eS);
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
                 return rs.getInt("T");
