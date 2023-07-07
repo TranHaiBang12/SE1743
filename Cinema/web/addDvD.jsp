@@ -157,7 +157,7 @@
                             <div>
                                 Barcode: <input type ="text" name ="bar" required />
                             </div>
-           
+                            
                         </c:if>
 
                         <c:if test = "${requestScope.check == null}">

@@ -13,6 +13,10 @@
         <link rel="stylesheet" href="style.css"/>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         <style>
+            .body{
+                padding-left: 40px;
+            }
+
             .ttle{
                 text-align: center;
                 padding-top: 20px;
@@ -359,11 +363,39 @@
             .m1{
                 margin-left: 40px;
             }
-            
+
             .m2{
                 margin-left: 60px;
             }
 
+            .m3{
+                margin-left: 100px;
+            }
+
+            .hl1{
+                font-weight: bold;
+                font-size: 22px;
+            }
+
+            .m3{
+                width: 800px;
+            }
+            .dp{
+                display: flex;
+                align-items: center;
+            }
+
+            .btS button{
+                font-size: 18px;
+                padding: 5px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+            }
+            
+            .m12{
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
@@ -405,25 +437,50 @@
                         <div class = "in4">
                             <div class = "oIn4">
                                 <div>
-                                    <div>Doanh thu tổng: <span class = "rd">${requestScope.TIDonl.getNo() + requestScope.TIDonl.getNo()}đ</span>
+                                    <div><span class = "hl1">Doanh thu tổng:</span> <span class = "rd">${requestScope.TIDonl.getNo() + requestScope.TIDonl.getNo()}đ</span>
                                     </div>
                                     <div class = "m1">
                                         <div>
-                                            + ${requestScope.TIDonl.getdS()}: <span class = "rd">${requestScope.TIDonl.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TIDonl.getPc()}% </span> doanh thu tổng
+                                            <span class = "hl1">+ ${requestScope.TIDonl.getdS()}:</span> <span class = "rd">${requestScope.TIDonl.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TIDonl.getPc()}% </span> doanh thu tổng
                                         </div>
                                         <c:forEach items = "${requestScope.listTID1}" var = "i">
                                             <div class = "m2">
-                                                + ${i.getdS()}: <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu website
+                                                <span class = "hl1">+ ${i.getdS()}:</span> <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu website
                                             </div>
+                                            <c:forEach items = "${i.getTkd()}" var = "k">
+                                                <div class = "dp">
+                                                    <div class = "m3">
+                                                        ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu ${i.getdS()}
+                                                    </div>
+                                                    <div class = "btS">
+                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
                                         </c:forEach>
+
+
                                         <div>
-                                            + ${requestScope.TIDoff.getdS()}: <span class = "rd">${requestScope.TIDoff.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TIDoff.getPc()}% </span> doanh thu tổng
+                                            <span class = "hl1">+ ${requestScope.TIDoff.getdS()}:</span> <span class = "rd">${requestScope.TIDoff.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TIDoff.getPc()}% </span> doanh thu tổng
                                         </div>
                                         <c:forEach items = "${requestScope.listTID2}" var = "i">
                                             <div class = "m2">
-                                                + ${i.getdS()}: <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu website
+                                                <span class = "hl1">+ ${i.getdS()}:</span> <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu trực tiếp
+
                                             </div>
+                                            <c:forEach items = "${i.getTkd()}" var = "k">
+                                                <div class = "dp">
+                                                    <div class = "m3">
+                                                        ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu ${i.getdS()}
+                                                    </div>
+                                                    <div class = "btS">
+                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
                                         </c:forEach>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -434,55 +491,110 @@
                         <div class = "in4">
                             <div class = "oIn4">
                                 <div>
-                                    <div>Chi phí tổng: <span class = "rd">${requestScope.TID1.getNo() + requestScope.TID2.getNo()}đ</span>
+                                    <div><span class = "hl1">Chi phí tổng: </span><span class = "rd">${requestScope.costImpD + requestScope.costImpE}đ</span>
                                     </div>
-                                    <div>Chi phí nhập thiết bị: <span class = "rd">${requestScope.TID1.getNo() + requestScope.TID2.getNo()}đ</span>
-                                    </div>
-                                    <div>Chi phí sửa chữa thiết bị <span class = "rd">${requestScope.TID1.getNo() + requestScope.TID2.getNo()}đ</span>
+                                    <div class = "m1">
+                                        <div><span class = "m1"><span class = "hl1">+ Số thiết bị nhập vào: </span></span><span class = "rd">${requestScope.numD}</span>
+                                        </div>
+                                        <c:forEach items = "${requestScope.listTID6}" var = "k">
+                                            <div class = "dp">
+                                                <div class = "m3">
+                                                    ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí nhập thiết bị
+                                                </div>
+                                                <div class = "btS">
+                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                        <div><span class = "m1"><span class = "hl1">+ Chi phí nhập thiết bị: </span></span><span class = "rd">${requestScope.costImpD}đ</span>
+                                        </div>
+                                        <c:forEach items = "${requestScope.listTID4}" var = "k">
+                                            <div class = "dp">
+                                                <div class = "m3">
+                                                    ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí nhập thiết bị
+                                                </div>
+                                                <div class = "btS">
+                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                        <div>
+                                            <div><span class = "m2"><span class = "hl1">+ Số thiết bị sửa chữa: </span></span><span class = "rd">${requestScope.numE}</span>
+                                            </div>
+                                            <c:forEach items = "${requestScope.listTID7}" var = "k">
+                                                <div class = "dp">
+                                                    <div class = "m3">
+                                                        ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí nhập thiết bị
+                                                    </div>
+                                                    <div class = "btS">
+                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                            <div><span class = "m2"><span class = "hl1">+ Chi phí sửa chữa thiết bị </span></span><span class = "rd">${requestScope.costImpE}đ</span>
+                                            </div>
+                                            <c:forEach items = "${requestScope.listTID5}" var = "k">
+                                                <div class = "dp">
+                                                    <div class = "m3">
+                                                        ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí sửa chữa thiết bị
+                                                    </div>
+                                                    <div class = "btS">
+                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class = "TKET">
-                    <div class = "Sttle">2. THIẾT BỊ (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
-                    <div class = "SSttle">a. Nhập thiết bị</div>
+                    <div class = "SSttle">c. Lợi nhuận</div> 
                     <div class = "mvIN4">
                         <div class = "in4">
                             <div class = "oIn4">
                                 <div>
-                                    <div>
-                                        Số thiết bị nhập vào: <span class = "rd">${requestScope.numD}</span>
+                                    <div><span class = "hl1">Chi phí tổng: </span><span class = "rd">
+                                            <c:if test = "${requestScope.TIDonl.getNo() + requestScope.TIDonl.getNo() - requestScope.costImpD - requestScope.costImpE >= 0}">
+                                                Lời: ${requestScope.TIDonl.getNo() + requestScope.TIDonl.getNo() - requestScope.costImpD - requestScope.costImpE}đ
+                                            </c:if>
+                                            <c:if test = "${requestScope.costImpD + requestScope.costImpE - requestScope.TIDonl.getNo() - requestScope.TIDonl.getNo() >= 0}">
+                                                Lỗ: ${requestScope.costImpD + requestScope.costImpE - requestScope.TIDonl.getNo() - requestScope.TIDonl.getNo()}đ
+                                            </c:if>
+                                        </span>
                                     </div>
-                                    <div>${requestScope.TID1.getdS()}: <span class = "rd">${requestScope.TID1.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TID1.getPc()}%</span>
+                                    <div class = "m1">
+
+                                        <c:forEach items = "${requestScope.listTID8}" var = "k">
+                                            <div class = "dp">
+                                                <div class = "m3">
+                                                    ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span>
+                                                </div>
+                                                <div class = "btS">
+                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-                </div>
-
-
-                <div class = "TKET">
-                    <div class = "SSttle">b. Sửa chữa thiết bị (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
-                    <div class = "mvIN4">
-                        <div class = "in4">
-                            <div class = "oIn4">
-                                <div>
-                                    <div>
-                                        Số thiết bị sửa chữa: <span class = "rd">${requestScope.numE}</span>
-                                    </div>
-                                    <div>${requestScope.TID2.getdS()}: <span class = "rd">${requestScope.TID2.getNo()}đ</span>, chiếm <span class = "rd">${requestScope.TID2.getPc()}%</span>
-                                    </div>
-                                </div>
+                    <div class = "Sttle">2. NHÂN VIÊN (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "m12">
+                        <div class = "m3">
+                            <div class = "btS">
+                                <a href = "rpm"><button>XEM CHI TIẾT</button></a>
                             </div>
                         </div>
-
                     </div>
+                    
+      
+
                 </div>
 
 

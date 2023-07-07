@@ -374,6 +374,24 @@ public class DeviceDAO extends DBContext {
         return 0;
     }
     
+    public int getNumDeviceDistByDateAC(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM DeviceImport JOIN DeviceDist ON DeviceImport.DeviceCode = DeviceDist.DeviceCode WHERE (Date BETWEEN ? AND ?) AND cinID = ?";
+            CinemaDAO cnd = new CinemaDAO();
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setInt(3, cinID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
     public int getSumPriceDeviceDistByDate(Date dS, Date eS) {
         try {
             String sql = "SELECT SUM(PriceImport) AS T FROM DeviceImport JOIN DeviceDist ON DeviceImport.DeviceCode = DeviceDist.DeviceCode WHERE Date BETWEEN ? AND ?";
@@ -381,6 +399,24 @@ public class DeviceDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getSumPriceDeviceDistByDateAC(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT SUM(PriceImport) AS T FROM DeviceImport JOIN DeviceDist ON DeviceImport.DeviceCode = DeviceDist.DeviceCode WHERE (Date BETWEEN ? AND ?) AND cinID = ?";
+            CinemaDAO cnd = new CinemaDAO();
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setInt(3, cinID);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getInt("T");
@@ -407,12 +443,46 @@ public class DeviceDAO extends DBContext {
         return 0;
     }
     
+    public int getNumDeviceErrorByDateAC(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT COUNT(*) AS T FROM DeviceError WHERE (DateDetected BETWEEN ? AND ?) AND cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setInt(3, cinID);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
     public int getSumPriceDeviceErrorByDate(Date dS, Date eS) {
         try {
             String sql = "SELECT SUM(CostIncured) AS T FROM DeviceError WHERE DateDetected BETWEEN ? AND ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getSumPriceDeviceErrorByDate(Date dS, Date eS, int cinID) {
+        try {
+            String sql = "SELECT SUM(CostIncured) AS T FROM DeviceError WHERE (DateDetected BETWEEN ? AND ?) AND cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setInt(3, cinID);
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
                 return rs.getInt("T");
