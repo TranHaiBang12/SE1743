@@ -248,6 +248,14 @@
         <servlet-name>CinemaReport</servlet-name>
         <servlet-class>controller.CinemaReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RoomReport</servlet-name>
+        <servlet-class>controller.RoomReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdSeat</servlet-name>
+        <servlet-class>controller.UpdSeat</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -495,6 +503,14 @@
     <servlet-mapping>
         <servlet-name>CinemaReport</servlet-name>
         <url-pattern>/cnrp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoomReport</servlet-name>
+        <url-pattern>/rmrp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdSeat</servlet-name>
+        <url-pattern>/upds</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
