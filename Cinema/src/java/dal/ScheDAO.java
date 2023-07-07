@@ -383,6 +383,27 @@ public class ScheDAO extends DBContext {
         return list;
     }
     
+    public List<Schedule> getScheTypeByTimeAC(Date dS, Date eS, int movID, int cinID) {
+        List<Schedule> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT Schedule.formID FROM TickTypeInSche JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE Schedule.cinID = ? AND Schedule.movID = ? AND (startDate BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            st.setInt(2, movID);
+            FormDAO fd = new FormDAO();
+            st.setDate(3, dS);
+            st.setDate(4, eS);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Schedule s = new Schedule(rs.getInt("formID"), fd.getFormById(rs.getInt("formID")).getFormName());
+                list.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
     public int getScheInTimeByCin(Date dS, Date eS, int cinID) {
         try {
             String sql = "SELECT COUNT(DISTINCT movID) AS T FROM Schedule LEFT JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo WHERE ProductCode IS NOT NULL AND (startDate BETWEEN ? AND ?) AND cinID = ?";

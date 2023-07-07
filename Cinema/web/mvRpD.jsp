@@ -323,6 +323,11 @@
                             <div>${requestScope.m.getMovName()}</div>
                         </div>
                         <div. class = "oIn4">
+                            <c:if test = "${requestScope.cin != null}">
+                                <div>
+                                    <div>${requestScope.cin.getCinName()}</div>
+                                </div>
+                            </c:if>
                             <div>
                                 <div>Ngày khởi chiếu: <span class = "blk">${requestScope.m.getStartDate()}</span></div>
                                 <div>Ngày dừng chiếu: <span class = "blk">${requestScope.m.getEndDate()}</span></div>
@@ -452,6 +457,14 @@
                                         + Vé ${p.getdS()}: <span class = "blk">${p.getNo()}</span>. <span class = "rte">Tỉ lệ: <span class = "blk">${p.getPc()}%</span></span>
                                     </div>
                                 </c:forEach>
+                            </div>
+                        </c:forEach>
+                        <c:forEach items = "${requestScope.listTID5}" var = "k">
+                            <div class = "dp">
+                                <div class = "m3">
+                                    ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span>
+                                </div>
+
                             </div>
                         </c:forEach>
                     </div>

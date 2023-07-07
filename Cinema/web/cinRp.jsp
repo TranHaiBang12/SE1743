@@ -653,7 +653,7 @@
                                                 ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span>
                                             </div>
                                             <div class = "btS">
-                                                <a href = "liste?start=${requestScope.startR}&end=${requestScope.endR}&cin=${k.getID()}"><button>XEM CHI TIẾT</button></a>
+                                                <a href = "rpm?start=${requestScope.startR}&end=${requestScope.endR}&cin=${k.getID()}"><button>XEM CHI TIẾT</button></a>
                                             </div>
                                         </div>
                                     </c:forEach>

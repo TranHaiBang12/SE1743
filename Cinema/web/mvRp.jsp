@@ -178,10 +178,16 @@
                             <div class = "mvIN4">
                                 <div class = "imGE"><img src = "${i.getImg()}"></div>
                                 <div class = "in4">
+
                                     <div class = "mName">
                                         <div>${i.getMovName()}</div>
                                     </div>
                                     <div. class = "oIn4">
+                                        <c:if test = "${requestScope.cin != null}">
+                                            <div>
+                                                <div>${requestScope.cin.getCinName()}</div>
+                                            </div>
+                                        </c:if>
                                         <div>
                                             <div>Ngày khởi chiếu: <span class = "blk">${i.getStartDate()}</span></div>
                                             <div>Ngày dừng chiếu: <span class = "blk">${i.getEndDate()}</span></div>
@@ -200,8 +206,14 @@
 
                                         </div>
                                         <div class = "btn">
-                                            <a href = "rpmd?id=${i.getMovID()}&start=${requestScope.start}&end=${requestScope.end}"><input type ="button" value ="XEM CHI TIẾT"/></a>
+                                            <c:if test = "${requestScope.cin != null}">
+                                                <a href = "rpmd?id=${i.getMovID()}&start=${requestScope.startR}&end=${requestScope.endR}&cin=${requestScope.cin.getCinID()}"><input type ="button" value ="XEM CHI TIẾT"/></a>
+                                                </c:if>
+                                                <c:if test = "${requestScope.cin == null}">
+                                                <a href = "rpmd?id=${i.getMovID()}&start=${requestScope.start}&end=${requestScope.end}"><input type ="button" value ="XEM CHI TIẾT"/></a>
+                                                </c:if>
                                         </div>
+
                                     </div.>
                                 </div>
 

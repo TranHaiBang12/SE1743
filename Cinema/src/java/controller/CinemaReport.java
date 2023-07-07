@@ -315,7 +315,7 @@ public class CinemaReport extends HttpServlet {
             if(scd.getScheInTimeByCin(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) != 0) {
                 PC = decimalFormat.format((double)scd.getScheInTimeByCin(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double)scd.getAllScheInTime(Date.valueOf(start_raw), Date.valueOf(end_raw)).length * 100);
             }
-            listTID10.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), ed.getNumEmpByCin(list.get(i).getCinID(), Date.valueOf(start_raw), Date.valueOf(end_raw)), PC));
+            listTID10.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), scd.getScheInTimeByCin(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
         }
         
         request.setAttribute("listTID10", listTID10);

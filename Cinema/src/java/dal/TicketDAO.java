@@ -397,6 +397,25 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<String> getAllTickTypeByTimeAC(Date dS, Date eS, int movID, int cinID) {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT Type FROM TickTypeInSche JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE Schedule.cinID = ? AND Schedule.movID = ? AND (startDate BETWEEN ? AND ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            st.setInt(2, movID);
+            st.setDate(3, dS);
+            st.setDate(4, eS);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString("Type"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public int getNumTickTypeSellByTime(Date dS, Date eS, int movID, String type) {
         try {
@@ -858,9 +877,9 @@ public class TicketDAO extends DBContext {
     public int getNumTickByMovIDAC(int movID, int cinID) {
         try {
             String sql = "SELECT COUNT(*) AS [T] FROM\n"
-                    + "(SELECT TicketOnlDetail.*, TickTypeInSche.scheNo, Schedule.movID, OrderOnline.PaymentDate FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE movID = ? AND cinID = ?\n"
+                    + "(SELECT TicketOnlDetail.*, TickTypeInSche.scheNo, Schedule.movID, OrderOnline.PaymentDate FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID WHERE movID = ? AND Schedule.cinID = ?\n"
                     + "UNION\n"
-                    + "SELECT TicketOffDetail.*, TickTypeInSche.scheNo, Schedule.movID, OrderOffline.Date FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE  movID = ? AND cinID = ? \n"
+                    + "SELECT TicketOffDetail.*, TickTypeInSche.scheNo, Schedule.movID, OrderOffline.Date FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE  movID = ? AND Schedule.cinID = ? \n"
                     + ") AS [T]";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
@@ -1381,7 +1400,31 @@ public class TicketDAO extends DBContext {
         return 0;
     }
     
-    
+    public int getNumTickSellByCADMV(Date dS, Date eS, int cinID, int movID) {
+        try {
+            String sql = "SELECT \n"
+                    + "(SELECT COUNT(*) AS T FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE (PaymentDate BETWEEN ? AND ?) AND Schedule.cinID = ? AND Schedule.movID = ?)\n"
+                    + "+\n"
+                    + "(SELECT COUNT(*) AS T FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE (Date BETWEEN ? AND ?) AND Schedule.cinID = ? AND Schedule.movID = ?)\n"
+                    + "AS T";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, dS);
+            st.setDate(2, eS);
+            st.setInt(3, cinID);
+            st.setInt(4, movID);
+            st.setDate(5, dS);
+            st.setDate(6, eS);
+            st.setInt(7, cinID);
+            st.setInt(8, movID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
 
     public int getNumTickSellByOOAD(Date dS, Date eS, String tt) {
         try {
