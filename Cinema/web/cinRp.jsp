@@ -392,7 +392,7 @@
                 color: white;
                 cursor: pointer;
             }
-            
+
             .m12{
                 margin-top: 20px;
             }
@@ -447,13 +447,18 @@
                                             <div class = "m2">
                                                 <span class = "hl1">+ ${i.getdS()}:</span> <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu website
                                             </div>
+                                            <div class = "m3">
+                                                <div class = "btS">
+                                                    <a href = "rpp?type=FD"><button>XEM CHI TIẾT</button></a>
+                                                </div>
+                                            </div>
                                             <c:forEach items = "${i.getTkd()}" var = "k">
                                                 <div class = "dp">
                                                     <div class = "m3">
                                                         ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu ${i.getdS()}
                                                     </div>
                                                     <div class = "btS">
-                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                        <a href = "rpp?type=${k.getType()}&start=${requestScope.startR}&end=${requestScope.endR}&id=${k.getID()}"><button>XEM CHI TIẾT</button></a>
                                                     </div>
                                                 </div>
                                             </c:forEach>
@@ -468,13 +473,18 @@
                                                 <span class = "hl1">+ ${i.getdS()}:</span> <span class = "rd">${i.getNo()}đ</span>, chiếm <span class = "rd">${i.getPc()}% </span> doanh thu trực tiếp
 
                                             </div>
+                                            <div class = "m3">
+                                                <div class = "btS">
+                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                </div>
+                                            </div>
                                             <c:forEach items = "${i.getTkd()}" var = "k">
                                                 <div class = "dp">
                                                     <div class = "m3">
                                                         ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu ${i.getdS()}
                                                     </div>
                                                     <div class = "btS">
-                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                        <a href = "rpp?type=${k.getType()}&start=${requestScope.startR}&end=${requestScope.endR}&id=${k.getID()}"><button>XEM CHI TIẾT</button></a>
                                                     </div>
                                                 </div>
                                             </c:forEach>
@@ -496,17 +506,27 @@
                                     <div class = "m1">
                                         <div><span class = "m1"><span class = "hl1">+ Số thiết bị nhập vào: </span></span><span class = "rd">${requestScope.numD}</span>
                                         </div>
+                                        <div class = "m3">
+                                            <div class = "btS">
+                                                <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                            </div>
+                                        </div>
                                         <c:forEach items = "${requestScope.listTID6}" var = "k">
                                             <div class = "dp">
                                                 <div class = "m3">
                                                     ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí nhập thiết bị
                                                 </div>
                                                 <div class = "btS">
-                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                    <a href = "rpp?type=FD&start="><button>XEM CHI TIẾT</button></a>
                                                 </div>
                                             </div>
                                         </c:forEach>
                                         <div><span class = "m1"><span class = "hl1">+ Chi phí nhập thiết bị: </span></span><span class = "rd">${requestScope.costImpD}đ</span>
+                                        </div>
+                                        <div class = "m3">
+                                            <div class = "btS">
+                                                <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                            </div>
                                         </div>
                                         <c:forEach items = "${requestScope.listTID4}" var = "k">
                                             <div class = "dp">
@@ -514,12 +534,17 @@
                                                     ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí nhập thiết bị
                                                 </div>
                                                 <div class = "btS">
-                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                    <a href = "rpp?type=FD&start="><button>XEM CHI TIẾT</button></a>
                                                 </div>
                                             </div>
                                         </c:forEach>
                                         <div>
                                             <div><span class = "m2"><span class = "hl1">+ Số thiết bị sửa chữa: </span></span><span class = "rd">${requestScope.numE}</span>
+                                            </div>
+                                            <div class = "m3">
+                                                <div class = "btS">
+                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                </div>
                                             </div>
                                             <c:forEach items = "${requestScope.listTID7}" var = "k">
                                                 <div class = "dp">
@@ -527,11 +552,16 @@
                                                         ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí nhập thiết bị
                                                     </div>
                                                     <div class = "btS">
-                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                        <a href = "rpp?type=FD&start="><button>XEM CHI TIẾT</button></a>
                                                     </div>
                                                 </div>
                                             </c:forEach>
                                             <div><span class = "m2"><span class = "hl1">+ Chi phí sửa chữa thiết bị </span></span><span class = "rd">${requestScope.costImpE}đ</span>
+                                            </div>
+                                            <div class = "m3">
+                                                <div class = "btS">
+                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                </div>
                                             </div>
                                             <c:forEach items = "${requestScope.listTID5}" var = "k">
                                                 <div class = "dp">
@@ -539,7 +569,7 @@
                                                         ${k.getdS()}: <span class = "rd">${k.getNo()}đ</span>, chiếm <span class = "rd">${k.getPc()}% </span> doanh thu chi phí sửa chữa thiết bị
                                                     </div>
                                                     <div class = "btS">
-                                                        <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                        <a href = "rpp?type=FD&start="><button>XEM CHI TIẾT</button></a>
                                                     </div>
                                                 </div>
                                             </c:forEach>
@@ -565,14 +595,18 @@
                                         </span>
                                     </div>
                                     <div class = "m1">
-
+                                        <div class = "m3">
+                                            <div class = "btS">
+                                                <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                            </div>
+                                        </div>
                                         <c:forEach items = "${requestScope.listTID8}" var = "k">
                                             <div class = "dp">
                                                 <div class = "m3">
                                                     ${k.getdS()}: <span class = "rd">${k.getNo()}</span>, chiếm <span class = "rd">${k.getPc()}% </span>
                                                 </div>
                                                 <div class = "btS">
-                                                    <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                                                    <a href = "rpp?type=FD&start="><button>XEM CHI TIẾT</button></a>
                                                 </div>
                                             </div>
                                         </c:forEach>
@@ -592,8 +626,15 @@
                             </div>
                         </div>
                     </div>
-                    
-      
+
+                    <div class = "Sttle">3. PHIM (Ngày ${requestScope.start} - Ngày ${requestScope.end})</div>
+                    <div class = "m12">
+                        <div class = "m3">
+                            <div class = "btS">
+                                <a href = "rpm"><button>XEM CHI TIẾT</button></a>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 

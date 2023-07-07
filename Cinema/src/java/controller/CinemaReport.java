@@ -162,7 +162,7 @@ public class CinemaReport extends HttpServlet {
         }
 
         listTID1.add(new TIcketDate("Vé", numOnlAllT, PcOnlT));
-        listTID1.add(new TIcketDate("Đồ Ăn", numOnlAllF, PcOnlF));
+        listTID1.add(new TIcketDate( "Đồ Ăn", numOnlAllF, PcOnlF));
 
         List<TIcketDate> listTID2 = new ArrayList<>();
 
@@ -183,7 +183,7 @@ public class CinemaReport extends HttpServlet {
             if (numOnlAllT != 0) {
                 PC = decimalFormat.format((double) tkd.getOnlineIncomeByCinAD(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) numOnlAllT * 100);
             }
-            listTID3.add(new TIcketDate("Rạp " + list.get(i).getCinName(), tkd.getOnlineIncomeByCinAD(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID3.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), tkd.getOnlineIncomeByCinAD(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC, "TK"));
             listTID1.get(0).setTkd(listTID3);
         }
 
@@ -194,7 +194,7 @@ public class CinemaReport extends HttpServlet {
             if (numOnlAllF != 0) {
                 PC = decimalFormat.format((double) fd.getIncomeOnlByDAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) numOnlAllF * 100);
             }
-            listTID3.add(new TIcketDate("Rạp " + list.get(i).getCinName(), fd.getIncomeOnlByDAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID3.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), fd.getIncomeOnlByDAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC, "FD"));
             listTID1.get(1).setTkd(listTID3);
         }
 
@@ -205,7 +205,7 @@ public class CinemaReport extends HttpServlet {
             if (numOffAllT != 0) {
                 PC = decimalFormat.format((double) tkd.getOfflineIncomeByCinAD(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) numOffAllT * 100);
             }
-            listTID3.add(new TIcketDate("Rạp " + list.get(i).getCinName(), tkd.getOfflineIncomeByCinAD(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID3.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), tkd.getOfflineIncomeByCinAD(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC, "TK"));
             listTID2.get(0).setTkd(listTID3);
         }
 
@@ -216,7 +216,7 @@ public class CinemaReport extends HttpServlet {
             if (numOffAllF != 0) {
                 PC = decimalFormat.format((double) fd.getIncomeOffByDAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) numOffAllF * 100);
             }
-            listTID3.add(new TIcketDate("Rạp " + list.get(i).getCinName(), fd.getIncomeOffByDAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID3.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), fd.getIncomeOffByDAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC, "FD"));
             listTID2.get(1).setTkd(listTID3);
         }
 
@@ -229,7 +229,7 @@ public class CinemaReport extends HttpServlet {
             if (costImpD != 0) {
                 PC = decimalFormat.format((double) dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) costImpD * 100);
             }
-            listTID4.add(new TIcketDate("Rạp " + list.get(i).getCinName(), dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID4.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
         }
 
         List<TIcketDate> listTID5 = new ArrayList<>();
@@ -238,7 +238,7 @@ public class CinemaReport extends HttpServlet {
             if (costImpE != 0) {
                 PC = decimalFormat.format((double) dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) costImpE * 100);
             }
-            listTID5.add(new TIcketDate("Rạp " + list.get(i).getCinName(), dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID5.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
         }
 
         int numD = dvd.getNumDeviceDistByDate(Date.valueOf(start_raw), Date.valueOf(end_raw));
@@ -250,7 +250,7 @@ public class CinemaReport extends HttpServlet {
             if (numD != 0) {
                 PC = decimalFormat.format((double) dvd.getNumDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) numD * 100);
             }
-            listTID6.add(new TIcketDate("Rạp " + list.get(i).getCinName(), dvd.getNumDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID6.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), dvd.getNumDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
         }
 
         List<TIcketDate> listTID7 = new ArrayList<>();
@@ -259,7 +259,7 @@ public class CinemaReport extends HttpServlet {
             if (numE != 0) {
                 PC = decimalFormat.format((double) dvd.getNumDeviceErrorByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) / (double) numE * 100);
             }
-            listTID7.add(new TIcketDate("Rạp " + list.get(i).getCinName(), dvd.getNumDeviceErrorByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
+            listTID7.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName(), dvd.getNumDeviceErrorByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()), PC));
         }
 
         List<TIcketDate> listTID8 = new ArrayList<>();
@@ -288,9 +288,9 @@ public class CinemaReport extends HttpServlet {
             }
 
             if (onlT + offT + onlF + offF - dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) - dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) >= 0) {
-                listTID8.add(new TIcketDate("Rạp " + list.get(i).getCinName() + ", Lời", (onlT + offT + onlF + offF - dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) - dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID())), PC));
+                listTID8.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName() + ", Lời", (onlT + offT + onlF + offF - dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) - dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID())), PC));
             } else {
-                listTID8.add(new TIcketDate("Rạp " + list.get(i).getCinName() + ", Lỗ", -(onlT + offT + onlF + offF - dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) - dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID())), PC));
+                listTID8.add(new TIcketDate(list.get(i).getCinID(), "Rạp " + list.get(i).getCinName() + ", Lỗ", -(onlT + offT + onlF + offF - dvd.getSumPriceDeviceDistByDateAC(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID()) - dvd.getSumPriceDeviceErrorByDate(Date.valueOf(start_raw), Date.valueOf(end_raw), list.get(i).getCinID())), PC));
             }
         }
 
@@ -315,6 +315,8 @@ public class CinemaReport extends HttpServlet {
         request.setAttribute("TIDoff", TIDoff);
         request.setAttribute("start", dateS + "-" + monthS + "-" + yearS);
         request.setAttribute("end", dateE + "-" + monthE + "-" + yearE);
+        request.setAttribute("startR", start_raw);
+        request.setAttribute("endR", end_raw);
         request.setAttribute("check", 1);
         request.getRequestDispatcher("cinRp.jsp").forward(request, response);
     }
