@@ -260,6 +260,10 @@
         <servlet-name>Event</servlet-name>
         <servlet-class>controller.Event</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EventDetail</servlet-name>
+        <servlet-class>controller.EventDetail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -519,6 +523,10 @@
     <servlet-mapping>
         <servlet-name>Event</servlet-name>
         <url-pattern>/event</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EventDetail</servlet-name>
+        <url-pattern>/edt</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

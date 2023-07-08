@@ -184,7 +184,7 @@
                 margin-top: 30px;
                 padding-bottom: 30px;
             }
-            
+
             .oldPrice {
                 margin-left: 20px;
                 text-decoration: line-through;
@@ -238,101 +238,106 @@
                             </div>
                             <div>
                                 <span class = "newPrice">${i.getPrice() - i.getPrice() * i.getDiscount()}<span class = "donvi">đ</span></span>
-                                        <c:if test = "${i.getDiscount() != 0}">
-                                            <span class = "oldPrice">${i.getPrice()}<span class = "donvi">đ</span></span>
-                                                </c:if>
+                                <c:if test = "${i.getDiscount() != 0}">
+                                    <span class = "oldPrice">${i.getPrice()}<span class = "donvi">đ</span></span>
+                                </c:if>
 
-                                                </div>
-                                                <div class = "cart">
-                                                    <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${sessionScope.account.getUserName()}')"/>
-                                                </div>
+                            </div>
+                            <div class = "cart">
+                                <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${sessionScope.account.getUserName()}')"/>
+                            </div>
 
-                                                <c:if test = "${sessionScope.account.getRole() == 3}">
-                                                    <div class = "cart">
-                                                        <a href = "viewf?id=${i.getProductCode()}"><input type ="button" value ="View"/></a>
-                                                    </div>
-                                                </c:if>
+                            <c:if test = "${sessionScope.account.getRole() == 3}">
+                                <div class = "cart">
+                                    <a href = "viewf?id=${i.getProductCode()}"><input type ="button" value ="View"/></a>
+                                </div>
+                            </c:if>
 
-                                                </div>
-                                                <div class = "${(i.getId() % 3 == 0)?"breaker":""}">
+                        </div>
+                        <div class = "${(i.getId() % 3 == 0)?"breaker":""}">
 
-                                                </div>
-                                            </c:forEach>
-                                            </div>
-                                            <div class = "pagination">
-                                                <a href ="store?page=${(page - 1) < 1?(1):(page-1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}"><</a>
-                                                <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
-                                                    <a class ="${i == page ? "active":"noActive"}" href ="store?page=${i}&type=${requestScope.type}&key=${requestScope.key}">${i}</a>
-                                                </c:forEach>
-                                                <a href ="store?page=${(page + 1) > totalPage?(1):(page+1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}">></a>
-                                            </div>
-                                        </c:if>
-                                        <c:if test = "${requestScope.ms != null}">
-                                            <h2>${requestScope.ms}</h2>
-                                            <h2><a href = "store">Bấm vào đây để về cửa hàng</a></h2>
-                                        </c:if>
-                                        </div>
-                                        <div id = "footer">
-                                            <%@include file = "footer.jsp" %>
-                                        </div>
-                                        <script>
-                                            var t = "";
-                                            function cnaGE() {
-                                                
-                                                document.getElementById("srch").submit();
-                                            }
-                                            function crt() {
-                                                window.location = "cart";
-                                            }
-                                            function setCookie(name, value, days) {
-                                                var expires = "";
-                                                if (days) {
-                                                    var date = new Date();
-                                                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                                                    expires = "; expires=" + date.toUTCString();
-                                                }
-                                                document.cookie = name + "=" + (value || "") + expires;
-                                            }
-                                            function cart(id, username) {
-                                           
-                                                console.log(id);
-                                                console.log(username);
-                                                if (getCookie(username) === null) {
-                                                    setCookie(username, id, 365);
-                                                    console.log("1");
-                                                } else {
-                                                    if (!t.includes(id)) {
-                                                        console.log("2");
-                                                        t = t + "/";
-                                                        t = t + id;
-                                                        t = t + "p";
-                                                        t = t + "1";
-                                                    }
-                                                    console.log(t);
-                                                    setCookie(username, t, 365);
-                                                }
-                                                console.log(getCookie(username));
-                                            }
-                                            // Hàm lấy Cookie
-                                            function getCookie(name) {
-                                                var cookieName = name + "=";
-                                                var docCookie = document.cookie;
-                                                var cookieStart;
-                                                var end;
+                        </div>
+                    </c:forEach>
+                </div>
+                <div class = "pagination">
+                    <a href ="store?page=${(page - 1) < 1?(1):(page-1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}"><</a>
+                    <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                        <a class ="${i == page ? "active":"noActive"}" href ="store?page=${i}&type=${requestScope.type}&key=${requestScope.key}">${i}</a>
+                    </c:forEach>
+                    <a href ="store?page=${(page + 1) > totalPage?(1):(page+1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}">></a>
+                </div>
+            </c:if>
+            <c:if test = "${requestScope.ms != null}">
+                <h2>${requestScope.ms}</h2>
+                <h2><a href = "store">Bấm vào đây để về cửa hàng</a></h2>
+            </c:if>
+        </div>
+        <div id = "footer">
+            <%@include file = "footer.jsp" %>
+        </div>
+        <script>
+            var t = "";
 
-                                                if (docCookie.length > 0) {
-                                                    cookieStart = docCookie.indexOf(cookieName);
-                                                    if (cookieStart != -1) {
-                                                        cookieStart = cookieStart + cookieName.length;
-                                                        end = docCookie.indexOf(";", cookieStart);
-                                                        if (end == -1) {
-                                                            end = docCookie.length;
-                                                        }
-                                                        return unescape(docCookie.substring(cookieStart, end));
-                                                    }
-                                                }
-                                                return false;
-                                            }
-                                        </script>
-                                        </body>
-                                        </html>
+            console.log(t);
+            function cnaGE() {
+
+                document.getElementById("srch").submit();
+            }
+            function crt() {
+                window.location = "cart";
+            }
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires;
+            }
+            function cart(id, username) {
+                if (getCookie(username) !== null) {
+                    t = getCookie(username);
+                } else {
+                    t = "";
+                }
+
+                if (getCookie(username) === null) {
+                    setCookie(username, id, 365);
+                    console.log("1");
+                } else {
+                    if (!String(t).includes(id)) {
+                        console.log("2");
+                        t = t + "/";
+                        t = t + id;
+                        t = t + "p";
+                        t = t + "1";
+                    }
+                    console.log(t);
+                    setCookie(username, t, 365);
+                }
+                console.log(getCookie(username));
+            }
+            // Hàm lấy Cookie
+            function getCookie(name) {
+                var cookieName = name + "=";
+                var docCookie = document.cookie;
+                var cookieStart;
+                var end;
+
+                if (docCookie.length > 0) {
+                    cookieStart = docCookie.indexOf(cookieName);
+                    if (cookieStart != -1) {
+                        cookieStart = cookieStart + cookieName.length;
+                        end = docCookie.indexOf(";", cookieStart);
+                        if (end == -1) {
+                            end = docCookie.length;
+                        }
+                        return unescape(docCookie.substring(cookieStart, end));
+                    }
+                }
+                return false;
+            }
+        </script>
+    </body>
+</html>

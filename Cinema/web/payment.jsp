@@ -322,12 +322,12 @@
                 width: 50px;
                 height: 20px;
             }
-            
+
             .PNT{
                 display: flex;
                 align-items: center;
             }
-            
+
             #pntUse{
                 display: none;
             }
@@ -417,8 +417,8 @@
                                     <label for = "dist">Sử dụng điểm: (tối đa <span class = "rd">${requestScope.maxPoint}</span>) điểm</label><!-- comment --> 
                                     <input type ="checkbox" id ="agr" onclick ="agree()"/>
                                 </div>
-                                    <input type ="number" id ="pntUse" name ="pntUse" min ="0" max ="${requestScope.maxPoint}"/>
-                               
+                                <input type ="number" id ="pntUse" name ="pntUse" min ="0" max ="${requestScope.maxPoint}"/>
+
 
                                 <input type ="text" id ="dateNhan" name ="dte" hidden/>
                             </c:if>
@@ -437,6 +437,7 @@
                                     <img src ="images/icon-payoo.png"/>
                                 </div>
                             </div>
+                            <label for = "price">Tổng số tiền: <span class = "rd">${requestScope.price}đ</span></label> 
                             <label for = "pass">Mật khẩu(<span class = "rd">*</span>)</label>
                             <input type ="password" required id ="pass" name ="pass"/>
                         </div>
@@ -618,12 +619,11 @@
                     document.getElementById("ve").style.display = 'block';
                 }
             }
-            
+
             function agree() {
-                if(document.getElementById("agr").checked) {
+                if (document.getElementById("agr").checked) {
                     document.getElementById("pntUse").style.display = 'block';
-                }
-                else {
+                } else {
                     document.getElementById("pntUse").style.display = 'none';
                 }
             }

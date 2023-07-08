@@ -6,6 +6,7 @@ package model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,8 @@ public class Event {
     
     private String startS;
     private String endS;
+    
+    private List<Cinema> cin;
 
     public Event(int eventCode, String eventName, String eventContent, int eventType, Date startDate, Time startTime, Date endDate, Time endTime, int numDateEx, int applyO, String img, int discontinued) {
         this.eventCode = eventCode;
@@ -42,6 +45,18 @@ public class Event {
         this.img = img;
         this.discontinued = discontinued;
     }
+
+    public List<Cinema> getCin() {
+        return cin;
+    }
+
+    public void setCin(List<Cinema> cin) {
+        this.cin = cin;
+    }
+
+    
+    
+    
 
     public String getStartS() {
         return startS;

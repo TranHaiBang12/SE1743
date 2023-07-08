@@ -187,6 +187,7 @@ public class PaymentServlet extends HttpServlet {
             double maxPointUse = Math.floor((price / 1000) * 90 / 100);
             request.setAttribute("point", point);
             request.setAttribute("maxPoint", maxPointUse);
+            request.setAttribute("price", price);
             List<LocationCinMD> loc = cnd.getAllCinemaNameAndLoc();
             request.setAttribute("loc", loc);
             request.setAttribute("date", dte);
