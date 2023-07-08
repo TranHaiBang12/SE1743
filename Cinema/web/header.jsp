@@ -26,14 +26,12 @@
     </head>
     <body>
         <ul class="menu_ttinBenLe">
-            <li><a href="#">TUYỂN DỤNG</a></li>
-            <li><a href="#">TIN MỚI & ƯU ĐÃI</a></li>
+            <li><a href="event">ƯU ĐÃI</a></li>
             <li><a href="cart">GIỎ HÀNG CỦA TÔI</a></li>
 
             <c:if test="${sessionScope.account==null}">
                 <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
                 </c:if>
-            <li><a href="#">CSKH</a></li>
                 
             <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                 <div class="dropdown">
@@ -136,6 +134,7 @@
                         </div>
                     </div>
                 </li>
+      
                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                     <li>
                         <div class="dropdown">
@@ -152,19 +151,7 @@
                         </div>
                     </li>
                 </c:if>
-                <li>
-                    <div class="dropdown">
-                        <div class="dropbtn">
-                            <img class="culturePlexIcon" src="images/culturePlexIcon.png" />
-                            <a class ="lnk" href="#">CULTUREPLEX</a>
-                        </div>
-                        <div class="dropdown-content">
-                            <div class=insidedropdown-content>
-                                <a class ="lnk" href="#">Nội Quy</a>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+    
                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                     <li>
                         <div class="dropdown">
