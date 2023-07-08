@@ -37,6 +37,22 @@ public class OrderTicketDetailDAO extends DBContext{
             
     }
     
+    public double getPriceByOrderID(String orderID) {
+        try {
+            String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOnlDetail JOIN OrderOnline ON OrderOnline.OrderID = TicketOnlDetail.OrderID WHERE TicketOnlDetail.OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            ResultSet rs = st.executeQuery();
+            
+            while(rs.next()) {
+                return rs.getDouble("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
     public List<OrderTicketDetail> getAllProductInOrderByOrderID(String orderID) {
         List<OrderTicketDetail> list = new ArrayList<>();
         try {

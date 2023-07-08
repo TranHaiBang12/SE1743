@@ -332,6 +332,26 @@
                 display: none;
             }
 
+            .pin4{
+                display: flex;
+                align-items: center;
+            }
+
+            .imge img{
+                width: 100%;
+                height: 100%;
+            }
+
+            .imge{
+                width: 165px;
+                height: 170px;
+                margin-right: 20px;
+            }
+
+            .nme{
+                font-size: 25px;
+                font-weight: bold;
+            }
         </style>
     </head>
     <body>
@@ -339,7 +359,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <form action = "pay" method = "post">
+            <form action = "pay" method = "post" id = "frm">
                 <div class = "in4">
                     <c:if test = "${requestScope.m != null}">
                         <div class = "m">${requestScope.m}</div>
@@ -402,15 +422,20 @@
                                 </div>                                
                                 <label for = "strt">Chọn nơi nhận đồ ăn(<span class = "rd">*</span>)</label>
                                 <div class = "containerLoc">
-                                    <select name = "loc">
+                                    <select name = "loc" onchange = "sbmit()">
                                         <c:forEach items = "${requestScope.loc}" var = "l">
-                                            <option>${l.getId()}. ${l.getLoc()}</option>
-
+                                            <c:if test = "${requestScope.cinID == null}">
+                                                <option value="${l.getId()}">${l.getLoc()}</option>
+                                            </c:if>
+                                            <c:if test = "${requestScope.cinID != null}">
+                                                 <option value = "${l.getId()}" ${requestScope.cinID == l.getId()?"selected":""}>${l.getLoc()}</option>
+                                            </c:if>
 
                                         </c:forEach>
                                     </select>
+                       
                                 </div>
-
+                                
                                 <label for = "dist">Số điểm hiện có: <span class = "rd">${requestScope.point}</span></label>
 
                                 <div class = "PNT">
@@ -418,8 +443,8 @@
                                     <input type ="checkbox" id ="agr" onclick ="agree()"/>
                                 </div>
                                 <input type ="number" id ="pntUse" name ="pntUse" min ="0" max ="${requestScope.maxPoint}"/>
-
-
+                                
+                                <input type ="text" hidden id ="check" name ="check" value ="0"/>
                                 <input type ="text" id ="dateNhan" name ="dte" hidden/>
                             </c:if>
 
@@ -444,6 +469,21 @@
                                 <c:forEach items = "${requestScope.ev}" var = "i">
                                     <div>
                                         Ưu đãi: ${i.getEventName()}
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+
+                            <c:if test = "${requestScope.f != null}">
+                                <div>
+                                    Sản phẩm tặng kèm:
+                                </div>
+                                <c:forEach items = "${requestScope.f}" var = "i">
+                                    <div class = "pin4">
+                                        <div class = "imge">
+                                            <img src = "${i.getImg()}"></div>
+                                        <div class = "nme">
+                                            ${i.getFoodDescript()}
+                                        </div>
                                     </div>
                                 </c:forEach>
                             </c:if>
@@ -577,7 +617,10 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type ="text/javascript">
-
+            function sbmit() {
+                document.getElementById("check").value = 1;
+                document.getElementById("frm").submit();
+            }
             function cngColor(id) {
                 console.log(id);
                 document.getElementById(id).style.color = 'white';

@@ -333,7 +333,6 @@
                 var ans = confirm("Do you want to delete all your cart items ?");
                 if (String(ans) === 'true') {
                     setCookie(user, "", 365);
-
                     document.getElementById("doan").style.display = 'none';
                     document.getElementById("ve").style.display = 'none';
                     console.log(document.getElementById("doan").style.display + " " + document.getElementById("ve").style.display);

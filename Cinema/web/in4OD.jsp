@@ -52,6 +52,13 @@
                 font-size: 25px;
             }
 
+            .ttle1{
+                margin-top: 20px;
+                margin-left: 80px;
+                margin-right: 40px;
+                font-size: 25px;
+            }
+
             td img{
                 width: 150px;
                 height: 120px;
@@ -98,7 +105,28 @@
             .note div{
                 margin-top: 15px;
             }
-            
+
+            .pin4{
+                display: flex;
+                align-items: center;
+            }
+
+            .imge img{
+                width: 100%;
+                height: 100%;
+            }
+
+            .imge{
+                width: 165px;
+                height: 170px;
+                margin-right: 20px;
+            }
+
+            .nme{
+                font-size: 25px;
+                font-weight: bold;
+            }
+
             #amM{
                 font-weight: bold;
             }
@@ -186,6 +214,15 @@
                                                     <div class = "ttAmF">
                                                         TỔNG GIÁ: <span class = "rd"><label id = "amF"></label></span>
                                                     </div>
+                                                    <c:if test = "${requestScope.pcF != null}">
+                                                        <div class = "ttAmF">
+                                                            GIẢM GIÁ: <span class = "rd"><label id = "amT">${requestScope.pcF * 100}%</label></span>
+                                                        </div>
+                                                        <div class = "ttAmF">
+                                                            TỔNG GIÁ SAU ƯU ĐÃI: <span class = "rd"><label id = "amFa"></label></span>
+                                                        </div>
+                                                    </c:if>
+
                                                 </c:if>
 
                                             </div>
@@ -232,28 +269,69 @@
                                                     <div class = "ttAmT">
                                                         TỔNG GIÁ: <span class = "rd"><label id = "amT"></label></span>
                                                     </div>
+                                                    <c:if test = "${requestScope.pcT != null}">
+                                                        <div class = "ttAmT">
+                                                            GIẢM GIÁ: <span class = "rd"><label id = "amT">${requestScope.pcT * 100}%</label></span>
+                                                        </div>
+                                                        <div class = "ttAmF">
+                                                            TỔNG GIÁ SAU ƯU ĐÃI: <span class = "rd"><label id = "amTa"></label></span>
+                                                        </div>
+                                                    </c:if>
                                                 </c:if>
 
                                             </div>
+                                            <c:if test = "${requestScope.pcT != null}">
+                                                <input type ="text" hidden id ="pcT" value ="${requestScope.pcT}"/>
+                                            </c:if>
+                                            <c:if test = "${requestScope.pcF != null}">
+                                                <input type ="text" hidden id ="pcF" value ="${requestScope.pcF}"/>
+                                            </c:if>
+                                            <div class = "ttIen">
+                                                <div class = "ttle">3. Ưu đãi đạt được:</div>
+                                                <c:if test = "${requestScope.ev != null}">
+                                                    <c:forEach items = "${requestScope.ev}" var = "i">
+                                                        <div class = "ttle1">
+                                                            Ưu đãi: ${i.getEventName()}
+                                                        </div>
+                                                    </c:forEach>
+                                                </c:if>
+
+                                                <c:if test = "${requestScope.f != null}">
+                                                    <div class = "ttle1">
+                                                        Sản phẩm tặng kèm:
+                                                    </div>
+                                                    <c:forEach items = "${requestScope.f}" var = "i">
+                                                        <div class = "ttle1">
+                                                            <div class = "pin4">
+                                                                <div class = "imge">
+                                                                    <img src = "${i.getImg()}"></div>
+                                                                <div class = "nme">
+                                                                    ${i.getFoodDescript()}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </c:forEach>
+                                                </c:if>
+                                            </div>
 
                                             <div class = "ttIen">
-                                                <div class = "ttle">3. Tổng Hóa Đơn: <span class = "rd"><label id = "amA"></label></span></div>
-                                            </div>
-                                            
-                                            <div class = "ttIen">
-                                                <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd"><label id = "pu">${requestScope.point}</label></span></div>
-                                            </div>
-                                            
-                                            <div class = "ttIen">
-                                                <div class = "ttle">5. Số Tiền Phải Trả: <span class = "rd"><label id = "amM"></label></span></div>
-                                            </div>
-                                            
-                                            <div class = "ttIen">
-                                                <div class = "ttle">6. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
+                                                <div class = "ttle">4. Tổng Hóa Đơn: <span class = "rd"><label id = "amA"></label></span></div>
                                             </div>
 
                                             <div class = "ttIen">
-                                                <div class = "ttle">7. Mã Đổi Sản Phẩm</div>
+                                                <div class = "ttle">5. Số Điểm Sử Dụng: <span class = "rd"><label id = "pu">${requestScope.point}</label></span></div>
+                                            </div>
+
+                                            <div class = "ttIen">
+                                                <div class = "ttle">6. Số Tiền Phải Trả: <span class = "rd"><label id = "amM"></label></span></div>
+                                            </div>
+
+                                            <div class = "ttIen">
+                                                <div class = "ttle">7. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
+                                            </div>
+
+                                            <div class = "ttIen">
+                                                <div class = "ttle">8. Mã Đổi Sản Phẩm</div>
                                                 <div class = "note">
                                                     <div>- Sử dụng mã trong thời gian có hiệu lực để đổi lấy sản phẩm</div>
 
@@ -341,7 +419,7 @@
                                                         <td>${i.getPhone()}</td>
                                                         <td>${i.getEmpName()}</td>
                                                         <td>${i.getCinName()}</td>
-                                    
+
                                                         <td>${i.getPaymentType()}</td><!-- <th></th> -->
                                                         <td>${i.getPaymentDate()}</td>
                                                         <td>${i.getPaymentTime()}</td>
@@ -435,19 +513,25 @@
                                                 </c:if>
 
                                             </div>
+                                            <c:if test = "${requestScope.pcT != null}">
+                                                <input type ="hidden" id ="pcT" hidden value ="${requestScope.pcT}"/>
+                                            </c:if>
+                                            <c:if test = "${requestScope.pcF != null}">
+                                                <input type ="hidden" id ="pcF" hidden value ="${requestScope.pcF}"/>
+                                            </c:if>
 
                                             <div class = "ttIen">
                                                 <div class = "ttle">3. Tổng Hóa Đơn: <span class = "rd"><label id = "amA"></label></span></div>
                                             </div>
-                                            
+
                                             <div class = "ttIen">
                                                 <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd"><label id = "pu">${requestScope.point}</label></span></div>
                                             </div>
-                                            
+
                                             <div class = "ttIen">
                                                 <div class = "ttle">5. Số Tiền Phải Trả: <span class = "rd"><label id = "amM"></label></span></div>
                                             </div>
-                                            
+
                                             <div class = "ttIen">
                                                 <div class = "ttle">6. Số Điểm Đạt Được: <span class = "rd">${requestScope.pointAchieve}</span></div>
                                             </div>
@@ -459,7 +543,15 @@
                                         <%@include file = "footer.jsp" %>
                                     </div>
                                     <script type = "text/javascript">
-                                        var t = 0;
+                                        var t = 0, pcT = 0, pcF = 0;
+                                        if (document.getElementById("pcT") !== null) {
+                                            pcT = Number(document.getElementById("pcT").value);
+
+                                        }
+                                        if (document.getElementById("pcF") !== null) {
+                                            pcF = Number(document.getElementById("pcF").value);
+                                        }
+                                        console.log(pcT + " " + pcF)
                                         if ((document.getElementById("numF")) !== null)
                                             t = Number(document.getElementById("numF").value);
                                         var value = 0;
@@ -467,9 +559,12 @@
                                             if (Number(document.getElementById("f" + i).innerHTML) !== null)
                                                 value += Number(document.getElementById("f" + i).innerHTML);
                                         }
-                                        if (document.getElementById("amF") !== null)
-                                            document.getElementById("amF").innerHTML = value + "đ";
-
+                                        if (document.getElementById("amF") !== null) {
+                                            document.getElementById("amF").innerHTML = value + "đ"
+                                            if (document.getElementById("amFa") !== null) {
+                                                document.getElementById("amFa").innerHTML = (value - value * pcF) + "đ";
+                                            }
+                                        }
                                         if ((document.getElementById("numT")) !== null)
                                             t = Number(document.getElementById("numT").value);
                                         var valueT = 0;
@@ -478,13 +573,16 @@
                                                 valueT += Number(document.getElementById("t" + i).innerHTML);
 
                                         }
-                                        if (document.getElementById("amT") !== null)
+                                        if (document.getElementById("amT") !== null) {
                                             document.getElementById("amT").innerHTML = valueT + "đ";
+                                            if (document.getElementById("amTa") !== null) {
+                                                document.getElementById("amTa").innerHTML = (valueT - valueT * pcT) + "đ";
+                                            }
 
-
-                                        document.getElementById("amA").innerHTML = value + valueT + "đ";
+                                        }
+                                        document.getElementById("amA").innerHTML = (value - value * pcF) + (valueT - valueT * pcT) + "đ";
                                         console.log(document.getElementById("pu").innerHTML);
-                                        document.getElementById("amM").innerHTML = value + valueT  - Number(document.getElementById("pu").innerHTML) * 1000;
+                                        document.getElementById("amM").innerHTML = (value - value * pcF) + (valueT - valueT * pcT) - Number(document.getElementById("pu").innerHTML) * 1000;
                                         document.getElementById("amM").innerHTML = document.getElementById("amM").innerHTML + "đ";
                                     </script>
                                     </body>

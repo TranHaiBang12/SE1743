@@ -4,6 +4,8 @@
  */
 package controller;
 
+import dal.EventDAO;
+import dal.FoodDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
 import dal.OrderTicketDetailDAO;
@@ -15,7 +17,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
+import model.Food;
 import model.OrderOnl;
 import model.OrderDetail;
 import model.OrderOff;
@@ -67,6 +72,7 @@ public class In4ODServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         String orderID = request.getParameter("id");
         if (orderID.contains("ONL")) {
             OrderDAO ord = new OrderDAO();
@@ -79,6 +85,71 @@ public class In4ODServlet extends HttpServlet {
                 request.setAttribute("ms1", ms1);
             }
             OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
+            FoodDAO fd = new FoodDAO();
+            List<Food> f = new ArrayList<>();
+            EventDAO evd = new EventDAO();
+            double price = 0;
+            if (evd.getAllOrderEvent(orderID) != null) {
+                List<model.Event> e = evd.getAllOrderEvent(orderID);
+                for (int l = 0; l < e.size(); l++) {
+                    if (evd.getEventByCode(e.get(l).getEventCode()).getEventType() == 1) {
+                        if (evd.getEventDiscountO(e.get(l).getEventCode()) != null) {
+                            if (evd.getEventDiscountO(e.get(l).getEventCode()).getType().equals("FD")) {
+                                double discount = evd.getEventDiscountO(e.get(l).getEventCode()).getDiscount();
+                                String pc = decimalFormat.format(discount);
+                                if (discount != 0) {
+                                    request.setAttribute("pcF", pc);
+                                    System.out.println("5");
+                                }
+                                discount = Double.parseDouble(pc);
+                                double priceT = otd.getPriceByOrderID(orderID);
+                                double priceF = odd.getPriceByOrderID(orderID);
+                                price = priceT + priceF - priceF * discount;
+                                pc = decimalFormat.format(price);
+                                price = Double.parseDouble(pc);
+                            } else if (evd.getEventDiscountO(e.get(l).getEventCode()).getType().equals("TK")) {
+                                double discount = evd.getEventDiscountO(e.get(l).getEventCode()).getDiscount();
+                                String pc = decimalFormat.format(discount);
+                                if (discount != 0) {
+                                    request.setAttribute("pcT", pc);
+                                    System.out.println("5");
+                                }
+                                discount = Double.parseDouble(pc);
+                                double priceT = otd.getPriceByOrderID(orderID);
+                                double priceF = odd.getPriceByOrderID(orderID);
+                                price = priceT - priceT * discount + priceF;
+                                pc = decimalFormat.format(price);
+                                price = Double.parseDouble(pc);
+                            }
+                        } else if (evd.getEventDiscountM(e.get(l).getEventCode()) != null) {
+                            double discount = evd.getEventDiscountM(e.get(l).getEventCode()).getDiscount();
+                            String pc = decimalFormat.format(discount);
+                            if (discount != 0) {
+                                request.setAttribute("pcT", pc);
+                                System.out.println("5");
+                            }
+                            discount = Double.parseDouble(pc);
+                            double priceT = otd.getPriceByOrderID(orderID);
+                            double priceF = odd.getPriceByOrderID(orderID);
+                            price = priceT - priceT * discount + priceF;
+                            pc = decimalFormat.format(price);
+                            price = Double.parseDouble(pc);
+                        }
+                    } else if (evd.getEventByCode(e.get(l).getEventCode()).getEventType() == 2) {
+                        List<String> pr = evd.getAllProductInEvent(e.get(l).getEventCode()).getProduct();
+                        for (int j = 0; j < pr.size(); j++) {
+                            f.add(fd.getFoodById(pr.get(j)));
+                        }
+
+                    }
+                }
+            }
+
+            List<model.Event> ev = new ArrayList<>();
+            List<model.Event> e = evd.getAllOrderEvent(orderID);
+            for (int i = 0; i < e.size(); i++) {
+                ev.add(evd.getEventByCode(e.get(i).getEventCode()));
+            }
 
             List<OrderTicketDetail> listOTD = otd.getTkByOrderID(orderID);
             if (listOTD.isEmpty()) {
@@ -99,6 +170,12 @@ public class In4ODServlet extends HttpServlet {
             List<TransactionCode> listTCF = tcd.getAllCodeFByOrderID(orderID);
             List<TransactionCode> listTCT = tcd.getAllCodeTByOrderID(orderID);
             PointDAO pd = new PointDAO();
+            if (!ev.isEmpty()) {
+                request.setAttribute("ev", ev);
+            } else {
+                request.setAttribute("ms", "Không có ưu đãi nào");
+            }
+            request.setAttribute("f", f);
             request.setAttribute("tk", ord.getOrderOnlByID(orderID));
             request.setAttribute("point", pd.getPointByOrderID(orderID));
             request.setAttribute("pointAchieve", pd.getPointAchieveByOrderID(orderID));
@@ -110,10 +187,9 @@ public class In4ODServlet extends HttpServlet {
             request.setAttribute("listTCF", listTCF);
             request.setAttribute("listTCT", listTCT);
             request.getRequestDispatcher("in4OD.jsp").forward(request, response);
-        }
-        else {
+        } else {
             OrderDAO ord = new OrderDAO();
-            
+
             List<OrderOff> listO = ord.getAllIn4OrderOffByID(orderID);
             OrderDetailDAO odd = new OrderDetailDAO();
             List<OrderDetail> listOD = odd.getAllProductInOrderOffByOrderID(orderID);

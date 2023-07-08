@@ -33,7 +33,22 @@ public class Event {
     private double discount;
     private List<String> product;
     private String type;
+    
+    private String orderID;
 
+    public Event(int eventCode, String orderID) {
+        this.eventCode = eventCode;
+        this.orderID = orderID;
+    }
+    
+    
+
+    public Event(int eventCode, double discount) {
+        this.eventCode = eventCode;
+        this.discount = discount;
+
+    }
+    
     public Event(int eventCode, double discount, String type) {
         this.eventCode = eventCode;
         this.discount = discount;

@@ -32,6 +32,21 @@ public class OrderDetailDAO extends DBContext{
             
     }
     
+    public double getPriceByOrderID(String orderID) {
+        try {
+            String sql = "SELECT SUM(Price - Price * Discount * Quantity) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnline.OrderID = OrderOnlineDetail.OrderID WHERE OrderOnlineDetail.OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getDouble("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
     public List<OrderDetail> getAllProductInOrderByOrderID(String orderID) {
         List<OrderDetail> list = new ArrayList<>();
         try {
