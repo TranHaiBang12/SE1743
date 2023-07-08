@@ -5,6 +5,7 @@
 package controller;
 
 import dal.CinemaDAO;
+import dal.EventDAO;
 import dal.FoodDAO;
 import dal.OrderDAO;
 import dal.OrderDetailDAO;
@@ -24,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ import model.AccountPoint;
 import model.CartItemFood;
 import model.CartItemTicket;
 import model.DateMD;
+import model.Food;
 import model.LocationCinMD;
 import model.Room;
 
@@ -94,6 +97,8 @@ public class PaymentServlet extends HttpServlet {
         TicketDAO tkd = new TicketDAO();
         String cart = "";
         double price = 0;
+        double priceT = 0;
+        double priceF = 0;
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
         if (a != null) {
@@ -109,10 +114,11 @@ public class PaymentServlet extends HttpServlet {
                     if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
                         list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
                         price += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
+                        priceF += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
-                        System.out.println(cart.substring(i + 1, i + 7) + " " + Integer.parseInt(cart.substring(i + 9, i + 10)) + " " + cart.substring(i + 8, i + 9) + " " + cart.substring(i + 8, i + 10));
                         listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
                         price += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
+                        priceT += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
                     }
 
                 }
@@ -184,10 +190,85 @@ public class PaymentServlet extends HttpServlet {
             } else {
                 point = 0;
             }
+
+            EventDAO evd = new EventDAO();
+            List<model.Event> evAchieve = new ArrayList<>();
+
+            if (!listT.isEmpty()) {
+                for (int j = 0; j < listT.size(); j++) {
+
+                    int evC[] = evd.getEventCodeByCin(listT.get(j).getTicket().getCinID());
+                    if (evC.length > 0) {
+                        for (int i = 0; i < evC.length; i++) {
+                            int ev[] = evd.checkEventMov(listT.get(j).getTicket().getMovie().getMovID(), evC[i]);
+                            if (ev.length > 0) {
+
+                                for (int l = 0; l < ev.length; l++) {
+                                    evAchieve.add(evd.getEventByCode(ev[l]));
+                                }
+
+                            }
+                            int ev2[] = evd.checkEventOrder(priceT, evC[i], "TK");
+                            if (ev2.length > 0) {
+                                for (int l = 0; l < ev2.length; l++) {
+                                    evAchieve.add(evd.getEventByCode(ev2[l]));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!list.isEmpty()) {
+                int evC[] = evd.getEventCodeByCin(cnd.getAllCinemaNameAndLoc().get(0).getId());
+                if (evC.length > 0) {
+                    for (int i = 0; i < evC.length; i++) {
+                        int ev2[] = evd.checkEventOrder(priceF, evC[i], "FD");
+                        if (ev2.length > 0) {
+                            evAchieve.add(evd.getEventByCode(ev2[i]));
+                        }
+                    }
+                }
+            }
+            FoodDAO fd = new FoodDAO();
+            List<Food> f = new ArrayList<>();
+            double discount = 0;
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            double tpt = 0;
+            for (int i = 0; i < evAchieve.size(); i++) {
+                if (evAchieve.get(i).getEventType() == 1) {
+                    if (evd.getEventDiscount(evAchieve.get(i).getEventCode()) != null) {
+                        discount = evd.getEventDiscount(evAchieve.get(i).getEventCode()).getDiscount();
+                        String pc = decimalFormat.format(discount * 100);
+                        if(evd.getEventDiscount(evAchieve.get(i).getEventCode()).getType().equals("FD")) {
+                            tpt = priceF * discount + priceT;
+                        }
+                        else if(evd.getEventDiscount(evAchieve.get(i).getEventCode()).getType().equals("TK")) {
+                            tpt = priceT * discount + priceF;
+                        }
+                        if (discount != 0) {
+                            request.setAttribute("tpt", decimalFormat.format(tpt));
+                            request.setAttribute("discount", pc);
+                        }
+                    }
+                } else if (evAchieve.get(i).getEventType() == 2) {
+                    if (evd.getAllProductInEvent(evAchieve.get(i).getEventCode()) != null) {
+                        List<String> pr = evd.getAllProductInEvent(evAchieve.get(i).getEventCode()).getProduct();
+                        for (int j = 0; j < pr.size(); j++) {
+                            f.add(fd.getFoodById(pr.get(j)));
+                        }
+                    }
+                }
+            }
+            if(!evAchieve.isEmpty()) {
+                request.setAttribute("ev", evAchieve);
+            }
             double maxPointUse = Math.floor((price / 1000) * 90 / 100);
-            request.setAttribute("point", point);
-            request.setAttribute("maxPoint", maxPointUse);
-            request.setAttribute("price", price);
+            request.setAttribute("", k);
+            request.setAttribute("point", decimalFormat.format(point));
+
+            request.setAttribute("maxPoint", decimalFormat.format(maxPointUse));
+            request.setAttribute("price", decimalFormat.format(price));
             List<LocationCinMD> loc = cnd.getAllCinemaNameAndLoc();
             request.setAttribute("loc", loc);
             request.setAttribute("date", dte);
@@ -400,7 +481,7 @@ public class PaymentServlet extends HttpServlet {
                 Time timeStart = null;
                 Time timeEnd = null;
                 for (int i = 0; i < dte.size(); i++) {
-        
+
                     if (Integer.parseInt(request.getParameter("dte")) == dte.get(i).getId()) {
                         datePick = dte.get(i).getDay() + " " + dte.get(i).getDate() + "/" + dte.get(i).getMonth() + "/" + (Calendar.getInstance().getTime().getYear() + 1900);
                         if (dte.get(i).getId() == 0) {
@@ -485,10 +566,10 @@ public class PaymentServlet extends HttpServlet {
                         int cID = listT.get(0).getTicket().getCinID();
                         String tkCode = orderID + randomAlpha(20 - orderID.length());
                         tcd.insert(orderID, tkCode, 2, dateStart, timeStart, dateEnd, timeEnd, cID);
-                        
+
                         for (int i = 0; i < listT.size(); i++) {
                             Room r = rmd.getRoomByTCode(listT.get(i).getTicket().getProductCode());
-                            if(r == null) {
+                            if (r == null) {
                                 request.getRequestDispatcher("error.jsp").forward(request, response);
                             }
                             otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice(), sd.getTypeByCALCR(r.getRoomID(), cID, Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getSeat().substring(0, 1)));

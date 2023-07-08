@@ -30,6 +30,22 @@ public class Event {
     private String endS;
     
     private List<Cinema> cin;
+    private double discount;
+    private List<String> product;
+    private String type;
+
+    public Event(int eventCode, double discount, String type) {
+        this.eventCode = eventCode;
+        this.discount = discount;
+        this.type = type;
+    }
+
+    public Event(int eventCode, List<String> product) {
+        this.eventCode = eventCode;
+        this.product = product;
+    }
+    
+    
 
     public Event(int eventCode, String eventName, String eventContent, int eventType, Date startDate, Time startTime, Date endDate, Time endTime, int numDateEx, int applyO, String img, int discontinued) {
         this.eventCode = eventCode;
@@ -46,12 +62,38 @@ public class Event {
         this.discontinued = discontinued;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
+    
     public List<Cinema> getCin() {
         return cin;
     }
 
     public void setCin(List<Cinema> cin) {
         this.cin = cin;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public List<String> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<String> product) {
+        this.product = product;
     }
 
     

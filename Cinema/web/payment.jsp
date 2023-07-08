@@ -437,7 +437,24 @@
                                     <img src ="images/icon-payoo.png"/>
                                 </div>
                             </div>
-                            <label for = "price">Tổng số tiền: <span class = "rd">${requestScope.price}đ</span></label> 
+                            <div>
+                                <label for = "price">Tổng số tiền: <span class = "rd">${requestScope.price}đ</span></label> 
+                            </div>
+                            <c:if test = "${requestScope.ev != null}">
+                                <c:forEach items = "${requestScope.ev}" var = "i">
+                                    <div>
+                                        Ưu đãi: ${i.getEventName()}
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test = "${requestScope.discount != null}">
+                                <div>
+                                    <label for = "price">Khuyến mại: <span class = "rd">${requestScope.discount}%</span></label> 
+                                </div>
+                                <div>
+                                    <label for = "price">Tổng số tiền phải trả: <span class = "rd">${requestScope.tpt}đ</span></label> 
+                                </div>
+                            </c:if>
                             <label for = "pass">Mật khẩu(<span class = "rd">*</span>)</label>
                             <input type ="password" required id ="pass" name ="pass"/>
                         </div>
