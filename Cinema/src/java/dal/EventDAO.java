@@ -70,6 +70,23 @@ public class EventDAO extends DBContext {
         }
     }
     
+    public List<Event> getAllOrderEventOff(String orderID) {
+        List<Event> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM EventOrderOffline WHERE OrderID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, orderID);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Event e = new Event(rs.getInt("EventCode"), orderID);
+                list.add(e);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
     public List<Event> getAllOrderEvent(String orderID) {
         List<Event> list = new ArrayList<>();
         try {

@@ -509,9 +509,7 @@ public class PaymentServlet extends HttpServlet {
                     request.setAttribute("maxPoint", decimalFormat.format(maxPointUse));
                     request.setAttribute("price", decimalFormat.format(price));
                     List<LocationCinMD> loc = cnd.getAllCinemaNameAndLoc();
-                    for (int i = 0; i < loc.size(); i++) {
-                        System.out.println("p" + loc.get(i).getId());
-                    }
+       
                     request.setAttribute("loc", loc);
                     request.setAttribute("date", dte);
                     request.setAttribute("listCart", list);

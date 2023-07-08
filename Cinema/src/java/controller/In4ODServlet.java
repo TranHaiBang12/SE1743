@@ -189,7 +189,7 @@ public class In4ODServlet extends HttpServlet {
             request.getRequestDispatcher("in4OD.jsp").forward(request, response);
         } else {
             OrderDAO ord = new OrderDAO();
-
+            
             List<OrderOff> listO = ord.getAllIn4OrderOffByID(orderID);
             OrderDetailDAO odd = new OrderDetailDAO();
             List<OrderDetail> listOD = odd.getAllProductInOrderOffByOrderID(orderID);
@@ -199,6 +199,72 @@ public class In4ODServlet extends HttpServlet {
                 request.setAttribute("ms1", ms1);
             }
             OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
+            
+            FoodDAO fd = new FoodDAO();
+            List<Food> f = new ArrayList<>();
+            EventDAO evd = new EventDAO();
+            double price = 0;
+            if (evd.getAllOrderEvent(orderID) != null) {
+                List<model.Event> e = evd.getAllOrderEventOff(orderID);
+                for (int l = 0; l < e.size(); l++) {
+                    if (evd.getEventByCode(e.get(l).getEventCode()).getEventType() == 1) {
+                        if (evd.getEventDiscountO(e.get(l).getEventCode()) != null) {
+                            if (evd.getEventDiscountO(e.get(l).getEventCode()).getType().equals("FD")) {
+                                double discount = evd.getEventDiscountO(e.get(l).getEventCode()).getDiscount();
+                                String pc = decimalFormat.format(discount);
+                                if (discount != 0) {
+                                    request.setAttribute("pcF", pc);
+                                    System.out.println("5");
+                                }
+                                discount = Double.parseDouble(pc);
+                                double priceT = otd.getPriceByOrderID(orderID);
+                                double priceF = odd.getPriceByOrderID(orderID);
+                                price = priceT + priceF - priceF * discount;
+                                pc = decimalFormat.format(price);
+                                price = Double.parseDouble(pc);
+                            } else if (evd.getEventDiscountO(e.get(l).getEventCode()).getType().equals("TK")) {
+                                double discount = evd.getEventDiscountO(e.get(l).getEventCode()).getDiscount();
+                                String pc = decimalFormat.format(discount);
+                                if (discount != 0) {
+                                    request.setAttribute("pcT", pc);
+                                    System.out.println("5");
+                                }
+                                discount = Double.parseDouble(pc);
+                                double priceT = otd.getPriceByOrderID(orderID);
+                                double priceF = odd.getPriceByOrderID(orderID);
+                                price = priceT - priceT * discount + priceF;
+                                pc = decimalFormat.format(price);
+                                price = Double.parseDouble(pc);
+                            }
+                        } else if (evd.getEventDiscountM(e.get(l).getEventCode()) != null) {
+                            double discount = evd.getEventDiscountM(e.get(l).getEventCode()).getDiscount();
+                            String pc = decimalFormat.format(discount);
+                            if (discount != 0) {
+                                request.setAttribute("pcT", pc);
+                                System.out.println("5");
+                            }
+                            discount = Double.parseDouble(pc);
+                            double priceT = otd.getPriceByOrderID(orderID);
+                            double priceF = odd.getPriceByOrderID(orderID);
+                            price = priceT - priceT * discount + priceF;
+                            pc = decimalFormat.format(price);
+                            price = Double.parseDouble(pc);
+                        }
+                    } else if (evd.getEventByCode(e.get(l).getEventCode()).getEventType() == 2) {
+                        List<String> pr = evd.getAllProductInEvent(e.get(l).getEventCode()).getProduct();
+                        for (int j = 0; j < pr.size(); j++) {
+                            f.add(fd.getFoodById(pr.get(j)));
+                        }
+
+                    }
+                }
+            }
+
+            List<model.Event> ev = new ArrayList<>();
+            List<model.Event> e = evd.getAllOrderEventOff(orderID);
+            for (int i = 0; i < e.size(); i++) {
+                ev.add(evd.getEventByCode(e.get(i).getEventCode()));
+            }
 
             List<OrderTicketDetail> listOTD = otd.getTkOffByOrderID(orderID);
             if (listOTD.isEmpty()) {
