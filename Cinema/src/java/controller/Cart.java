@@ -76,7 +76,10 @@ public class Cart extends HttpServlet {
         String cart = "";
         HttpSession session = request.getSession();
         Account a = (Account) session.getAttribute("account");
-        if (a != null) {
+        if(a == null) {
+            response.sendRedirect("login");
+        }
+        else if (a != null) {
             for (Cookie i : arr) {
                 if (i.getName().equals(a.getUserName())) {
                     cart = i.getValue();

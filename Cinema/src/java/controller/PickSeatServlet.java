@@ -148,6 +148,9 @@ public class PickSeatServlet extends HttpServlet {
             List<CartItemTicket> listT = new ArrayList<>();
             String cart = "";
             Account acc = (Account) session.getAttribute("account");
+            if(acc == null) {
+                response.sendRedirect("login");
+            }
             if (acc != null) {
                 for (Cookie i : arr) {
                     if (i.getName().equals(acc.getUserName())) {

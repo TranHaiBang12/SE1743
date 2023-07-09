@@ -258,7 +258,7 @@
         </div>
         <script>
             var t = "";
-            if(document.getElementById("msDLT") !== null) {
+            if (document.getElementById("msDLT") !== null) {
                 alert(document.getElementById("msDLT").value)
             }
             function cnaGE() {
@@ -278,35 +278,37 @@
                 document.cookie = name + "=" + (value || "") + expires;
             }
             function cart(id, price, discount, username) {
-                
-                if (getCookie(username) !== null) {
-                    t = getCookie(username);
+                if (username == null || username === "") {
+                    window.location = "login";
                 } else {
-                    t = "";
-                }
+                    if (getCookie(username) !== null) {
+                        t = getCookie(username);
+                    } else {
+                        t = "";
+                    }
 
-                if (getCookie(username) === null) {
-                    setCookie(username, id, 365);
-                    console.log("1");
-                } else {
-                    if (!String(t).includes(id)) {
-                        alert("Add successful");
-                        console.log("2");
-                        t = t + "/";
-                        t = t + id;
-                        t = t + "p";
-                        t = t + "1";
-                        t = t + "p";
-                        t = t + price;
-                        t = t + "p";
-                        t = t + discount;
+                    if (getCookie(username) === null) {
+                        setCookie(username, id, 365);
+                        console.log("1");
+                    } else {
+                        if (!String(t).includes(id)) {
+                            alert("Add successful");
+                            console.log("2");
+                            t = t + "/";
+                            t = t + id;
+                            t = t + "p";
+                            t = t + "1";
+                            t = t + "p";
+                            t = t + price;
+                            t = t + "p";
+                            t = t + discount;
+                        } else {
+                            alert("Already have this product in cart")
+                        }
+                        setCookie(username, t, 365);
                     }
-                    else {
-                        alert("Already have this product in cart")
-                    }
-                    setCookie(username, t, 365);
+                    console.log(getCookie(username));
                 }
-                console.log(getCookie(username));
             }
             // Hàm lấy Cookie
             function getCookie(name) {
