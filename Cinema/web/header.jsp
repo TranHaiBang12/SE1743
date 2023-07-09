@@ -26,13 +26,23 @@
     </head>
     <body>
         <ul class="menu_ttinBenLe">
-            <li><a href="event">ƯU ĐÃI</a></li>
+            <div class="dropdown">
+                <li id = "userN">ƯU ĐÃI</li>
+                <div class="dropdown-content">
+                    <div class=insidedropdown-content>
+                        <a href="event">Xem Ưu Đãi</a>
+                        <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
+                            <a href="updev">Thống Kê Lợi Nhuận</a>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
             <li><a href="cart">GIỎ HÀNG CỦA TÔI</a></li>
 
             <c:if test="${sessionScope.account==null}">
                 <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
                 </c:if>
-                
+
             <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                 <div class="dropdown">
                     <li id = "userN">THỐNG KÊ</li>
@@ -134,7 +144,7 @@
                         </div>
                     </div>
                 </li>
-      
+
                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                     <li>
                         <div class="dropdown">
@@ -151,7 +161,7 @@
                         </div>
                     </li>
                 </c:if>
-    
+
                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                     <li>
                         <div class="dropdown">

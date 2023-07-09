@@ -35,6 +35,17 @@ public class Event {
     private String type;
     
     private String orderID;
+    
+    private int idType;
+    private String typeName;
+    private int movID;
+
+    public Event(int eventCode, int movID) {
+        this.eventCode = eventCode;
+        this.movID = movID;
+    }
+    
+    
 
     public Event(int eventCode, String orderID) {
         this.eventCode = eventCode;
@@ -83,6 +94,22 @@ public class Event {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    public int getMovID() {
+        return movID;
+    }
+
+    public void setMovID(int movID) {
+        this.movID = movID;
     }
     
     

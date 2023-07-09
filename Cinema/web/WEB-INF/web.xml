@@ -264,6 +264,10 @@
         <servlet-name>EventDetail</servlet-name>
         <servlet-class>controller.EventDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdEvent</servlet-name>
+        <servlet-class>controller.UpdEvent</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -527,6 +531,10 @@
     <servlet-mapping>
         <servlet-name>EventDetail</servlet-name>
         <url-pattern>/edt</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdEvent</servlet-name>
+        <url-pattern>/updev</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

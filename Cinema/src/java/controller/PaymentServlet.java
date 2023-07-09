@@ -509,7 +509,7 @@ public class PaymentServlet extends HttpServlet {
                     request.setAttribute("maxPoint", decimalFormat.format(maxPointUse));
                     request.setAttribute("price", decimalFormat.format(price));
                     List<LocationCinMD> loc = cnd.getAllCinemaNameAndLoc();
-       
+
                     request.setAttribute("loc", loc);
                     request.setAttribute("date", dte);
                     request.setAttribute("listCart", list);
@@ -517,13 +517,14 @@ public class PaymentServlet extends HttpServlet {
                     request.getRequestDispatcher("payment.jsp").forward(request, response);
                 }
             } else if (request.getParameter("check").equals("0")) {
+                System.out.println("5");
                 Cookie[] arr = request.getCookies();
                 List<CartItemFood> list = new ArrayList<>();
                 List<CartItemTicket> listT = new ArrayList<>();
                 FoodDAO fda = new FoodDAO();
                 TicketDAO tkd = new TicketDAO();
                 String cart = "";
-    
+
                 HttpSession session = request.getSession();
                 Account a = (Account) session.getAttribute("account");
                 CinemaDAO cnd = new CinemaDAO();
@@ -710,6 +711,7 @@ public class PaymentServlet extends HttpServlet {
                         request.setAttribute("listTicket", listT);
                         request.getRequestDispatcher("payment.jsp").forward(request, response);
                     } else {
+                        System.out.println("nk");
                         String m = "THANH TOÁN THÀNH CÔNG. VUI LÒNG VÀO LỊCH SỬ GIAO DỊCH ĐỂ XEM MÃ VÉ, MÃ ĐỒ ĂN CỦA BẠN";
                         String datePick = "";
                         Date dateStart = null;
@@ -770,12 +772,11 @@ public class PaymentServlet extends HttpServlet {
 
                         int cinID = 0;
                         String lOc = request.getParameter("loc");
-   
+
                         try {
                             cinID = Integer.parseInt(lOc);
                         } catch (Exception e) {
                         }
-
                         OrderDAO ord = new OrderDAO();
                         int id = 0;
                         EventDAO evd = new EventDAO();
@@ -784,9 +785,11 @@ public class PaymentServlet extends HttpServlet {
                             for (int j = 0; j < listT.size(); j++) {
 
                                 int evC[] = evd.getEventCodeByCin(listT.get(j).getTicket().getCinID());
+                                System.out.println("lem" + evC.length);
                                 if (evC.length > 0) {
                                     for (int i = 0; i < evC.length; i++) {
                                         int ev[] = evd.checkEventMov(listT.get(j).getTicket().getMovie().getMovID(), evC[i]);
+                                        System.out.println("lemev" + ev.length);
                                         if (ev.length > 0) {
 
                                             for (int l = 0; l < ev.length; l++) {
@@ -795,6 +798,7 @@ public class PaymentServlet extends HttpServlet {
 
                                         }
                                         int ev2[] = evd.checkEventOrder(priceT, evC[i], "TK");
+                                        System.out.println("lem2" + ev2.length);
                                         if (ev2.length > 0) {
                                             for (int l = 0; l < ev2.length; l++) {
                                                 evAchieve.add(evd.getEventByCode(ev2[l]));
@@ -803,22 +807,21 @@ public class PaymentServlet extends HttpServlet {
                                     }
                                 }
                             }
-                        }
-
-                        if (!list.isEmpty()) {
-                            int evC[] = evd.getEventCodeByCin(cinID);
-                            if (evC.length > 0) {
-                                for (int i = 0; i < evC.length; i++) {
-                                    int ev2[] = evd.checkEventOrder(priceF, evC[i], "FD");
-                                    if (ev2.length > 0) {
-                                        evAchieve.add(evd.getEventByCode(ev2[i]));
+                            if (!list.isEmpty()) {
+                                int evC[] = evd.getEventCodeByCin(cinID);
+                                if (evC.length > 0) {
+                                    for (int i = 0; i < evC.length; i++) {
+                                        int ev2[] = evd.checkEventOrder(priceF, evC[i], "FD");
+                                        if (ev2.length > 0) {
+                                            evAchieve.add(evd.getEventByCode(ev2[i]));
+                                        }
                                     }
-                                }
 
+                                }
                             }
 
                             id = ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, dd, tt);
-
+                            System.out.println("id" + id);
                             for (int i = 0; i < evAchieve.size(); i++) {
                                 evd.insertEventOrderOnline("ONL" + id, evAchieve.get(i).getEventCode());
                             }
@@ -893,7 +896,7 @@ public class PaymentServlet extends HttpServlet {
                             }
 
                             removeCookie(response, user.getName());
-
+                            System.out.println("pk");
                             request.setAttribute("m", m);
                             request.setAttribute("email", request.getParameter("email"));
                             request.setAttribute("fName", request.getParameter("fName"));

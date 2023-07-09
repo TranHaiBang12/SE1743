@@ -70,6 +70,53 @@ public class EventDAO extends DBContext {
         }
     }
     
+    public List<Event> getAllEventType() {
+        List<Event> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM EventType";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(new Event(rs.getInt("idType"), rs.getString("TypeName")));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public Event getEventOrder(int code) {
+        try {
+            String sql = "SELECT * FROM EventApplyOrder WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Event e = new Event(code, rs.getDouble("Price"));
+                return e;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
+    public Event getEventMov(int code) {
+        try {
+            String sql = "SELECT * FROM EventApplyMovie WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Event e = new Event(code, rs.getInt("movID"));
+                return e;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+    
     public List<Event> getAllOrderEventOff(String orderID) {
         List<Event> list = new ArrayList<>();
         try {
