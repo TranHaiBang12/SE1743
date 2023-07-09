@@ -395,6 +395,26 @@ public class EventDAO extends DBContext {
         }
         return b;
     }
+    
+    public void insertEvent(int code, String name, String content, int type, Timestamp start, Timestamp end, int appO, String img, int discontinued, int date) {
+        try {
+            String sql = "INSERT INTO Event VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.setString(2, name);
+            st.setString(3, content);
+            st.setInt(4, type);
+            st.setTimestamp(5, start);
+            st.setTimestamp(6, end);
+            st.setInt(7, date);
+            st.setInt(8, appO);
+            st.setString(9, img);
+            st.setInt(10, discontinued);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public void updEventByCode(int code, String content, int type, Timestamp start, Timestamp end, int appO, String img, int discontinued, int date) {
         try {

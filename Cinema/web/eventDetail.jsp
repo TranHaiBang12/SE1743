@@ -155,9 +155,7 @@
                                         - Không thể kết hợp với các ưu đãi khác
                                     </div>
                                 </c:if>
-                                <div class = "btS">
-                                    <a href = "store"><button>XEM CHI TIẾT</button></a>
-                                </div>
+            
                                 <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                                     <div class = "btS">
                                     <a href = "updev?id=${requestScope.e.getEventCode()}"><button>SỬA</button></a>

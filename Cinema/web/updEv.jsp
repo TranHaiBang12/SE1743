@@ -250,13 +250,7 @@
                                             Số ngày tối đa có thể đổi quà: <input type ="number" required="false" id ="dte" step ="1" min ="0" max ="7" name ="dte" value ="${requestScope.maxDate}"/>
                                         </div>
                                     </c:if>
-                                    <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
-                                        <div class = "m1">
-                                            <div class = "btS">
-                                                <button onclick = "updEventType()">SỬA</button>
-                                            </div>
-                                        </div>
-                                    </c:if>
+                       
                                     <div>
 
                                     </div>
@@ -323,13 +317,7 @@
                                             </select>
                                         </div>
                                     </c:if>
-                                    <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
-                                        <div class = "m1">
-                                            <div class = "btS">
-                                                <a href = "updev?id=${requestScope.e.getEventCode()}"><button>SỬA</button></a>
-                                            </div>
-                                        </div>
-                                    </c:if>
+                              
                                 </div>
                                 <div class = "prt">
                                     <div class = "blk">5. Điều kiện và điều khoản:</div>
@@ -395,13 +383,7 @@
                                     <input type ="text" hidden id ="size" value ="${requestScope.e.getCin().size()}"/>
 
 
-                                    <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
-                                        <div class = "m1">
-                                            <div class = "btS">
-                                                <button type = "submit">LƯU</button>
-                                            </div>
-                                        </div>
-                                    </c:if>
+                              
                                 </div>
                                 <div class = "prt">
                                     <div class = "blk">6. Ảnh:<input type = "text" required name = "img" value = "${requestScope.e.getImg()}"/></div> 
