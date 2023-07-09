@@ -462,7 +462,7 @@
                         t = t.replace(String(col + row), "");
                         cnt--;
                         if (idP.includes(String("/" + code + "p" + col + row + "p" + price + "d" + dc)))
-                            idP = idP.replace(String("/" + code + "p" + col + row  + "p" + price + "d" + dc), "");
+                            idP = idP.replace(String("/" + code + "p" + col + row + "p" + price + "d" + dc), "");
                         if (type === "1") {
                             sum -= (Number(price) - Number(price) * Number(dc));
                         } else if (type === "2") {
@@ -585,16 +585,12 @@
                             row = str2.charAt(rm + 1, j);
                             rm = j;
                             k++;
-                        }
-                        else if (str2.charAt(j) === "p" && k === 5) {
+                        } else if (str2.charAt(j) === "p" && k === 5) {
                             price = str2.substring(rm + 1, j);
-                            console.log(price);
-                            console.log("n" + (rm + 1));
-                            console.log("e" + j);
+
                             rm = j;
                             k++;
-                        }
-                        else if (j === str2.length - 1) {
+                        } else if (j === str2.length - 1) {
                             discount = str2.substring(rm + 1);
                             rm = j;
                             k++;
@@ -602,26 +598,56 @@
                     }
                     console.log(price);
                     pckSeat(id, code, type, col, row, price, discount);
-                    
+
                 }
 
             }
-
             function cart(user) {
-                if(user === null || user === "" || user === undefined) {
+                if (user === null || user === "" || user === undefined) {
                     window.location = "login";
                 }
                 //console.log(user);
                 var ckie = getCookie(user);
                 ckie = String(ckie);
-                console.log(ckie)
-
+                var code;
+                var seat;
+                var price;
+                var discount;
+                var k = 0;
+                var cnt = 0;
                 var seatInCart = [];
                 let m = 0;
                 for (var i = 0; i < idP.length; i++) {
                     if (idP.charAt(i) === "/") {
                         if (idP.substring(i + 1, i + 3) === "TK") {
-                            seatInCart[m] = idP.substring(i + 1, i + 10);
+                            for (var j = i; j < idP.length; j++) {
+                                if (idP.charAt(j) === 'p' && k === 0) {
+                                    code = idP.substring(i + 1, j);
+                                    k++;
+                                    cnt = j;
+                                } else if (idP.charAt(j) === 'p' && k === 1) {
+                                    seat = idP.substring(cnt + 1, j);
+                                    k++;
+                                    cnt = j;
+                                } else if (idP.charAt(j) === 'd' && k === 2) {
+                                    price = idP.substring(cnt + 1, j);
+                                    k++;
+                                    cnt = j;
+                                } else if ((idP.charAt(j) === '/' && k === 3) || j === idP.length - 1) {
+                                    if (idP.charAt(j) === '/' && k === 3) {
+                                        discount = idP.substring(cnt + 1, j);
+                                    }
+                                    else if(j === idP.length - 1) {
+                                        discount = idP.substring(cnt + 1);
+                                    }
+                                    k++;
+                                    cnt = j;
+                                    break;
+                                }
+                            }
+                            k = 0;
+                            cnt = 0;
+                            seatInCart[m] = code + "p" + seat + "p" + price + "d" + discount;
                             m++;
                         }
                     }

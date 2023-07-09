@@ -237,9 +237,9 @@
                                 ${i.getFoodDescript()}                  
                             </div>
                             <div>
-                                <span class = "newPrice">${i.getPrice() - i.getPrice() * i.getDiscount()}<span class = "donvi">đ</span></span>
+                                <span class = "newPrice">${i.getPriceNS()}<span class = "donvi">đ</span></span>
                                 <c:if test = "${i.getDiscount() != 0}">
-                                    <span class = "oldPrice">${i.getPrice()}<span class = "donvi">đ</span></span>
+                                    <span class = "oldPrice">${i.getPriceOS()}<span class = "donvi">đ</span></span>
                                 </c:if>
 
                             </div>

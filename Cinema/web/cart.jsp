@@ -272,7 +272,7 @@
                                         </div>
                                         <div class = "intu">
 
-                                            <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPrice() * i.getQuantity()}</label><span class = "donvi">đ</div>
+                                            <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPriceNS() * i.getQuantity()}</label><span class = "donvi">đ</div>
                                             <div>
                                                 <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="increaseButton" value = "+"/>
                                                 <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>

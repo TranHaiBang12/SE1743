@@ -44,6 +44,7 @@ import model.DateMD;
 import model.Food;
 import model.LocationCinMD;
 import model.Room;
+import model.Ticket;
 
 /**
  *
@@ -109,16 +110,95 @@ public class PaymentServlet extends HttpServlet {
                 }
             }
 
+            String code = "";
+            int cnt = 0;
+            FoodDAO fd = new FoodDAO();
+            int cntT = 0;
+            int cntF = 0;
+            int k1 = 0;
+            int p = 0;
+            price = 0;
+            int quantity = 0;
+            double discount = 0;
+            List<String> listHH = fd.getAllFoodOff();
+            List<Ticket> tkB = tkd.getAllTicketBought();
             for (int i = 0; i < cart.length(); i++) {
                 if (cart.charAt(i) == '/' && i != cart.length() - 1) {
+                    cntT = 0;
+                    cntF = 0;
                     if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
-                        list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
-                        price += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
-                        priceF += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
+                        for (int j = 0; j < listHH.size(); j++) {
+                            if (cart.substring(i + 1, i + 7).equals(listHH.get(j))) {
+                                cntF++;
+                                p++;
+
+                                cart = cart.substring(0, i + 1) + cart.substring(i + 7);
+                            }
+                        }
+                        if (cntF == 0) {
+                            for (int j = i; j < cart.length(); j++) {
+                                if (cart.charAt(j) == 'p' && k1 == 0) {
+                                    code = cart.substring(i + 1, j);
+                                    cnt = j;
+                                    k1++;
+                                } else if (cart.charAt(j) == 'p' && k1 == 1) {
+                                    quantity = Integer.parseInt(cart.substring(cnt + 1, j));
+                                    cnt = j;
+                                    k1++;
+                                } else if (cart.charAt(j) == 'p' && k1 == 2) {
+                                    price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    cnt = j;
+                                    k1++;
+                                } else if (cart.charAt(j) == '/' && k1 == 3) {
+                                    discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    cnt = j;
+                                    k1++;
+                                    break;
+                                }
+                            }
+                            k1 = 0;
+                            cnt = 0;
+                            System.out.println(code + " " + quantity + " " + discount + " " + price);
+                            list.add(new CartItemFood(fda.getFoodById(code), quantity, discount, price));
+                        }
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
-                        listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
-                        price += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
-                        priceT += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
+                        for (int j = 0; j < tkB.size(); j++) {
+                            if (cart.substring(i + 1, i + 7).equals(tkB.get(j).getProductCode()) && Integer.parseInt(cart.substring(i + 9, i + 10)) == tkB.get(j).getRow() && cart.substring(i + 8, i + 9).equals(tkB.get(j).getCol())) {
+                                cntT++;
+                                p++;
+                                cart = cart.substring(0, i + 1) + cart.substring(i + 7);
+                            }
+                        }
+                        if (cntT == 0) {
+                            for (int j = i; j < cart.length(); j++) {
+                                if (cart.charAt(j) == 'p' && k1 == 0) {
+                                    code = cart.substring(i + 1, j);
+                                    cnt = j;
+                                    k1++;
+                                } else if (cart.charAt(j) == 'p' && k1 == 1) {
+                                    quantity = 1;
+                                    cnt = j;
+                                    k1++;
+                                } else if (cart.charAt(j) == 'd' && k1 == 2) {
+                                    price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    cnt = j;
+                                    k1++;
+                                } else if ((cart.charAt(j) == '/' && k1 == 3) || (j == cart.length() - 1 && k1 == 3)) {
+                                    if (cart.charAt(j) == '/' && k1 == 3) {
+                                        discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    }
+                                    else if (j == cart.length() - 1 && k1 == 3) {
+                                        discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    }
+                                    cnt = j;
+                                    k1++;
+                                    break;
+                                }
+                            }
+                            cnt = 0;
+                            k1 = 0;
+                            listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
+                        }
                     }
 
                 }
@@ -230,9 +310,9 @@ public class PaymentServlet extends HttpServlet {
                     }
                 }
             }
-            FoodDAO fd = new FoodDAO();
+            fd = new FoodDAO();
             List<Food> f = new ArrayList<>();
-            double discount = 0;
+            discount = 0;
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
             double tpt = 0;
             for (int i = 0; i < evAchieve.size(); i++) {
@@ -327,16 +407,97 @@ public class PaymentServlet extends HttpServlet {
                         }
                     }
 
+                    String code = "";
+                    int cnt = 0;
+                    FoodDAO fd = new FoodDAO();
+                    int cntT = 0;
+                    int cntF = 0;
+                    int k1 = 0;
+                    int p = 0;
+                    price = 0;
+                    int quantity = 0;
+                    double discount = 0;
+                    List<String> listHH = fd.getAllFoodOff();
+                    List<Ticket> tkB = tkd.getAllTicketBought();
                     for (int i = 0; i < cart.length(); i++) {
                         if (cart.charAt(i) == '/' && i != cart.length() - 1) {
+                            cntT = 0;
+                            cntF = 0;
                             if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
-                                list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
-                                price += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
-                                priceF += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
+                                for (int j = 0; j < listHH.size(); j++) {
+                                    if (cart.substring(i + 1, i + 7).equals(listHH.get(j))) {
+                                        cntF++;
+                                        p++;
+                                        cart = cart.substring(0, i + 1) + cart.substring(i + 7);
+                                    }
+                                }
+                                if (cntF == 0) {
+                                    for (int j = i; j < cart.length(); j++) {
+                                        if (cart.charAt(j) == 'p' && k1 == 0) {
+                                            code = cart.substring(i + 1, j);
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'p' && k1 == 1) {
+                                            quantity = Integer.parseInt(cart.substring(cnt + 1, j));
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'p' && k1 == 2) {
+                                            price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            cnt = j;
+                                            k1++;
+                                        } else if ((cart.charAt(j) == '/' && k1 == 3) || j == cart.length() - 1 && k1 == 3) {
+                                            if (cart.charAt(j) == '/' && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            } else if (j == cart.length() - 1 && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1));
+                                            }
+                                            cnt = j;
+                                            k1++;
+                                            break;
+                                        }
+                                    }
+                                    k1 = 0;
+                                    cnt = 0;
+                                    System.out.println(code + " " + quantity + " " + discount + " " + price);
+                                    list.add(new CartItemFood(fda.getFoodById(code), quantity, discount, price));
+                                }
                             } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
-                                listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
-                                price += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
-                                priceT += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
+                                for (int j = i; j < tkB.size(); j++) {
+                                    if (cart.substring(i + 1, i + 7).equals(tkB.get(j).getProductCode()) && Integer.parseInt(cart.substring(i + 9, i + 10)) == tkB.get(j).getRow() && cart.substring(i + 8, i + 9).equals(tkB.get(j).getCol())) {
+                                        cntT++;
+                                        p++;
+                                        cart = cart.substring(0, i + 1) + cart.substring(i + 7);
+                                    }
+                                }
+                                if (cntT == 0) {
+                                    for (int j = 0; j < cart.length(); j++) {
+                                        if (cart.charAt(j) == 'p' && k1 == 0) {
+                                            code = cart.substring(i + 1, j);
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'p' && k1 == 1) {
+                                            quantity = 1;
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'd' && k1 == 2) {
+                                            price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            cnt = j;
+                                            k1++;
+                                        } else if ((cart.charAt(j) == '/' && k1 == 3) || j == cart.length() - 1 && k1 == 3) {
+                                            if (cart.charAt(j) == '/' && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            } else if (j == cart.length() - 1 && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1));
+                                            }
+                                            cnt = j;
+                                            k1++;
+                                            break;
+                                        }
+                                    }
+                                    k1 = 0;
+                                    cnt = 0;
+                                    listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
+                                }
                             }
 
                         }
@@ -460,9 +621,9 @@ public class PaymentServlet extends HttpServlet {
                             }
                         }
                     }
-                    FoodDAO fd = new FoodDAO();
+                    fd = new FoodDAO();
                     List<Food> f = new ArrayList<>();
-                    double discount = 0;
+                    discount = 0;
                     DecimalFormat decimalFormat = new DecimalFormat("#.##");
                     double tpt = 0;
                     for (int i = 0; i < evAchieve.size(); i++) {
@@ -606,18 +767,96 @@ public class PaymentServlet extends HttpServlet {
                             break;
                         }
                     }
-
+                    FoodDAO fd = new FoodDAO();
+                    List<String> listHH = fd.getAllFoodOff();
+                    List<Ticket> tkB = tkd.getAllTicketBought();
+                    int p = 0;
+                    int cntT = 0, cntF = 0;
+                    String code = "";
+                    int cnt = 0;
+                    int k1 = 0;
+                    price = 0;
+                    int quantity = 0;
+                    double discount = 0;
                     for (int i = 0; i < cart.length(); i++) {
                         if (cart.charAt(i) == '/' && i != cart.length() - 1) {
+                            cntT = 0;
+                            cntF = 0;
                             if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
-                                list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
-                                price += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
-                                priceF += (Integer.parseInt(cart.substring(i + 8, i + 9)) * fda.getFoodById(cart.substring(i + 1, i + 7)).getPrice());
+                                for (int j = 0; j < listHH.size(); j++) {
+                                    if (cart.substring(i + 1, i + 7).equals(listHH.get(j))) {
+                                        cntF++;
+                                        p++;
+                                        cart = cart.substring(0, i + 1) + cart.substring(i + 7);
+                                    }
+                                }
+                                if (cntF == 0) {
+                                    for (int j = i; j < cart.length(); j++) {
+                                        if (cart.charAt(j) == 'p' && k1 == 0) {
+                                            code = cart.substring(i + 1, j);
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'p' && k1 == 1) {
+                                            quantity = Integer.parseInt(cart.substring(cnt + 1, j));
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'p' && k1 == 2) {
+                                            price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            cnt = j;
+                                            k1++;
+                                        } else if ((cart.charAt(j) == '/' && k1 == 3) || j == cart.length() - 1 && k1 == 3) {
+                                            if (cart.charAt(j) == '/' && k1 == 3 && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            } else if (j == cart.length() - 1 && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1));
+                                            }
+                                            cnt = j;
+                                            k1++;
+                                            break;
+                                        }
+                                    }
+                                    k1 = 0;
+                                    cnt = 0;
+                                    System.out.println(code + " " + quantity + " " + discount + " " + price);
+                                    list.add(new CartItemFood(fda.getFoodById(code), quantity, discount, price));
+                                }
                             } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
-                                System.out.println(cart.substring(i + 1, i + 7) + " " + Integer.parseInt(cart.substring(i + 9, i + 10)) + " " + cart.substring(i + 8, i + 9) + " " + cart.substring(i + 8, i + 10));
-                                listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
-                                price += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
-                                priceT += tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)).getPrice();
+                                for (int j = 0; j < tkB.size(); j++) {
+                                    if (cart.substring(i + 1, i + 7).equals(tkB.get(j).getProductCode()) && Integer.parseInt(cart.substring(i + 9, i + 10)) == tkB.get(j).getRow() && cart.substring(i + 8, i + 9).equals(tkB.get(j).getCol())) {
+                                        cntT++;
+                                        p++;
+                                        cart = cart.substring(0, i + 1) + cart.substring(i + 7);
+                                    }
+                                }
+                                if (cntT == 0) {
+                                    for (int j = i; j < cart.length(); j++) {
+                                        if (cart.charAt(j) == 'p' && k1 == 0) {
+                                            code = cart.substring(i + 1, j);
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'p' && k1 == 1) {
+                                            quantity = 1;
+                                            cnt = j;
+                                            k1++;
+                                        } else if (cart.charAt(j) == 'd' && k1 == 2) {
+                                            price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            cnt = j;
+                                            k1++;
+                                        } else if ((cart.charAt(j) == '/' && k1 == 3) || j == cart.length() - 1 && k1 == 3) {
+                                            if (cart.charAt(j) == '/' && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                            } else if (j == cart.length() - 1 && k1 == 3) {
+                                                discount = Double.parseDouble(cart.substring(cnt + 1));
+                                            }
+                                            cnt = j;
+                                            k1++;
+                                            break;
+                                        }
+                                    }
+                                    k1 = 0;
+                                    cnt = 0;
+                                    listT.add(new CartItemTicket(tkd.getTicketPByProductCodeRC(cart.substring(i + 1, i + 7), Integer.parseInt(cart.substring(i + 9, i + 10)), cart.substring(i + 8, i + 9)), cart.substring(i + 8, i + 10)));
+                                }
                             }
 
                         }
@@ -789,7 +1028,6 @@ public class PaymentServlet extends HttpServlet {
                                 if (evC.length > 0) {
                                     for (int i = 0; i < evC.length; i++) {
                                         int ev[] = evd.checkEventMov(listT.get(j).getTicket().getMovie().getMovID(), evC[i]);
-                                        System.out.println("lemev" + ev.length);
                                         if (ev.length > 0) {
 
                                             for (int l = 0; l < ev.length; l++) {

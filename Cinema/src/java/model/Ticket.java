@@ -35,6 +35,9 @@ public class Ticket {
     private Movies movie;
     private String stat;
     
+    private String priceOS;
+    private String priceNS;
+    
     public Ticket(String productCode, int row, String col, double price) {
         this.productCode = productCode;
         this.row = row;
@@ -109,6 +112,24 @@ public class Ticket {
         
         this.cinID = cinID;
     }
+
+    public String getPriceOS() {
+        return priceOS;
+    }
+
+    public void setPriceOS(String priceOS) {
+        this.priceOS = priceOS;
+    }
+
+    public String getPriceNS() {
+        return priceNS;
+    }
+
+    public void setPriceNS(String priceNS) {
+        this.priceNS = priceNS;
+    }
+    
+    
 
     public String getStat() {
         return stat;

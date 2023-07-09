@@ -19,7 +19,8 @@ public class Food {
     private String img;
     private String typeName;
     private int discontinued;
-    
+    private String priceOS;
+    private String priceNS;
     
     public Food(int id, String foodType, String typeName) {
         this.id = id;
@@ -62,6 +63,25 @@ public class Food {
         this.typeName = typeName;
         this.discontinued = discontinued;
     }
+
+    public String getPriceOS() {
+        return priceOS;
+    }
+
+    public void setPriceOS(String priceOS) {
+        this.priceOS = priceOS;
+    }
+
+    public String getPriceNS() {
+        return priceNS;
+    }
+
+    public void setPriceNS(String priceNS) {
+        this.priceNS = priceNS;
+    }
+
+    
+    
 
     public String getTypeName() {
         return typeName;
