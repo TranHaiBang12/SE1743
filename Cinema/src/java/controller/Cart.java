@@ -81,28 +81,34 @@ public class Cart extends HttpServlet {
                     break;
                 }
             }
-
+            System.out.println(cart);
             FoodDAO fd = new FoodDAO();
             List<String> listHH = fd.getAllFoodOff();
             List<Ticket> tkB = tkd.getAllTicketBought();
 
             int cntF = 0, cntT = 0;
-
+            int p = 0;
             for (int i = 0; i < cart.length(); i++) {
                 if (cart.charAt(i) == '/' && i != cart.length() - 1) {
+                    cntT = 0;
+                    cntF = 0;
                     if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
                         for (int j = 0; j < listHH.size(); j++) {
                             if (cart.substring(i + 1, i + 7).equals(listHH.get(j))) {
                                 cntF++;
+                                p++;
+                                cart = cart.substring(0, i + 1) + cart.substring(i + 7);
                             }
                         }
                         if (cntF == 0) {
-                            list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9))));
+                            list.add(new CartItemFood(fda.getFoodById(cart.substring(i + 1, i + 7)), Integer.parseInt(cart.substring(i + 8, i + 9)), 0, 0));
                         }
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
                         for (int j = 0; j < tkB.size(); j++) {
                             if (cart.substring(i + 1, i + 7).equals(tkB.get(j).getProductCode()) && Integer.parseInt(cart.substring(i + 9, i + 10)) == tkB.get(j).getRow() && cart.substring(i + 8, i + 9).equals(tkB.get(j).getCol())) {
                                 cntT++;
+                                p++;
+                                cart = cart.substring(0, i + 1) + cart.substring(i + 7);
                             }
                         }
                         if (cntT == 0) {
@@ -114,6 +120,7 @@ public class Cart extends HttpServlet {
             }
 
             int totalQuantity = 0;
+            System.out.println(list.size() + " " + listT.size());
             for (int i = 0; i < list.size(); i++) {
                 totalQuantity += list.get(i).getQuantity();
             }
@@ -121,17 +128,27 @@ public class Cart extends HttpServlet {
                 totalQuantity += 1;
             }
             int totalAmount = 0;
+
             for (int i = 0; i < list.size(); i++) {
-                totalAmount += (list.get(i).getQuantity() * (list.get(i).getFood().getPrice()));
+                if (list.get(i).getFood() != null) {
+                    totalAmount += (list.get(i).getQuantity() * (list.get(i).getFood().getPrice()));
+                }
             }
             for (int i = 0; i < listT.size(); i++) {
-                totalAmount += (listT.get(i).getTicket().getPrice());
+                if (listT.get(i).getTicket() != null) {
+                    totalAmount += (listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount());
+                }
             }
-            request.setAttribute("listCart", list);
-            request.setAttribute("listTicket", listT);
-            request.setAttribute("totalQuantity", totalQuantity);
-            request.setAttribute("totalAmount", totalAmount);
-            request.getRequestDispatcher("cart.jsp").forward(request, response);
+            if (p > 0) {
+                request.setAttribute("ms", "Có sản phẩm trong giỏ hàng của bạn đã hết hàng. Vui lòng thanh toán lại");
+                request.getRequestDispatcher("cart.jsp").forward(request, response);
+            } else {
+                request.setAttribute("listCart", list);
+                request.setAttribute("listTicket", listT);
+                request.setAttribute("totalQuantity", totalQuantity);
+                request.setAttribute("totalAmount", totalAmount);
+                request.getRequestDispatcher("cart.jsp").forward(request, response);
+            }
         } else {
             String ms = "Không có vật phẩm nào trong giỏ hàng của bạn";
             request.setAttribute("ms", ms);
@@ -139,16 +156,17 @@ public class Cart extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+
+/**
+ * Handles the HTTP <code>POST</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -159,7 +177,7 @@ public class Cart extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

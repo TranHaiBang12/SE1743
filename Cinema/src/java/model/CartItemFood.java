@@ -11,8 +11,10 @@ package model;
 public class CartItemFood {
     private Food food;
     private int quantity;
+    private double discount;
+    private double price;
 
-    public CartItemFood(Food food, int quantity) {
+    public CartItemFood(Food food, int quantity, double price, double discount) {
         this.food = food;
         this.quantity = quantity;
     }

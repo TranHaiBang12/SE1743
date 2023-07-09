@@ -363,8 +363,8 @@
                         <c:forEach items = "${requestScope.tk}" var = "i">
                             <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
                             <c:if test = "${i.getSeatType() == 1}">
-                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"insideSeatRed":"insideSeat"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}')">
-                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
+                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"insideSeatRed":"insideSeat"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
+                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
                                     <div class = "sat">
 
                                         <span>${i.getCol()}</span>
@@ -374,8 +374,8 @@
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 2}">
-                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"vipRed":"vip"}"  onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}')">
-                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
+                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"vipRed":"vip"}"  onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
+                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
                                         <span>${i.getRow()}</span><!-- -->
@@ -384,8 +384,8 @@
                                 </div>
                             </c:if>
                             <c:if test = "${i.getSeatType() == 3}">
-                                <div  id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"speRed":"spe"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}')">
-                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}" hidden/>
+                                <div  id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"speRed":"spe"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
+                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
                                     <div class = "sat">
                                         <span>${i.getCol()}</span>
                                         <span>${i.getRow()}</span><!-- -->
@@ -425,8 +425,7 @@
             var idP = "";
             var cnt = 0;
             var sum = 0;
-            console.log(getCookie("thbang"));
-            function pckSeat(id, code, type, col, row, price) {
+            function pckSeat(id, code, type, col, row, price, dc) {
                 console.log(price);
                 let color = document.getElementById(id).style.backgroundColor;
                 if (color !== 'green') {
@@ -441,18 +440,20 @@
                         idP += "p";
                         idP += col;
                         idP += row;
-              
-                        
+                        idP += "p";
+                        idP += price;
+                        idP += "d";
+                        idP += dc;
                         document.getElementById("ghe").innerHTML = t;
                         document.getElementById("qtt").innerHTML = ++cnt;
                         if (type === "1") {
-                            sum += (Number(price));
+                            sum += (Number(price) - Number(price) * Number(dc));
                             document.getElementById("sum").innerHTML = sum;
                         } else if (type === "2") {
-                            sum += (Number(price));
+                            sum += (Number(price) - Number(price) * Number(dc));
                             document.getElementById("sum").innerHTML = sum;
                         } else if (type === "3") {
-                            sum += (Number(price));
+                            sum += (Number(price) - Number(price) * Number(dc));
                             document.getElementById("sum").innerHTML = sum;
                         }
                     }
@@ -460,14 +461,14 @@
                     if (t.includes(String(col + row))) {
                         t = t.replace(String(col + row), "");
                         cnt--;
-                        if (idP.includes(String("/" + code + "p" + col + row )))
-                            idP = idP.replace(String("/" + code + "p" + col + row ), "");
+                        if (idP.includes(String("/" + code + "p" + col + row + "p" + price + "d" + dc)))
+                            idP = idP.replace(String("/" + code + "p" + col + row  + "p" + price + "d" + dc), "");
                         if (type === "1") {
-                            sum -= (Number(price));
+                            sum -= (Number(price) - Number(price) * Number(dc));
                         } else if (type === "2") {
-                            sum -= (Number(price));
+                            sum -= (Number(price) - Number(price) * Number(dc));
                         } else if (type === "3") {
-                            sum -= (Number(price));
+                            sum -= (Number(price) - Number(price) * Number(dc));
                         }
                         document.getElementById("ghe").innerHTML = t;
                         document.getElementById("qtt").innerHTML = cnt;
@@ -561,8 +562,9 @@
                     var str = seatInCart[i].substring(0, 6) + seatInCart[i].substring(7);
                     var k = 0;
                     var rm;
-                    var id = "", code = "", type = "", col = "", row = "";
+                    var id = "", code = "", type = "", col = "", row = "", price = "", discount = "";
                     var str2 = String(document.getElementById(str).value);
+                    console.log(str2);
                     for (var j = 0; j < str2.length; j++) {
                         if (str2.charAt(j) === "p" && k === 0) {
                             id = str2.substring(0, j);
@@ -579,13 +581,28 @@
                             col = str2.substring(rm + 1, j);
                             rm = j;
                             k++;
-                        } else if (j === str2.length - 1) {
-                            row = str2.charAt(rm + 1);
+                        } else if (str2.charAt(j) === "p" && k === 4) {
+                            row = str2.charAt(rm + 1, j);
+                            rm = j;
+                            k++;
+                        }
+                        else if (str2.charAt(j) === "p" && k === 5) {
+                            price = str2.substring(rm + 1, j);
+                            console.log(price);
+                            console.log("n" + (rm + 1));
+                            console.log("e" + j);
+                            rm = j;
+                            k++;
+                        }
+                        else if (j === str2.length - 1) {
+                            discount = str2.substring(rm + 1);
                             rm = j;
                             k++;
                         }
                     }
-                    pckSeat(id, code, type, col, row);
+                    console.log(price);
+                    pckSeat(id, code, type, col, row, price, discount);
+                    
                 }
 
             }
@@ -597,8 +614,7 @@
                 //console.log(user);
                 var ckie = getCookie(user);
                 ckie = String(ckie);
-                console.log(idP);
-  
+                console.log(ckie)
 
                 var seatInCart = [];
                 let m = 0;
@@ -611,12 +627,12 @@
                     }
                 }
                 for (var i = 0; i < seatInCart.length; i++) {
-                    console.log(seatInCart[i]);
                     if (!ckie.includes(String(seatInCart[i]))) {
                         ckie += "/";
                         ckie += String(seatInCart[i]);
                     }
                 }
+                console.log(ckie);
                 setCookie(user, ckie, 365);
             }
         </script>

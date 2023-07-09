@@ -20,7 +20,7 @@
         <style>
             .body{
                 background-color: white;
-                padding-left: 100px;
+                padding-left: 80px;
                 padding-right: 100px;
                 border-bottom: 2px dashed red;
             }
@@ -351,6 +351,15 @@
             .msB{
                 font-size: 22px;
             }
+            
+            .ms{
+                font-size: 20px;
+                color: red;
+            }
+            
+            .rd{
+                color: red;
+            }
 
 
         </style>
@@ -434,7 +443,8 @@
                             </div>
                             <div class = "cmtIN4">
                                 <div class = "displayName">
-                                    ${t.getDisplayName()}
+                                    ${t.getDisplayName()} <span class = "rd"><c:if test = "${t.getUserName() == sessionScope.account.getUserName()}">(Tài khoản của bạn)</c:if></span>
+                                    
                                 </div>
                                 <div class = "CMT">
                                     ${t.getComments()}
@@ -460,7 +470,7 @@
             <input type ="text" name ="id" hidden value ="${requestScope.id}"/>
 
             <div id ="myR" class = "myR">
-                <form action = "detail" method = "post">
+                <form id ="frm" action = "detail" method = "post">
 
                     <div class = "ttle">Viết đánh giá phim</div>
                     <div class = "rating-box" id = "m">
@@ -476,15 +486,15 @@
                             <span class="bl">Đánh giá ẩn danh</span>
                             <input type ="checkbox" name ="anoy" id ="anoy" onclick = "ckedBtn()"/>
                         </div>
-                        <input type ="text" hidden id ="star" name ="star"/>
+                        <input type ="text" hidden id ="star" name ="star" value = "0"/>
                         <input type ="text" hidden id ="movID" name ="movID" value = "${requestScope.id}"/>
 
                     </div>
                     <div class = "cmt">
-                        <textarea name ="cmt" id ="cmt" required placeholder = "Nhập tên sẽ hiển thị khi đánh giá"></textarea>
+                        <textarea name ="cmt" id ="cmt" required placeholder = "Nhập bình luận"></textarea>
                     </div>
                     <div class = "send">
-                        <input type ="submit" value ="Gửi đánh giá"/> 
+                        <input type ="button" value ="Gửi đánh giá" onclick = "sbmit()"/> 
                     </div>
                 </form>
             </div>
@@ -496,7 +506,14 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type="text/javascript">
-
+            function sbmit() {
+                if(Number(document.getElementById("star").value) === 0) {
+                    alert("Vui lòng đánh giá sao");
+                }
+                else {
+                    document.getElementById("frm").submit();
+                }
+            }
 
             function bActive(id) {
                 if (id === "tkEtChoice") {
@@ -534,7 +551,6 @@
             }
 
             function rate(num) {
-                console.log(num);
                 for (var i = 1; i <= Number(num); i++) {
                     document.getElementById(i).style.filter = 'invert(82%) sepia(44%) saturate(769%) hue-rotate(11deg) brightness(113%) contrast(86%)';
                     document.getElementById("star").value = num;

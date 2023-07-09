@@ -220,6 +220,11 @@
             .pay input{
                 cursor: pointer;
             }
+            
+            #ms{
+                font-size: 25px;
+                padding-left: 20px;
+            }
 
 
 
@@ -252,7 +257,7 @@
                         <input type ="button" value ="XÓA TẤT CẢ" onclick = "dltAll('${sessionScope.account.getUserName()}')"/>
                     </div>
                     <c:if test = "${requestScope.ms != null}">
-                        <span>${requestScope.ms}</span>
+                        <span id = "ms">${requestScope.ms}</span>
                     </c:if>
                     <c:if test = "${requestScope.ms == null}">
                         <div id = "doan">
@@ -316,7 +321,7 @@
                 <div class = "outTotalAmount">
                     <div class = "totalAmount">
                         <div>Thông tin đơn hàng</div>
-                        <div>Tổng tiền: <span class = "tien"><label id = "ttAm">${requestScope.totalAmount}</label>đ</span></div>
+                        <div>Tổng tiền: <span class = "tien"><label id = "ttAm">${requestScope.totalAmount!=null?(requestScope.totalAmount):0}</label>đ</span></div>
                         <div class = "pay"><input type = "submit" value = "THANH TOÁN" onclick = "pay('${sessionScope.account.getUserName()}')"></div>
                     </div>
                 </div>
@@ -328,6 +333,12 @@
         <script type = "text/javascript">
             var t = "";
             var dltA = 0;
+            if(String(document.getElementById("ms").innerHTML) !== null) {
+                if(String(document.getElementById("ms").innerHTML) !== "") {
+                    alert(String(document.getElementById("ms").innerHTML));
+                }
+            }
+            
             function dltAll(user) {
                 dltA = 1;
                 var ans = confirm("Do you want to delete all your cart items ?");

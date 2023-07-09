@@ -71,7 +71,7 @@ public class RateDAO extends DBContext {
     public List<Rate> getAllAllRate() {
         List<Rate> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Rate";
+            String sql = "SELECT * FROM Rate WHERE Status = N'Được duyệt' ";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             MovieDAO mvd = new MovieDAO();
@@ -88,7 +88,7 @@ public class RateDAO extends DBContext {
     public List<Rate> getAllAllRate(Date dS, Date eS) {
         List<Rate> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Rate WHERE Date BETWEEN ? AND ?";
+            String sql = "SELECT * FROM Rate WHERE Status = N'Được duyệt' AND Date BETWEEN ? AND ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);
@@ -106,7 +106,7 @@ public class RateDAO extends DBContext {
     
     public int getCntAllAllRate(Date dS, Date eS) {
         try {
-            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Date BETWEEN ? AND ?";
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Status = N'Được duyệt' AND Date BETWEEN ? AND ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);
@@ -215,7 +215,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRate(int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE movID = ?";
+            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE Status = N'Được duyệt' AND movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -230,7 +230,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRate5(int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE movID = ? AND Rate = 5";
+            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE Status = N'Được duyệt' AND movID = ? AND Rate = 5";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -245,7 +245,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRate4(int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE movID = ? AND Rate = 4";
+            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE Status = N'Được duyệt' AND movID = ? AND Rate = 4";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -260,7 +260,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRate3(int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE movID = ? AND Rate = 3";
+            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE Status = N'Được duyệt' AND movID = ? AND Rate = 3";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -275,7 +275,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRate2(int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE movID = ? AND Rate = 2";
+            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE Status = N'Được duyệt' AND movID = ? AND Rate = 2";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -290,7 +290,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRate1(int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE movID = ? AND Rate = 1";
+            String sql = "SELECT COUNT(*) AS Total FROM Rate WHERE Status = N'Được duyệt' AND movID = ? AND Rate = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -305,7 +305,7 @@ public class RateDAO extends DBContext {
 
     public int getSumRate(int movID) {
         try {
-            String sql = "SELECT SUM(Rate) AS Total FROM Rate WHERE movID = ?";
+            String sql = "SELECT SUM(Rate) AS Total FROM Rate WHERE Status = N'Được duyệt' AND movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             ResultSet rs = st.executeQuery();
@@ -320,7 +320,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRateByTime(Date sD, Date eD, int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE (Date BETWEEN ? AND ?) AND movID = ?";
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Status = N'Được duyệt' AND (Date BETWEEN ? AND ?) AND movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, sD);
             st.setDate(2, eD);
@@ -337,7 +337,7 @@ public class RateDAO extends DBContext {
 
     public int getNoRateDByTime(Date sD, Date eD, int r, int movID) {
         try {
-            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Rate = ? AND (Date BETWEEN ? AND ?) AND movID = ?";
+            String sql = "SELECT COUNT(*) AS T FROM Rate WHERE Status = N'Được duyệt' AND Rate = ? AND (Date BETWEEN ? AND ?) AND movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, r);
             st.setDate(2, sD);
@@ -355,7 +355,7 @@ public class RateDAO extends DBContext {
 
     public int getSumRateByTime(Date sD, Date eD, int movID) {
         try {
-            String sql = "SELECT SUM(Rate) AS T FROM Rate WHERE (Date BETWEEN ? AND ?) AND movID = ?";
+            String sql = "SELECT SUM(Rate) AS T FROM Rate WHERE Status = N'Được duyệt' AND (Date BETWEEN ? AND ?) AND movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, sD);
             st.setDate(2, eD);

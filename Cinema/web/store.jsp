@@ -244,7 +244,7 @@
 
                             </div>
                             <div class = "cart">
-                                <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${sessionScope.account.getUserName()}')"/>
+                                <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${i.getPrice()}', '${i.getDiscount()}', '${sessionScope.account.getUserName()}')"/>
                             </div>
 
                             <c:if test = "${sessionScope.account.getRole() == 3}">
@@ -295,7 +295,7 @@
                 }
                 document.cookie = name + "=" + (value || "") + expires;
             }
-            function cart(id, username) {
+            function cart(id, price, discount, username) {
                 if (getCookie(username) !== null) {
                     t = getCookie(username);
                 } else {
@@ -312,6 +312,10 @@
                         t = t + id;
                         t = t + "p";
                         t = t + "1";
+                        t = t + "p";
+                        t = t + price;
+                        t = t + "p";
+                        t = t + discount;
                     }
                     console.log(t);
                     setCookie(username, t, 365);
