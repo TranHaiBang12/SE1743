@@ -99,6 +99,7 @@ public class EventDetail extends HttpServlet {
         e.setStartS(dateS + "-" + monthS + "-" + yearS);
         e.setEndS(dateE + "-" + monthE + "-" + yearE);
         request.setAttribute("e", e);
+        
         request.getRequestDispatcher("eventDetail.jsp").forward(request, response);
     }
 

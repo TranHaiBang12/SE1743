@@ -264,7 +264,7 @@
                 cursor: pointer;
                 width: 50%;
                 text-align: center;
-                
+
             }
 
             #foodChoi {
@@ -277,7 +277,7 @@
                 color: white;
 
             }
-            
+
             .rate{
                 display: none;
             }
@@ -291,7 +291,7 @@
                 flex-direction: column;
                 border-radius: 10px;
                 margin-bottom: 20px;
-                
+
             }
 
             .avt img{
@@ -319,7 +319,7 @@
                 margin-top: 20px;
                 border-bottom: 2px solid black;
             }
-            
+
             .pagination{
                 text-align: center;
                 padding-bottom: 15px;
@@ -346,6 +346,10 @@
                 color: white;
                 border-radius: 18px;
                 background-color: black;
+            }
+            
+            .msB{
+                font-size: 22px;
             }
 
 
@@ -422,29 +426,35 @@
                 </div>
             </div>
             <div id ="comment" class = "comment">
-
-                <c:forEach items = "${requestScope.listPerPage}" var = "t">
-                    <div class ="insidecmt">
-                        <div class = "avt">
-                            <img src ="images/avatarIcon.png" name ="avt"/>
-                        </div>
-                        <div class = "cmtIN4">
-                            <div class = "displayName">
-                                ${t.getDisplayName()}
+                <c:if test = "${requestScope.listPerPage != null}">
+                    <c:forEach items = "${requestScope.listPerPage}" var = "t">
+                        <div class ="insidecmt">
+                            <div class = "avt">
+                                <img src ="images/avatarIcon.png" name ="avt"/>
                             </div>
-                            <div class = "CMT">
-                                ${t.getComments()}
+                            <div class = "cmtIN4">
+                                <div class = "displayName">
+                                    ${t.getDisplayName()}
+                                </div>
+                                <div class = "CMT">
+                                    ${t.getComments()}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
-                <div class = "pagination">
-                    <a href ="detail?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
-                    <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
-                        <a class ="${i == page ? "active":"noActive"}" href ="detail?page=${i}&id=${requestScope.id}">${i}</a>
                     </c:forEach>
-                    <a href ="detail?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
-                </div>
+                    <div class = "pagination">
+                        <a href ="detail?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
+                        <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                            <a class ="${i == page ? "active":"noActive"}" href ="detail?page=${i}&id=${requestScope.id}">${i}</a>
+                        </c:forEach>
+                        <a href ="detail?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
+                    </div>
+                </c:if>
+                <c:if test = "${requestScope.msB != null}">
+                    <div class = "msB">
+                        ${requestScope.msB}
+                    </div>
+                </c:if>
             </div>
             <input type ="text" id ="stat" hidden value ="${requestScope.stat}"/>
             <input type ="text" name ="id" hidden value ="${requestScope.id}"/>

@@ -207,7 +207,7 @@
                             </div>
                             <div class = "prt">
                                 <div class = "blk">2. Tên:</div>
-                                <div class = "m1"><input class ="k" type = "text" name = "name" value = "${requestScope.e.getEventName()()}"/></div>
+                                <div class = "m1"><input class ="k" type = "text" name = "name" value = "${requestScope.e.getEventName()}"/></div>
                             </div>
                             <div class = "prt">
                                 <div class = "blk">3. Nội dung ưu đãi:</div>

@@ -137,16 +137,33 @@ public class DetailServlet extends HttpServlet {
                 int sumRate = rd.getSumRate(id);
                 DecimalFormat decimalFormat = new DecimalFormat("#.##");
                 double avr = (double) (sumRate) / (double) noRate;
-                request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
+                if (!rd.getRateByPage(r, start, end).isEmpty()) {
+                    request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
+                }
+                else {
+                    request.setAttribute("msB", "Hiện bộ phim này chưa có bình luận nào");
+                }
                 request.setAttribute("page", page);
-                request.setAttribute("noRate5", decimalFormat.format((double) noRate5 / (double) noRate));
-                request.setAttribute("noRate4", decimalFormat.format((double) noRate4 / (double) noRate));
-                request.setAttribute("noRate3", decimalFormat.format((double) noRate3 / (double) noRate));
-                request.setAttribute("noRate2", decimalFormat.format((double) noRate2 / (double) noRate));
-                request.setAttribute("noRate1", decimalFormat.format((double) noRate1 / (double) noRate));
+                if (noRate != 0) {
+                    request.setAttribute("noRate5", decimalFormat.format((double) noRate5 / (double) noRate));
+                    request.setAttribute("noRate4", decimalFormat.format((double) noRate4 / (double) noRate));
+                    request.setAttribute("noRate3", decimalFormat.format((double) noRate3 / (double) noRate));
+                    request.setAttribute("noRate2", decimalFormat.format((double) noRate2 / (double) noRate));
+                    request.setAttribute("noRate1", decimalFormat.format((double) noRate1 / (double) noRate));
+                } else {
+                    request.setAttribute("noRate5", "0");
+                    request.setAttribute("noRate4", "0");
+                    request.setAttribute("noRate3", "0");
+                    request.setAttribute("noRate2", "0");
+                    request.setAttribute("noRate1", "0");
+                }
                 request.setAttribute("totalPage", totalPage);
                 request.setAttribute("noRate", noRate);
-                request.setAttribute("avrRate", decimalFormat.format(avr));
+                if (noRate != 0) {
+                    request.setAttribute("avrRate", decimalFormat.format(avr));
+                } else {
+                    request.setAttribute("avrRate", "0");
+                }
                 request.setAttribute("id", id);
                 request.setAttribute("stat", stat);
                 request.setAttribute("data", m);
@@ -200,16 +217,33 @@ public class DetailServlet extends HttpServlet {
                 int sumRate = rd.getSumRate(id);
                 DecimalFormat decimalFormat = new DecimalFormat("#.##");
                 double avr = (double) (sumRate) / (double) noRate;
-                request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
+                if (!rd.getRateByPage(r, start, end).isEmpty()) {
+                    request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
+                }
+                else {
+                    request.setAttribute("msB", "Hiện bộ phim này chưa có bình luận nào");
+                }
                 request.setAttribute("page", page);
-                request.setAttribute("noRate5", decimalFormat.format((double) noRate5 / (double) noRate));
-                request.setAttribute("noRate4", decimalFormat.format((double) noRate4 / (double) noRate));
-                request.setAttribute("noRate3", decimalFormat.format((double) noRate3 / (double) noRate));
-                request.setAttribute("noRate2", decimalFormat.format((double) noRate2 / (double) noRate));
-                request.setAttribute("noRate1", decimalFormat.format((double) noRate1 / (double) noRate));
+                if (noRate != 0) {
+                    request.setAttribute("noRate5", decimalFormat.format((double) noRate5 / (double) noRate));
+                    request.setAttribute("noRate4", decimalFormat.format((double) noRate4 / (double) noRate));
+                    request.setAttribute("noRate3", decimalFormat.format((double) noRate3 / (double) noRate));
+                    request.setAttribute("noRate2", decimalFormat.format((double) noRate2 / (double) noRate));
+                    request.setAttribute("noRate1", decimalFormat.format((double) noRate1 / (double) noRate));
+                } else {
+                    request.setAttribute("noRate5", "0");
+                    request.setAttribute("noRate4", "0");
+                    request.setAttribute("noRate3", "0");
+                    request.setAttribute("noRate2", "0");
+                    request.setAttribute("noRate1", "0");
+                }
                 request.setAttribute("totalPage", totalPage);
                 request.setAttribute("noRate", noRate);
-                request.setAttribute("avrRate", decimalFormat.format(avr));
+                if (noRate != 0) {
+                    request.setAttribute("avrRate", decimalFormat.format(avr));
+                } else {
+                    request.setAttribute("avrRate", "0");
+                }
                 Movies m = mvd.getMovieById(id);
                 request.setAttribute("id", id);
                 request.setAttribute("data", m);

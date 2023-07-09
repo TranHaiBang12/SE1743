@@ -369,7 +369,7 @@ public class AddEvent extends HttpServlet {
             request.setAttribute("maxDate", e.getNumDateEx());
             request.setAttribute("startU", dateS + "-" + monthS + "-" + yearS);
             request.setAttribute("endU", dateE + "-" + monthE + "-" + yearE);
-            request.setAttribute("ms", "Sửa thành công");
+            request.setAttribute("ms", "Thêm thành công");
             request.setAttribute("otype", otype);
             request.setAttribute("type", evd.getAllEventType());
             request.setAttribute("cin", cnd.getAllCinema());
