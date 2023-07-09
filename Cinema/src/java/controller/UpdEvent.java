@@ -14,6 +14,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,13 +111,11 @@ public class UpdEvent extends HttpServlet {
         String typeApply = "";
         if (evd.getEventMov(id) != null) {
             typeApply = "Phim";
-            System.out.println("k");
             int movID = evd.getEventMov(id).getMovID();
             request.setAttribute("movID", movID);
-            
+
         } else if (evd.getEventOrder(id) != null) {
             typeApply = "Hóa Đơn";
-            System.out.println("p");
             double price = evd.getEventOrder(id).getDiscount();
             String tst = decimalFormat.format(price);
             price = Double.parseDouble(tst);
@@ -130,6 +129,14 @@ public class UpdEvent extends HttpServlet {
         List<String> listTypeA = new ArrayList<>();
         listTypeA.add("Phim");
         listTypeA.add("Hóa Đơn");
+        List<String> discontinued = new ArrayList<>();
+        discontinued.add("Tiếp tục");
+        discontinued.add("Không");
+        List<String> appO = new ArrayList<>();
+        appO.add("Có");
+        appO.add("Không");
+        request.setAttribute("appO", appO);
+        request.setAttribute("discontinued", discontinued);
         request.setAttribute("listTypeA", listTypeA);
         request.setAttribute("typeApply", typeApply);
         e.setStartS(dateS + "-" + monthS + "-" + yearS);
@@ -168,6 +175,15 @@ public class UpdEvent extends HttpServlet {
         request.setAttribute("id", id);
         request.setAttribute("e", e);
         request.setAttribute("mov", mvd.getAllMovies());
+        model.Event e2 = evd.getEventOrder(id);
+        if (e2 != null) {
+            e.setType(e2.getType());
+        }
+        System.out.println(e.getType());
+        List<String> otype = new ArrayList<>();
+        otype.add("Vé");
+        otype.add("Đồ Ăn");
+        request.setAttribute("otype", otype);
         request.setAttribute("type", evd.getAllEventType());
         request.setAttribute("cin", cnd.getAllCinema());
         request.getRequestDispatcher("updEv.jsp").forward(request, response);
@@ -200,32 +216,306 @@ public class UpdEvent extends HttpServlet {
         } catch (Exception e) {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-        
+
         String startDate_raw = request.getParameter("startDate");
         String endDate_raw = request.getParameter("endDate");
         String content = request.getParameter("content");
-        String dctype = request.getParameter("dctype");
-        String dc = request.getParameter("dc");
+        String dctype_raw = request.getParameter("dctype");
+        String dc_raw = request.getParameter("dc");
         String fCode = request.getParameter("fCode");
         String applytype = request.getParameter("applytype");
-        String mov = request.getParameter("mov");
-        String price = request.getParameter("price");
+        String mov_raw = request.getParameter("mov");
+        String price_raw = request.getParameter("price");
         String cin_raw[] = request.getParameterValues("cin");
         String gN_raw = request.getParameter("gN");
-        int gN = 0;
+        String img = request.getParameter("img");
+        String applyO = request.getParameter("appO");
+        String otype_raw = request.getParameter("otype");
+        String otype = "";
+        double price = 0;
+        if (price_raw != null) {
+            try {
+                price = Double.parseDouble(price_raw);
+            } catch (Exception e) {
+
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        }
+        if (otype_raw.equals("Vé")) {
+            otype = "TK";
+        } else if (otype_raw.equals("Đồ Ăn")) {
+            otype = "FD";
+        }
+        int date = 0;
+        if (request.getParameter("dte") != null) {
+            String date_raw = request.getParameter("dte");
+            date = Integer.parseInt(date_raw);
+        }
+
+        int movID = 0;
+        if (mov_raw != null) {
+            try {
+                movID = Integer.parseInt(mov_raw);
+            } catch (Exception e) {
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        }
+
+        Timestamp start = null;
+        Timestamp end = null;
         try {
-            gN = Integer.parseInt(gN_raw);
+            start = Timestamp.valueOf(startDate_raw + " " + "00:00:00");
+            end = Timestamp.valueOf(endDate_raw + " " + "00:00:00");
+            System.out.println(start + " " + end);
+            if (start.compareTo(end) >= 0) {
+                throw new Exception("L");
+            }
         } catch (Exception e) {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-        
-        System.out.println(startDate_raw + " " + endDate_raw + " " + content + " " + dctype + " " + dc + " " + fCode + " " + applytype + " " + mov + " " + price);        
-        System.out.println(gN);
+
+        int appO = 0;
+        if (applyO.equals("Có")) {
+            appO = 1;
+        } else {
+            appO = 0;
+        }
+        int dctype = 0;
+        if (dctype_raw != null) {
+            try {
+                dctype = Integer.parseInt(dctype_raw);
+            } catch (Exception e) {
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        }
+        String discontinued_raw = request.getParameter("discontinued");
+        int discontinued = 0;
+        if (discontinued_raw.equals("Tiếp tục")) {
+            discontinued = 0;
+        } else {
+            discontinued = 1;
+        }
+        System.out.println(appO + " " + discontinued);
+        int gN = 0;
+        if (gN_raw != null) {
+            try {
+                gN = Integer.parseInt(gN_raw);
+            } catch (Exception e) {
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        }
         int cin[] = new int[gN];
+        int check;
+        int cnt;
+        int m = 0;
+        for (int i = 0; i < cin_raw.length; i++) {
+            check = 0;
+            cnt = 0;
+            for (int j = 0; j < cin.length; j++) {
+                cnt = Integer.parseInt(cin_raw[i]);
+                if (Integer.parseInt(cin_raw[i]) == cin[j]) {
+                    check++;
+                }
+            }
+            if (check == 0) {
+                cin[m] = cnt;
+                m++;
+            }
+        }
+        model.Event e = evd.getEventByCode(id);
+        if (e.getEventType() == 1) {
+            evd.updEventByCode(id, content, dctype, start, end, appO, img, discontinued, date);
+            if (dctype == 1) {
+                if (dc_raw != null) {
+                    double dc = 0;
+                    try {
+                        dc = Double.parseDouble(dc_raw);
+                    } catch (Exception ep) {
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                    evd.updEventDiscount(dc, id);
+                } else {
+
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+            } else if (dctype == 2) {
+                if (fCode != null) {
+                    evd.dltEventDiscount(id);
+                    Food f = fd.getFoodById(fCode);
+                    evd.insertEventGift(id, f.getProductCode());
+                } else {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+            }
+        } else if (e.getEventType() == 2) {
+            evd.updEventByCode(id, content, dctype, start, end, appO, img, discontinued, date);
+            if (dctype == 1) {
+                if (dc_raw != null) {
+                    double dc = 0;
+                    try {
+                        dc = Double.parseDouble(dc_raw);
+                    } catch (Exception ep) {
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                    }
+                    evd.dltEventGift(id);
+                    evd.insertEventDiscount(dc, id);
+                } else {
+
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+
+            } else if (dctype == 2) {
+                if (fCode != null) {
+                    Food f = fd.getFoodById(fCode);
+                    evd.updEventGift(id, f.getProductCode());
+                } else {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+            } else {
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+        }
+        
+        if (applytype.equals("Phim")) {
+            if (evd.getEventMov(id) != null) {
+                evd.updEventMov(id, movID);
+                System.out.println("4");
+            } else if (evd.getEventOrder(id) != null) {
+                evd.dltEventOrder(id);
+                evd.insertEventMovie(id, movID);
+                
+            }
+        } else if (applytype.equals("Hóa Đơn")) {
+            
+            if (evd.getEventMov(id) != null) {
+                
+                evd.dltEventMovie(id);
+                evd.insertEventOrder(id, price, otype);
+            } else if (evd.getEventOrder(id) != null) {
+                System.out.println("5");
+                evd.updEventOrder(id, price, otype);
+                System.out.println("7");
+            }
+        }
+        System.out.println("2");
+        evd.dltCinApplyEvent(id);
         for (int i = 0; i < cin.length; i++) {
-            cin[i] = Integer.parseInt(cin_raw[i]);
+            evd.insertCinApplyEvent(id, cin[i]);
             System.out.println(cin[i]);
         }
+
+        e = evd.getEventByCode(id);
+
+        String dateS = "", monthS = "", yearS = "";
+        String dateE = "", monthE = "", yearE = "";
+        String t = e.getStartDate().toString();
+        cnt = 0;
+        for (int i = 0; i < t.length(); i++) {
+            if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                yearS = t.substring(cnt, i);
+                cnt = i;
+            } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                monthS = t.substring(cnt + 1, i);
+                cnt = i;
+            }
+        }
+        dateS = t.substring(cnt + 1);
+        cnt = 0;
+        t = e.getEndDate().toString();
+        for (int i = 0; i < t.length(); i++) {
+            if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                yearE = t.substring(cnt, i);
+                cnt = i;
+            } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                monthE = t.substring(cnt + 1, i);
+                cnt = i;
+            }
+        }
+        dateE = t.substring(cnt + 1);
+
+        String typeApply = "";
+        if (evd.getEventMov(id) != null) {
+            typeApply = "Phim";
+            movID = evd.getEventMov(id).getMovID();
+            request.setAttribute("movID", movID);
+
+        } else if (evd.getEventOrder(id) != null) {
+            typeApply = "Hóa Đơn";
+            price = evd.getEventOrder(id).getDiscount();
+            String tst = decimalFormat.format(price);
+            price = Double.parseDouble(tst);
+            request.setAttribute("price", price);
+        }
+
+        List<Food> f = new ArrayList<>();
+        String pc = "";
+        double discount = 0;
+        List<String> listTypeA = new ArrayList<>();
+        listTypeA.add("Phim");
+        listTypeA.add("Hóa Đơn");
+        List<String> discontinued1 = new ArrayList<>();
+        discontinued1.add("Tiếp tục");
+        discontinued1.add("Không");
+        List<String> appO1 = new ArrayList<>();
+        appO1.add("Có");
+        appO1.add("Không");
+        request.setAttribute("appO", appO1);
+        request.setAttribute("discontinued", discontinued1);
+        request.setAttribute("listTypeA", listTypeA);
+        request.setAttribute("typeApply", typeApply);
+        e.setStartS(dateS + "-" + monthS + "-" + yearS);
+        e.setEndS(dateE + "-" + monthE + "-" + yearE);
+        if (evd.getEventDiscountO(id) != null) {
+            if (evd.getEventDiscountO(id).getType().equals("FD")) {
+                pc = "Giảm giá vé";
+                discount = evd.getEventDiscountO(id).getDiscount();
+                String tst = decimalFormat.format(discount);
+                discount = Double.parseDouble(tst);
+            } else if (evd.getEventDiscountO(id).getType().equals("TK")) {
+                pc = "Giảm giá đồ ăn, nước";
+                discount = evd.getEventDiscountO(id).getDiscount();
+                String tst = decimalFormat.format(discount);
+                discount = Double.parseDouble(tst);
+            }
+            request.setAttribute("pc", pc);
+            request.setAttribute("discount", discount);
+        } else if (evd.getEventDiscountM(id) != null) {
+            pc = "Giảm giá vé";
+            discount = evd.getEventDiscountM(id).getDiscount();
+            String tst = decimalFormat.format(discount);
+            discount = Double.parseDouble(tst);
+            request.setAttribute("pc", pc);
+            request.setAttribute("discount", discount);
+        } else if (evd.getAllProductInEvent(id) != null) {
+            List<String> prCode = evd.getAllProductInEvent(id).getProduct();
+            for (int i = 0; i < prCode.size(); i++) {
+                f.add(fd.getFoodById(prCode.get(i)));
+            }
+            request.setAttribute("f", f);
+            request.setAttribute("allF", fd.getAllFood());
+        }
+        int eventType = e.getEventType();
+        request.setAttribute("evType", eventType);
+        request.setAttribute("id", id);
+        request.setAttribute("e", e);
+        request.setAttribute("mov", mvd.getAllMovies());
+        model.Event e2 = evd.getEventOrder(id);
+        if (e2 != null) {
+            e.setType(e2.getType());
+        }
+        System.out.println(e.getType());
+        List<String> otype1 = new ArrayList<>();
+        otype1.add("Vé");
+        otype1.add("Đồ Ăn");
+        request.setAttribute("maxDate", e.getNumDateEx());
+        request.setAttribute("startU", dateS + "-" + monthS + "-" + yearS);
+        request.setAttribute("endU", dateE + "-" + monthE + "-" + yearE);
+        request.setAttribute("ms", "Sửa thành công");
+        request.setAttribute("otype", otype);
+        request.setAttribute("type", evd.getAllEventType());
+        request.setAttribute("cin", cnd.getAllCinema());
+        request.getRequestDispatcher("updEv.jsp").forward(request, response);
+
     }
 
     /**

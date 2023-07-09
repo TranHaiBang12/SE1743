@@ -29,6 +29,8 @@
             }
 
             .body{
+                width: 100%;
+                overflow-x: hidden;
                 padding-top: 20px;
                 padding-right: 40px;
             }
@@ -56,12 +58,12 @@
                 display: flex;
             }
 
-            .imge img{
+            .dleIMG img{
                 width: 100%;
                 height: 100%;
             }
 
-            .img{
+            .dleIMG{
                 width: 351.5px;
                 height: 491.11px;
             }
@@ -151,6 +153,12 @@
             #dc{
                 margin-bottom: 10px;
             }
+            
+            .ms{
+                color: red;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
 
         </style>
     </head>
@@ -161,27 +169,34 @@
         <div class = "body">
             <div class = "ttle">ƯU ĐÃI</div>
             <c:if test = "${requestScope.ms != null}">
-                <div class = "ms">
-                    ${requestScope.ms}
-                </div>
+
             </c:if>
             <c:if test = "${requestScope.e != null}">
                 <div class = "detail">
                     <div class = "Sttle">${requestScope.e.getEventName()}</div>
-                    <div class = "event">
-                        <div class = "imge">
-                            <img src ="${requestScope.e.getImg()}"/>
-                        </div>
-                        <form id ="frm" action = "updev" method = "post">
+                    <form id ="frm" action = "updev" method = "post">
+                        <div class = "event">
+                            <div class = "dleIMG">
+                                <img src ="${requestScope.e.getImg()}"/>
+                            </div>
+
                             <input type ="text" hidden id ="checkDc" name ="checkDc" value ="${requestScope.checkDc != null ?(requestScope.checkDc):"0"}"/>
                             <input type ="text" hidden id ="checkApply" name ="checkApply" value ="${requestScope.checkApply != null ?(requestScope.checkApply):"0"}"/>
                             <input type ="text" hidden name ="id" value ="${requestScope.id}"/>
                             <div class = "in4">
+                                <div class = "ms">
+                                    ${requestScope.ms}
+                                </div>
                                 <div class = "prt">
                                     <span class = "blk">Mã ưu đãi:</span> ${requestScope.id}
                                 </div>
                                 <div class = "prt">
-                                    <span class = "blk">1. Thời gian áp dụng:</span> Từ <input type = "date" required="" name = "startDate"/> đến hết <input type = "date" required name = "endDate"/>
+                                    <c:if test = "${requestScope.startU == null && requestScope.endU == null}">
+                                        <span class = "blk">1. Thời gian áp dụng:</span> Từ <input type = "date" required="" name = "startDate"/> đến hết <input type = "date" required name = "endDate"/>
+                                    </c:if>
+                                    <c:if test = "${requestScope.startU != null && requestScope.endU != null}">
+                                        <span class = "blk">1. Thời gian áp dụng:</span> Từ ${requestScope.startU} đến hết ${requestScope.endU}
+                                    </c:if>
                                 </div>
                                 <div class = "prt">
                                     <div class = "blk">2. Nội dung ưu đãi:</div>
@@ -202,12 +217,12 @@
                                     </div>
                                     <c:if test = "${requestScope.pc != null}">
                                         <div class = "m1">
-                                            Giảm giá: <input type ="number" id ="dc" step ="0.05" min ="0" max ="1" name ="dc" value ="${requestScope.discount}"/>
+                                            Giảm giá: <input type ="number" required="false" id ="dc" step ="0.05" min ="0" max ="1" name ="dc" value ="${requestScope.discount}"/>
                                         </div>
                                     </c:if>
                                     <c:if test = "${requestScope.pc == null}">
                                         <div class = "m1">
-                                            Giảm giá: <input type ="number" disabled="true" id ="dc" step ="0.05" min ="0" max ="1" name ="dc" value ="${requestScope.discount}"/>
+                                            Giảm giá: <input type ="number" required="false" disabled="true" id ="dc" step ="0.05" min ="0" max ="1" name ="dc" value ="${requestScope.discount}"/>
                                         </div>
                                     </c:if>
                                     <c:if test = "${requestScope.f != null}">
@@ -219,7 +234,7 @@
 
                                                         <div>
                                                             Mã sản phẩm tặng kèm: 
-                                                            <select name ="fCode" id = "fCode">
+                                                            <select name ="fCode" id = "fCode" required="false">
                                                                 <c:forEach items = "${requestScope.allF}" var = "k">
                                                                     <option value ="${k.getProductCode()}" ${k.getProductCode().equals(i.getProductCode())?"selected":""}>${k.getProductCode()}</option>
                                                                 </c:forEach>
@@ -229,6 +244,11 @@
                                                 </div>
                                             </div>
                                         </c:forEach>
+                                    </c:if>
+                                    <c:if test = "${requestScope.f != null}">
+                                        <div class = "m1">
+                                            Số ngày tối đa có thể đổi quà: <input type ="number" required="false" id ="dte" step ="1" min ="0" max ="7" name ="dte" value ="${requestScope.maxDate}"/>
+                                        </div>
                                     </c:if>
                                     <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                                         <div class = "m1">
@@ -245,7 +265,7 @@
                                     <div class = "blk">4. Kiểu tác động:</div>
                                     <div class = "plI">
                                         <div class = "m1">
-                                            <select name = "applytype" id ="applytype" onchange = "sbmitApplyType()">
+                                            <select name = "applytype" id ="applytype" required="false" onchange = "sbmitApplyType()">
                                                 <c:forEach items = "${requestScope.listTypeA}" var = "k">
                                                     <option value = "${k}" ${k.equals(requestScope.typeApply)?"selected":""}>${k}</option>
                                                 </c:forEach>
@@ -255,7 +275,7 @@
 
                                     <c:if test = "${requestScope.movID != null}">
                                         <div class = "m1">
-                                            <select id ="mov" name = "mov">
+                                            <select id ="mov" required="false" name = "mov">
                                                 <c:forEach items = "${requestScope.mov}" var = "k">
                                                     <option value = "${k.getMovID()}" ${k.getMovID() == movID?"selected":""}>${k.getMovName()}</option>
                                                 </c:forEach>
@@ -264,7 +284,7 @@
                                     </c:if>
                                     <c:if test = "${requestScope.movID == null}">
                                         <div class = "m1">
-                                            <select id ="mov" name = "mov" disabled="">
+                                            <select id ="mov" required="false" name = "mov" disabled="">
                                                 <c:forEach items = "${requestScope.mov}" var = "k">
                                                     <option value = "${k.getMovID()}" ${k.getMovID() == movID?"selected":""}>${k.getMovName()}</option>
                                                 </c:forEach>
@@ -273,12 +293,34 @@
                                     </c:if>
                                     <c:if test = "${requestScope.price != null}">
                                         <div class = "m1">
-                                            Áp dụng với hóa đơn trên: <input type ="number" id ="price" value ="${requestScope.price}" name ="price"/>
+                                            Áp dụng với hóa đơn trên: <input required type ="number" id ="price" value ="${requestScope.price}" name ="price"/>
+                                        </div>
+                                        <div class = "m1">
+                                            Áp dụng với: 
+                                            <select name = "otype" id = "otype" required>
+                                                <c:forEach items = "${requestScope.otype}" var = "i">
+                                                    <c:if test = "${requestScope.e.getType() == 'TK'}">
+                                                        <option value = "${i}" ${i.equals("Vé")?"selected":""}>${i}</option>
+                                                    </c:if>
+                                                    <c:if test = "${requestScope.e.getType() == 'FD'}">
+                                                        <option value = "${i}" ${i.equals("Đồ Ăn")?"selected":""}>${i}</option>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </c:if>
                                     <c:if test = "${requestScope.price == null}">
                                         <div class = "m1">
                                             Áp dụng với hóa đơn trên: <input type ="number" id ="price" disabled="" value ="${requestScope.price}" name ="price"/>
+                                        </div>
+                                        <div class = "m1">
+                                            Áp dụng với: 
+                                            <select name = "otype" id = "otype" required="false" disabled="" >
+                                                <c:forEach items = "${requestScope.otype}" var = "i">
+
+                                                    <option value = "${i}" >${i}</option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </c:if>
                                     <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
@@ -304,65 +346,109 @@
                                             <select name = "cin">
                                                 <c:forEach items = "${requestScope.cin}" var = "k">
                                                     <option value = "${k.getCinID()}" ${k.getCinID() == i.getCinID()?"selected":""}>${k.getCinName()}</option>
+                                                    ${k.getCinID()}
                                                 </c:forEach>
                                             </select>
-                                            <select hidden id ="slt1" name ="cin">
-                                                <c:forEach items = "${requestScope.cin}" var = "k">
-                                                    <option value = "${k.getCinID()}">${k.getCinName()}</option>
-                                                </c:forEach>
-                                            </select><!-- comment -->
-                                            <select hidden id ="slt2" name ="cin">
-                                                <c:forEach items = "${requestScope.cin}" var = "k">
-                                                    <option value = "${k.getCinID()}">${k.getCinName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <select hidden id ="slt3" name ="cin">
-                                                <c:forEach items = "${requestScope.cin}" var = "k">
-                                                    <option value = "${k.getCinID()}">${k.getCinName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <select hidden id ="slt4" name ="cin">
-                                                <c:forEach items = "${requestScope.cin}" var = "k">
-                                                    <option value = "${k.getCinID()}">${k.getCinName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <select hidden id ="slt5" name ="cin">
-                                                <c:forEach items = "${requestScope.cin}" var = "k">
-                                                    <option value = "${k.getCinID()}">${k.getCinName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <select hidden id ="slt6" name ="cin">
-                                                <c:forEach items = "${requestScope.cin}" var = "k">
-                                                    <option value = "${k.getCinID()}">${k.getCinName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                            <select hidden id ="slt7" name ="cin">
-                                                <c:forEach items = "${requestScope.cin}" var = "k">
-                                                    <option value = "${k.getCinID()}">${k.getCinName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                        <div id = "newcin" class = "m1">
-
                                         </div>
                                     </c:forEach>
+                                    <div class ="m1">
+                                        <select hidden id ="slt1" name ="cin">
+                                            <c:forEach items = "${requestScope.cin}" var = "k">
+                                                <option value = "${k.getCinID()}">${k.getCinName()}</option>
+                                            </c:forEach>
+                                        </select><!-- comment -->
+                                        <select hidden id ="slt2" name ="cin">
+                                            <c:forEach items = "${requestScope.cin}" var = "k">
+                                                <option value = "${k.getCinID()}">${k.getCinName()}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <select hidden id ="slt3" name ="cin">
+                                            <c:forEach items = "${requestScope.cin}" var = "k">
+                                                <option value = "${k.getCinID()}">${k.getCinName()}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <select hidden id ="slt4" name ="cin">
+                                            <c:forEach items = "${requestScope.cin}" var = "k">
+                                                <option value = "${k.getCinID()}">${k.getCinName()}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <select hidden id ="slt5" name ="cin">
+                                            <c:forEach items = "${requestScope.cin}" var = "k">
+                                                <option value = "${k.getCinID()}">${k.getCinName()}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <select hidden id ="slt6" name ="cin">
+                                            <c:forEach items = "${requestScope.cin}" var = "k">
+                                                <option value = "${k.getCinID()}">${k.getCinName()}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <select hidden id ="slt7" name ="cin">
+                                            <c:forEach items = "${requestScope.cin}" var = "k">
+                                                <option value = "${k.getCinID()}">${k.getCinName()}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                    <div id = "newcin" class = "m1">
+
+                                    </div>
                                     <input hidden type ="text" id ="gN" name ="gN" value ="0"/>
                                     <input type ="text" hidden id ="size" value ="${requestScope.e.getCin().size()}"/>
 
 
                                     <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
-                                        <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
-                                            <div class = "m1">
-                                                <div class = "btS">
-                                                    <button type = "submit">LƯU</button>
-                                                </div>
+                                        <div class = "m1">
+                                            <div class = "btS">
+                                                <button type = "submit">LƯU</button>
                                             </div>
-                                        </c:if>
+                                        </div>
                                     </c:if>
                                 </div>
+                                <div class = "prt">
+                                    <div class = "blk">6. Ảnh:<input type = "text" required name = "img" value = "${requestScope.e.getImg()}"/></div> 
+
+                                </div>
+
+                                <div class = "prt">
+                                    <div class = "blk">7. Áp dụng với ưu đãi khác:
+                                        <select name ="appO">
+                                            <c:forEach items = "${requestScope.appO}" var = "k">
+                                                <c:if test = "${requestScope.e.getApplyO() == 1}">
+                                                    <option ${k.equals("Có")?"selected":""}>${k}</option>
+                                                </c:if>
+                                                <c:if test = "${requestScope.e.getApplyO() == 0}">
+                                                    <option ${k.equals("Không")?"selected":""}>${k}</option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </select>
+                                    </div> 
+
+                                </div>
+                                <div class = "prt">
+                                    <div class = "blk">8. Tiếp tục ưu đãi này: 
+                                        <select name ="discontinued">
+                                            <c:forEach items = "${requestScope.discontinued}" var = "k">
+                                                <c:if test = "${requestScope.e.getDiscontinued() == 0}">
+                                                    <option ${k.equals("Tiếp tục")?"selected":""}>${k}</option>
+                                                </c:if>
+                                                <c:if test = "${requestScope.e.getDiscontinued() == 1}">
+                                                    <option ${k.equals("Không")?"selected":""}>${k}</option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </select>
+                                    </div> 
+                                </div>
+                                <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
+                                    <div class = "m1">
+                                        <div class = "btS">
+                                            <button type = "submit">LƯU</button>
+                                        </div>
+                                    </div>
+                                </c:if>
+
                             </div>
-                        </form>
-                    </div>
+
+                        </div>
+                    </form>
                 </div>
 
             </c:if>
@@ -393,32 +479,39 @@
                 var e = document.getElementById("dctype");
                 var value = e.value;
                 var text = e.options[e.selectedIndex].text;
-                if(String(text) === "Giảm giá") {
+                if (String(text) === "Giảm giá") {
                     document.getElementById("dc").disabled = false;
-                    document.getElementById("fCode").disabled = true;
-                    document.getElementById("fCode").required = true;
-                }
-                else if(String(text) === "Tặng đồ") {
-                    document.getElementById("dc").disabled = true;
                     document.getElementById("dc").required = true;
+                    document.getElementById("fCode").disabled = true;
+
+                    document.getElementById("dte").disabled = true;
+
+                } else if (String(text) === "Tặng đồ") {
+                    document.getElementById("dc").disabled = true;
                     document.getElementById("fCode").disabled = false;
+                    document.getElementById("fCode").required = true;
+                    document.getElementById("dte").disabled = false;
+                    document.getElementById("dte").required = true;
                 }
-                
+
             }
 
             function sbmitApplyType() {
                 var e = document.getElementById("applytype");
                 var value = e.value;
                 var text = e.options[e.selectedIndex].text;
-                if(String(text) === "Phim") {
+                if (String(text) === "Phim") {
                     document.getElementById("price").disabled = true;
+                    document.getElementById("otype").disabled = true;
                     document.getElementById("mov").disabled = false;
-                    document.getElementById("price").required = true;
-                }
-                else if(String(text) === "Hóa Đơn") {
+                    document.getElementById("mov").required = true;
+                } else if (String(text) === "Hóa Đơn") {
                     document.getElementById("price").disabled = false;
+                    document.getElementById("price").required = true;
+                    document.getElementById("otype").disabled = false;
+                    document.getElementById("otype").required = true;
                     document.getElementById("mov").disabled = true;
-                    document.getElementById("mov").disabled = true;
+
                 }
             }
         </script>

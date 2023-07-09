@@ -6,6 +6,7 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import model.Cinema;
@@ -57,7 +58,7 @@ public class EventDAO extends DBContext {
             return null;
         }
     }
-    
+
     public void insertEventOrderOnline(String orderID, int code) {
         try {
             String sql = "INSERT INTO EventOrderOnline VALUES (?, ?)";
@@ -69,14 +70,14 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public List<Event> getAllEventType() {
         List<Event> list = new ArrayList<>();
         try {
             String sql = "SELECT * FROM EventType";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(new Event(rs.getInt("idType"), rs.getString("TypeName")));
             }
         } catch (Exception e) {
@@ -85,14 +86,114 @@ public class EventDAO extends DBContext {
         return list;
     }
     
+    public void updEventMov(int code, int mov) {
+        try {
+            String sql = "UPDATE EventApplyMovie SET movID = ? WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, mov);
+            st.setInt(2, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltCinApplyEvent(int code) {
+        try {
+            String sql = "DELETE FROM CinApplyEvent WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void insertCinApplyEvent(int code, int cinID) {
+        try {
+            String sql = "INSERT INTO CinApplyEvent VALUES (?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, cinID);
+            st.setInt(2, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void insertEventOrder(int code, double price, String type) {
+        try {
+            String sql = "INSERT INTO EventApplyOrder VALUES (?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.setDouble(2, price);
+            st.setString(3, type);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void insertEventMovie(int code, int movID) {
+        try {
+            String sql = "INSERT INTO EventApplyMovie VALUES (?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.setInt(2, movID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltEventMovie(int code) {
+        try {
+            String sql = "DELETE FROM EventApplyMovie WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setInt(1, code);
+            st.executeQuery();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltEventOrder(int code) {
+        try {
+            String sql = "DELETE FROM EventApplyOrder WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+
+            st.setInt(1, code);
+            st.executeQuery();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updEventOrder(int code, double price, String type) {
+        try {
+            String sql = "UPDATE EventApplyOrder SET Price = ?, Type = ? WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDouble(1, price);
+            st.setString(2, type);
+            st.setInt(3, code);
+            st.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public Event getEventOrder(int code) {
         try {
             String sql = "SELECT * FROM EventApplyOrder WHERE EventCode = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, code);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
-                Event e = new Event(code, rs.getDouble("Price"));
+            if (rs.next()) {
+                Event e = new Event(code, rs.getDouble("Price"), rs.getString("Type"));
                 return e;
             }
         } catch (Exception e) {
@@ -100,14 +201,14 @@ public class EventDAO extends DBContext {
         }
         return null;
     }
-    
+
     public Event getEventMov(int code) {
         try {
             String sql = "SELECT * FROM EventApplyMovie WHERE EventCode = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, code);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 Event e = new Event(code, rs.getInt("movID"));
                 return e;
             }
@@ -116,7 +217,7 @@ public class EventDAO extends DBContext {
         }
         return null;
     }
-    
+
     public List<Event> getAllOrderEventOff(String orderID) {
         List<Event> list = new ArrayList<>();
         try {
@@ -124,7 +225,7 @@ public class EventDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, orderID);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Event e = new Event(rs.getInt("EventCode"), orderID);
                 list.add(e);
             }
@@ -133,7 +234,7 @@ public class EventDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Event> getAllOrderEvent(String orderID) {
         List<Event> list = new ArrayList<>();
         try {
@@ -141,7 +242,7 @@ public class EventDAO extends DBContext {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, orderID);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Event e = new Event(rs.getInt("EventCode"), orderID);
                 list.add(e);
             }
@@ -150,7 +251,7 @@ public class EventDAO extends DBContext {
         }
         return list;
     }
-    
+
     public void insertEventOrderOffline(String orderID, int code) {
         try {
             String sql = "INSERT INTO EventOrderOffline VALUES (?, ?)";
@@ -293,6 +394,97 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
         return b;
+    }
+
+    public void updEventByCode(int code, String content, int type, Timestamp start, Timestamp end, int appO, String img, int discontinued, int date) {
+        try {
+            System.out.println("code" + code);
+            String sql = "";
+            sql = "UPDATE Event Set Content = ?, Type = ?, startDate = ?, endDate = ?, numDateCanEx = ?, applyOther = ?, Img = ?, Discontinued = ? WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, content);
+            st.setInt(2, type);
+            st.setTimestamp(3, start);
+            st.setTimestamp(4, end);
+            st.setInt(5, date);
+            st.setInt(6, appO);
+            st.setString(7, img);
+            st.setInt(8, discontinued);
+            st.setInt(9, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updEventDiscount(double discount, int code) {
+        try {
+            String sql = "UPDATE EventDiscount SET Discount = ? WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDouble(1, discount);
+            st.setInt(2, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void insertEventDiscount(double discount, int code) {
+        try {
+            String sql = "INSERT INTO EventDiscount VALUES (?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.setDouble(2, discount);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltEventDiscount(int code) {
+        try {
+            String sql = "DELETE FROM EventDiscount WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltEventGift(int code) {
+        try {
+            String sql = "DELETE FROM EventGift WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updEventGift(int code, String prCode) {
+        try {
+            String sql = "UPDATE EventGift SET ProductCode = ? WHERE EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, prCode);
+            st.setInt(2, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void insertEventGift(int code, String prCode) {
+        try {
+            String sql = "INSERT INTO EventGift VALUES (?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.setString(2, prCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public Event getEventByCode(int code) {
