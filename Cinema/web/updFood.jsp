@@ -144,6 +144,11 @@
                 color:white;
                 cursor: pointer;
             }
+            
+            .blk{
+                font-weight: bold;
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -163,6 +168,7 @@
                     <div class = "name">${requestScope.data.getMovName()}</div>
                     <div class = "oInfo">
                         <form action = "updf" method = "post">
+                            <div class = "blk">${requestScope.ms}</div>
                             <span>Mã:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                             <input type ="text" id ="img" readonly name ="code" value ="${requestScope.f.getProductCode()}"/>
                             <br/>

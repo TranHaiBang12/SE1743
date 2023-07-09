@@ -206,28 +206,9 @@
                     <img onclick="crt()" src ="images/shoppingCartIcon.png"/>
                 </div>
             </div>
-            <div>
-                <form class = "search" id = "srch" action = "store" method = "post">
-                    <div class = "slt">
-                        <label>Thể loại: </label>
-                        <select onchange ="cnaGE()"  class = "type" id = "type" name = "type">
-                            <option value = "" ${requestScope.type==""?"selected":""}>All</option>
-                            <option value = "RC" ${requestScope.type=="RC"?"selected":""}>Cơm</option>
-                            <option value = "PC" ${requestScope.type=="PC"?"selected":""}>Bỏng Ngô</option>
-                            <option value = "HB" ${requestScope.type=="HB"?"selected":""}>Hamburger</option>
-                            <option value = "SL" ${requestScope.type=="SL"?"selected":""}>Salad</option>
-                            <option value = "KC" ${requestScope.type=="KC"?"selected":""}>KFC</option>
-                            <option value = "SN" ${requestScope.type=="SN"?"selected":""}>Snack</option>
-                            <option value = "DR" ${requestScope.type=="DR"?"selected":""}>Đồ Uống</option>
-                        </select>
-                    </div>
-                    <div class = "searchBar">
-                        <img onclick ="cnaGE()" src = "images/searchIcon.png"/>
-                        <input type="text" name ="key" placeholder="Tìm kiếm"/>
-                    </div>
-                    <input type ="submit" value ="s"/>
-                </form>
-            </div>
+            <c:if test = "${requestScope.msDLT != null}">
+                <input type ="text" name ="msDLT" value ="${requestScope.msDLT}" id ="msDLT"/>
+            </c:if>
             <c:if test = "${requestScope.ms == null}">
                 <div class = "item">
                     <c:forEach items = "${requestScope.listPerPage}" var = "i">
@@ -277,8 +258,9 @@
         </div>
         <script>
             var t = "";
-
-            console.log(t);
+            if(document.getElementById("msDLT") !== null) {
+                alert(document.getElementById("msDLT").value)
+            }
             function cnaGE() {
 
                 document.getElementById("srch").submit();

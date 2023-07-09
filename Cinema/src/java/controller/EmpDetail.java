@@ -281,7 +281,7 @@ public class EmpDetail extends HttpServlet {
             int gen1;
             if (ed.getAccEmpByUserName(user).getGender().equals("Nam")) {
                 gen1 = 1;
-            } else if (acd.getAccountByUserName(user).getGender().equals("Nữ")) {
+            } else if (ed.getAccEmpByUserName(user).getGender().equals("Nữ")) {
                 gen1 = 0;
             } else {
                 gen1 = -1;

@@ -99,7 +99,6 @@ public class In4ODServlet extends HttpServlet {
                                 String pc = decimalFormat.format(discount);
                                 if (discount != 0) {
                                     request.setAttribute("pcF", pc);
-                                    System.out.println("5");
                                 }
                                 discount = Double.parseDouble(pc);
                                 double priceT = otd.getPriceByOrderID(orderID);
@@ -165,6 +164,7 @@ public class In4ODServlet extends HttpServlet {
                 } else if (listOTD.get(i).getType().equals("VT")) {
                     listOTD.get(i).setType("Đôi");
                 }
+                listOTD.get(i).setDiscount(Double.parseDouble(decimalFormat.format(listOTD.get(i).getDiscount())));
             }
             TransactionCDAO tcd = new TransactionCDAO();
             List<TransactionCode> listTCF = tcd.getAllCodeFByOrderID(orderID);
@@ -182,6 +182,10 @@ public class In4ODServlet extends HttpServlet {
             request.setAttribute("type", "onl");
             request.setAttribute("orderID", orderID);
             request.setAttribute("listO", listO);
+            for (int i = 0; i < listOD.size(); i++) {
+                listOD.get(i).setDiscount(Double.parseDouble(decimalFormat.format(listOD.get(i).getDiscount())));
+                listOD.get(i).getF().setDiscount(Double.parseDouble(decimalFormat.format(listOD.get(i).getF().getDiscount())));
+            }
             request.setAttribute("listOD", listOD);
             request.setAttribute("listOTD", listOTD);
             request.setAttribute("listTCF", listTCF);
@@ -280,10 +284,14 @@ public class In4ODServlet extends HttpServlet {
                 } else if (listOTD.get(i).getType().equals("VT")) {
                     listOTD.get(i).setType("Đôi");
                 }
+                listOTD.get(i).setDiscount(Double.parseDouble(decimalFormat.format(listOTD.get(i).getDiscount())));
             }
             PointDAO pd = new PointDAO();
             System.out.println(pd.getPointByOrderID(orderID));
-            System.out.println("1");
+            for (int i = 0; i < listOD.size(); i++) {
+                listOD.get(i).setDiscount(Double.parseDouble(decimalFormat.format(listOD.get(i).getDiscount())));
+                listOD.get(i).getF().setDiscount(Double.parseDouble(decimalFormat.format(listOD.get(i).getF().getDiscount())));
+            }
             request.setAttribute("point", pd.getPointByOrderID(orderID));
             request.setAttribute("tk", ord.getOrderOffByID(orderID));
             request.setAttribute("pointAchieve", pd.getPointAchieveByOrderID(orderID));

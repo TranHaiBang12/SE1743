@@ -220,7 +220,7 @@
             .pay input{
                 cursor: pointer;
             }
-            
+
             #ms{
                 font-size: 25px;
                 padding-left: 20px;
@@ -274,9 +274,9 @@
 
                                             <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPriceNS() * i.getQuantity()}</label><span class = "donvi">đ</div>
                                             <div>
-                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="increaseButton" value = "+"/>
+                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPriceNS()}')" id ="increaseButton" value = "+"/>
                                                 <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
-                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPrice()}')" id ="decreaseButton" value = "-"/>
+                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPriceNS()}')" id ="decreaseButton" value = "-"/>
                                             </div>
                                             <div class = "deleteButton" onclick = "dlt('${i.getFood().getProductCode()}', '${i.getQuantity()}', '${sessionScope.account.getUserName()}', '${i.getFood().getPrice()}')">
                                                 Xóa
@@ -303,11 +303,12 @@
 
                                         <div class = "intu">
 
-                                            <div class = "cartPrice"><label id ="price${t.getTicket().getProductCode()}">${t.getTicket().getPrice()}</label><span class = "donvi">đ</div>
+                                            <div class = "cartPrice"><label id ="price${t.getTicket().getProductCode()}">${t.getTicket().getPriceNS()}</label><span class = "donvi">đ</div>
                                             <div>
                                                 <input type ="button" name ="cartButton" value = "1"/>
                                             </div>
-                                            <div class = "deleteButton" onclick = "dlt('${t.getTicket().getProductCode()}', '${t.getSeat()}', '${sessionScope.account.getUserName()}', '${t.getTicket().getPrice()}')">
+                                    
+                                            <div class = "deleteButton" onclick = "dlt('${t.getTicket().getProductCode()}', '${t.getSeat()}', '${sessionScope.account.getUserName()}', '${t.getTicket().getPriceNS()}')">
                                                 Xóa
                                             </div>
                                         </div>
@@ -333,24 +334,30 @@
         <script type = "text/javascript">
             var t = "";
             var dltA = 0;
-            if(String(document.getElementById("ms").innerHTML) !== null) {
-                if(String(document.getElementById("ms").innerHTML) !== "") {
+            if (String(document.getElementById("ms").innerHTML) !== null) {
+                if (String(document.getElementById("ms").innerHTML) !== "") {
                     alert(String(document.getElementById("ms").innerHTML));
                 }
             }
-            
+
             function dltAll(user) {
                 dltA = 1;
-                var ans = confirm("Do you want to delete all your cart items ?");
-                if (String(ans) === 'true') {
-                    setCookie(user, "", 365);
-                    document.getElementById("doan").style.display = 'none';
-                    document.getElementById("ve").style.display = 'none';
-                    console.log(document.getElementById("doan").style.display + " " + document.getElementById("ve").style.display);
-                    document.getElementById("nm").innerHTML = 0;
-                    document.getElementById("ttAm").innerHTML = 0;
-                } else if (String(ans) === 'false') {
+                
+                if (String(getCookie(user)) !== "") {
+                    var ans = confirm("Do you want to delete all your cart items ?");
+                    if (String(ans) === 'true') {
+                        setCookie(user, "", 365);
+                        document.getElementById("doan").style.display = 'none';
+                        document.getElementById("ve").style.display = 'none';
+                        console.log(document.getElementById("doan").style.display + " " + document.getElementById("ve").style.display);
+                        document.getElementById("nm").innerHTML = 0;
+                        document.getElementById("ttAm").innerHTML = 0;
+                    } else if (String(ans) === 'false') {
 
+                    }
+                }
+                else {
+                    alert("Giỏ hàng hiện đang trống");
                 }
 
             }
@@ -503,7 +510,7 @@
 
             function pay(user) {
                 console.log(user);
-                console.log(getCookie(user) );
+                console.log(getCookie(user));
                 if (getCookie(user) !== "" && String(getCookie(user)) !== "false") {
                     window.location = "pay";
                 } else {

@@ -204,7 +204,7 @@
                                                                 <td><img src="${j.getF().getImg()}"/></td>
                                                                 <td>${j.getQuantity()}</td>
 
-                                                                <td><span class = "rd"><label id = "f${cnt}">${j.getPrice() * j.getQuantity()}</label></span></td>
+                                                                <td><span class = "rd"><label id = "f${cnt}">${(j.getPrice() - j.getPrice() * j.getDiscount()) * j.getQuantity()}</label></span></td>
                                                                         <c:set var="cnt" value="${cnt+ 1}"/>
                                                             </tr>
                                                         </c:forEach>
@@ -257,7 +257,7 @@
                                                                 <td>${k.getSeatNumber()}</td>
                                                                 <td>${k.getType()}</td>
                                                                 <td>${k.getDiscount()}%</td>
-                                                                <td><span class = "rd"><label id = "t${cntTK}">${k.getPrice()}</label>đ</span></td>
+                                                                <td><span class = "rd"><label id = "t${cntTK}">${k.getPrice() - k.getDiscount() * k.getPrice()}</label>đ</span></td>
                                                                 <td>${k.getStartDate()}</td>
                                                                 <td>${k.getStartTime()}</td>
                                                                 <td><img src = "images/cinemaTicket.jpg"></td>
@@ -454,7 +454,7 @@
                                                                 <td><img src="${j.getF().getImg()}"/></td>
                                                                 <td>${j.getQuantity()}</td>
 
-                                                                <td><span class = "rd"><label id = "f${cnt}">${j.getPrice() * j.getQuantity()}</label></span></td>
+                                                                <td><span class = "rd"><label id = "f${cnt}">${(j.getPrice() - j.getPrice() * j.getDiscount()) * j.getQuantity()}</label></span></td>
                                                                         <c:set var="cnt" value="${cnt+ 1}"/>
                                                             </tr>
                                                         </c:forEach>

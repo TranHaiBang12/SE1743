@@ -92,6 +92,8 @@ public class MyAccountServlet extends HttpServlet {
                 } else {
                     point = 0;
                 }
+                String pass = acd.getAccountByUserName(a.getUserName()).getPassword();
+                request.setAttribute("pass", pass);
                 request.setAttribute("point", point);
                 request.setAttribute("dob", date + "-" + month + "-" + year);
                 request.setAttribute("acc", acd.getAccountByUserName(a.getUserName()));
@@ -131,6 +133,8 @@ public class MyAccountServlet extends HttpServlet {
                     point = 0;
                 }
                 CinemaDAO cnd = new CinemaDAO();
+                 String pass = acd.getAccountByUserName(a.getUserName()).getPassword();
+                request.setAttribute("pass", pass);
                 request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(a.getUserName()).getCinID()));
                 request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(a.getUserName()).getManagerID()));
                 request.setAttribute("point", point);
@@ -204,6 +208,8 @@ public class MyAccountServlet extends HttpServlet {
                     point = 0;
                 }
                 CinemaDAO cnd = new CinemaDAO();
+                 String pass = acd.getAccountByUserName(request.getParameter("user")).getPassword();
+                request.setAttribute("pass", pass);
                 request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(request.getParameter("user")).getCinID()));
                 request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(request.getParameter("user")).getManagerID()));
                 request.setAttribute("point", point);

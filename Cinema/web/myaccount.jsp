@@ -163,7 +163,7 @@
                                         <br/>
                                         <input type ="password" required id ="pass" name ="pass"/>
                                         <br/><!-- comment -->
-                                        <input type ="button" value ="Submit" onclick = "checkAcc('${sessionScope.account.getPassword()}')"/>
+                                        <input type ="button" value ="Submit" onclick = "checkAcc('${requestScope.pass}')"/>
                                     </div>
                                 </div>
                             </c:if>

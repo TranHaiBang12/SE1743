@@ -65,6 +65,16 @@
             .oInfo{
                 line-height: 35px;
             }
+            
+            input{
+                font-size: 20px;
+                
+            }
+            
+            select{
+                font-size: 20px;
+                
+            }
 
             .bodyContent .content button{
                 margin-top: 30px;

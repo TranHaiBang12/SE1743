@@ -210,7 +210,7 @@ public class UpdateMyAccount extends HttpServlet {
 
             if ((pass != null && !pass.equals("")) || (rePass != null && !rePass.equals(""))) {
                 if (checkPass(pass) == true && rePass.equals(pass)) {
-                    acd.updAccountCngPass(a.getUserName(), gen, Date.valueOf(dob), sdt, email, city, pass);
+                    acd.updAccountCngPass(a.getUserName(), gen, Date.valueOf(dob), sdt, email, pass, city);
                     String ms = "Cập nhật thành công";
                     request.setAttribute("ms", ms);
                     request.setAttribute("gen", gen_raw);

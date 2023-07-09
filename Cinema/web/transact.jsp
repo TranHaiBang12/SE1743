@@ -124,9 +124,14 @@
                 width: 50%;
                 text-align: center;
             }
-            
+
             #tt{
                 display: none;
+            }
+            
+            .ms{
+                font-size: 25px;
+                margin-left: 80px;
             }
         </style>
     </head>
@@ -142,61 +147,75 @@
 
                         </div>
                         <div id ="web">
-                            <c:forEach items = "${requestScope.listOBD}" var = "i">
-                                <div class = "outsiteO">
-                                    <div class = "oDate">${i.getDate()}</div>
-                                    <table>
-                                        <tr>
-                                            <th>MÃ HÓA ĐƠN</th>
-                                            <th>KIỂU THANH TOÁN</th>
-                                            <th>NGÀY THANH TOÁN</th>
-                                            <th>THỜI GIAN THANH TOÁN</th>
-                                            <th>TỔNG TIỀN</th>
-                                            <th>XEM CHI TIẾT</th>
-                                        </tr>
-                                        <c:forEach items = "${i.getO()}" var = "k">
+                            <c:if test = "${listOBD != null}">
+                                <c:if test = "${ms != null}">
+                                    <div class = "ms">
+                                        ${requestScope.ms}
+                                    </div>
+                                </c:if>
+                                <c:forEach items = "${requestScope.listOBD}" var = "i">
+                                    <div class = "outsiteO">
+                                        <div class = "oDate">${i.getDate()}</div>
+                                        <table>
                                             <tr>
-                                                <td>${k.getOrderID()}</td>
-                                                <td>${k.getPaymentType()}</td><!-- <td></td> -->
-                                                <td>${k.getPaymentDate()}</td>
-                                                <td>${k.getPaymentTime()}</td>
-                                                <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
-                                                <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/></td>
+                                                <th>MÃ HÓA ĐƠN</th>
+                                                <th>KIỂU THANH TOÁN</th>
+                                                <th>NGÀY THANH TOÁN</th>
+                                                <th>THỜI GIAN THANH TOÁN</th>
+                                                <th>TỔNG TIỀN</th>
+                                                <th>XEM CHI TIẾT</th>
                                             </tr>
-                                        </c:forEach>
-                                    </table>
-                                </div>
-                            </c:forEach>
+                                            <c:forEach items = "${i.getO()}" var = "k">
+                                                <tr>
+                                                    <td>${k.getOrderID()}</td>
+                                                    <td>${k.getPaymentType()}</td><!-- <td></td> -->
+                                                    <td>${k.getPaymentDate()}</td>
+                                                    <td>${k.getPaymentTime()}</td>
+                                                    <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
+                                                    <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/></td>
+                                                </tr>
+                                            </c:forEach>
+                                        </table>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
                         </div>
                         <div id = "tt">
-                            <c:forEach items = "${requestScope.listOFBD}" var = "j">
-                                <div class = "outsiteO">
-                                    <div class = "oDate">${j.getDate()}</div>
-                                    <table>
-                                        <tr>
-                                            <th>MÃ HÓA ĐƠN</th>
-                                            <th>KIỂU THANH TOÁN</th>
-                                            <th>NGÀY THANH TOÁN</th>
-                                            <th>THỜI GIAN THANH TOÁN</th>
-                                            <th>TỔNG TIỀN</th>
-                                            <th>XEM CHI TIẾT</th>
-                                        </tr>
-
-
-                                        <c:forEach items = "${j.getOf()}" var = "q">
-                                            <tr>
-                                                <td>${q.getOrderID()}</td>
-                                                <td>${q.getPaymentType()}</td>
-                                                <td>${q.getPaymentDate()}</td>
-                                                <td>${q.getPaymentTime()}</td>
-                                                <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
-                                                <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
-                                            </tr>
-                                        </c:forEach>
-
-                                    </table>
+                            <c:if test = "${msOFF != null}">
+                                <div class = "ms">
+                                    ${requestScope.msOFF}
                                 </div>
-                            </c:forEach>
+                            </c:if>
+                            <c:if test = "${listOFBD != null}">
+                                <c:forEach items = "${requestScope.listOFBD}" var = "j">
+                                    <div class = "outsiteO">
+                                        <div class = "oDate">${j.getDate()}</div>
+                                        <table>
+                                            <tr>
+                                                <th>MÃ HÓA ĐƠN</th>
+                                                <th>KIỂU THANH TOÁN</th>
+                                                <th>NGÀY THANH TOÁN</th>
+                                                <th>THỜI GIAN THANH TOÁN</th>
+                                                <th>TỔNG TIỀN</th>
+                                                <th>XEM CHI TIẾT</th>
+                                            </tr>
+
+
+                                            <c:forEach items = "${j.getOf()}" var = "q">
+                                                <tr>
+                                                    <td>${q.getOrderID()}</td>
+                                                    <td>${q.getPaymentType()}</td>
+                                                    <td>${q.getPaymentDate()}</td>
+                                                    <td>${q.getPaymentTime()}</td>
+                                                    <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
+                                                    <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
+                                                </tr>
+                                            </c:forEach>
+
+                                        </table>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
                         </div>
                         <!--
                         private String orderID;

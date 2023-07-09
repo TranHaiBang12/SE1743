@@ -25,7 +25,7 @@
             }
 
             .uIn4 {
-                text-align: center;
+                margin-left: 500px;
                 font-size: 20px;
             }
 

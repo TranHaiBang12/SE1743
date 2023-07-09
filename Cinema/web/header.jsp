@@ -30,9 +30,7 @@
                 <li id = "userN">ƯU ĐÃI</li>
                 <div class="dropdown-content">
                     <div class=insidedropdown-content>
-                        <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                             <a href="event">Xem Ưu Đãi</a>
-                        </c:if>
                         <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                             <a href="addev">Thêm Ưu Đãi</a>
                         </c:if>
@@ -157,7 +155,6 @@
                             <div class="dropdown-content">
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="liste">Danh Sách</a>
-                                    <a class ="lnk" href="#">Báo cáo</a>
                                 </div>
                             </div>
                         </div>

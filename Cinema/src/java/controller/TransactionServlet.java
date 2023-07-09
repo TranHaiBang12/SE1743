@@ -195,7 +195,11 @@ public class TransactionServlet extends HttpServlet {
             } else {
                 request.setAttribute("ms", "Không có hóa đơn nào");
             }
-            request.setAttribute("listOFBD", listOFBD);
+            if (listOFBD.isEmpty()) {
+                request.setAttribute("msOFF", "Không có hóa đơn nào");
+            } else {
+                request.setAttribute("listOFBD", listOFBD);
+            }
             request.getRequestDispatcher("transact.jsp").forward(request, response);
         } else {
             AccountDAO acd = new AccountDAO();
@@ -251,13 +255,18 @@ public class TransactionServlet extends HttpServlet {
             for (int i = 0; i < dte2.size(); i++) {
                 listOFBD.add(ord.getAllOrderOffByUserNameAPDate(a.getUserName(), dte2.get(i)));
             }
-
-            for (int i = 0; i < listOFBD.size(); i++) {
-                System.out.println(listOFBD.get(i).getOf().get(i).getUserName());
+            if (listOBD.isEmpty()) {
+                System.out.println("4");
+                request.setAttribute("ms", "Không có hóa đơn nào");
+            } else {
+                request.setAttribute("listOBD", listOBD);
             }
-
-            request.setAttribute("listOBD", listOBD);
-            request.setAttribute("listOFBD", listOFBD);
+            if (listOFBD.isEmpty()) {
+                System.out.println("3");
+                request.setAttribute("msOFF", "Không có hóa đơn nào");
+            } else {
+                request.setAttribute("listOFBD", listOFBD);
+            }
             request.getRequestDispatcher("transact.jsp").forward(request, response);
         }
     }

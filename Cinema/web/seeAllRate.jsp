@@ -210,8 +210,8 @@
                     <div id ="comment" class = "comment">
                         <div class = "choice">
                             <div id = "active" class = "al" onclick = "bActive('active')">Tất cả bình luận</div>
-                            <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">Bình luận được duyệt</div>
-                            <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">Bình luận chưa duyệt</div>
+                            <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">Bình luận chưa duyệt</div>
+                            <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">Bình luận được duyệt</div>
 
                         </div>
                         <c:if test = "${requestScope.ms == null}">

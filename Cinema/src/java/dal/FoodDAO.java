@@ -23,7 +23,7 @@ public class FoodDAO extends DBContext {
         List<Food> list = new ArrayList<>();
         int i = 1;
         try {
-            String sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID";
+            String sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID  WHERE Status = N'ĐANG BÁN'";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
@@ -55,7 +55,7 @@ public class FoodDAO extends DBContext {
 
     public Food getFoodById(String productCode) {
         try {
-            String sql = "SELECT Food.*, Discout, Price FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode WHERE Food.ProductCode = ?";
+            String sql = "SELECT Food.*, Discout, Price FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode WHERE Food.ProductCode = ? AND Status = N'ĐANG BÁN'";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, productCode);
             ResultSet rs = st.executeQuery();
@@ -71,7 +71,7 @@ public class FoodDAO extends DBContext {
 
     public String getFoodTypeNameByID(String id) {
         try {
-            String sql = "SELECT * FROM FoodType WHERE ftID = ?";
+            String sql = "SELECT * FROM FoodType WHERE ftID = ? AND Status = N'ĐANG BÁN'";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id);
             ResultSet rs = st.executeQuery();
@@ -90,9 +90,9 @@ public class FoodDAO extends DBContext {
         try {
             String sql;
             if (type.equals("")) {
-                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE FoodDescription LIKE '%" + key + "%'";
+                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE  Status = N'ĐANG BÁN' AND FoodDescription LIKE '%" + key + "%'";
             } else {
-                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE Food.FoodType = ? AND FoodDescription LIKE '%" + key + "%'";
+                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE  Status = N'ĐANG BÁN' AND Food.FoodType = ? AND FoodDescription LIKE '%" + key + "%'";
             }
             PreparedStatement st = connection.prepareStatement(sql);
             if (!type.equals("")) {
@@ -182,6 +182,23 @@ public class FoodDAO extends DBContext {
         }
     }
 
+    public List<String> getAllFoodHasBeenBought() {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT ProductCode FROM OrderOnlineDetail\n"
+                    + "UNION \n"
+                    + "SELECT DISTINCT ProductCode FROM OrderOfflineDetail";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("ProductCode"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public int getNumFood() {
         int a = 0, b = 0;
         try {
@@ -207,7 +224,7 @@ public class FoodDAO extends DBContext {
         return 0;
 
     }
-    
+
     public int getNumFoodAC(int cinID) {
         int a = 0, b = 0;
         try {
@@ -260,7 +277,7 @@ public class FoodDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumFoodByDateAC(Date dS, Date eS, int cinID) {
         int a = 0, b = 0;
         try {
@@ -311,7 +328,7 @@ public class FoodDAO extends DBContext {
         }
         return listF;
     }
-    
+
     public List<Food> getAllFoodTypeByDateAC(Date dS, Date eS, int cinID) {
         List<Food> listF = new ArrayList<>();
         try {
@@ -363,7 +380,7 @@ public class FoodDAO extends DBContext {
         }
         return a + b;
     }
-    
+
     public int getNumFoodTypeSellByDateATypeAC(Date dS, Date eS, String type, int cinID) {
         int a = 0, b = 0;
         try {
@@ -466,7 +483,7 @@ public class FoodDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumFoodByOnlAndOffAC(Date dS, Date eS, String type, int cinID) {
         try {
             String sql = "";
@@ -514,7 +531,7 @@ public class FoodDAO extends DBContext {
         }
         return a + b;
     }
-    
+
     public int getNumFoodByDateEXACTAC(Date dS, Date eS, Date nS, int cinID) {
         int a = 0, b = 0;
         try {
@@ -576,7 +593,7 @@ public class FoodDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<TIcketDate> getDateByNumTickDateAC(Date dS, Date eS, int cinID) {
         List<TIcketDate> list = new ArrayList<>();
         try {
@@ -614,7 +631,7 @@ public class FoodDAO extends DBContext {
         }
         return list;
     }
-    
+
     public int getIncomeOnl(Date dS, Date eS) {
         try {
             String sql = "SELECT SUM((Price - Price * Discount) * Quantity) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON OrderOnline.OrderID = TransactionCode.OrderID WHERE TransactionCode.Type = 1 AND (PaymentDate BETWEEN ? AND ?)";
@@ -622,7 +639,7 @@ public class FoodDAO extends DBContext {
             st.setDate(1, dS);
             st.setDate(2, eS);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -630,7 +647,7 @@ public class FoodDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getIncomeOnlByDAC(Date dS, Date eS, int cinID) {
         try {
             String sql = "SELECT SUM((Price - Price * Discount) * Quantity) AS T FROM OrderOnlineDetail JOIN OrderOnline ON OrderOnlineDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON OrderOnline.OrderID = TransactionCode.OrderID WHERE TransactionCode.Type = 1 AND cinID = ? AND (PaymentDate BETWEEN ? AND ?)";
@@ -638,9 +655,9 @@ public class FoodDAO extends DBContext {
             st.setInt(1, cinID);
             st.setDate(2, dS);
             st.setDate(3, eS);
-            
+
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -648,7 +665,7 @@ public class FoodDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getIncomeOffByDAC(Date dS, Date eS, int cinID) {
         try {
             String sql = "SELECT SUM(Price - Price * Discount) AS T FROM OrderOfflineDetail JOIN OrderOffline ON OrderOfflineDetail.OrderID = OrderOffline.OrderID WHERE cinID = ? AND (Date BETWEEN ? AND ?)";
@@ -657,7 +674,7 @@ public class FoodDAO extends DBContext {
             st.setDate(2, dS);
             st.setDate(3, eS);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -665,7 +682,7 @@ public class FoodDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getIncomeOff(Date dS, Date eS) {
         try {
             String sql = "SELECT SUM(Price - Price * Discount) AS T FROM OrderOfflineDetail JOIN OrderOffline ON OrderOfflineDetail.OrderID = OrderOffline.OrderID WHERE Date BETWEEN ? AND ?";
@@ -673,7 +690,7 @@ public class FoodDAO extends DBContext {
             st.setDate(1, dS);
             st.setDate(2, eS);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {

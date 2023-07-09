@@ -424,6 +424,7 @@ public class PaymentServlet extends HttpServlet {
                             cntT = 0;
                             cntF = 0;
                             if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
+                                
                                 for (int j = 0; j < listHH.size(); j++) {
                                     if (cart.substring(i + 1, i + 7).equals(listHH.get(j))) {
                                         cntF++;
@@ -462,7 +463,7 @@ public class PaymentServlet extends HttpServlet {
                                     list.add(new CartItemFood(fda.getFoodById(code), quantity, discount, price));
                                 }
                             } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
-                                for (int j = i; j < tkB.size(); j++) {
+                                for (int j = 0; j < tkB.size(); j++) {
                                     if (cart.substring(i + 1, i + 7).equals(tkB.get(j).getProductCode()) && Integer.parseInt(cart.substring(i + 9, i + 10)) == tkB.get(j).getRow() && cart.substring(i + 8, i + 9).equals(tkB.get(j).getCol())) {
                                         cntT++;
                                         p++;
@@ -470,7 +471,7 @@ public class PaymentServlet extends HttpServlet {
                                     }
                                 }
                                 if (cntT == 0) {
-                                    for (int j = 0; j < cart.length(); j++) {
+                                    for (int j = i; j < cart.length(); j++) {
                                         if (cart.charAt(j) == 'p' && k1 == 0) {
                                             code = cart.substring(i + 1, j);
                                             cnt = j;
