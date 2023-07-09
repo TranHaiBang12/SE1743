@@ -582,7 +582,7 @@ public class SignupServlet extends HttpServlet {
                 gender = "Khác";
             }
             acd.insert(user, gender, Date.valueOf(dob), phone, email, area, 2, pass);
-            
+            response.sendRedirect("login");
         }
     }
     

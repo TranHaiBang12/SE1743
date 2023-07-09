@@ -20,6 +20,10 @@
                 cursor: pointer;
                 margin-right: 20px;
             }
+            
+            .cinemaLogo{
+                border-right: 1px solid black;
+            }
 
 
         </style>
@@ -30,7 +34,7 @@
                 <li id = "userN">ƯU ĐÃI</li>
                 <div class="dropdown-content">
                     <div class=insidedropdown-content>
-                            <a href="event">Xem Ưu Đãi</a>
+                        <a href="event">Xem Ưu Đãi</a>
                         <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                             <a href="addev">Thêm Ưu Đãi</a>
                         </c:if>
@@ -134,7 +138,7 @@
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a class ="lnk" href="#">Tài Khoản</a>
+                                <a class ="lnk" href="acc">Tài Khoản</a>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                                     <a class ="lnk" href="arp">Danh Sách</a>
                                     <a class ="lnk" href="ordr?p=1">Danh Sách Hóa Đơn</a>
@@ -193,7 +197,15 @@
                         </div>
                     </li>
                 </c:if>
-                <li><a href="store"><img class="storeLogo" src="images/storeiCON.png" /></a></li>
+                <li>
+                    <div class="dropdown">
+                        <div class="dropbtn">
+                            <img class="memberIcon" src="images/storeiCON.png" />
+                            <a class ="lnk" href="store">CỬA HÀNG</a>
+                        </div>
+                     
+                    </div>
+                </li>
             </ul>
 
 

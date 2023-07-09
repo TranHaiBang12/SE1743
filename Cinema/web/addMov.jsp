@@ -254,7 +254,7 @@
                             <input hidden type ="text" id ="gN" name ="gN" value ="0"/>
 
                             <div>Khởi chiếu: 
-                                <input type ="date"  name ="startDate"/>
+                                <input type ="date" required  name ="startDate"/>
                             </div>
 
                             <div>Thời lượng: 

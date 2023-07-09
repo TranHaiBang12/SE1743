@@ -210,7 +210,7 @@ public class ScheDAO extends DBContext {
 
     public Schedule getScheduleByIn4(String scheNo, int movID, Date start, Time startTim, int roomID, int cinID, int tgianChieu) {
         try {
-            String sql = "SELECT * FROM Schedule WHERE scheNo = ? OR (movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND (DATEDIFF(minute, startTim, '" + startTim + "') >= '" + -tgianChieu + "' AND DATEDIFF(minute, '" + startTim + "', startTim) <= '" + tgianChieu + "')) ORDER BY startDate, startTim";
+            String sql = "SELECT * FROM Schedule WHERE scheNo = ? OR (movID = ? AND roomID = ? AND cinID = ? AND startDate = ? AND (DATEDIFF(minute, startTim, '" + startTim + "') >= '" + -tgianChieu + "' AND DATEDIFF(minute, startTim, '" + startTim +"') <= '" + tgianChieu + "')) ORDER BY startDate, startTim";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, scheNo);
             st.setInt(2, movID);

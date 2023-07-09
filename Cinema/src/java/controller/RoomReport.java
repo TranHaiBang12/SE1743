@@ -75,6 +75,7 @@ public class RoomReport extends HttpServlet {
             listR = rd.getAllRoomByCinID(1);
             request.setAttribute("cinID", 1);
             if (request.getParameter("room") == null) {
+                System.out.println("am");
                 request.setAttribute("roomID", listR.get(0).getRoomID());
                 if(dvd.getAllDeviceByCAR(1, listR.get(0).getRoomID()).isEmpty()) {
                     request.setAttribute("ms", "Phòng này hiện chưa có thiết bị nào");
@@ -88,8 +89,9 @@ public class RoomReport extends HttpServlet {
                         }
                     }
                 }
-                request.setAttribute("tk", sd.selectSeatByRoomIDAndCinID(1, listR.get(0).getRoomID()));
-                request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(1, listR.get(0).getRoomID()));
+                System.out.println(listR.get(0).getRoomID());
+                request.setAttribute("tk", sd.selectSeatByRoomIDAndCinID(listR.get(0).getRoomID(), 1));
+                request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(listR.get(0).getRoomID(), 1));
                 request.setAttribute("listDevice", listDevice);
             }
             else {

@@ -147,12 +147,13 @@
 
                         </div>
                         <div id ="web">
-                            <c:if test = "${listOBD != null}">
-                                <c:if test = "${ms != null}">
+                            <c:if test = "${ms != null}">
                                     <div class = "ms">
                                         ${requestScope.ms}
                                     </div>
                                 </c:if>
+                            <c:if test = "${listOBD != null}">
+                                
                                 <c:forEach items = "${requestScope.listOBD}" var = "i">
                                     <div class = "outsiteO">
                                         <div class = "oDate">${i.getDate()}</div>
