@@ -277,7 +277,6 @@ public class AddSche extends HttpServlet {
                     int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
                     CinemaDAO cnd = new CinemaDAO();
                     FormDAO fmd = new FormDAO();
-                    System.out.println(request.getParameter("cin"));
                     request.setAttribute("cinPick", Integer.parseInt(request.getParameter("cin")));
                     request.setAttribute("room", rd.getAllRoomByCinID(Integer.parseInt(request.getParameter("cin"))));
                     request.setAttribute("form", fmd.getAllForm());
@@ -293,7 +292,6 @@ public class AddSche extends HttpServlet {
                     RoomDAO rd = new RoomDAO();
                     MovieDAO mvd = new MovieDAO();
                     request.setAttribute("movName", mvd.getMovieById(id).getMovName());
-                    System.out.println(request.getParameter("cin"));
                     request.setAttribute("cinPick", Integer.parseInt(request.getParameter("cin")));
                     request.setAttribute("room", rd.getAllRoomByCinID(Integer.parseInt(request.getParameter("cin"))));
                     request.setAttribute("form", fmd.getAllForm());
@@ -367,8 +365,7 @@ public class AddSche extends HttpServlet {
                     String roomID_raw = request.getParameter("room");
 
                     Date startDate = Date.valueOf(startDate_raw);
-                    System.out.println(startDate);
-                    System.out.println(startTime_raw);
+   
                     Time t;
                     t = Time.valueOf(startTime_raw + ":00");
                     System.out.println(t);
@@ -411,9 +408,7 @@ public class AddSche extends HttpServlet {
                     }
                     int p = 0;
                     int min = (int) tgianChieu;
-                    System.out.println(min);
                     Time tme = Time.valueOf(tgianChieu_raw);
-                    System.out.println(tgianChieu_raw);
 
                     try {
                         if (sd.getScheduleByIn4(scheNo, movID, startDate, t, roomID, cinID, min) != null) {

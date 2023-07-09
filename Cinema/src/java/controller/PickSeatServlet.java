@@ -213,6 +213,7 @@ public class PickSeatServlet extends HttpServlet {
 
                     }
                 }
+                
 
                 List<RoomSeat> rs = sed.selectSeatByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID());
 

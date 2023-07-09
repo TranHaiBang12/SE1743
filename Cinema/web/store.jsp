@@ -278,6 +278,7 @@
                 document.cookie = name + "=" + (value || "") + expires;
             }
             function cart(id, price, discount, username) {
+                
                 if (getCookie(username) !== null) {
                     t = getCookie(username);
                 } else {
@@ -289,6 +290,7 @@
                     console.log("1");
                 } else {
                     if (!String(t).includes(id)) {
+                        alert("Add successful");
                         console.log("2");
                         t = t + "/";
                         t = t + id;
@@ -299,7 +301,9 @@
                         t = t + "p";
                         t = t + discount;
                     }
-                    console.log(t);
+                    else {
+                        alert("Already have this product in cart")
+                    }
                     setCookie(username, t, 365);
                 }
                 console.log(getCookie(username));

@@ -179,6 +179,7 @@ public class Cart extends HttpServlet {
 
                 }
             }
+            
 
             int totalQuantity = 0;
             System.out.println(list.size() + " " + listT.size());

@@ -256,7 +256,6 @@ public class TransactionServlet extends HttpServlet {
                 listOFBD.add(ord.getAllOrderOffByUserNameAPDate(a.getUserName(), dte2.get(i)));
             }
             if (listOBD.isEmpty()) {
-                System.out.println("4");
                 request.setAttribute("ms", "Không có hóa đơn nào");
             } else {
                 request.setAttribute("listOBD", listOBD);

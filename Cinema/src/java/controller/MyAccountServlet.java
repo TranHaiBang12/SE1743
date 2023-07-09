@@ -208,7 +208,7 @@ public class MyAccountServlet extends HttpServlet {
                     point = 0;
                 }
                 CinemaDAO cnd = new CinemaDAO();
-                 String pass = acd.getAccountByUserName(request.getParameter("user")).getPassword();
+                String pass = acd.getAccountByUserName(request.getParameter("user")).getPassword();
                 request.setAttribute("pass", pass);
                 request.setAttribute("cin", cnd.getCinemaByID(ed.getAccEmpByUserName(request.getParameter("user")).getCinID()));
                 request.setAttribute("mng", ed.getEmployeeByID(ed.getAccEmpByUserName(request.getParameter("user")).getManagerID()));

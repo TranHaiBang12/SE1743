@@ -321,6 +321,8 @@
                                             <div class = "ttIen">
                                                 <div class = "ttle">5. Số Điểm Sử Dụng: <span class = "rd"><label id = "pu">${requestScope.point}</label></span></div>
                                             </div>
+                                            
+                                            <input type ="text" hidden value ="${requestScope.point}" id ="pnt"/>
 
                                             <div class = "ttIen">
                                                 <div class = "ttle">6. Số Tiền Phải Trả: <span class = "rd"><label id = "amM"></label></span></div>
@@ -527,7 +529,7 @@
                                             <div class = "ttIen">
                                                 <div class = "ttle">4. Số Điểm Sử Dụng: <span class = "rd"><label id = "pu">${requestScope.point}</label></span></div>
                                             </div>
-
+                                            <input type ="text" hidden value ="${requestScope.point}" id ="pnt"/>
                                             <div class = "ttIen">
                                                 <div class = "ttle">5. Số Tiền Phải Trả: <span class = "rd"><label id = "amM"></label></span></div>
                                             </div>
@@ -544,6 +546,10 @@
                                     </div>
                                     <script type = "text/javascript">
                                         var t = 0, pcT = 0, pcF = 0;
+                                        var a = 0;
+                                        if(document.getElementById("pnt") !== null) {
+                                            var a= Number(document.getElementById("pnt") .value);
+                                        }
                                         if (document.getElementById("pcT") !== null) {
                                             pcT = Number(document.getElementById("pcT").value);
 

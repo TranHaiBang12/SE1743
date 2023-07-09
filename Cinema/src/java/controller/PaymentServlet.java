@@ -91,6 +91,7 @@ public class PaymentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         Cookie[] arr = request.getCookies();
         List<CartItemFood> list = new ArrayList<>();
         List<CartItemTicket> listT = new ArrayList<>();
@@ -117,7 +118,7 @@ public class PaymentServlet extends HttpServlet {
             int cntF = 0;
             int k1 = 0;
             int p = 0;
-            price = 0;
+            double pric1e = 0;
             int quantity = 0;
             double discount = 0;
             List<String> listHH = fd.getAllFoodOff();
@@ -146,11 +147,16 @@ public class PaymentServlet extends HttpServlet {
                                     cnt = j;
                                     k1++;
                                 } else if (cart.charAt(j) == 'p' && k1 == 2) {
-                                    price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    pric1e = Double.parseDouble(cart.substring(cnt + 1, j));
                                     cnt = j;
                                     k1++;
-                                } else if (cart.charAt(j) == '/' && k1 == 3) {
-                                    discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                } else if ((cart.charAt(j) == '/' && k1 == 3) || (j == cart.length() - 1 && k1 == 3)) {
+                                    if (cart.charAt(j) == '/' && k1 == 3) {
+                                        discount = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    } else if (j == cart.length() - 1 && k1 == 3) {
+                                        discount = Double.parseDouble(cart.substring(cnt + 1));
+
+                                    }
                                     cnt = j;
                                     k1++;
                                     break;
@@ -158,8 +164,8 @@ public class PaymentServlet extends HttpServlet {
                             }
                             k1 = 0;
                             cnt = 0;
-                            System.out.println(code + " " + quantity + " " + discount + " " + price);
-                            list.add(new CartItemFood(fda.getFoodById(code), quantity, discount, price));
+
+                            list.add(new CartItemFood(fda.getFoodById(code), quantity, discount, pric1e));
                         }
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {
                         for (int j = 0; j < tkB.size(); j++) {
@@ -180,16 +186,17 @@ public class PaymentServlet extends HttpServlet {
                                     cnt = j;
                                     k1++;
                                 } else if (cart.charAt(j) == 'd' && k1 == 2) {
-                                    price = Double.parseDouble(cart.substring(cnt + 1, j));
+                                    pric1e = Double.parseDouble(cart.substring(cnt + 1, j));
+
                                     cnt = j;
                                     k1++;
                                 } else if ((cart.charAt(j) == '/' && k1 == 3) || (j == cart.length() - 1 && k1 == 3)) {
                                     if (cart.charAt(j) == '/' && k1 == 3) {
                                         discount = Double.parseDouble(cart.substring(cnt + 1, j));
-                                    }
-                                    else if (j == cart.length() - 1 && k1 == 3) {
+                                    } else if (j == cart.length() - 1 && k1 == 3) {
                                         discount = Double.parseDouble(cart.substring(cnt + 1, j));
                                     }
+
                                     cnt = j;
                                     k1++;
                                     break;
@@ -203,6 +210,16 @@ public class PaymentServlet extends HttpServlet {
 
                 }
             }
+
+            for (int i = 0; i < list.size(); i++) {
+                priceF += (list.get(i).getFood().getPrice() - list.get(i).getFood().getPrice() * list.get(i).getFood().getDiscount()) * list.get(i).getQuantity();
+            }
+            for (int i = 0; i < listT.size(); i++) {
+                priceT += listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount();
+            }
+            System.out.println(price);
+            System.out.println(priceF);
+            price = priceF + priceT;
 
             String t = "2023-05-01";
             List<DateMD> dte = new ArrayList<>();
@@ -313,21 +330,19 @@ public class PaymentServlet extends HttpServlet {
             fd = new FoodDAO();
             List<Food> f = new ArrayList<>();
             discount = 0;
-            DecimalFormat decimalFormat = new DecimalFormat("#.##");
             double tpt = 0;
             for (int i = 0; i < evAchieve.size(); i++) {
                 if (evAchieve.get(i).getEventType() == 1) {
                     if (evd.getEventDiscountO(evAchieve.get(i).getEventCode()) != null) {
                         discount = evd.getEventDiscountO(evAchieve.get(i).getEventCode()).getDiscount();
-                        System.out.println(discount);
                         String pc = decimalFormat.format(discount * 100);
                         if (evd.getEventDiscountO(evAchieve.get(i).getEventCode()).getType().equals("FD")) {
                             tpt = priceF - priceF * discount + priceT;
                         } else if (evd.getEventDiscountO(evAchieve.get(i).getEventCode()).getType().equals("TK")) {
                             tpt = priceT - priceT * discount + priceF;
-                            System.out.println(priceT);
                         }
                         if (discount != 0) {
+                            System.out.println("pslp");
                             request.setAttribute("tpt", decimalFormat.format(tpt));
                             request.setAttribute("discount", pc);
                         }
@@ -424,7 +439,7 @@ public class PaymentServlet extends HttpServlet {
                             cntT = 0;
                             cntF = 0;
                             if (cart.charAt(i + 1) == 'F' && cart.charAt(i + 2) == 'D') {
-                                
+
                                 for (int j = 0; j < listHH.size(); j++) {
                                     if (cart.substring(i + 1, i + 7).equals(listHH.get(j))) {
                                         cntF++;
@@ -503,6 +518,14 @@ public class PaymentServlet extends HttpServlet {
 
                         }
                     }
+
+                    for (int i = 0; i < list.size(); i++) {
+                        priceF += (list.get(i).getFood().getPrice() - list.get(i).getFood().getPrice() * list.get(i).getFood().getDiscount()) * list.get(i).getQuantity();
+                    }
+                    for (int i = 0; i < listT.size(); i++) {
+                        priceT += listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount();
+                    }
+                    price = priceF + priceT;
 
                     String t = "2023-05-01";
                     List<DateMD> dte = new ArrayList<>();
@@ -862,6 +885,14 @@ public class PaymentServlet extends HttpServlet {
 
                         }
                     }
+                    
+                    for (int i = 0; i < list.size(); i++) {
+                        priceF += (list.get(i).getFood().getPrice() - list.get(i).getFood().getPrice() * list.get(i).getFood().getDiscount()) * list.get(i).getQuantity();
+                    }
+                    for (int i = 0; i < listT.size(); i++) {
+                        priceT += listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount();
+                    }
+                    price = priceF + priceT;
                     PointDAO pd = new PointDAO();
                     AccountPoint ap = pd.getAccountPoint(a.getUserName());
                     int point;

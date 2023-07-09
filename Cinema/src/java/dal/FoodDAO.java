@@ -55,7 +55,7 @@ public class FoodDAO extends DBContext {
 
     public Food getFoodById(String productCode) {
         try {
-            String sql = "SELECT Food.*, Discout, Price FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode WHERE Food.ProductCode = ? AND Status = N'ĐANG BÁN'";
+            String sql = "SELECT Food.*, Discout, Price FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode WHERE Food.ProductCode = ? ";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, productCode);
             ResultSet rs = st.executeQuery();
@@ -71,7 +71,7 @@ public class FoodDAO extends DBContext {
 
     public String getFoodTypeNameByID(String id) {
         try {
-            String sql = "SELECT * FROM FoodType WHERE ftID = ? AND Status = N'ĐANG BÁN'";
+            String sql = "SELECT * FROM FoodType WHERE ftID = ? ";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, id);
             ResultSet rs = st.executeQuery();
@@ -90,9 +90,9 @@ public class FoodDAO extends DBContext {
         try {
             String sql;
             if (type.equals("")) {
-                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE  Status = N'ĐANG BÁN' AND FoodDescription LIKE '%" + key + "%'";
+                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE   FoodDescription LIKE '%" + key + "%'";
             } else {
-                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE  Status = N'ĐANG BÁN' AND Food.FoodType = ? AND FoodDescription LIKE '%" + key + "%'";
+                sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID WHERE   Food.FoodType = ? AND FoodDescription LIKE '%" + key + "%'";
             }
             PreparedStatement st = connection.prepareStatement(sql);
             if (!type.equals("")) {
