@@ -125,6 +125,19 @@
                 align-items: center;
                 margin-bottom: 20px;
             }
+            .hinbody1{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-left: 80px;
+                
+            }
+            
+            .ms{
+                font-size: 25px;
+                color: red;
+                padding-left: 80px;
+            }
             .btS{
                 padding-right: 115px;
 
@@ -138,9 +151,52 @@
                 height: 100%;
                 cursor: pointer;
             }
-            
+
             .m1{
                 margin-left: 40px;
+            }
+
+            table{
+                margin-top: 20px;
+                border: 1px solid black;
+            }
+
+            tr{
+                text-align: center;
+                border: 1px solid black;
+            }
+
+            td{
+                padding: 20px;
+                border: 1px solid black;
+            }
+            th{
+                padding: 20px;
+                border: 1px solid black;
+            }
+
+
+            td input{
+                width: 80%;
+                height: 30px;
+                cursor: pointer;
+            }
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
             }
         </style>
     </head>
@@ -150,59 +206,46 @@
         </div>
         <div class = "body">
             <div class = "hinbody">
-                <div class = "ttle">Báo Cáo Tháng ${requestScope.month} Năm ${requestScope.year}</div>
+                <div class = "ttle">Chấm Công Tháng ${requestScope.month} Năm ${requestScope.year}</div>
                 <div class = "dteS">
                     <div>Nhân viên: <span class = "rd">${requestScope.e.getLastName()} ${requestScope.e.getFirstName()}</span></div>
 
                 </div>
             </div>
-            <div class = "hinbody">
-                <div class = "SSttle">
-                    1. Ca Trực
-                </div>
-                <div class = "btS">
-                    <a href = "emps?id=${requestScope.e.getEmpID()}&month=${requestScope.month}&year=${requestScope.year}"><button>XEM CHI TIẾT</button></a>
-                </div>
 
-            </div>
-            <div class = "hinbody">
-                <div class = "SSttle">
-                    2. Chấm Công
+            <c:if test = "${requestScope.ms != null}">
+                <div class = "ms">
+                    ${requestScope.ms}
                 </div>
-                <div class = "btS">
-                    <a href = "emptp?id=${requestScope.e.getEmpID()}&month=${requestScope.month}&year=${requestScope.year}"><button>XEM CHI TIẾT</button></a>
+            </c:if>
+            <c:if test = "${requestScope.list != null}">
+                <div class = "hinbody1">
+                    <table>
+                        <tr>
+                            <th>MÃ CA LÀM</th>
+                            <th>MÃ NHÂN VIÊN</th>
+                            <th>GIỜ VÀO LÀM</th>
+                            <th>GIỜ RA VỀ</th>
+                            <th>NGHỈ PHÉP</th>
+                            <th>NGÀY</th>
+                            <th>HÀNH ĐỘNG</th>
+                        </tr>
+                        <c:forEach items = "${requestScope.list}" var = "k">
+                            <tr>
+                                <td>${k.getShiftID()}</td>
+                                <td>${k.getEmpID()}</td><!-- <td></td> -->
+                                <td>${k.getStartWork()}</td>
+                                <td>${k.getEndWork()}</td>
+                                <td>${k.getOnLeave()}</td>
+                                <td>${k.getDateS()}</td>
+                                <td><a href="updtkp?id=${requestScope.e.getEmpID()}"><input type ="button" value = "SỬA"/></a></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                 </div>
-                <!-- comment -->
-            </div>
-            <div class = "SSttle">
-                3. Thống Kê Chấm Công
-                <div class = "insider1">
-                    <div>
-                        - Số ngày làm việc: <span class = "rd">${requestScope.numDateWork}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày đến đúng giờ: <span class = "rd">${requestScope.numDateCR}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày đến muộn: <span class = "rd">${requestScope.numDateCL}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày làm OT: <span class = "rd">${requestScope.numDateOT}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày về đúng giờ: <span class = "rd">${requestScope.numDateRR}</span>
-                    </div>
-                    <div>
-                        - Số giờ làm việc: <span class = "rd">${requestScope.numHourWork}</span>
-                    </div>
-                    <div>
-                        - Số ngày nghỉ: <span class = "rd">${requestScope.numDateOff}</span>
-                    </div><!-- comment -->
-                    <div>
-                        - Số ngày nghỉ có phép: <span class = "rd">${requestScope.numDateOffHasP}</span>
-                    </div>
-                </div>
-            </div>
+        
+            </c:if>
+
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

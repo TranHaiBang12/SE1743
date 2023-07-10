@@ -18,6 +18,8 @@ public class Shift {
     private Time endShift;
     private Date startDate;
     private Date endDate;
+    private String startDateS;
+    private String endDateS;
 
     public Shift(int shiftID, int empID, Time startShift, Time endShift, Date startDate, Date endDate) {
         this.shiftID = shiftID;
@@ -27,6 +29,24 @@ public class Shift {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public String getStartDateS() {
+        return startDateS;
+    }
+
+    public void setStartDateS(String startDateS) {
+        this.startDateS = startDateS;
+    }
+
+    public String getEndDateS() {
+        return endDateS;
+    }
+
+    public void setEndDateS(String endDateS) {
+        this.endDateS = endDateS;
+    }
+    
+    
 
     public int getShiftID() {
         return shiftID;

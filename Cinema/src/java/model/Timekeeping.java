@@ -20,6 +20,7 @@ public class Timekeeping {
     private Date date;
     private Employee e;
     private Shift s;
+    private String dateS;
 
     public Timekeeping(int empID, Time startWork, Time endWork, int shiftID, int onLeave, Date date, Employee e, Shift s) {
         this.empID = empID;
@@ -31,6 +32,16 @@ public class Timekeeping {
         this.e = e;
         this.s = s;
     }
+
+    public String getDateS() {
+        return dateS;
+    }
+
+    public void setDateS(String dateS) {
+        this.dateS = dateS;
+    }
+    
+    
 
     public int getEmpID() {
         return empID;

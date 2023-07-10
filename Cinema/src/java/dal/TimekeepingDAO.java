@@ -24,7 +24,7 @@ public class TimekeepingDAO extends DBContext{
         try {
             EmployeeDAO ed = new EmployeeDAO();
             ShiftDAO sd = new ShiftDAO();
-            String sql = "SELECT * FROM Timekeeping WHERE EmpID = ? AND YEAR(Date) = ?AND MONTH(Date) = ?";
+            String sql = "SELECT * FROM Timekeeping WHERE EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, empID);
             st.setInt(2, year);

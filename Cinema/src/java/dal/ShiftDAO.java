@@ -6,6 +6,8 @@ package dal;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import model.Shift;
 
 /**
@@ -27,5 +29,26 @@ public class ShiftDAO extends DBContext{
             System.out.println(e);
         }
         return null;
+    }
+    
+    public List<Shift> getAllShiftByEmpAMAY(int empID, int month, int year) {
+        List<Shift> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Shift WHERE EmpID = ? AND YEAR(startDate) = ? AND MONTH(startDate) = ? AND YEAR(endDate) = ? AND MONTH(endDate) = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            st.setInt(4, year);
+            st.setInt(5, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Shift s = new Shift(rs.getInt("ShiftID"), rs.getInt("EmpID"), rs.getTime("startShift"), rs.getTime("endShift"), rs.getDate("startDate"), rs.getDate("endDate"));
+                list.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
     }
 }

@@ -280,6 +280,30 @@
         <servlet-name>EmpRpDetail</servlet-name>
         <servlet-class>controller.EmpRpDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EmployeeShift</servlet-name>
+        <servlet-class>controller.EmployeeShift</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EmpTimekeeping</servlet-name>
+        <servlet-class>controller.EmpTimekeeping</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddShift</servlet-name>
+        <servlet-class>controller.AddShift</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdShift</servlet-name>
+        <servlet-class>controller.UpdShift</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddTkp</servlet-name>
+        <servlet-class>controller.AddTkp</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdTkp</servlet-name>
+        <servlet-class>controller.UpdTkp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -559,6 +583,30 @@
     <servlet-mapping>
         <servlet-name>EmpRpDetail</servlet-name>
         <url-pattern>/erpd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeeShift</servlet-name>
+        <url-pattern>/emps</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmpTimekeeping</servlet-name>
+        <url-pattern>/emptp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddShift</servlet-name>
+        <url-pattern>/addsh</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdShift</servlet-name>
+        <url-pattern>/updsh</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTkp</servlet-name>
+        <url-pattern>/addtkp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdTkp</servlet-name>
+        <url-pattern>/updtkp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

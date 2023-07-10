@@ -17,7 +17,6 @@
                 padding-top: 40px;
             }
             .ttle{
-                margin-left: 80px;
                 padding-top: 40px;
 
                 font-size: 19px;
@@ -86,7 +85,6 @@
                 font-size: 20px;
                 margin-top: 10px;
                 font-weight: bold;
-                padding-left: 80px;
             }
 
             .dteS{
@@ -124,6 +122,28 @@
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 20px;
+                padding-left: 80px;
+            }
+
+            .hinbody1{
+                display: flex;
+                flex-direction: column;
+                padding-left: 80px;
+                font-size: 20px;
+            }
+
+            .hinbody1 input{
+                font-size: 20px;
+            }
+
+            .hinbody1 div{
+                margin-bottom: 10px;
+            }
+
+            .ms{
+                font-size: 25px;
+                color: red;
+                padding-left: 80px;
             }
             .btS{
                 padding-right: 115px;
@@ -138,9 +158,60 @@
                 height: 100%;
                 cursor: pointer;
             }
-            
+
             .m1{
                 margin-left: 40px;
+            }
+
+            table{
+                margin-top: 20px;
+                border: 1px solid black;
+            }
+
+            tr{
+                text-align: center;
+                border: 1px solid black;
+            }
+
+            td{
+                padding: 20px;
+                border: 1px solid black;
+            }
+            th{
+                padding: 20px;
+                border: 1px solid black;
+            }
+
+
+            td input{
+                width: 80%;
+                height: 30px;
+                cursor: pointer;
+            }
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+            
+            .sb{
+                font-size: 16px;
+                padding: 5px;
+                cursor: pointer;
+                color: white;
+                background-color: red;
             }
         </style>
     </head>
@@ -150,59 +221,43 @@
         </div>
         <div class = "body">
             <div class = "hinbody">
-                <div class = "ttle">Báo Cáo Tháng ${requestScope.month} Năm ${requestScope.year}</div>
+                <div class = "ttle">Thêm Ca Trực</div>
                 <div class = "dteS">
                     <div>Nhân viên: <span class = "rd">${requestScope.e.getLastName()} ${requestScope.e.getFirstName()}</span></div>
 
                 </div>
             </div>
-            <div class = "hinbody">
-                <div class = "SSttle">
-                    1. Ca Trực
+            <c:if test = "${requestScope.ms != null}">
+                <div class = "ms">
+                    ${requestScope.ms}
                 </div>
-                <div class = "btS">
-                    <a href = "emps?id=${requestScope.e.getEmpID()}&month=${requestScope.month}&year=${requestScope.year}"><button>XEM CHI TIẾT</button></a>
-                </div>
-
-            </div>
-            <div class = "hinbody">
-                <div class = "SSttle">
-                    2. Chấm Công
-                </div>
-                <div class = "btS">
-                    <a href = "emptp?id=${requestScope.e.getEmpID()}&month=${requestScope.month}&year=${requestScope.year}"><button>XEM CHI TIẾT</button></a>
-                </div>
-                <!-- comment -->
-            </div>
-            <div class = "SSttle">
-                3. Thống Kê Chấm Công
-                <div class = "insider1">
+            </c:if>
+            <div class = "hinbody1">
+                <form action = "addsh" method = "post">
                     <div>
-                        - Số ngày làm việc: <span class = "rd">${requestScope.numDateWork}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày đến đúng giờ: <span class = "rd">${requestScope.numDateCR}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày đến muộn: <span class = "rd">${requestScope.numDateCL}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày làm OT: <span class = "rd">${requestScope.numDateOT}</span>
-                    </div>
-                    <div class = "m1">
-                        + Số ngày về đúng giờ: <span class = "rd">${requestScope.numDateRR}</span>
+                        Mã Nhân Viên: ${requestScope.e.getEmpID()}
                     </div>
                     <div>
-                        - Số giờ làm việc: <span class = "rd">${requestScope.numHourWork}</span>
+                        Mã Ca Làm: <input type ="number" required name ="id" min ="0" step ="1" value ="${requestScope.k.getShiftID()}"/>
                     </div>
                     <div>
-                        - Số ngày nghỉ: <span class = "rd">${requestScope.numDateOff}</span>
+                        Giờ Bắt Đầu Ca Làm: <input type ="time" required name ="startWork" value ="${requestScope.k.getStartWork()}"/>
                     </div><!-- comment -->
                     <div>
-                        - Số ngày nghỉ có phép: <span class = "rd">${requestScope.numDateOffHasP}</span>
+                        Giờ Kết Thúc Ca Làm: <input type ="time" required name ="endWork" value ="${requestScope.k.getEndWork()}"/>
                     </div>
-                </div>
+                    <div>
+                        Ngày Bắt Đầu: <input type ="date" required name ="startDate" value ="${requestScope.k.getStartS()}"/>
+                    </div>
+                    <div>
+                        Ngày Kết Thúc: <input type ="date" required name ="endDate" value ="${requestScope.k.getEndS()}"/>
+                    </div>
+                    <input class ="sb" type ="submit" value ="THÊM"/>
+                </form>
             </div>
+
+
+
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
