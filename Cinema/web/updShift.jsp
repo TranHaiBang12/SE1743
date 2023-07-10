@@ -277,13 +277,15 @@
                 for (var i = 0; i < startTime.length; i++) {
                     if(String(startTime).charAt(i) === ':') {
                         hourStart = String(startTime).substring(0, i);
-                        minStart = String(startTime).substring(i + 1);
+                        minStart = String(startTime).substring(i + 1, i + 3);
+                        break;
                     }
                 }
                 for (var i = 0; i < endTime.length; i++) {
                     if(String(endTime).charAt(i) === ':') {
                         hourEnd = String(endTime).substring(0, i);
-                        minEnd = String(endTime).substring(i + 1);
+                        minEnd = String(endTime).substring(i + 1, i + 3);
+                        break;
                     }
                 }
                 startDate.setHours(hourStart);

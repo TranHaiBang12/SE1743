@@ -238,7 +238,7 @@
                                 <td>${k.getEndWork()}</td>
                                 <td>${k.getOnLeave()}</td>
                                 <td>${k.getDateS()}</td>
-                                <td><a href="updtkp?id=${requestScope.e.getEmpID()}"><input type ="button" value = "SỬA"/></a></td>
+                                <td><a href="updtkp?id=${requestScope.e.getEmpID()}&date=${k.getDate()}"><input type ="button" value = "SỬA"/></a></td>
                             </tr>
                         </c:forEach>
                     </table>

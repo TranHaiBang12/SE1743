@@ -19,6 +19,40 @@ import model.Timekeeping;
  * @author acer
  */
 public class TimekeepingDAO extends DBContext{
+    public Timekeeping getTimekeepingByDateAID(int empID, Date d) {
+        EmployeeDAO ed = new EmployeeDAO();
+        ShiftDAO sd = new ShiftDAO();
+        try {
+            String sql = "SELECT * FROM Timekeeping WHERE EmpID = ? AND Date = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setDate(2, d);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                Timekeeping t = new Timekeeping(rs.getInt("EmpID"), rs.getTime("startWorkTime"), rs.getTime("endWorkTime"), rs.getInt("ShiftID"), rs.getInt("onLeave"), rs.getDate("Date"), ed.getEmployeeByID(rs.getInt("EmpID")), sd.getShiftByID(rs.getInt("ShiftID")));
+                return t;
+            }
+        } catch (Exception e) {
+            System.out.println(e);           
+        }
+        return null;
+    }
+    
+    public void updTimekeepingByEmpIDAD(int empID, Date d, Time startWork, Time endWork, int onleave) {
+        try {
+            String sql = "UPDATE Timekeeping SET startWorkTime = ?, endWorkTime = ?, onleave = ? WHERE EmpID = ? AND Date = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setTime(1, startWork);
+            st.setTime(2, endWork);
+            st.setInt(3, onleave);
+            st.setInt(4, empID);
+            st.setDate(5, d);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     public List<Timekeeping> getTimekeepingByEmpAndYear(int empID, int year, int month) {
         List<Timekeeping> list = new ArrayList<>();
         try {

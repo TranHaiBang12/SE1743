@@ -104,12 +104,33 @@ public class AddShift extends HttpServlet {
         Time endWork = null;
         Date startDate = null;
         Date endDate = null;
+        int cntS = 0;
+        int cntE = 0;
+        for (int i = 0; i < startWork_raw.length(); i++) {
+            if (startWork_raw.charAt(i) == ':') {
+                cntS++;
+            }
+        }
+        for (int i = 0; i < endWork_raw.length(); i++) {
+            if (endWork_raw.charAt(i) == ':') {
+                cntE++;
+            }
+        }
 
         try {
             empID = Integer.parseInt(empID_raw);
             id = Integer.parseInt(id_raw);
-            startWork = Time.valueOf(startWork_raw + ":00");
-            endWork = Time.valueOf(endWork_raw + ":00");
+            if (cntS == 1) {
+                startWork = Time.valueOf(startWork_raw + ":00");
+            } else if (cntS == 2) {
+                startWork = Time.valueOf(startWork_raw);
+            }
+            if (cntE == 1) {
+                endWork = Time.valueOf(endWork_raw + ":00");
+            }
+            else if(cntE == 2) {
+                endWork = Time.valueOf(endWork_raw);
+            }
             startDate = Date.valueOf(startDate_raw);
             endDate = Date.valueOf(endDate_raw);
             if (ed.getEmployeeByID(empID) == null) {

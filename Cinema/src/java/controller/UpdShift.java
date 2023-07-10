@@ -101,12 +101,33 @@ public class UpdShift extends HttpServlet {
         Time endWork = null;
         Date startDate = null;
         Date endDate = null;
+        int cntS = 0;
+        int cntE = 0;
+        for (int i = 0; i < startWork_raw.length(); i++) {
+            if (startWork_raw.charAt(i) == ':') {
+                cntS++;
+            }
+        }
+        for (int i = 0; i < endWork_raw.length(); i++) {
+            if (endWork_raw.charAt(i) == ':') {
+                cntE++;
+            }
+        }
 
         try {
             empID = Integer.parseInt(empID_raw);
             id = Integer.parseInt(id_raw);
-            startWork = Time.valueOf(startWork_raw);
-            endWork = Time.valueOf(endWork_raw);
+            if (cntS == 2) {
+                startWork = Time.valueOf(startWork_raw);
+            } else if (cntS == 1) {
+                startWork = Time.valueOf(startWork_raw + ":00");
+            }
+            if (cntE == 2) {
+                endWork = Time.valueOf(endWork_raw);
+            }
+            else if(cntE == 1) {
+                endWork = Time.valueOf(endWork_raw + ":00");
+            }
             startDate = Date.valueOf(startDate_raw);
             endDate = Date.valueOf(endDate_raw);
             if (ed.getEmployeeByID(empID) == null) {
@@ -115,13 +136,14 @@ public class UpdShift extends HttpServlet {
         } catch (Exception e) {
             request.getRequestDispatcher("error.jsp");
         }
-        System.out.println(startWork_raw + " " + endWork_raw);
-        System.out.println(empID + " " + id + " " + startWork + " " + endWork + " " + startDate + " " + endDate);
+
 
         //check trung shift id
-        if (sd.checkShiftUpdByDate(startDate, endDate, id) == true) {
+        if (sd.checkShiftUpdByDate(startDate, endDate, id, empID) == true) {
+            System.out.println(id + " " + startDate + " " + endDate);
             request.setAttribute("ms", "Khoảng thời gian này đã tồn tại 1 ca làm");
             request.setAttribute("e", ed.getEmployeeByID(empID));
+            request.setAttribute("k", sd.getShiftByID(id));
             request.getRequestDispatcher("updShift.jsp").forward(request, response);
         } else {
             sd.updShift(id, empID, startWork, endWork, startDate, endDate);

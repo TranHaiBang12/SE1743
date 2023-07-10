@@ -89,17 +89,18 @@ public class ShiftDAO extends DBContext{
         return false;
     }
     
-    public boolean checkShiftUpdByDate(Date start, Date end, int shiftID) {
+    public boolean checkShiftUpdByDate(Date start, Date end, int shiftID, int empID) {
         try {
-            String sql = "SELECT * FROM Shift WHERE ShiftID != ? AND ((startDate BETWEEN ? AND ?) OR (endDate BETWEEN ? AND ?) OR (startDate < ? AND endDate > ?))";
+            String sql = "SELECT * FROM Shift WHERE ShiftID != ? AND EmpID = ? AND ((startDate BETWEEN ? AND ?) OR (endDate BETWEEN ? AND ?) OR (startDate < ? AND endDate > ?))";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, shiftID);
-            st.setDate(2, start);
-            st.setDate(3, end);
-            st.setDate(4, start);
-            st.setDate(5, end);
-            st.setDate(6, start);
-            st.setDate(7, end);
+            st.setInt(2, empID);
+            st.setDate(3, start);
+            st.setDate(4, end);
+            st.setDate(5, start);
+            st.setDate(6, end);
+            st.setDate(7, start);
+            st.setDate(8, end);
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
                 return true;
