@@ -28,7 +28,12 @@
                 padding: 10px;
             }
 
-
+            .menu{
+                border-bottom: 3px solid black;
+                border-top: 3px solid black;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
 
         </style>
     </head>
@@ -49,8 +54,10 @@
                 <li><a href="cart">GIỎ HÀNG CỦA TÔI</a></li>
             </div>
             <c:if test="${sessionScope.account==null}">
-                <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
-                </c:if>
+                <div class="dropdown">
+                    <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
+                </div>
+            </c:if>
 
             <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
                 <div class="dropdown">

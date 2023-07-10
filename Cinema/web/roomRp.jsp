@@ -632,7 +632,6 @@
                             } else {
                                 seatC.splice(i, 1);
                             }
-                            console.log(t);
                             check++;
                         }
                         if (check > 0) {

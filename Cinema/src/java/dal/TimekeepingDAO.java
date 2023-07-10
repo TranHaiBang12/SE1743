@@ -28,6 +28,7 @@ public class TimekeepingDAO extends DBContext{
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, empID);
             st.setInt(2, year);
+            st.setInt(3, month);
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
                 Timekeeping t = new Timekeeping(rs.getInt("EmpID"), rs.getTime("startWorkTime"), rs.getTime("endWorkTime"), rs.getInt("ShiftID"), rs.getInt("onLeave"), rs.getDate("Date"), ed.getEmployeeByID(rs.getInt("EmpID")), sd.getShiftByID(rs.getInt("ShiftID")));
@@ -37,5 +38,197 @@ public class TimekeepingDAO extends DBContext{
             System.out.println(e);
         }
         return list;
+    }
+    
+    public int geNumDateWorkByTime(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND startWorkTime IS NOT NULL AND endWorkTime IS NOT NULL";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public double geNumHourWorkByTime(int empID, int year, int month) {
+        double a = 0;
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT SUM(DATEDIFF(minute, startWorkTime, endWorkTime)) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND startWorkTime IS NOT NULL AND endWorkTime IS NOT NULL ";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                
+                a = (double)rs.getInt("T") / (double)60;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    
+    public int getNumDateOffWorkByTime(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND startWorkTime IS NULL AND endWorkTime IS NULL";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDateOffWorkByTimeHasPermission(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND startWorkTime IS NULL AND endWorkTime IS NULL AND onLeave = 1";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDateComeRightTime(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND startWorkTime = startShift";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDateComeLate(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND startWorkTime > startShift";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDateComeSoon(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND startWorkTime < startShift";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDateReturnRightTime(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND endWorkTime = endShift";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDateOT(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND endWorkTime > endShift";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
+    }
+    
+    public int getNumDateReturnSoon(int empID, int year, int month) {
+        try {
+            EmployeeDAO ed = new EmployeeDAO();
+            ShiftDAO sd = new ShiftDAO();
+            String sql = "SELECT COUNT(*) AS T FROM Timekeeping JOIN Shift ON Timekeeping.ShiftID = Shift.ShiftID WHERE Timekeeping.EmpID = ? AND YEAR(Date) = ? AND MONTH(Date) = ? AND endWorkTime < endShift";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setInt(2, year);
+            st.setInt(3, month);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return rs.getInt("T");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return 0;
     }
 }

@@ -276,6 +276,10 @@
         <servlet-name>EmpReport</servlet-name>
         <servlet-class>controller.EmpReport</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EmpRpDetail</servlet-name>
+        <servlet-class>controller.EmpRpDetail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -551,6 +555,10 @@
     <servlet-mapping>
         <servlet-name>EmpReport</servlet-name>
         <url-pattern>/emprp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmpRpDetail</servlet-name>
+        <url-pattern>/erpd</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

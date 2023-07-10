@@ -91,6 +91,7 @@ public class EmpReport extends HttpServlet {
     throws ServletException, IOException {
         TimekeepingDAO tkpd = new TimekeepingDAO();
         ShiftDAO sd = new ShiftDAO();
+        EmployeeDAO ed = new EmployeeDAO();
         
         String id_raw = request.getParameter("id");
         String year_raw = request.getParameter("year");
@@ -107,11 +108,10 @@ public class EmpReport extends HttpServlet {
             } catch (Exception e) {
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
-            List<TimekeepingMonth> list = new ArrayList<>();
-            for (int i = 1; i <= 12; i++) {
-                list.add(new TimekeepingMonth(i, tkpd.getTimekeepingByEmpAndYear(id, year, i)));
-            }
-            
+            request.setAttribute("e", ed.getEmployeeByID(id));
+            request.setAttribute("year", year);
+            request.setAttribute("check", 1);
+            request.getRequestDispatcher("empRp.jsp").forward(request, response);
         }
     }
 

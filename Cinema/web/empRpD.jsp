@@ -86,6 +86,7 @@
                 font-size: 20px;
                 margin-top: 10px;
                 font-weight: bold;
+                padding-left: 80px;
             }
 
             .dteS{
@@ -122,6 +123,24 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                margin-bottom: 20px;
+            }
+            .btS{
+                padding-right: 115px;
+
+            }
+            .btS button{
+                font-size: 18px;
+                padding: 5px;
+                background-color: red;
+                color: white;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+            }
+            
+            .m1{
+                margin-left: 40px;
             }
         </style>
     </head>
@@ -131,39 +150,59 @@
         </div>
         <div class = "body">
             <div class = "hinbody">
-                <div class = "ttle">Thống Kê Về Nhân Viên</div>
-                <c:if test = "${requestScope.check != null}">
-                    <div class = "dteS">
-                        <div>Nhân viên: <span class = "rd">${requestScope.e.getLastName()} ${requestScope.e.getFirstName()} - </span>Năm <span class = "rd">${requestScope.year}</span></div>
+                <div class = "ttle">Báo Cáo Tháng ${requestScope.month} Năm ${requestScope.year}</div>
+                <div class = "dteS">
+                    <div>Nhân viên: <span class = "rd">${requestScope.e.getLastName()} ${requestScope.e.getFirstName()}</span></div>
 
-                    </div>
-                </c:if>
-            </div>
-            <c:if test = "${requestScope.check == null}">
-                <form action = "emprp" method = "post">
-                    <div class = "search">
-                        <div>
-                            Nhập năm muốn thống kê: <input type ="number" required min ="2000" max ="2023" name ="year"/>
-                        </div>
-                        <input type ="text" hidden name ="id" value ="${requestScope.id}"/>
-                    </div>
-                    <br/>
-                    <div class = "srchBtn">
-                        <input type = "submit" value ="THỐNG KÊ"/>
-                    </div>
-                </form>
-            </c:if>
-            <c:if test = "${requestScope.check != null}">
-
-
-                <div class = "monthlyRp">
-                    <c:forEach begin="1" end="12"  var="i">
-                        <div class = "btN">
-                            <a href = "erpd?id=${requestScope.e.getEmpID()}&month=${i}&year=${requestScope.year}"><button>BÁO CÁO THÁNG ${i}</button></a>
-                        </div>
-                    </c:forEach>
                 </div>
-            </c:if>
+            </div>
+            <div class = "hinbody">
+                <div class = "SSttle">
+                    1. Ca Trực
+                </div>
+                <div class = "btS">
+                    <a href = "rpp?type=TK"><button>XEM CHI TIẾT</button></a>
+                </div>
+
+            </div>
+            <div class = "hinbody">
+                <div class = "SSttle">
+                    2. Chấm Công
+                </div>
+                <div class = "btS">
+                    <a href = "rpp?type=TK"><button>XEM CHI TIẾT</button></a>
+                </div>
+                <!-- comment -->
+            </div>
+            <div class = "SSttle">
+                3. Thống Kê Chấm Công
+                <div class = "insider1">
+                    <div>
+                        - Số ngày làm việc: <span class = "rd">${requestScope.numDateWork}</span>
+                    </div>
+                    <div class = "m1">
+                        + Số ngày đến đúng giờ: <span class = "rd">${requestScope.numDateCR}</span>
+                    </div>
+                    <div class = "m1">
+                        + Số ngày đến muộn: <span class = "rd">${requestScope.numDateCL}</span>
+                    </div>
+                    <div class = "m1">
+                        + Số ngày làm OT: <span class = "rd">${requestScope.numDateOT}</span>
+                    </div>
+                    <div class = "m1">
+                        + Số ngày về đúng giờ: <span class = "rd">${requestScope.numDateRR}</span>
+                    </div>
+                    <div>
+                        - Số giờ làm việc: <span class = "rd">${requestScope.numHourWork}</span>
+                    </div>
+                    <div>
+                        - Số ngày nghỉ: <span class = "rd">${requestScope.numDateOff}</span>
+                    </div><!-- comment -->
+                    <div>
+                        - Số ngày nghỉ có phép: <span class = "rd">${requestScope.numDateOffHasP}</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
