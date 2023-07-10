@@ -20,10 +20,14 @@
                 cursor: pointer;
                 margin-right: 20px;
             }
-            
+
             .cinemaLogo{
                 border-right: 1px solid black;
             }
+            .menu_ttinBenLe{
+                padding: 10px;
+            }
+
 
 
         </style>
@@ -41,8 +45,9 @@
                     </div>
                 </div>
             </div>
-            <li><a href="cart">GIỎ HÀNG CỦA TÔI</a></li>
-
+            <div class="dropdown">
+                <li><a href="cart">GIỎ HÀNG CỦA TÔI</a></li>
+            </div>
             <c:if test="${sessionScope.account==null}">
                 <li><a href="login">ĐĂNG NHẬP/ĐĂNG KÝ</a></li>
                 </c:if>
@@ -75,7 +80,13 @@
                 </div>
             </c:if>
             <c:if test = "${sessionScope.account!=null}">
-                <li><a href="transact">LỊCH SỬ GIAO DỊCH</a></li>
+                <div class="dropdown">
+                    <li>
+
+                        <a class ="lnk" href="transact">LỊCH SỬ GIAO DỊCH</a>
+
+                    </li>
+                </div>
                 <div class="dropdown">
                     <li id = "userN">${sessionScope.account.getUserName()}</li>
                     <div class="dropdown-content">
@@ -159,6 +170,9 @@
                             <div class="dropdown-content">
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="liste">Danh Sách</a>
+                                    <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                        <a class ="lnk" href="rpm">Thống Kê</a>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
@@ -203,7 +217,7 @@
                             <img class="memberIcon" src="images/storeiCON.png" />
                             <a class ="lnk" href="store">CỬA HÀNG</a>
                         </div>
-                     
+
                     </div>
                 </li>
             </ul>

@@ -371,7 +371,13 @@ public class PaymentServlet extends HttpServlet {
             if (!f.isEmpty()) {
                 request.setAttribute("f", f);
             }
-            double maxPointUse = Math.floor((price / 1000) * 90 / 100);
+            double maxPointUse = 0;
+            if (tpt == 0) {
+                 maxPointUse = Math.floor((price / 1000) * 90 / 100);
+            }
+            else {
+                maxPointUse = Math.floor((tpt / 1000) * 90 / 100);
+            }
             request.setAttribute("point", decimalFormat.format(point));
 
             request.setAttribute("maxPoint", decimalFormat.format(maxPointUse));
@@ -885,7 +891,7 @@ public class PaymentServlet extends HttpServlet {
 
                         }
                     }
-                    
+
                     for (int i = 0; i < list.size(); i++) {
                         priceF += (list.get(i).getFood().getPrice() - list.get(i).getFood().getPrice() * list.get(i).getFood().getDiscount()) * list.get(i).getQuantity();
                     }

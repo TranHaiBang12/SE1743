@@ -83,7 +83,7 @@
             .rd{
                 color: red;
             }
-            
+
             .ms{
                 font-weight: bold;
                 color: red;
@@ -137,6 +137,9 @@
                             <td>${i.getCinName()}</td>
                             <td>
                                 <a href = "empdt?id=${i.getEmpID()}">XEM CHI TIẾT</a>
+
+                                /
+                                <a href = "emprp?id=${i.getEmpID()}">XEM BÁO CÁO</a>
 
                                 /
                                 <span class ="dlt" onclick = "dlt('${i.getEmpID()}')">XÓA</span>

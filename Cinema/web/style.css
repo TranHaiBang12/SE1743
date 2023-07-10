@@ -403,4 +403,10 @@ body {
 .footer{
     width: 100%;
 }
+.menu_ttinBenLe{
+    padding: 10px;
+}
 
+.dropdown{
+    padding: 10px;
+}

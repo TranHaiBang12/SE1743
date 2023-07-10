@@ -421,9 +421,7 @@ public class SignupServlet extends HttpServlet {
                     + "                    </form>"
                     + "                </div>\n"
                     + "            </div>\n"
-                    + "            <div class = \"logo\">\n"
-                    + "                <img src = \"images/logoCinema.png\">\n"
-                    + "            </div>\n"
+        
                     + "        </div>\n"
                     + "        <div class = \"footer\">\n"
                     + "            <div class = \"service\">\n"

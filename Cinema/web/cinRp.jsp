@@ -403,7 +403,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <div class = "ttle">THỐNG KÊ VỀ THIẾT BỊ</div>
+            <div class = "ttle">THỐNG KÊ VỀ RẠP</div>
             <c:if test = "${requestScope.check == null}">
                 <form action = "cnrp" method = "post">
                     <div class = "search">

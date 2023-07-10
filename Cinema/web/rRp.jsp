@@ -296,9 +296,8 @@
                             <div class = "choice">
                                 <form id ="frm1" action = "rrp" method = "post">
                                     <div id = "active" class = "al" onclick = "bActive('active')">Tất cả bình luận</div>
-                                    <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">Bình luận được duyệt</div>
-                                    <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">Bình luận chưa duyệt</div>
-                                    <input type ="text" hidden id ="insidefrm1" name ="type" value ="${requestScope.type}"/>
+                                    <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">Bình luận chưa duyệt</div>
+                                    <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">Bình luận được duyệt</div>                                    <input type ="text" hidden id ="insidefrm1" name ="type" value ="${requestScope.type}"/>
                                     <input type ="text" hidden name ="start" value ="${requestScope.start}"/>
                                     <input type ="text" hidden name ="end" value ="${requestScope.end}"/>
                                     <input type ="text" hidden name ="rate" value ="${requestScope.rate}"/>
