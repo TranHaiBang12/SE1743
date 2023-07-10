@@ -304,6 +304,10 @@
         <servlet-name>UpdTkp</servlet-name>
         <servlet-class>controller.UpdTkp</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddTpkd</servlet-name>
+        <servlet-class>controller.AddTpkd</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -607,6 +611,10 @@
     <servlet-mapping>
         <servlet-name>UpdTkp</servlet-name>
         <url-pattern>/updtkp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddTpkd</servlet-name>
+        <url-pattern>/addtp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

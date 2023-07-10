@@ -53,6 +53,38 @@ public class TimekeepingDAO extends DBContext{
         }
     }
     
+    public boolean checkTimekeepingByEmpAD(int empID, Date d) {
+        try {
+            String sql = "SELECT * FROM Timekeeping WHERE EmpID = ? AND Date = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setDate(2, d);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+    
+    public void insert(int empID, int shiftID, Time startWork, Time endWork, int onleave, Date d) {
+        try {
+            String sql = "INSERT INTO Timekeeping VALUES(?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, empID);
+            st.setTime(2, startWork);
+            st.setTime(3, endWork);
+            st.setInt(4, shiftID);
+            st.setInt(5, onleave);
+            st.setDate(6, d);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     public List<Timekeeping> getTimekeepingByEmpAndYear(int empID, int year, int month) {
         List<Timekeeping> list = new ArrayList<>();
         try {

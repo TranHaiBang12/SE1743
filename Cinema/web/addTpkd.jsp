@@ -17,7 +17,6 @@
                 padding-top: 40px;
             }
             .ttle{
-                margin-left: 80px;
                 padding-top: 40px;
 
                 font-size: 19px;
@@ -86,7 +85,6 @@
                 font-size: 20px;
                 margin-top: 10px;
                 font-weight: bold;
-                padding-left: 80px;
             }
 
             .dteS{
@@ -124,13 +122,22 @@
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 20px;
+                padding-left: 80px;
             }
+
             .hinbody1{
                 display: flex;
-                justify-content: space-between;
-                align-items: center;
+                flex-direction: column;
                 padding-left: 80px;
+                font-size: 20px;
+            }
 
+            .hinbody1 input{
+                font-size: 20px;
+            }
+
+            .hinbody1 div{
+                margin-bottom: 10px;
             }
 
             .ms{
@@ -175,7 +182,9 @@
                 border: 1px solid black;
             }
 
-
+            select{
+                font-size: 20px;
+            }
             td input{
                 width: 80%;
                 height: 30px;
@@ -198,23 +207,13 @@
                 padding-bottom: 20px;
                 font-size: 20px;
             }
-            
-            .addE img{
-                width: 30px;
+
+            .sb{
+                font-size: 16px;
+                padding: 5px;
                 cursor: pointer;
-            }
-
-            .addE div{
-                margin-left: 20px;
-            }
-
-            .addE {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 20px;
-                padding-bottom: 20px;
-                font-size: 20px;
+                color: white;
+                background-color: red;
             }
         </style>
     </head>
@@ -224,55 +223,90 @@
         </div>
         <div class = "body">
             <div class = "hinbody">
-                <div class = "ttle">Chấm Công Tháng ${requestScope.month} Năm ${requestScope.year}</div>
+                <div class = "ttle">Chấm công</div>
                 <div class = "dteS">
                     <div>Nhân viên: <span class = "rd">${requestScope.e.getLastName()} ${requestScope.e.getFirstName()}</span></div>
 
                 </div>
             </div>
-
             <c:if test = "${requestScope.ms != null}">
                 <div class = "ms">
                     ${requestScope.ms}
                 </div>
             </c:if>
-            <c:if test = "${requestScope.list != null}">
-                <div class = "hinbody1">
-                    <table>
-                        <tr>
-                            <th>MÃ CA LÀM</th>
-                            <th>MÃ NHÂN VIÊN</th>
-                            <th>GIỜ VÀO LÀM</th>
-                            <th>GIỜ RA VỀ</th>
-                            <th>NGHỈ PHÉP</th>
-                            <th>NGÀY</th>
-                            <th>HÀNH ĐỘNG</th>
-                        </tr>
-                        <c:forEach items = "${requestScope.list}" var = "k">
-                            <tr>
-                                <td>${k.getShiftID()}</td>
-                                <td>${k.getEmpID()}</td><!-- <td></td> -->
-                                <td>${k.getStartWork()}</td>
-                                <td>${k.getEndWork()}</td>
-                                <td>${k.getOnLeave()}</td>
-                                <td>${k.getDateS()}</td>
-                                <td><a href="updtkp?id=${requestScope.e.getEmpID()}&date=${k.getDate()}"><input type ="button" value = "SỬA"/></a></td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </div>
-
-            </c:if>
-            <div class = "addE">
-                <div>
-                    <a href = "addtp?id=${requestScope.e.getEmpID()}"><img src ="images/plusIcon.png"/></a>
-                </div>
-
+            <div class = "hinbody1">
+                <form id ="frm" action = "addtp" method = "post">
+                    <div>
+                        Mã Nhân Viên: ${requestScope.e.getEmpID()}
+                    </div>
+                    <input type ="text" hidden name ="empID" value ="${requestScope.e.getEmpID()}"/>
+                    <div>
+                        Mã Ca Làm: 
+                        <select name ="id">
+                            <c:forEach items = "${requestScope.a}" var = "k">
+                                <option value ="${k}">${k}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div>
+                        Giờ Vào Làm: <input type ="time" required id ="startWork" name ="startWork" value ="${requestScope.t.getStartWork()}"/>
+                    </div><!-- comment -->
+                    <div>
+                        Giờ Ra Về: <input type ="time" required id ="endWork" name ="endWork" value ="${requestScope.t.getEndWork()}"/>
+                    </div>
+                    <div>
+                        Nghỉ Phép: <input type ="number" required id ="onLeave" min ="0" max ="1" step ="1" name ="onleave" value ="${requestScope.t.getOnLeave()}"/>
+                    </div>
+                    <div>
+                        Ngày: <input type ="date" required name ="date"/>
+                    </div>
+                    <input class ="sb" type ="button" onclick ="sbmit()" value ="LƯU"/>
+                </form>
             </div>
+
+
 
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function sbmit() {
+                var startDate = new Date("2023-06-01");
+                var endDate = new Date("2023-06-01");
+                var hourStart;
+                var hourEnd;
+                var minStart;
+                var minEnd;
+                var startTime = document.getElementById("startWork").value;
+                console.log(startDate);
+                var endTime = document.getElementById("endWork").value;
+                for (var i = 0; i < startTime.length; i++) {
+                    if(String(startTime).charAt(i) === ':') {
+                        hourStart = String(startTime).substring(0, i);
+                        minStart = String(startTime).substring(i + 1, i + 3);
+                        break;
+                    }
+                }
+                for (var i = 0; i < endTime.length; i++) {
+                    if(String(endTime).charAt(i) === ':') {
+                        hourEnd = String(endTime).substring(0, i);
+                        minEnd = String(endTime).substring(i + 1, i + 3);
+                        break;
+                    }
+                }
+                startDate.setHours(hourStart);
+                startDate.setMinutes(minStart);
+                
+                endDate.setHours(hourEnd);
+                endDate.setMinutes(minEnd);
+                console.log(startDate + endDate);
+                if (startDate.getTime() > endDate.getTime()) {
+                    alert("Ngày kết thúc dùng ca làm này phải ở sau ngày bắt đầu");
+                } else {
+                   document.getElementById("frm").submit();
+               }
+            }
+        </script>
     </body>
 </html>

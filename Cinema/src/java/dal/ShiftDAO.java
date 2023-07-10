@@ -89,6 +89,34 @@ public class ShiftDAO extends DBContext{
         return false;
     }
     
+    public int[] getAllShiftID(int empID) {
+        int b = 0;
+        int a[] = {0};
+        try {
+            int i = 0;
+            String sql1 = "SELECT COUNT(*) AS T FROM Shift WHERE EmpID = ?";
+            String sql = "SELECT DISTINCT(ShiftID) FROM Shift WHERE EmpID = ?";
+            PreparedStatement st = connection.prepareStatement(sql1);
+            st.setInt(1, empID);
+            ResultSet rs = st.executeQuery();
+            
+            if(rs.next()) {
+                b = rs.getInt("T");
+            }
+            a = new int[b];
+            st = connection.prepareCall(sql);
+            st.setInt(1, empID);
+            rs = st.executeQuery();
+            while(rs.next()) {
+                a[i] = rs.getInt("ShiftID");
+                i++;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+    
     public boolean checkShiftUpdByDate(Date start, Date end, int shiftID, int empID) {
         try {
             String sql = "SELECT * FROM Shift WHERE ShiftID != ? AND EmpID = ? AND ((startDate BETWEEN ? AND ?) OR (endDate BETWEEN ? AND ?) OR (startDate < ? AND endDate > ?))";
