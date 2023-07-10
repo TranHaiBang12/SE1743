@@ -5,12 +5,16 @@
 package controller;
 
 import dal.EmployeeDAO;
+import dal.ShiftDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.sql.Time;
+import model.Shift;
 
 /**
  *
@@ -61,7 +65,7 @@ public class AddShift extends HttpServlet {
             int id = 0;
             try {
                 id = Integer.parseInt(request.getParameter("id"));
-                if(ed.getEmployeeByID(id) == null) {
+                if (ed.getEmployeeByID(id) == null) {
                     throw new Exception("Loi");
                 }
             } catch (Exception e) {
@@ -69,8 +73,7 @@ public class AddShift extends HttpServlet {
             }
             request.setAttribute("e", ed.getEmployeeByID(id));
             request.getRequestDispatcher("addShift.jsp").forward(request, response);
-        }
-        else {
+        } else {
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
@@ -86,7 +89,85 @@ public class AddShift extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        EmployeeDAO ed = new EmployeeDAO();
+        ShiftDAO sd = new ShiftDAO();
+        String empID_raw = request.getParameter("empID");
+        String id_raw = request.getParameter("id");
+        String startWork_raw = request.getParameter("startWork");
+        String endWork_raw = request.getParameter("endWork");
+        String startDate_raw = request.getParameter("startDate");
+        String endDate_raw = request.getParameter("endDate");
 
+        int empID = 0;
+        int id = 0;
+        Time startWork = null;
+        Time endWork = null;
+        Date startDate = null;
+        Date endDate = null;
+
+        try {
+            empID = Integer.parseInt(empID_raw);
+            id = Integer.parseInt(id_raw);
+            startWork = Time.valueOf(startWork_raw + ":00");
+            endWork = Time.valueOf(endWork_raw + ":00");
+            startDate = Date.valueOf(startDate_raw);
+            endDate = Date.valueOf(endDate_raw);
+            if (ed.getEmployeeByID(empID) == null) {
+                throw new Exception("L");
+            }
+        } catch (Exception e) {
+            request.getRequestDispatcher("error.jsp");
+        }
+        System.out.println(empID + " " + id + " " + startWork + " " + endWork + " " + startDate + " " + endDate);
+
+        //check trung shift id
+        if (sd.checkShiftID(id) == true) {
+            request.setAttribute("ms", "Mã ca làm đã tồn tại");
+            request.setAttribute("e", ed.getEmployeeByID(empID));
+            request.getRequestDispatcher("addShift.jsp").forward(request, response);
+        } else if (sd.checkShiftByDate(startDate, endDate) == true) {
+            request.setAttribute("ms", "Khoảng thời gian này đã tồn tại 1 ca làm");
+            request.setAttribute("e", ed.getEmployeeByID(empID));
+            request.getRequestDispatcher("addShift.jsp").forward(request, response);
+        } else {
+            sd.insertShift(id, empID, startWork, endWork, startDate, endDate);
+            request.setAttribute("ms", "Thêm thành công");
+            request.setAttribute("e", ed.getEmployeeByID(empID));
+            Shift k = sd.getShiftByID(id);
+            String dateS = "", monthS = "", yearS = "";
+            String dateE = "", monthE = "", yearE = "";
+            String t = k.getStartDate().toString();
+            int cnt = 0;
+            for (int i = 0; i < t.length(); i++) {
+                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                    yearS = t.substring(cnt, i);
+                    cnt = i;
+                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                    monthS = t.substring(cnt + 1, i);
+                    cnt = i;
+                }
+            }
+            dateS = t.substring(cnt + 1);
+            k.setStartDateS(dateS + "-" + monthS + "-" + yearS);
+            t = k.getEndDate().toString();
+            cnt = 0;
+            for (int i = 0; i < t.length(); i++) {
+                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                    yearE = t.substring(cnt, i);
+                    cnt = i;
+                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                    monthE = t.substring(cnt + 1, i);
+                    cnt = i;
+                }
+            }
+            dateE = t.substring(cnt + 1);
+            k.setEndDateS(dateE + "-" + monthE + "-" + yearE);
+
+            request.setAttribute("k", k);
+
+            request.getRequestDispatcher("addShift.jsp").forward(request, response);
+
+        }
     }
 
     /**

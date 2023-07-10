@@ -130,9 +130,9 @@
                 justify-content: space-between;
                 align-items: center;
                 padding-left: 80px;
-                
+
             }
-            
+
             .ms{
                 font-size: 25px;
                 color: red;
@@ -249,7 +249,14 @@
 
                 </div>
             </c:if>
+            <c:if test = "${requestScope.list == null}">
+                <div class = "addE">
+                    <div>
+                        <a href = "addsh?id=${requestScope.e.getEmpID()}"><img src ="images/plusIcon.png"/></a>
+                    </div>
 
+                </div>
+            </c:if>
 
         </div>
         <div id = "footer">

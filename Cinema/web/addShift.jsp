@@ -205,7 +205,7 @@
                 padding-bottom: 20px;
                 font-size: 20px;
             }
-            
+
             .sb{
                 font-size: 16px;
                 padding: 5px;
@@ -233,26 +233,27 @@
                 </div>
             </c:if>
             <div class = "hinbody1">
-                <form action = "addsh" method = "post">
+                <form id ="frm" action = "addsh" method = "post">
                     <div>
                         Mã Nhân Viên: ${requestScope.e.getEmpID()}
                     </div>
+                    <input type ="text" hidden name ="empID" value ="${requestScope.e.getEmpID()}"/>
                     <div>
                         Mã Ca Làm: <input type ="number" required name ="id" min ="0" step ="1" value ="${requestScope.k.getShiftID()}"/>
                     </div>
                     <div>
-                        Giờ Bắt Đầu Ca Làm: <input type ="time" required name ="startWork" value ="${requestScope.k.getStartWork()}"/>
+                        Giờ Bắt Đầu Ca Làm: <input type ="time" required id ="startWork" name ="startWork" value ="${requestScope.k.getStartShift()}"/>
                     </div><!-- comment -->
                     <div>
-                        Giờ Kết Thúc Ca Làm: <input type ="time" required name ="endWork" value ="${requestScope.k.getEndWork()}"/>
+                        Giờ Kết Thúc Ca Làm: <input type ="time" required id ="endWork" name ="endWork" value ="${requestScope.k.getEndShift()}"/>
                     </div>
                     <div>
-                        Ngày Bắt Đầu: <input type ="date" required name ="startDate" value ="${requestScope.k.getStartS()}"/>
+                        Ngày Bắt Đầu: <input type ="date" required id ="startDate" name ="startDate" value ="${requestScope.k.getStartDateS()}"/>
                     </div>
                     <div>
-                        Ngày Kết Thúc: <input type ="date" required name ="endDate" value ="${requestScope.k.getEndS()}"/>
+                        Ngày Kết Thúc: <input type ="date" required id ="endDate" name ="endDate" value ="${requestScope.k.getEndDateS()}"/>
                     </div>
-                    <input class ="sb" type ="submit" value ="THÊM"/>
+                    <input class ="sb" type ="button" onclick ="sbmit()" value ="THÊM"/>
                 </form>
             </div>
 
@@ -262,5 +263,39 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function sbmit() {
+                var startDate = new Date(document.getElementById("startDate").value);
+                var endDate = new Date(document.getElementById("endDate").value);
+                var hourStart;
+                var hourEnd;
+                var minStart;
+                var minEnd;
+                var startTime = document.getElementById("startWork").value;
+                var endTime = document.getElementById("endWork").value;
+                for (var i = 0; i < startTime.length; i++) {
+                    if(String(startTime).charAt(i) === ':') {
+                        hourStart = String(startTime).substring(0, i);
+                        minStart = String(startTime).substring(i + 1);
+                    }
+                }
+                for (var i = 0; i < endTime.length; i++) {
+                    if(String(endTime).charAt(i) === ':') {
+                        hourEnd = String(endTime).substring(0, i);
+                        minEnd = String(endTime).substring(i + 1);
+                    }
+                }
+                startDate.setHours(hourStart);
+                startDate.setMinutes(minStart);
+                
+                endDate.setHours(hourEnd);
+                endDate.setMinutes(minEnd);
+                if (startDate.getTime() > endDate.getTime()) {
+                    alert("Ngày kết thúc dùng ca làm này phải ở sau ngày bắt đầu");
+                } else {
+                   document.getElementById("frm").submit();
+               }
+            }
+        </script>
     </body>
 </html>
