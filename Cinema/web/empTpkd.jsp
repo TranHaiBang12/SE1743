@@ -180,6 +180,7 @@
                 width: 80%;
                 height: 30px;
                 cursor: pointer;
+                margin-bottom: 15px;
             }
             .addE img{
                 width: 30px;
@@ -256,7 +257,10 @@
                                 <td>${k.getEndWork()}</td>
                                 <td>${k.getOnLeave()}</td>
                                 <td>${k.getDateS()}</td>
-                                <td><a href="updtkp?id=${requestScope.e.getEmpID()}&date=${k.getDate()}"><input type ="button" value = "SỬA"/></a></td>
+                                <td>
+                                    <a href="updtkp?id=${requestScope.e.getEmpID()}&date=${k.getDate()}"><input type ="button" value = "SỬA"/></a>
+                                    <a href="#"><input type ="button" onclick ="dlt('${requestScope.e.getEmpID()}', '${k.getDate()}')" value = "XÓA"/></a>
+                                </td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -274,5 +278,12 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function dlt(id, date) {
+                if(confirm("Bạn có chắc muốn xóa dữ liệu chấm công với mã ca trực = " + id + " và ngày " + date)) {
+                    window.location = "dlttkp?id=" + id + "&date=" + date;
+                }
+            }
+        </script>
     </body>
 </html>

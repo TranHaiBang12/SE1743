@@ -180,6 +180,8 @@
                 width: 80%;
                 height: 30px;
                 cursor: pointer;
+                margin-bottom: 15px;
+
             }
             .addE img{
                 width: 30px;
@@ -237,7 +239,10 @@
                                 <td>${k.getEndShift()}</td>
                                 <td>${k.getStartDateS()}</td>
                                 <td>${k.getEndDateS()}</td>
-                                <td><a href="updsh?id=${k.getShiftID()}"><input type ="button" value = "SỬA"/></a></td>
+                                <td>
+                                    <a href="updsh?id=${k.getShiftID()}"><input type ="button" value = "SỬA"/></a>
+                                    <a href="#"><input type ="button" onclick ="dlt(${k.getShiftID()})" value = "XÓA"/></a>
+                                </td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -262,5 +267,12 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function dlt(id) {
+                if(confirm("Bạn có chắc muốn xóa ca làm với id = " + id)) {
+                    window.location = "dltsh?id=" + id;
+                }
+            }
+        </script>
     </body>
 </html>

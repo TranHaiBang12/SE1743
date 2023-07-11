@@ -111,9 +111,7 @@ public class EmployeeShift extends HttpServlet {
                 dateE = t.substring(cnt + 1);
                 list.get(j).setEndDateS(dateE + "-" + monthE + "-" + yearE);
             }
-            for (int i = 0; i < list.size(); i++) {
-                System.out.println(list.get(i).getStartDateS() + " " + list.get(i).getEndDateS());
-            }
+        
             
             request.setAttribute("e", ed.getEmployeeByID(id));
             request.setAttribute("month", month);

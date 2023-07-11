@@ -308,6 +308,14 @@
         <servlet-name>AddTpkd</servlet-name>
         <servlet-class>controller.AddTpkd</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteShift</servlet-name>
+        <servlet-class>controller.DeleteShift</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteTimekeeping</servlet-name>
+        <servlet-class>controller.DeleteTimekeeping</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -615,6 +623,14 @@
     <servlet-mapping>
         <servlet-name>AddTpkd</servlet-name>
         <url-pattern>/addtp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteShift</servlet-name>
+        <url-pattern>/dltsh</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteTimekeeping</servlet-name>
+        <url-pattern>/dlttkp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
