@@ -62,7 +62,7 @@
                 font-weight: bold;
                 margin-bottom: 20px;
                 font-size: 25px;
-                padding-top: 20px;
+                padding-top: 40px;
             }
             
             

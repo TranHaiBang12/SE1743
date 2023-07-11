@@ -19,7 +19,15 @@
                 padding-top: 20px;
                 margin-bottom: 20px;
             }
-
+            .ttle{
+                text-align: center;
+                padding-top: 40px;
+                font-size: 27px;
+                font-weight: bold;
+                margin-bottom: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown;
+            }
             .rd{
                 color: red;
             }
@@ -170,6 +178,7 @@
             <%@include file = "header.jsp" %>
         </div><!-- comment -->
         <div class = "body">
+            <div class = "ttle">THÊM PHIM MỚI</div>
             <c:if test = "${requestScope.msT == null}">
                 <div class = "IN4">
                     <c:if test = "${requestScope.img != null}">
@@ -178,7 +187,7 @@
                         </div>
                     </c:if>
                     <div class = "eIN4">
-
+                        
                         <div class = "ms">${requestScope.ms}</div>
                         <form id ="frm" action = "addmov" method = "post">
                             <div>ID: 

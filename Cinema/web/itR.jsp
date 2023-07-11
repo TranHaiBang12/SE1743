@@ -45,10 +45,14 @@
 
             .ttle{
                 text-align: center;
-                padding-top: 20px;
+                padding-top: 40px;
                 font-size: 27px;
                 font-weight: bold;
                 margin-bottom: 40px;
+            }
+            
+            .body{
+                padding-left: 40px;
             }
 
             .search{

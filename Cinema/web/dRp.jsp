@@ -15,7 +15,7 @@
         <style>
             .ttle{
                 text-align: center;
-                padding-top: 20px;
+                padding-top: 40px;
                 font-size: 27px;
                 font-weight: bold;
                 margin-bottom: 40px;
@@ -313,7 +313,12 @@
                 font-weight: bold;
                 margin-bottom: 20px;
                 font-size: 25px;
-                padding-top: 20px;
+                padding-top: 40px;
+            }
+            
+            .body{
+                padding-left: 50px;
+                padding-right: 120px;
             }
 
             .addE img{

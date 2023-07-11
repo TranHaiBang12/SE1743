@@ -255,6 +255,10 @@
                 font-size: 30px;
                 color: red;
             }
+            
+            .ttle{
+                padding-top: 40px;
+            }
 
         </style>
     </head>
@@ -263,7 +267,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <div class = "ttle">THỐNG KÊ VỀ PHIM</div>
+            <div class = "ttle">THỐNG KÊ VỀ HÓA ĐƠN</div>
             <c:if test = "${requestScope.check == null}">
                 <form action = "orl" method = "post">
                     <div class = "search">

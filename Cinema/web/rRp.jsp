@@ -112,6 +112,9 @@
             .Sttle{
                 font-weight: bold;
                 font-size: 20px;
+                padding-bottom: 20px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
             }
 
             .insider1{
@@ -248,6 +251,19 @@
 
             .dteS div{
                 margin-right: 15px;
+            }
+            
+            .ttle{
+                padding-top: 40px;
+            }
+            
+            .dteS{
+                padding-top: 40px;
+            }
+            
+            .body{
+                padding-left: 50px;
+                padding-right: 100px;
             }
         </style>
     </head>

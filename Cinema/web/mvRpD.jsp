@@ -15,10 +15,12 @@
         <style>
             .ttle{
                 text-align: center;
-                padding-top: 20px;
+                padding-top: 40px;
                 font-size: 27px;
                 font-weight: bold;
                 margin-bottom: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown;
             }
 
             .search{

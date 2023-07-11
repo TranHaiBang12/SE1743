@@ -274,7 +274,7 @@ public class UpdSeat extends HttpServlet {
 
                 request.setAttribute("listRoom", listR);
                 request.setAttribute("listCin", cnd.getAllCinema());
-                request.getRequestDispatcher("roomRp.jsp").forward(request, response);
+                //request.getRequestDispatcher("roomRp.jsp").forward(request, response);
             }
         } else {
             request.getRequestDispatcher("error.jsp").forward(request, response);

@@ -128,10 +128,17 @@
             #tt{
                 display: none;
             }
-            
+
             .ms{
                 font-size: 25px;
                 margin-left: 80px;
+            }
+
+            .uName{
+                padding-top: 50px;
+            }
+
+            .choice{
             }
         </style>
     </head>
@@ -140,139 +147,139 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <div class = "uName">Tài Khoản: <span class = "rd">${sessionScope.account.getUserName()}<span></div>
-                        <div class = "choice">
-                            <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">MUA QUA WEB</div>
-                            <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">MUA TRỰC TIẾP</div>
+                  <div class = "uName">Tài Khoản: <span class = "rd">${sessionScope.account.getUserName()}<span></div>
+                      <div class = "choice">
+                          <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">MUA QUA WEB</div>
+                          <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">MUA TRỰC TIẾP</div>
 
-                        </div>
-                        <div id ="web">
-                            <c:if test = "${ms != null}">
-                                    <div class = "ms">
-                                        ${requestScope.ms}
-                                    </div>
-                                </c:if>
-                            <c:if test = "${listOBD != null}">
-                                
-                                <c:forEach items = "${requestScope.listOBD}" var = "i">
-                                    <div class = "outsiteO">
-                                        <div class = "oDate">${i.getDate()}</div>
-                                        <table>
-                                            <tr>
-                                                <th>MÃ HÓA ĐƠN</th>
-                                                <th>KIỂU THANH TOÁN</th>
-                                                <th>NGÀY THANH TOÁN</th>
-                                                <th>THỜI GIAN THANH TOÁN</th>
-                                                <th>TỔNG TIỀN</th>
-                                                <th>XEM CHI TIẾT</th>
-                                            </tr>
-                                            <c:forEach items = "${i.getO()}" var = "k">
-                                                <tr>
-                                                    <td>${k.getOrderID()}</td>
-                                                    <td>${k.getPaymentType()}</td><!-- <td></td> -->
-                                                    <td>${k.getPaymentDate()}</td>
-                                                    <td>${k.getPaymentTime()}</td>
-                                                    <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
-                                                    <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/></td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                    </div>
-                                </c:forEach>
-                            </c:if>
-                        </div>
-                        <div id = "tt">
-                            <c:if test = "${msOFF != null}">
-                                <div class = "ms">
-                                    ${requestScope.msOFF}
-                                </div>
-                            </c:if>
-                            <c:if test = "${listOFBD != null}">
-                                <c:forEach items = "${requestScope.listOFBD}" var = "j">
-                                    <div class = "outsiteO">
-                                        <div class = "oDate">${j.getDate()}</div>
-                                        <table>
-                                            <tr>
-                                                <th>MÃ HÓA ĐƠN</th>
-                                                <th>KIỂU THANH TOÁN</th>
-                                                <th>NGÀY THANH TOÁN</th>
-                                                <th>THỜI GIAN THANH TOÁN</th>
-                                                <th>TỔNG TIỀN</th>
-                                                <th>XEM CHI TIẾT</th>
-                                            </tr>
+                      </div>
+                      <div id ="web">
+                          <c:if test = "${ms != null}">
+                              <div class = "ms">
+                                  ${requestScope.ms}
+                              </div>
+                          </c:if>
+                          <c:if test = "${listOBD != null}">
+
+                              <c:forEach items = "${requestScope.listOBD}" var = "i">
+                                  <div class = "outsiteO">
+                                      <div class = "oDate">${i.getDate()}</div>
+                                      <table>
+                                          <tr>
+                                              <th>MÃ HÓA ĐƠN</th>
+                                              <th>KIỂU THANH TOÁN</th>
+                                              <th>NGÀY THANH TOÁN</th>
+                                              <th>THỜI GIAN THANH TOÁN</th>
+                                              <th>TỔNG TIỀN</th>
+                                              <th>XEM CHI TIẾT</th>
+                                          </tr>
+                                          <c:forEach items = "${i.getO()}" var = "k">
+                                              <tr>
+                                                  <td>${k.getOrderID()}</td>
+                                                  <td>${k.getPaymentType()}</td><!-- <td></td> -->
+                                                  <td>${k.getPaymentDate()}</td>
+                                                  <td>${k.getPaymentTime()}</td>
+                                                  <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
+                                                  <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/></td>
+                                              </tr>
+                                          </c:forEach>
+                                      </table>
+                                  </div>
+                              </c:forEach>
+                          </c:if>
+                      </div>
+                      <div id = "tt">
+                          <c:if test = "${msOFF != null}">
+                              <div class = "ms">
+                                  ${requestScope.msOFF}
+                              </div>
+                          </c:if>
+                          <c:if test = "${listOFBD != null}">
+                              <c:forEach items = "${requestScope.listOFBD}" var = "j">
+                                  <div class = "outsiteO">
+                                      <div class = "oDate">${j.getDate()}</div>
+                                      <table>
+                                          <tr>
+                                              <th>MÃ HÓA ĐƠN</th>
+                                              <th>KIỂU THANH TOÁN</th>
+                                              <th>NGÀY THANH TOÁN</th>
+                                              <th>THỜI GIAN THANH TOÁN</th>
+                                              <th>TỔNG TIỀN</th>
+                                              <th>XEM CHI TIẾT</th>
+                                          </tr>
 
 
-                                            <c:forEach items = "${j.getOf()}" var = "q">
-                                                <tr>
-                                                    <td>${q.getOrderID()}</td>
-                                                    <td>${q.getPaymentType()}</td>
-                                                    <td>${q.getPaymentDate()}</td>
-                                                    <td>${q.getPaymentTime()}</td>
-                                                    <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
-                                                    <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
-                                                </tr>
-                                            </c:forEach>
+                                          <c:forEach items = "${j.getOf()}" var = "q">
+                                              <tr>
+                                                  <td>${q.getOrderID()}</td>
+                                                  <td>${q.getPaymentType()}</td>
+                                                  <td>${q.getPaymentDate()}</td>
+                                                  <td>${q.getPaymentTime()}</td>
+                                                  <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
+                                                  <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
+                                              </tr>
+                                          </c:forEach>
 
-                                        </table>
-                                    </div>
-                                </c:forEach>
-                            </c:if>
-                        </div>
-                        <!--
-                        private String orderID;
-                private String userName;
-                private String firstName;
-                private String lastName;
-                private String phone;
-                private String email;
-                private String country;
-                private String street;
-                private String district;
-                private String city;
-                private String paymentType;
-                private Date paymentDate;
-                private Time paymentTime;
-                        <div class = "trsct">
-                            <div class = "ve"></div>
-                            <div class = "doan"></div>
-                        </div>
-                        -->
+                                      </table>
+                                  </div>
+                              </c:forEach>
+                          </c:if>
+                      </div>
+                      <!--
+                      private String orderID;
+              private String userName;
+              private String firstName;
+              private String lastName;
+              private String phone;
+              private String email;
+              private String country;
+              private String street;
+              private String district;
+              private String city;
+              private String paymentType;
+              private Date paymentDate;
+              private Time paymentTime;
+                      <div class = "trsct">
+                          <div class = "ve"></div>
+                          <div class = "doan"></div>
+                      </div>
+                      -->
 
-                        </div>
-                        <div id = "footer">
-                            <%@include file = "footer.jsp" %>
-                        </div>
-                        <script type = "text/javascript">
-                            function in4detail(id) {
-                                window.location = "info?id=" + id;
-                            }
+                      </div>
+                      <div id = "footer">
+                          <%@include file = "footer.jsp" %>
+                      </div>
+                      <script type = "text/javascript">
+                          function in4detail(id) {
+                              window.location = "info?id=" + id;
+                          }
 
-                            function bActive(id) {
-                                if (id === "tkEtChoice") {
-                                    document.getElementById(id).style.color = 'white';
-                                    document.getElementById(id).style.backgroundColor = 'black';
-                                    document.getElementById("foodChoi").style.color = 'black';
-                                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                                    document.getElementById("web").style.display = 'block';
-                                    document.getElementById("tt").style.display = 'none';
-                                } else if (id === "foodChoi") {
-                                    document.getElementById(id).style.color = 'white';
-                                    document.getElementById(id).style.backgroundColor = 'black';
+                          function bActive(id) {
+                              if (id === "tkEtChoice") {
+                                  document.getElementById(id).style.color = 'white';
+                                  document.getElementById(id).style.backgroundColor = 'black';
+                                  document.getElementById("foodChoi").style.color = 'black';
+                                  document.getElementById("foodChoi").style.backgroundColor = 'white';
+                                  document.getElementById("web").style.display = 'block';
+                                  document.getElementById("tt").style.display = 'none';
+                              } else if (id === "foodChoi") {
+                                  document.getElementById(id).style.color = 'white';
+                                  document.getElementById(id).style.backgroundColor = 'black';
 
-                                    document.getElementById("tkEtChoice").style.color = 'black';
-                                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                                    document.getElementById("tt").style.display = 'block';
-                                    document.getElementById("web").style.display = 'none';
-                                } else {
-                                    document.getElementById(id).style.color = 'white';
-                                    document.getElementById(id).style.backgroundColor = 'black';
-                                    document.getElementById("foodChoi").style.color = 'black';
-                                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                                    document.getElementById("web").style.display = 'block';
-                                    document.getElementById("tt").style.display = 'none';
-                                }
-                            }
+                                  document.getElementById("tkEtChoice").style.color = 'black';
+                                  document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                                  document.getElementById("tt").style.display = 'block';
+                                  document.getElementById("web").style.display = 'none';
+                              } else {
+                                  document.getElementById(id).style.color = 'white';
+                                  document.getElementById(id).style.backgroundColor = 'black';
+                                  document.getElementById("foodChoi").style.color = 'black';
+                                  document.getElementById("foodChoi").style.backgroundColor = 'white';
+                                  document.getElementById("web").style.display = 'block';
+                                  document.getElementById("tt").style.display = 'none';
+                              }
+                          }
 
-                        </script>
-                        </body>
-                        </html>
+                      </script>
+                      </body>
+                      </html>

@@ -217,8 +217,7 @@ public class PaymentServlet extends HttpServlet {
             for (int i = 0; i < listT.size(); i++) {
                 priceT += listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount();
             }
-            System.out.println(price);
-            System.out.println(priceF);
+
             price = priceF + priceT;
 
             String t = "2023-05-01";
@@ -327,6 +326,14 @@ public class PaymentServlet extends HttpServlet {
                     }
                 }
             }
+
+            for (int i = 0; i < evAchieve.size() - 1; i++) {
+                for (int j = i + 1; j < evAchieve.size(); j++) {
+                    if (evAchieve.get(i).getEventCode() == evAchieve.get(j).getEventCode()) {
+                        evAchieve.remove(i);
+                    }
+                }
+            }
             fd = new FoodDAO();
             List<Food> f = new ArrayList<>();
             discount = 0;
@@ -373,9 +380,8 @@ public class PaymentServlet extends HttpServlet {
             }
             double maxPointUse = 0;
             if (tpt == 0) {
-                 maxPointUse = Math.floor((price / 1000) * 90 / 100);
-            }
-            else {
+                maxPointUse = Math.floor((price / 1000) * 90 / 100);
+            } else {
                 maxPointUse = Math.floor((tpt / 1000) * 90 / 100);
             }
             request.setAttribute("point", decimalFormat.format(point));
@@ -651,6 +657,13 @@ public class PaymentServlet extends HttpServlet {
                             }
                         }
                     }
+                    for (int i = 0; i < evAchieve.size() - 1; i++) {
+                        for (int j = i + 1; j < evAchieve.size(); j++) {
+                            if (evAchieve.get(i).getEventCode() == evAchieve.get(j).getEventCode()) {
+                                evAchieve.remove(i);
+                            }
+                        }
+                    }
                     fd = new FoodDAO();
                     List<Food> f = new ArrayList<>();
                     discount = 0;
@@ -708,7 +721,6 @@ public class PaymentServlet extends HttpServlet {
                     request.getRequestDispatcher("payment.jsp").forward(request, response);
                 }
             } else if (request.getParameter("check").equals("0")) {
-                System.out.println("5");
                 Cookie[] arr = request.getCookies();
                 List<CartItemFood> list = new ArrayList<>();
                 List<CartItemTicket> listT = new ArrayList<>();
@@ -1095,6 +1107,13 @@ public class PaymentServlet extends HttpServlet {
 
                                 }
                             }
+                            for (int i = 0; i < evAchieve.size() - 1; i++) {
+                                for (int j = i + 1; j < evAchieve.size(); j++) {
+                                    if (evAchieve.get(i).getEventCode() == evAchieve.get(j).getEventCode()) {
+                                        evAchieve.remove(i);
+                                    }
+                                }
+                            }
 
                             id = ord.insert(a.getUserName(), request.getParameter("fName"), request.getParameter("lName"), request.getParameter("sdt"), request.getParameter("email"), request.getParameter("cntry"), request.getParameter("strt"), request.getParameter("dist"), request.getParameter("city"), pm, dd, tt);
                             System.out.println("id" + id);
@@ -1107,14 +1126,14 @@ public class PaymentServlet extends HttpServlet {
                             OrderDetailDAO odd = new OrderDetailDAO();
                             TransactionCDAO tcd = new TransactionCDAO();
                             OrderTicketDetailDAO otd = new OrderTicketDetailDAO();
-                            int price1 = 0;
+                            double price1 = 0;
                             System.out.println("masa" + cinID);
                             if (!list.isEmpty()) {
                                 String fdCode = orderID + "fd" + randomAlpha(18 - orderID.length());
                                 tcd.insert(orderID, fdCode, 1, dateStart, timeStart, dateEnd, timeEnd, cinID);
                                 for (int i = 0; i < list.size(); i++) {
                                     odd.insert(orderID, list.get(i).getFood().getProductCode(), list.get(i).getFood().getDiscount(), list.get(i).getFood().getPrice(), list.get(i).getQuantity());
-                                    price1 += (list.get(i).getFood().getPrice() * list.get(i).getQuantity());
+                                    price1 += ((list.get(i).getFood().getPrice() - list.get(i).getFood().getPrice() * list.get(i).getFood().getDiscount()) * list.get(i).getQuantity());
                                 }
                             }
                             RoomDAO rmd = new RoomDAO();
@@ -1130,7 +1149,8 @@ public class PaymentServlet extends HttpServlet {
                                         request.getRequestDispatcher("error.jsp").forward(request, response);
                                     }
                                     otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice(), sd.getTypeByCALCR(r.getRoomID(), cID, Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getSeat().substring(0, 1)));
-                                    price1 += listT.get(i).getTicket().getPrice();
+                                    price1 += (listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount());
+                                    
                                     if (listT.get(i).getTicket().getCinID() != cID) {
                                         tkCode = orderID + randomAlpha(20 - orderID.length());
                                         cID = listT.get(i).getTicket().getCinID();
@@ -1140,8 +1160,9 @@ public class PaymentServlet extends HttpServlet {
                                 }
 
                             }
-
-                            int point1 = price1 / 1000;
+                            double b = Math.round(price1 * 100);
+                            b = b / 100;
+                            int point1 = (int)b / 1000;
 
                             if (pd.checkAcc(a.getUserName()) != null) {
                                 if (!list.isEmpty() || !listT.isEmpty()) {

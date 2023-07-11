@@ -136,6 +136,10 @@
                 font-size: 30px;
                 color: red;
             }
+            
+            .body{
+                padding-top: 40px;
+            }
         </style>
     </head>
     <body>

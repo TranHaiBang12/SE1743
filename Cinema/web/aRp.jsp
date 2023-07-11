@@ -63,6 +63,15 @@
                 margin-left: 40px;
                 color: deeppink;
             }
+            
+            .Sttle{
+                padding-top: 40px;
+            }
+            
+            .body{
+                padding-left: 70px;
+                padding-right: 80px;
+            }
         </style>
     </head>
     <body>

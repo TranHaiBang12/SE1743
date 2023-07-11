@@ -110,6 +110,10 @@
             .Sttle{
                 font-weight: bold;
                 font-size: 20px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                color: brown;
+                text-shadow: 10px 10px 5px #666666;
             }
 
             .insider1{
@@ -190,6 +194,11 @@
                 margin-top: 20px;
                 padding-bottom: 20px;
                 color: red;
+            }
+            
+            .body{
+                padding-left: 50px;
+                padding-right: 100px;
             }
         </style>
     </head>

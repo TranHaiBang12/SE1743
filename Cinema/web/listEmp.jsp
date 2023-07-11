@@ -90,6 +90,16 @@
                 font-size: 25px;
                 text-align: center;
             }
+            
+            .ttle{
+                text-align: center;
+                padding-top: 40px;
+                font-size: 27px;
+                font-weight: bold;
+                margin-bottom: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
+            }
         </style>
     </head>
     <body>
@@ -115,6 +125,7 @@
                 </div>
             </c:if>
             <c:if test = "${requestScope.listE != null}">
+                <div class = "ttle">DANH SÁCH NHÂN VIÊN</div>
                 <table>
                     <tr>
                         <th>ẢNH</th>

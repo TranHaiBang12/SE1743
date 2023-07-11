@@ -280,9 +280,9 @@
 
                                             <div class = "cartPrice"><label id ="price${i.getFood().getProductCode()}">${i.getFood().getPriceNS() * i.getQuantity()}</label><span class = "donvi">đ</div>
                                             <div>
-                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPriceNS()}')" id ="increaseButton" value = "+"/>
+                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '+', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPriceNS()}', '${i.getFood().getDiscount()}')" id ="increaseButton" value = "+"/>
                                                 <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
-                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPriceNS()}')" id ="decreaseButton" value = "-"/>
+                                                <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPriceNS()}', '${i.getFood().getDiscount()}')" id ="decreaseButton" value = "-"/>
                                             </div>
                                             <div class = "deleteButton" onclick = "dlt('${i.getFood().getProductCode()}', '${i.getQuantity()}', '${sessionScope.account.getUserName()}', '${i.getFood().getPrice()}', '${i.getFood().getDiscount()}')">
                                                 Xóa
@@ -351,7 +351,7 @@
             function dltAll(user) {
                 dltA = 1;
 
-                if (String(getCookie(user)) !== "") {
+                if (String(getCookie(user)) !== "" && String(getCookie(user)) !== "false") {
                     var ans = confirm("Do you want to delete all your cart items ?");
                     if (String(ans) === 'true') {
                         setCookie(user, "", 365);
@@ -373,19 +373,14 @@
                 console.log(id);
                 console.log(getCookie(user));
                 var value = getCookie(user);
-                let b = discount * 100; // 123.45
-
-// làm tròn b với Math.round
-                let c = Math.round(b); // 123
-
-// chia c cho 100
-                discount = c / 100; // bằng 123 / 100
-
+                let b = discount * 100; 
+                let c = Math.round(b); 
+                discount = c / 100;
                 if (id.includes("FD")) {
                     if (value.includes(id)) {
-                        value = value.replace("/" + id + "p" + Number(document.getElementById(id).value) + "p" + price + "p" + Math.floor(Number(discount)), "");
+                        value = value.replace("/" + id + "p" + Number(document.getElementById(id).value) + "p" + price + "p" + discount, "");
                         console.log("t" + value);
-                        console.log("/" + id + "p" + Number(document.getElementById(id).value) + "p" + price + "p" + Math.floor(Number(discount)));
+                        console.log("/" + id + "p" + Number(document.getElementById(id).value) + "p" + price + "p" + discount);
                         setCookie(user, value, 365);
                         console.log("1");
                     }
@@ -408,8 +403,13 @@
 
             }
 
-            function a(cartNumber, op, user, quantity, price) {
-
+            function a(cartNumber, op, user, quantity, price, discount) {
+                console.log(Number(price));
+                console.log(Number(discount));
+                
+                let b = discount * 100; 
+                let c = Math.round(b); 
+                discount = c / 100;
                 console.log(cartNumber + " " + op + " " + user + " " + quantity + " " + price);
                 console.log(document.getElementById(cartNumber));
                 var value = getCookie(user);
@@ -423,8 +423,8 @@
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value - 1)), t);
                     }
                     console.log(document.getElementById(cartNumber).value)
-                    document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) + Number(price);
-                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) + Number(price);
+                    document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) + (Number(price));
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) + (Number(price));
                     setCookie(user, value, 365);
                     document.getElementById("nm").innerHTML++;
 
@@ -437,8 +437,8 @@
                         value = value.replace(cartNumber + "p" + (Number(document.getElementById(cartNumber).value) + 1), t);
                     }
                     console.log(document.getElementById(cartNumber).value);
-                    document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) - Number(price);
-                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - Number(price);
+                    document.getElementById("price" + cartNumber).innerHTML = Number(document.getElementById("price" + cartNumber).innerHTML) - (Number(price));
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - (Number(price));
                     setCookie(user, value, 365);
                     document.getElementById("nm").innerHTML--;
                 }

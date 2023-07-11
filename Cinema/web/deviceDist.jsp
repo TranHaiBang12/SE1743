@@ -32,6 +32,7 @@
             .ttle{
                 text-align: center;
                 font-size: 30px;
+                padding-top: 40px;
             }
 
             .insideinsideLoc{
@@ -200,11 +201,15 @@
                 font-weight: bold;
                 margin-bottom: 20px;
                 font-size: 25px;
-                padding-top: 20px;
+                padding-top: 40px;
             }
             
             .addE div{
                 margin-left: 20px;
+            }
+            
+            .body{
+                padding-right: 100px;
             }
             
             .addE {
