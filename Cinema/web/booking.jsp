@@ -27,7 +27,19 @@
                 padding: 15px;
                 text-align: center;
             }
-
+            
+            .bodyTitle1{
+                color: black;
+                font-size: 40px;
+                padding-left: 10px;
+                padding-top: 20px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
+            }
+            .body{
+                padding-left: 50px;
+            }
+            
             .schedule{
                 margin-top: 15px;
                 display: flex;
@@ -71,6 +83,7 @@
 
             .insideLocation{
                 margin-right: 45px;
+                font-size: 20px;
                 cursor: pointer;
                 margin-top: 30px;
                 margin-left: 30px;
@@ -114,6 +127,7 @@
                 margin-left: 30px;
                 margin-right: 0px;
                 margin-bottom: 20px;
+                font-size: 20px;
                 border: 3px solid black;
                 padding: 5px;
                 border-radius: 10px;
@@ -125,6 +139,7 @@
                 cursor: pointer;
                 margin-top: 20px;
                 margin-left: 30px;
+                font-size: 20px;
                 margin-right: 0px;
                 margin-bottom: 20px;
                 border: 3px solid black;
@@ -161,7 +176,7 @@
                 cursor: pointer;
                 margin-top: 30px;
                 margin-left: 30px;
-
+                font-size: 20px;
                 margin-bottom: 30px;
                 border: 1px solid black;
                 background-color: black;
@@ -180,6 +195,7 @@
             .mvt{
                 display: flex;
                 flex-direction: column;
+                border-bottom: 3px solid black;
             }
 
             .mvtTime{
@@ -222,7 +238,7 @@
             }
             
             .insideMvt{
-                border-bottom: 3px solid black;
+                
                 margin-left: 40px;
                 padding-bottom: 25px;
             }
@@ -235,6 +251,9 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
+            <div class = "bodyTitle1">
+                Lịch Chiếu:
+            </div>
             <div class = "movie">
                 <div class = "movName">${requestScope.movie.getMovName()}</div>
                 <div class = "movImg"><img src = "${requestScope.movie.getImg()}"></div>                

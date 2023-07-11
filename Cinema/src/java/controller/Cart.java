@@ -98,6 +98,7 @@ public class Cart extends HttpServlet {
             int quantity = 0;
             double price = 0;
             double discount = 0;
+            System.out.println(cart);
             for (int i = 0; i < cart.length(); i++) {
                 if (cart.charAt(i) == '/' && i != cart.length() - 1) {
                     cntT = 0;
@@ -164,6 +165,7 @@ public class Cart extends HttpServlet {
                                     k++;
                                 } else if ((cart.charAt(j) == '/' && k == 3) || j == cart.length() - 1 && k == 3) {
                                     if (cart.charAt(j) == '/' && k == 3) {
+                                        System.out.println(cart.substring(cnt + 1, j));
                                         discount = Double.parseDouble(cart.substring(cnt + 1, j));
                                     }
                                     else if(j == cart.length() - 1 && k == 3) {

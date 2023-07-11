@@ -28,8 +28,6 @@
             .bodyTitle{
                 color: black;
                 font-size: 40px;
-                border-bottom: 1px solid black;
-                padding: 15px;
             }
 
 
@@ -360,7 +358,12 @@
             .rd{
                 color: red;
             }
-
+            
+            .bodyTitle{
+                padding-top: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
+            }
 
         </style>
 
@@ -370,6 +373,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
+    
             <div class = "bodyTitle">
                 Nội Dung Phim:
             </div>

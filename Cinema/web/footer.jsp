@@ -10,7 +10,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-
+        <style>
+            .tTin{
+                padding-left: 62px;
+                justify-content: flex-start;
+            }
+            
+            .service{
+                padding-right: 100px;
+            }
+        </style>
     </head>
     <body>
         <div class = "footer">

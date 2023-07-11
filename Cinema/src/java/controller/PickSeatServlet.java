@@ -21,9 +21,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import model.Account;
 import model.CartItemFood;
@@ -148,7 +151,7 @@ public class PickSeatServlet extends HttpServlet {
             List<CartItemTicket> listT = new ArrayList<>();
             String cart = "";
             Account acc = (Account) session.getAttribute("account");
-            if(acc == null) {
+            if (acc == null) {
                 response.sendRedirect("login");
             }
             if (acc != null) {
@@ -216,7 +219,6 @@ public class PickSeatServlet extends HttpServlet {
 
                     }
                 }
-                
 
                 List<RoomSeat> rs = sed.selectSeatByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID());
 
@@ -240,18 +242,34 @@ public class PickSeatServlet extends HttpServlet {
                         }
                     }
                 }
+                Time tt = Time.valueOf(Calendar.getInstance().getTime().getHours() + ":" + Calendar.getInstance().getTime().getMinutes() + ":" + Calendar.getInstance().getTime().getSeconds());
+                Date dd = Date.valueOf((Calendar.getInstance().getTime().getYear() + 1900) + "-" + (Calendar.getInstance().getTime().getMonth() + 1) + "-" + Calendar.getInstance().getTime().getDate());
 
-                String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
-                String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
-                request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));
-                request.setAttribute("sche", scd.getScheduleByID(id));
-                request.setAttribute("tk", tk);
-                request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
-                request.setAttribute("movName", movName);
-                request.setAttribute("mov", mvd.getMovieById(scd.getScheduleByID(id).getMovID()));
-                request.setAttribute("formName", formName);
-                request.setAttribute("dateFormat", date);
-                request.setAttribute("day", day);
+                if (scd.getScheduleByID(id).getStart().getTime() < dd.getTime() || (scd.getScheduleByID(id).getStart().getTime() == dd.getTime() && Math.floor(((Time.valueOf(scd.getScheduleByID(id).getStartTim()).getTime() - tt.getTime()) / (1000 * 60 * 60)) % 24) < 0.5)) {
+                    request.setAttribute("ms", "Ca chiếu dừng bán vé online trước giờ chiếu 30 phút.");
+                    String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
+                    String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
+                    request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));
+                    request.setAttribute("sche", scd.getScheduleByID(id));
+                    request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
+                    request.setAttribute("movName", movName);
+                    request.setAttribute("mov", mvd.getMovieById(scd.getScheduleByID(id).getMovID()));
+                    request.setAttribute("formName", formName);
+                    request.setAttribute("dateFormat", date);
+                    request.setAttribute("day", day);
+                } else {
+                    String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
+                    String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
+                    request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));
+                    request.setAttribute("sche", scd.getScheduleByID(id));
+                    request.setAttribute("tk", tk);
+                    request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
+                    request.setAttribute("movName", movName);
+                    request.setAttribute("mov", mvd.getMovieById(scd.getScheduleByID(id).getMovID()));
+                    request.setAttribute("formName", formName);
+                    request.setAttribute("dateFormat", date);
+                    request.setAttribute("day", day);
+                }
                 request.getRequestDispatcher("pickSeat.jsp").forward(request, response);
             }
         }

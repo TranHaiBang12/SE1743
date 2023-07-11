@@ -68,9 +68,8 @@
                 font-size: 30px;
                 margin-top: 20px;
                 margin-bottom: 20px;
-                color: red;
-                text-shadow: 0px 0px 3px yellow;
-                box-shadow: 10px 10px 5px #666666;
+                color: brown;
+                text-shadow: 10px 10px 5px #666666;
             }
 
             .sperTtle{
@@ -195,6 +194,12 @@
                 padding-bottom: 20px;
             }
             
+            .sperTtle{
+                padding-top: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
+            }
+            
         </style>
     </head>
     <body>
@@ -204,7 +209,7 @@
         <div class = "body">
             <div class = "sperTtle">CHỌN RẠP CHIẾU PHIM</div>
             <div class = "loc">
-                <div class = "ttle">Địa Điểm</div>
+                <div class = "bigttle">Địa Điểm</div>
                 <div class = "insideloc">
                     <c:forEach items = "${requestScope.listLoc}" var = "i">
                         <div class = "${i==requestScope.loc?"insideinsideLocActive":"insideinsideLoc"}" onclick = "pckLoc('${i}', '${requestScope.type}')">${i}</div>
@@ -213,7 +218,7 @@
             </div>
             <c:if test = "${requestScope.listM != null}">
                 <div class = "loc">
-                    <div class = "ttle">Rạp Chiếu Phim</div>
+                    <div class = "bigttle">Rạp Chiếu Phim</div>
                     <div class = "insideloc">
                         <c:forEach items = "${requestScope.listM}" var = "k">
                             <div class = "${k.getCinID()==requestScope.cinID?"insideinsideLocActive":"insideinsideLoc"}" onclick = "pckCin('${k.getCinID()}', '${requestScope.loc}', '${requestScope.type}')">${k.getCinName()}</div>

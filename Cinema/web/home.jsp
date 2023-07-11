@@ -35,6 +35,15 @@
             .bt2{
                 margin-top: 15px;
             }
+            
+            .movieContent{
+                padding-right: 0px;
+            }
+            .title{
+                font-size: 45px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
         </style>
     </head>
     <body>
@@ -47,7 +56,7 @@
 
             <div class = "movieContent">
                 <div class = "title">
-                    PHIM ĐANG CHIẾU
+                    Phim Đang Chiếu
                 </div>
                 <div class = "nowShowing">
                     <div class="swiper mySwiper">
@@ -121,7 +130,7 @@
 
             <div class ="movieContent">
                 <div class = "title">
-                    PHIM SẮP CHIẾU
+                    Phim Sắp Chiếu
                 </div>
                 <div class = "notShowing">
                     <div class="swiper mySwiper">

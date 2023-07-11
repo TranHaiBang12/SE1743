@@ -14,17 +14,19 @@
         <style>
 
             .ttle{
-                padding-top: 25px;
-                margin-left: 20px;
+                margin-left: 80px;
+                margin-right: 60px;
+                padding-top: 30px;
                 font-size: 30px;
                 font-weight: bold;
-                border-bottom: 3px solid black;
                 margin-bottom: 20px;
                 padding-bottom: 10px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
             }
 
             .numCart {
-                margin-left: 129px;
+                margin-left: 80px;
                 margin-bottom: 10px;
                 font-size: 18px;
             }
@@ -41,7 +43,7 @@
                 border: 1px solid black;
 
                 margin-right: 20px;
-                margin-left: 129px;
+                margin-left: 82px;
                 padding-bottom: 25px;
             }
 
@@ -226,6 +228,10 @@
                 padding-left: 20px;
             }
 
+            .cart{
+                padding-left: 0px;
+            }
+
 
 
         </style>
@@ -278,7 +284,7 @@
                                                 <input type ="button" name ="cartButton" id ="${i.getFood().getProductCode()}" value = "${i.getQuantity()}"/>
                                                 <input type ="submit" name ="cartButton" onclick = "a('${i.getFood().getProductCode()}', '-', '${sessionScope.account.getUserName()}', '${i.getQuantity()}', '${i.getFood().getPriceNS()}')" id ="decreaseButton" value = "-"/>
                                             </div>
-                                            <div class = "deleteButton" onclick = "dlt('${i.getFood().getProductCode()}', '${i.getQuantity()}', '${sessionScope.account.getUserName()}', '${i.getFood().getPrice()}')">
+                                            <div class = "deleteButton" onclick = "dlt('${i.getFood().getProductCode()}', '${i.getQuantity()}', '${sessionScope.account.getUserName()}', '${i.getFood().getPrice()}', '${i.getFood().getDiscount()}')">
                                                 Xóa
                                             </div>
                                         </div>
@@ -307,8 +313,8 @@
                                             <div>
                                                 <input type ="button" name ="cartButton" value = "1"/>
                                             </div>
-                                    
-                                            <div class = "deleteButton" onclick = "dlt('${t.getTicket().getProductCode()}', '${t.getSeat()}', '${sessionScope.account.getUserName()}', '${t.getTicket().getPriceNS()}')">
+
+                                            <div class = "deleteButton" onclick = "dlt('${t.getTicket().getProductCode()}', '${t.getSeat()}', '${sessionScope.account.getUserName()}', '${t.getTicket().getPrice()}', '${t.getTicket().getDiscount()}')">
                                                 Xóa
                                             </div>
                                         </div>
@@ -340,9 +346,11 @@
                 }
             }
 
+
+
             function dltAll(user) {
                 dltA = 1;
-                
+
                 if (String(getCookie(user)) !== "") {
                     var ans = confirm("Do you want to delete all your cart items ?");
                     if (String(ans) === 'true') {
@@ -355,19 +363,29 @@
                     } else if (String(ans) === 'false') {
 
                     }
-                }
-                else {
+                } else {
                     alert("Giỏ hàng hiện đang trống");
                 }
 
             }
 
-            function dlt(id, more, user, price) {
+            function dlt(id, more, user, price, discount) {
                 console.log(id);
+                console.log(getCookie(user));
                 var value = getCookie(user);
+                let b = discount * 100; // 123.45
+
+// làm tròn b với Math.round
+                let c = Math.round(b); // 123
+
+// chia c cho 100
+                discount = c / 100; // bằng 123 / 100
+
                 if (id.includes("FD")) {
                     if (value.includes(id)) {
-                        value = value.replace("/" + id + "p" + Number(document.getElementById(id).value), "");
+                        value = value.replace("/" + id + "p" + Number(document.getElementById(id).value) + "p" + price + "p" + Math.floor(Number(discount)), "");
+                        console.log("t" + value);
+                        console.log("/" + id + "p" + Number(document.getElementById(id).value) + "p" + price + "p" + Math.floor(Number(discount)));
                         setCookie(user, value, 365);
                         console.log("1");
                     }
@@ -376,7 +394,9 @@
                     document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - (Number(price) * Number(document.getElementById(id).value));
                 } else {
                     if (value.includes(id)) {
-                        value = value.replace("/" + id + "p" + more, "");
+                        value = value.replace("/" + id + "p" + more + "p" + price + "d" + discount, "");
+                        console.log(value);
+                        console.log("/" + id + "p" + more + "p" + price + "d" + discount)
                         setCookie(user, value, 365);
                         console.log("1");
                     }
@@ -389,6 +409,7 @@
             }
 
             function a(cartNumber, op, user, quantity, price) {
+
                 console.log(cartNumber + " " + op + " " + user + " " + quantity + " " + price);
                 console.log(document.getElementById(cartNumber));
                 var value = getCookie(user);

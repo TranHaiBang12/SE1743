@@ -308,7 +308,22 @@
                 color: white;
             }
 
+            .body{
+                padding-left: 40px;
+                padding-right: 38px;
+            }
 
+            .ttle{
+                padding-top: 20px;
+            }
+
+            .instruc{
+                margin-bottom: 20px;
+            }
+            
+            .ms{
+                font-size: 30px;
+            }
 
         </style>
     </head>
@@ -360,50 +375,57 @@
                         <img src ="images/screenIcon.png"/>
                     </div>
                     <div class = "seat">
-                        <c:forEach items = "${requestScope.tk}" var = "i">
-                            <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
-                            <c:if test = "${i.getSeatType() == 1}">
-                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"insideSeatRed":"insideSeat"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
-                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
-                                    <div class = "sat">
-
-                                        <span>${i.getCol()}</span>
-                                        <span>${i.getRow()}</span><!-- -->
-                                    </div>
-
-                                </div>
-                            </c:if>
-                            <c:if test = "${i.getSeatType() == 2}">
-                                <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"vipRed":"vip"}"  onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
-                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
-                                    <div class = "sat">
-                                        <span>${i.getCol()}</span>
-                                        <span>${i.getRow()}</span><!-- -->
-                                    </div>
-
-                                </div>
-                            </c:if>
-                            <c:if test = "${i.getSeatType() == 3}">
-                                <div  id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"speRed":"spe"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
-                                    <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
-                                    <div class = "sat">
-                                        <span>${i.getCol()}</span>
-                                        <span>${i.getRow()}</span><!-- -->
-                                    </div>
-                                </div>
-                            </c:if>
-                            <div class = "${((i.getID() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
-
-                                <!--
-                                <c:if test = "${((i.getID() % requestScope.room.getNoColSeats()== 0) || ((i.getID() - 1) % requestScope.room.getNoColSeats()== 0) && i.getID() != 1)}">
-                                    <p class = "breaker">T</p>
-                                </c:if>
-                                -->
+                        <c:if test = "${requestScope.ms != null}">
+                            <div class = "ms">
+                            ${requestScope.ms}
                             </div>
-                            <input type ="text" id ="USer" hidden value ="${sessionScope.account.getUserName()}"/>
-                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
-                            <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
-                        </c:forEach>
+                        </c:if>
+                        <c:if test = "${requestScope.tk != null}">
+                            <c:forEach items = "${requestScope.tk}" var = "i">
+                                <div hidden id = "first${i.getID()}"> ${i.getID()}</div>
+                                <c:if test = "${i.getSeatType() == 1}">
+                                    <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"insideSeatRed":"insideSeat"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
+                                        <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
+                                        <div class = "sat">
+
+                                            <span>${i.getCol()}</span>
+                                            <span>${i.getRow()}</span><!-- -->
+                                        </div>
+
+                                    </div>
+                                </c:if>
+                                <c:if test = "${i.getSeatType() == 2}">
+                                    <div id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"vipRed":"vip"}"  onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
+                                        <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
+                                        <div class = "sat">
+                                            <span>${i.getCol()}</span>
+                                            <span>${i.getRow()}</span><!-- -->
+                                        </div>
+
+                                    </div>
+                                </c:if>
+                                <c:if test = "${i.getSeatType() == 3}">
+                                    <div  id ="${i.getID()}" class = "${i.getStat().equals("Buy")?"speRed":"spe"}" onclick = "pckSeat('${i.getID()}', '${i.getProductCode()}', '${i.getSeatType()}', '${i.getCol()}', '${i.getRow()}', '${i.getPrice()}', '${i.getDiscount()}')">
+                                        <input type ="text" id ="${i.getProductCode()}${i.getCol()}${i.getRow()}" value ="${i.getID()}p${i.getProductCode()}p${i.getSeatType()}p${i.getCol()}p${i.getRow()}p${i.getPrice()}p${i.getDiscount()}" hidden/>
+                                        <div class = "sat">
+                                            <span>${i.getCol()}</span>
+                                            <span>${i.getRow()}</span><!-- -->
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <div class = "${((i.getID() % requestScope.room.getNoColSeats()== 0) )?"breaker":""}">
+
+                                    <!--
+                                    <c:if test = "${((i.getID() % requestScope.room.getNoColSeats()== 0) || ((i.getID() - 1) % requestScope.room.getNoColSeats()== 0) && i.getID() != 1)}">
+                                        <p class = "breaker">T</p>
+                                    </c:if>
+                                    -->
+                                </div>
+                                <input type ="text" id ="USer" hidden value ="${sessionScope.account.getUserName()}"/>
+                                <input type ="submit" hidden value ="${requestScope.room.getNoColSeats()}" id = "id1"/>
+                                <input type ="submit" hidden value ="${requestScope.room.getNoColSeats() * requestScope.room.getNoRowSeats()}" id = "id2"/>
+                            </c:forEach>
+                        </c:if>
                     </div>
                 </div>
                 <div class = "tket">
@@ -503,7 +525,7 @@
                 }
                 document.cookie = name + "=" + (value || "") + expires;
             }
-// Hàm lấy Cookie
+            // Hàm lấy Cookie
             function getCookie(name) {
                 var cookieName = name + "=";
                 var docCookie = document.cookie;
@@ -606,6 +628,7 @@
                 if (user === null || user === "" || user === undefined) {
                     window.location = "login";
                 }
+                alert("Add successful");
                 //console.log(user);
                 var ckie = getCookie(user);
                 ckie = String(ckie);
@@ -636,8 +659,7 @@
                                 } else if ((idP.charAt(j) === '/' && k === 3) || j === idP.length - 1) {
                                     if (idP.charAt(j) === '/' && k === 3) {
                                         discount = idP.substring(cnt + 1, j);
-                                    }
-                                    else if(j === idP.length - 1) {
+                                    } else if (j === idP.length - 1) {
                                         discount = idP.substring(cnt + 1);
                                     }
                                     k++;

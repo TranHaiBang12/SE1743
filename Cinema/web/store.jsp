@@ -103,8 +103,9 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 3px solid black;
-                padding-top: 20px;
+                padding-top: 40px;
+                padding-left: 75px;
+                padding-right: 85px;
             }
 
             .cart2 img{
@@ -121,6 +122,8 @@
             .prD{
                 margin-left: 10px;
                 font-size: 30px;
+                color: brown;
+                text-shadow: 10px 10px 5px #666666;
             }
 
 

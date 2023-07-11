@@ -45,7 +45,7 @@ public class ScheDAO extends DBContext {
     public List<Tme> getMovieTimeBySchedule(int id, String city, Date start, Date end, String formName, String cinName) {
         List<Tme> ls = new ArrayList<>();
         try {
-            String sql = "SELECT scheNo, startTim, endTim FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE movID = ? AND City = ? AND startDate >= ? AND endDate <= ? AND formName = ? AND cinName = ? ORDER BY startDate";
+            String sql = "SELECT scheNo, startTim, endTim FROM Schedule JOIN Form ON Schedule.formID = Form.formID JOIN Cinema ON Schedule.cinID = Cinema.cinID JOIN CinemaType ON Cinema.cinType = CinemaType.ctypeID WHERE movID = ? AND City = ? AND startDate >= ? AND endDate <= ? AND formName = ? AND cinName = ? ORDER BY startDate, startTim";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
             st.setString(2, city);
