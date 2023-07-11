@@ -250,74 +250,79 @@
         <div id = "header">
             <%@include file = "header.jsp" %>
         </div>
-        <div class = "body">
-            <div class = "bodyTitle1">
-                Lịch Chiếu:
-            </div>
-            
-            <div class = "movie">
-                <div class = "movName">${requestScope.movie.getMovName()}</div>
-                <div class = "movImg"><img src = "${requestScope.movie.getImg()}"></div>                
-            </div>
-            <div class="bodyTitle">
-                Lịch Chiếu
-            </div>
-            <div class = "schedule">
-                <c:forEach items = "${requestScope.date}" var = "i">
-                    <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}', '0')">
+        <div id ="body" class = "body">
+            <div id="myDIV" onscroll="myFunction()">
+                <div class = "bodyTitle1">
+                    Lịch Chiếu:
+                </div>
 
-                        <div class = "notDate">
-                            <span>${i.getMonth()}</span><!-- comment -->
-                            <span>${i.getDay()}</span>
+                <div class = "movie">
+                    <div class = "movName">${requestScope.movie.getMovName()}</div>
+                    <div class = "movImg"><img src = "${requestScope.movie.getImg()}"></div>                
+                </div>
+                <div class="bodyTitle">
+                    Lịch Chiếu
+                </div>
+                <div class = "schedule">
+                    <c:forEach items = "${requestScope.date}" var = "i">
+                        <div class="${requestScope.schePick==i.getId()?"insideScheduleActive":"insideSchedule"}" onclick = "pick('${requestScope.id}', '${i.getId()}', '${requestScope.loPick}', '0')">
+
+                            <div class = "notDate">
+                                <span>${i.getMonth()}</span><!-- comment -->
+                                <span>${i.getDay()}</span>
+                            </div>
+                            <div class = "isDate">${i.getDate()}</div>
                         </div>
-                        <div class = "isDate">${i.getDate()}</div>
-                    </div>
-                </c:forEach>
-            </div>
-            <div class = "location">
-                <c:forEach items = "${requestScope.city}" var = "i">
-                    <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${i.getId()}', '0')" >
-                        <div>${i.getLoc()}</div>
-                    </div>
-                </c:forEach>
-            </div>
-            <%
-
-                if (request.getAttribute("ms") != null) {
-            %>
-            <h3 class = "ms">${requestScope.ms}</h3>
-            <%
-            } else {
-            %>
-            <div class = "form">
-                <c:forEach items = "${requestScope.form}" var = "i">
-                    <div class="${requestScope.formPick==i.getId()?"insideFormActive":"insideForm"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${requestScope.loPick}', '${i.getId()}')">
-                        <div>${i.getFormName()}</div>
-                    </div>
-                </c:forEach>
-            </div>
-            <%
-                }
-            %>
-            <%
-                if (request.getAttribute("mvt") != null) {
-            %>
-            <div class = "mvt">
-                <c:forEach items = "${requestScope.mvt}" var = "i">
-                    <div class = "insideMvt">
-                        <div class = "cinName">${i.getName()}</div>
-                        <div class = "cinType">${i.getType()}</div>
-                        <div class = "mvtTime">
-                            <c:forEach items = "${i.getTime()}" var = "k">
-                                <div class="mvtStartTime" onclick = "seat('${k.getScheNo()}')">
-                                    <div>${k.getStart()}</div>
-                                </div>
-                            </c:forEach>
+                    </c:forEach>
+                </div>
+                <div class = "location">
+                    <c:forEach items = "${requestScope.city}" var = "i">
+                        <div class="${requestScope.loPick==i.getId()?"insideLocationActive":"insideLocation"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${i.getId()}', '0')" >
+                            <div>${i.getLoc()}</div>
                         </div>
-                    </div>
-                </c:forEach>
-            </div>
+                    </c:forEach>
+                </div>
+                <div class = "K">
+                    <input type ="text" hidden id ="scroll" value ="${requestScope.scroll}"/>
+                </div>
+                <%
 
+                    if (request.getAttribute("ms") != null) {
+                %>
+                <h3 class = "ms">${requestScope.ms}</h3>
+                <%
+                } else {
+                %>
+                <div class = "form">
+                    <c:forEach items = "${requestScope.form}" var = "i">
+                        <div class="${requestScope.formPick==i.getId()?"insideFormActive":"insideForm"}" onclick = "pick('${requestScope.id}', '${requestScope.schePick}', '${requestScope.loPick}', '${i.getId()}')">
+                            <div>${i.getFormName()}</div>
+                        </div>
+                    </c:forEach>
+                </div>
+                <%
+                    }
+                %>
+                <%
+                    if (request.getAttribute("mvt") != null) {
+                %>
+                <div class = "mvt">
+                    <c:forEach items = "${requestScope.mvt}" var = "i">
+                        <div class = "insideMvt">
+                            <div class = "cinName">${i.getName()}</div>
+                            <div class = "cinType">${i.getType()}</div>
+                            <div class = "mvtTime">
+                                <c:forEach items = "${i.getTime()}" var = "k">
+                                    <div class="mvtStartTime" onclick = "seat('${k.getScheNo()}')">
+                                        <div>${k.getStart()}</div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+                
+            </div>
         </div>
         <%
             }
@@ -327,6 +332,13 @@
         <%@include file = "footer.jsp" %>
     </div>
     <script type = "text/javascript">
+        var a = 0;
+
+        window.addEventListener("scroll", (event) => {
+            a = window.scrollY;
+            console.log(a);
+        });
+        window.scrollTo(0, document.getElementById("scroll").value);
         function pick(id, sche, lo, form) {
 //            let http = new XMLHttpRequest();
 //            console.log(id + " " + sche + " " + lo + " " + form);
@@ -337,8 +349,8 @@
 //            }
 //            http.send("id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form)
             //http.send(id, sche, lo, form);
-   
-            window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form;
+
+            window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form + "&scroll=" + a;
         }
 
         function seat(id) {

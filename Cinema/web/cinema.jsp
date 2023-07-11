@@ -74,7 +74,7 @@
 
             .sperTtle{
                 padding-top: 20px;
-                
+
                 margin-bottom: 20px;
                 font-size: 30px;
                 font-weight: bold;
@@ -188,18 +188,18 @@
                 margin-left: 20px;
                 font-size: 20px;
             }
-            
+
             .ms{
                 margin-bottom: 0px;
                 padding-bottom: 20px;
             }
-            
+
             .sperTtle{
                 padding-top: 40px;
                 text-shadow: 10px 10px 5px #666666;
                 color: brown
             }
-            
+
         </style>
     </head>
     <body>
@@ -304,6 +304,7 @@
                             </div>
                         </c:forEach>
                     </c:if>
+                    <input type ="text" hidden id ="scroll"value ="${requestScope.scroll}"/>
                     <c:if test = "${requestScope.ms != null}">
                         <h3 class = "ms">${requestScope.ms}</h3>
                     </c:if>
@@ -316,67 +317,75 @@
         </div>
         <script src="swiper-bundle.min.js"></script>
         <script>
-                            var swiper = new Swiper(".mySwiper", {
-                                slidesPerView: 1,
-                                spaceBetween: 10,
-                                pagination: {
-                                    el: ".swiper-pagination",
-                                    clickable: true,
-                                },
-                                breakpoints: {
-                                    640: {
-                                        slidesPerView: 2,
-                                        spaceBetween: 20,
-                                    },
-                                    768: {
-                                        slidesPerView: 4,
-                                        spaceBetween: 40,
-                                    },
-                                    1024: {
-                                        slidesPerView: 3,
-                                        spaceBetween: 50,
-                                    },
-                                },
-                            });
+                                                            var swiper = new Swiper(".mySwiper", {
+                                                                slidesPerView: 1,
+                                                                spaceBetween: 10,
+                                                                pagination: {
+                                                                    el: ".swiper-pagination",
+                                                                    clickable: true,
+                                                                },
+                                                                breakpoints: {
+                                                                    640: {
+                                                                        slidesPerView: 2,
+                                                                        spaceBetween: 20,
+                                                                    },
+                                                                    768: {
+                                                                        slidesPerView: 4,
+                                                                        spaceBetween: 40,
+                                                                    },
+                                                                    1024: {
+                                                                        slidesPerView: 3,
+                                                                        spaceBetween: 50,
+                                                                    },
+                                                                },
+                                                            });
 
-                            var swiper = new Swiper(".mySwiperEvent", {
-                                slidesPerView: 1,
-                                spaceBetween: 10,
-                                pagination: {
-                                    el: ".swiper-pagination",
-                                    clickable: true,
-                                },
-                                breakpoints: {
-                                    640: {
-                                        slidesPerView: 2,
-                                        spaceBetween: 20,
-                                    },
-                                    768: {
-                                        slidesPerView: 4,
-                                        spaceBetween: 40,
-                                    },
-                                    1024: {
-                                        slidesPerView: 3,
-                                        spaceBetween: 50,
-                                    },
-                                },
-                            });
+                                                            var swiper = new Swiper(".mySwiperEvent", {
+                                                                slidesPerView: 1,
+                                                                spaceBetween: 10,
+                                                                pagination: {
+                                                                    el: ".swiper-pagination",
+                                                                    clickable: true,
+                                                                },
+                                                                breakpoints: {
+                                                                    640: {
+                                                                        slidesPerView: 2,
+                                                                        spaceBetween: 20,
+                                                                    },
+                                                                    768: {
+                                                                        slidesPerView: 4,
+                                                                        spaceBetween: 40,
+                                                                    },
+                                                                    1024: {
+                                                                        slidesPerView: 3,
+                                                                        spaceBetween: 50,
+                                                                    },
+                                                                },
+                                                            });
 
 
         </script>
         <script type = "text/javascript">
+            var a = 0;
+
+            window.addEventListener("scroll", (event) => {
+                a = window.scrollY;
+                console.log(a);
+            });
+            window.scrollTo(0, document.getElementById("scroll").value);
+
             function pckLoc(loc, id) {
-                window.location = "cin?loc=" + loc + "&id=" + id;
+                window.location = "cin?loc=" + loc + "&id=" + id + "&scroll=" + a;
             }
 
             function pckCin(cinID, loc, id) {
-                window.location = "cin?loc=" + loc + "&id=" + id + "&cinID=" + cinID;
+                window.location = "cin?loc=" + loc + "&id=" + id + "&cinID=" + cinID + "&scroll=" + a;
             }
 
             function pckSche(sche, cinID, loc, id) {
-                window.location = "cin?sche=" + sche + "&loc=" + loc + "&id=" + id + "&cinID=" + cinID;
+                window.location = "cin?sche=" + sche + "&loc=" + loc + "&id=" + id + "&cinID=" + cinID + "&scroll=" + a;
             }
-            
+
             function pckMovSche(id) {
                 window.location = "seat?id=" + id;
             }

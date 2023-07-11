@@ -72,6 +72,14 @@ public class CinemaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        double a = 0;
+        if(request.getParameter("scroll") != null) {
+            try {
+                a = Double.parseDouble(request.getParameter("scroll"));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
         String id_raw = request.getParameter("id");
         CinemaDAO cnd = new CinemaDAO();
         List<Cinema> listM = new ArrayList<>();
@@ -211,6 +219,7 @@ public class CinemaServlet extends HttpServlet {
                 }
                 request.setAttribute("loc", request.getParameter("loc"));
                 request.setAttribute("m", m);
+                request.setAttribute("scroll", a);
                 request.getRequestDispatcher("cinema.jsp").forward(request, response);
             } else {
                 listLoc = cnd.getAllCinemaLocByType(id);
@@ -285,6 +294,7 @@ public class CinemaServlet extends HttpServlet {
                 }
                 request.setAttribute("loc", request.getParameter("loc"));
                 request.setAttribute("m", m);
+                request.setAttribute("scroll", a);
                 request.getRequestDispatcher("cinema.jsp").forward(request, response);
             }
         }

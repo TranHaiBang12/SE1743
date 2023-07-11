@@ -195,7 +195,6 @@
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="liste">Danh Sách</a>
                                     <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
-                                        <a class ="lnk" href="rpm">Thống Kê</a>
                                     </c:if>
                                 </div>
                             </div>

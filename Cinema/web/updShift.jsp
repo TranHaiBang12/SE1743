@@ -221,7 +221,7 @@
         </div>
         <div class = "body">
             <div class = "hinbody">
-                <div class = "ttle">Thêm Ca Trực</div>
+                <div class = "ttle">Sửa Ca Trực</div>
                 <div class = "dteS">
                     <div>Nhân viên: <span class = "rd">${requestScope.e.getLastName()} ${requestScope.e.getFirstName()}</span></div>
 

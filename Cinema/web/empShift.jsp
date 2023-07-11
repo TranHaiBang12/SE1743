@@ -269,7 +269,7 @@
         </div>
         <script type = "text/javascript">
             function dlt(id, month, year) {
-                if(confirm("Bạn có chắc muốn xóa ca làm với id = " + id)) {
+                if(confirm("Bạn có chắc muốn xóa ca làm với id = " + id + ".Việc này sẽ đồng thời xóa tất cả chấm công có sử dụng dữ liệu của ca làm này")) {
                     window.location = "dltsh?id=" + id + "&month=" + month + "&year=" + year;
                 }
             }

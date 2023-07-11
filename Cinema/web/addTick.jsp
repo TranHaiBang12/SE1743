@@ -40,6 +40,7 @@
                 text-align: center;
                 font-size: 30px;
                 margin-bottom: 25px;
+                padding-top: 40px;
             }
 
             .urSelection{

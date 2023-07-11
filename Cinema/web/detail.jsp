@@ -499,6 +499,7 @@
                     </div>
                     <div class = "send">
                         <input type ="button" value ="Gửi đánh giá" onclick = "sbmit()"/> 
+                        <input type ="submit" hidden value ="s"/>
                     </div>
                 </form>
             </div>
@@ -511,11 +512,14 @@
         </div>
         <script type="text/javascript">
             function sbmit() {
+                if(document.getElementById("cmt").innerHTML === null || String(document.getElementById("cmt").innerHTML) === " ") {
+                        alert("Vui lòng để lại bình luận");
+                }
                 if(Number(document.getElementById("star").value) === 0) {
                     alert("Vui lòng đánh giá sao");
                 }
                 else {
-                    document.getElementById("frm").submit();
+                    document.getElementById("frm").querySelector('input[type="submit"]').click();
                 }
             }
 

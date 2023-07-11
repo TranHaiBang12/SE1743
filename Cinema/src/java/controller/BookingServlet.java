@@ -75,6 +75,15 @@ public class BookingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        double a = 0;
+        if (request.getParameter("scroll") != null) {
+            System.out.println(request.getParameter("scroll"));
+            try {
+                a = Double.parseDouble(request.getParameter("scroll"));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
         String id_raw = request.getParameter("id");
         int cnt = 0;
         MovieDAO mvd = new MovieDAO();
@@ -90,7 +99,7 @@ public class BookingServlet extends HttpServlet {
 
         List<Date> date = new ArrayList<>();
         List<DateMD> dte = new ArrayList<>();
-        Date d[] = new Date[30];
+        Date d[] = new Date[31];
         d[0] = Date.valueOf(java.time.LocalDate.now());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String k = formatter.format(d[0]);
@@ -201,8 +210,10 @@ public class BookingServlet extends HttpServlet {
         } else {
             id_lForm = idLo;
         }
+
         Date start = date.get(id_sForm);
-        Date end = date.get(id_sForm + 1);
+        Date end = null;
+        end = date.get(id_sForm + 1);
 
         List<String> form = mvd.getAllMovieFormByIdAndLocationAndTime(id, loc.get(id_lForm).getLoc(), start, end);
 
@@ -220,7 +231,9 @@ public class BookingServlet extends HttpServlet {
             request.setAttribute("movie", m);
             request.setAttribute("city", loc);
             request.setAttribute("date", dte);
-            System.out.println("1");
+            request.setAttribute("scroll", a);
+            System.out.println("p" + a);
+            System.out.println("2");
             request.getRequestDispatcher("booking.jsp").forward(request, response);
         } else {
             if (idForm_raw == null || idForm_raw.equals("")) {
@@ -240,7 +253,7 @@ public class BookingServlet extends HttpServlet {
             }
             ScheDAO scd = new ScheDAO();
             List<String> strTme = new ArrayList<>();
-      
+
             List<String> mvNameBySche = scd.getCinNameBySchedule(id, loc.get(id_lForm).getLoc(), start, end, frm.get(idForm).getFormName());
             CinemaDAO cnd = new CinemaDAO();
             List<MovieTime> mvt = new ArrayList<>();
@@ -259,7 +272,10 @@ public class BookingServlet extends HttpServlet {
             request.setAttribute("city", loc);
             request.setAttribute("date", dte);
             request.setAttribute("form", frm);
-           request.getRequestDispatcher("booking.jsp").forward(request, response);
+            request.setAttribute("scroll", a);
+            System.out.println("p" + a);
+            System.out.println("3");
+            request.getRequestDispatcher("booking.jsp").forward(request, response);
         }
     }
 
@@ -274,7 +290,7 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**

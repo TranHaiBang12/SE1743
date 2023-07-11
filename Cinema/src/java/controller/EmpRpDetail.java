@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -60,6 +61,7 @@ public class EmpRpDetail extends HttpServlet {
             throws ServletException, IOException {
         EmployeeDAO ed = new EmployeeDAO();
         ShiftDAO sd = new ShiftDAO();
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         TimekeepingDAO tkpd = new TimekeepingDAO();
 
         if (request.getParameter("id") == null || request.getParameter("month") == null || request.getParameter("year") == null) {
@@ -98,7 +100,7 @@ public class EmpRpDetail extends HttpServlet {
             int numDateOT = tkpd.getNumDateOT(id, year, month);
             
             request.setAttribute("numDateWork", numDateWork);
-            request.setAttribute("numHourWork", numHourWork);
+            request.setAttribute("numHourWork", decimalFormat.format(numHourWork));
             
             request.setAttribute("numDateOff", numDateOff);
             request.setAttribute("numDateOffHasP", numDateOffHasP);

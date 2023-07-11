@@ -52,8 +52,8 @@
             .bodyTitle{
                 color: black;
                 font-size: 40px;
-                border-bottom: 1px solid black;
-                padding: 15px;
+                padding-top: 40px;
+                padding-left: 45px;
             }
 
 
@@ -97,6 +97,10 @@
             .oInfo{
                 line-height: 35px;
             }
+            
+            .body{
+                padding-left: 40px;
+            }
 
             .bodyContent .content button{
                 margin-top: 30px;
@@ -117,7 +121,7 @@
         </div><!-- comment -->
         <div class = "body">
             <div class = "bodyTitle">
-                Nội Dung Phim:
+                CHI TIẾT
             </div>
 
             <div class ="bodyContent">

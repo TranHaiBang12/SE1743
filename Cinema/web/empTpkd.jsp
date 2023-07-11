@@ -280,7 +280,7 @@
         </div>
         <script type = "text/javascript">
             function dlt(id, date, month, year) {
-                if(confirm("Bạn có chắc muốn xóa dữ liệu chấm công với mã ca trực = " + id + " và ngày " + date + ".Việc này sẽ đồng thời xóa tất cả chấm công có sử dụng dữ liệu của ca làm này")) {
+                if(confirm("Bạn có chắc muốn xóa dữ liệu chấm công với mã ca trực = " + id + " và ngày " + date )) {
                     window.location = "dlttkp?id=" + id + "&date=" + date + "&month=" + month + "&year=" + year;
                 }
             }

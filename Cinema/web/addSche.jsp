@@ -16,8 +16,9 @@
             }
 
             table{
+                
                 text-align: center;
-                margin-top: 20px;
+                margin-top: 80px;
                 border: 1px solid black;
                 margin-bottom: 20px;
                 margin: 0 auto;
@@ -112,7 +113,18 @@
                 cursor: pointer;
             }
 
-
+            .ttle{
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 20px;
+                font-size: 25px;
+                padding-top: 40px;
+            }
+            
+            .body{
+                padding-left: 80px;
+                padding-right: 100px;
+            }
         </style>
     </head>
     <body>
@@ -120,6 +132,9 @@
             <%@include file = "header.jsp" %>
         </div><!-- comment -->
         <div class = "body">
+            <div class = "ttle">
+                THÊM LỊCH CHIẾU
+            </div>
             <c:if test = "${requestScope.s != null}">
                 <table>
                     <tr>
@@ -188,6 +203,8 @@
                         <input type ="text" id ="movName" name ="movName" readonly value = "${movName}"/>
                         <input type ="text" id ="movID" name ="movID" readonly hidden value = "${id}"/>
                     </div>
+                    
+                        <input type ="text" hidden id ="scroll" value ="${requestScope.scroll}"/>
 
                     <c:if test = "${form != null}">
                         <div>
