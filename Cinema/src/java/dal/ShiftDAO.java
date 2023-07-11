@@ -54,6 +54,17 @@ public class ShiftDAO extends DBContext{
         return list;
     }
     
+    public void dltShiftByID(int code) {
+        try {
+            String sql = "DELETE FROM Shift WHERE ShiftID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     public boolean checkShiftID(int code) {
         try {
             String sql = "SELECT * FROM Shift WHERE ShiftID = ?";

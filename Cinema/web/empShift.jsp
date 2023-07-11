@@ -241,7 +241,7 @@
                                 <td>${k.getEndDateS()}</td>
                                 <td>
                                     <a href="updsh?id=${k.getShiftID()}"><input type ="button" value = "SỬA"/></a>
-                                    <a href="#"><input type ="button" onclick ="dlt(${k.getShiftID()})" value = "XÓA"/></a>
+                                    <a href="#"><input type ="button" onclick ="dlt('${k.getShiftID()}', '${requestScope.month}', '${requestScope.year}')" value = "XÓA"/></a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -268,9 +268,9 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type = "text/javascript">
-            function dlt(id) {
+            function dlt(id, month, year) {
                 if(confirm("Bạn có chắc muốn xóa ca làm với id = " + id)) {
-                    window.location = "dltsh?id=" + id;
+                    window.location = "dltsh?id=" + id + "&month=" + month + "&year=" + year;
                 }
             }
         </script>

@@ -5,6 +5,9 @@
 
 package controller;
 
+import dal.EmployeeDAO;
+import dal.ShiftDAO;
+import dal.TimekeepingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -53,7 +56,35 @@ public class DeleteShift extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        EmployeeDAO ed = new EmployeeDAO();
+        ShiftDAO sd = new ShiftDAO();
+        TimekeepingDAO tkpd = new TimekeepingDAO();
+        String id_raw = request.getParameter("id");
+        String month_raw = request.getParameter("month");
+        String year_raw = request.getParameter("year");
+        
+        if(id_raw == null || month_raw == null || year_raw == null) {
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+        }
+        else {
+            int id = 0;
+            int month = 0;
+            int year = 0;
+            try {
+                id = Integer.parseInt(id_raw);
+                month = Integer.parseInt(month_raw);
+                year = Integer.parseInt(year_raw);
+                if(ed.getEmployeeByID(id) == null || month > 12 || month < 1) {
+                    throw new Exception("L");
+                }
+            } catch (Exception e) {
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+            tkpd.dltTimekeepingByShiftID(id);
+            sd.dltShiftByID(id);
+            
+            response.sendRedirect("emps?id=" + id + "&month=" + month + "&year=" + year);
+        }
     } 
 
     /** 

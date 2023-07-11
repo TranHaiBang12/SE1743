@@ -69,6 +69,29 @@ public class TimekeepingDAO extends DBContext{
         return false;
     }
     
+    public void dltTimekeepingByShiftID(int shiftID) {
+        try {
+            String sql = "DELETE FROM Timekeeping WHERE ShiftID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, shiftID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltTimekeeping(int id, Date d) {
+        try {
+            String sql = "DELETE FROM Timekeeping WHERE EmpID = ? AND Date = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            st.setDate(2, d);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     public void insert(int empID, int shiftID, Time startWork, Time endWork, int onleave, Date d) {
         try {
             String sql = "INSERT INTO Timekeeping VALUES(?, ?, ?, ?, ?, ?)";
