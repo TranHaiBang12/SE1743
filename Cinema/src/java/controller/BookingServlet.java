@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.sql.Date;
 import java.text.ParseException;
@@ -258,7 +259,7 @@ public class BookingServlet extends HttpServlet {
             request.setAttribute("city", loc);
             request.setAttribute("date", dte);
             request.setAttribute("form", frm);
-            request.getRequestDispatcher("booking.jsp").forward(request, response);
+           request.getRequestDispatcher("booking.jsp").forward(request, response);
         }
     }
 
@@ -273,7 +274,7 @@ public class BookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**

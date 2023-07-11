@@ -13,11 +13,26 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <c:set var = "cookie" value = "${pageContext.request.cookies}"/>
-        ${cookie.user.value}
-        1
+        <form action = "test" method = "post" enctype="multipart/form-data">
+            <input class ="downloadupaddinvoice" type ="file" id ="file" name ="file">
+            <input type ="submit" value ="s" />
+        </form>
         <script type="text/javascript">
+            function download() {
+                var filename = document.getElementById("file").files[0].name;
+                console.log(filename);
+                if (filename == "" || filename == null) {
+                    alert('Error');
+                } else {
+                    var file = document.getElementById("file").files[0];
+                    var filename = document.getElementById("file").files[0].name;
+                    var blob = new Blob([file]);
+                    var url = URL.createObjectURL(blob);
 
+                    $('.downloadupaddinvoice').attr({'download': filename, 'href': "C:\PRJ301-BackendWeb\Assignment\images"});
+                    filename = "";
+                }
+            }
             function setCookie(cname, cvalue, exdays) {
                 var d = new Date();
                 d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));

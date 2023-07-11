@@ -4,15 +4,30 @@
  */
 package controller;
 
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import dal.MovieDAO;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.logging.Level;
 import model.Movies;
 
 /**
@@ -60,30 +75,46 @@ public class Test extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        Cookie[] arr = request.getCookies();
-
-        Cookie user = new Cookie("user", "i");
-        Cookie pass = new Cookie("pass", "i");
-        Cookie rem = new Cookie("rem", "i");
-        user.setMaxAge(60 * 60 * 60);
-        pass.setMaxAge(60 * 60 * 60);
-        rem.setMaxAge(60 * 60 * 60);
-        response.addCookie(user);
-        Cookie[] cookies = request.getCookies();
-
-        for (Cookie i : cookies) {
-            if (i.getName().equals("user")) {
-                System.out.println("1");
-            }
-            else if (i.getName().equals("Bang")) {
-                System.out.println(i.getValue());
-            }
-            else if (i.getName().equals("rem")) {
-                System.out.println("3");
-            }
+        String filePath = "C:/PRJ301-BackendWeb/Assignment/images/event3.jpg";
+        File downloadFile = new File(filePath);
+        FileInputStream inStream = new FileInputStream(downloadFile);
+         
+        // if you want to use a relative path to context root:
+        String relativePath = "C:/PRJ301-BackendWeb/Assignment/images";
+        System.out.println("relativePath = " + relativePath);
+         
+        // obtains ServletContext
+        ServletContext context = getServletContext();
+         
+        // gets MIME type of the file
+        String mimeType = context.getMimeType(filePath);
+        if (mimeType == null) {        
+            // set to binary type if MIME mapping not found
+            mimeType = "application/octet-stream";
         }
-        
-        request.getRequestDispatcher("test.jsp").forward(request, response);
+        System.out.println("MIME type: " + mimeType);
+         
+        // modifies response
+        response.setContentType(mimeType);
+        response.setContentLength((int) downloadFile.length());
+         
+        // forces download
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+        response.setHeader(headerKey, headerValue);
+         
+        // obtains response's output stream
+        OutputStream outStream = response.getOutputStream();
+         
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+         
+        while ((bytesRead = inStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+         
+        inStream.close();
+        outStream.close(); 
     }
 
     /**
@@ -98,7 +129,38 @@ public class Test extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        System.out.println(request.getParameter("file"));
+            HttpSession session = request.getSession(false);
+            String folderName = "images";
+            String uploadPath = request.getServletContext().getRealPath("") + File.separator + folderName;//for netbeans use this code
+            //String uploadPath = request.getServletContext().getRealPath("") + folderName;//for eclipse use this code
+            File dir = new File(uploadPath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            Part filePart = request.getPart("file");//Textbox value of name file.
+
+            String fileName = filePart.getSubmittedFileName();
+            String path = folderName + File.separator + fileName;
+            System.out.println("fileName: " + fileName);
+            System.out.println("Path: " + uploadPath);
+            InputStream is = filePart.getInputStream();
+            Files.copy(is, Paths.get(uploadPath + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    // getFileName() method to get the file name from the part  
+    private String getFileName(final Part part) {
+        // get header(content-disposition) from the part  
+        final String partHeader = part.getHeader("content-disposition");
+        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
+
+        // code to get file name from the header  
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        // it will return null when it doesn't get file name in the header   
+        return null;
     }
 
     /**

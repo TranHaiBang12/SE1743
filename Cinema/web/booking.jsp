@@ -27,7 +27,7 @@
                 padding: 15px;
                 text-align: center;
             }
-            
+
             .bodyTitle1{
                 color: black;
                 font-size: 40px;
@@ -39,7 +39,7 @@
             .body{
                 padding-left: 50px;
             }
-            
+
             .schedule{
                 margin-top: 15px;
                 display: flex;
@@ -204,7 +204,7 @@
                 margin-right: 0px;
                 display: flex;
             }
-            
+
             .cinName {
                 margin-top: 20px;
                 margin-left: 0px;
@@ -212,7 +212,7 @@
                 margin-bottom: 20px;
                 font-size: 20px;
             }
-            
+
             .cinType{
                 margin-top: 20px;
                 margin-left: 0px;
@@ -220,7 +220,7 @@
                 margin-bottom: 20px;
                 font-size: 20px;
             }
-            
+
             .mvtStartTime{
                 border: 1px solid black;
                 padding: 5px;
@@ -232,17 +232,17 @@
                 cursor: pointer;
                 margin-bottom: 10px;
             }
-            
+
             .mvtStartTime:hover{
                 border: 2px solid black;
             }
-            
+
             .insideMvt{
-                
+
                 margin-left: 40px;
                 padding-bottom: 25px;
             }
-            
+
 
         </style>
     </head>
@@ -254,6 +254,7 @@
             <div class = "bodyTitle1">
                 Lịch Chiếu:
             </div>
+            
             <div class = "movie">
                 <div class = "movName">${requestScope.movie.getMovName()}</div>
                 <div class = "movImg"><img src = "${requestScope.movie.getImg()}"></div>                
@@ -281,13 +282,12 @@
                 </c:forEach>
             </div>
             <%
-       
-                if(request.getAttribute("ms") != null) {
+
+                if (request.getAttribute("ms") != null) {
             %>
             <h3 class = "ms">${requestScope.ms}</h3>
-            <%    
-               }
-                else {
+            <%
+            } else {
             %>
             <div class = "form">
                 <c:forEach items = "${requestScope.form}" var = "i">
@@ -300,8 +300,7 @@
                 }
             %>
             <%
-
-                if(request.getAttribute("mvt") != null) {
+                if (request.getAttribute("mvt") != null) {
             %>
             <div class = "mvt">
                 <c:forEach items = "${requestScope.mvt}" var = "i">
@@ -329,9 +328,19 @@
     </div>
     <script type = "text/javascript">
         function pick(id, sche, lo, form) {
+//            let http = new XMLHttpRequest();
+//            console.log(id + " " + sche + " " + lo + " " + form);
+//            var url = "http://localhost:9999/cinema/booking";
+//            http.open('POST', url, true);
+//            http.onload = function () {
+//                console.log(1);
+//            }
+//            http.send("id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form)
+            //http.send(id, sche, lo, form);
+   
             window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form;
         }
-        
+
         function seat(id) {
             window.location = "seat?id=" + id;
         }

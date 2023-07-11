@@ -86,7 +86,7 @@
 
             .eIN4 {
                 font-size: 20px;
-                margin-left: 50px;
+                margin-left: -20px;
             }
 
             .eIN4 div{
@@ -171,6 +171,8 @@
             #newgenre select{
                 margin-top: 20px;
             }
+            
+       
         </style>
     </head>
     <body>
