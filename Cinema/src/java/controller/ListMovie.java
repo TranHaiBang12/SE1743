@@ -4,23 +4,22 @@
  */
 package controller;
 
-import dal.DiStaGenreMovDAO;
 import dal.MovieDAO;
-import dal.ScheDAO;
-import dal.TicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Ticket;
+import java.util.ArrayList;
+import java.util.List;
+import model.Movies;
 
 /**
  *
  * @author acer
  */
-public class DltMov extends HttpServlet {
+public class ListMovie extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +38,10 @@ public class DltMov extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DltMov</title>");
+            out.println("<title>Servlet ListMovie</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DltMov at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListMovie at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,36 +59,30 @@ public class DltMov extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id_raw = request.getParameter("id");
         MovieDAO mvd = new MovieDAO();
-        DiStaGenreMovDAO dsg = new DiStaGenreMovDAO();
-        int id = 0;
-        try {
-            id = Integer.parseInt(id_raw);
-            if (mvd.getMovieById(id) == null) {
-                throw new Exception("L");
+        for (int i = 0; i < mvd.getAllMovies().size(); i++) {
+            System.out.println(mvd.getAllMovies().get(i).getMovID());
+        }
+        List<Movies> list = new ArrayList<>();
+        list = mvd.getAllMovies();
+        for (int j = 0; j < list.size(); j++) {
+            String dateS = "", monthS = "", yearS = "";
+            String t = list.get(j).getStartDate().toString();
+            int cnt = 0;
+            for (int i = 0; i < t.length(); i++) {
+                if (t.substring(i, i + 1).equals("-") && i != cnt && cnt == 0) {
+                    yearS = t.substring(cnt, i);
+                    cnt = i;
+                } else if (t.substring(i, i + 1).equals("-") && i != cnt && cnt != 0) {
+                    monthS = t.substring(cnt + 1, i);
+                    cnt = i;
+                }
             }
-        } catch (Exception e) {
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+            dateS = t.substring(cnt + 1);
+            list.get(j).setStartDateS(dateS + "-" + monthS + "-" + yearS);
         }
-        ScheDAO sd = new ScheDAO();
-
-        TicketDAO tkd = new TicketDAO();
-        if (tkd.getAllMovSellTicketByMovID(id).isEmpty()) {
-            tkd.dltAllTicket(id);
-            //response.sendRedirect("home");
-            sd.dltAllScheOfMov(id);
-            dsg.dltAllDir(id);
-            dsg.dltAllGenre(id);
-            dsg.dltAllStar(id);
-            mvd.dltMovByID(id);
-//        request.setAttribute("id", Integer.parseInt(request.getParameter("movid")));
-//        request.getRequestDispatcher("viewsche").forward(request, response);
-            response.sendRedirect("listMV");
-        }
-        else {
-            response.sendRedirect("listMV?ms=" + "Bộ phim đã bán vé, không thể xóa");
-        }
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("listMV.jsp").forward(request, response);
     }
 
     /**

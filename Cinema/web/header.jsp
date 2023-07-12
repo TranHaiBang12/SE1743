@@ -61,7 +61,7 @@
                 <div class="dropdown-content">
                     <div class=insidedropdown-content>
                         <a href="event">Xem Ưu Đãi</a>
-                        <c:if test = "${sessionScope.account != null && sessionScope.account.getRole() == 3}">
+                        <c:if test = "${sessionScope.account != null && (sessionScope.account.getRole() == 3 || sessionScope.account.getRole() == 1)}">
                             <a href="addev">Thêm Ưu Đãi</a>
                         </c:if>
                     </div>

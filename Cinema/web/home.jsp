@@ -82,13 +82,14 @@
                                             </div>
 
                                             <div class = "bt2">
-                                                <c:if test="${sessionScope.account.role==3}">
+                                                <c:if test="${sessionScope.account.role==3 || sessionScope.account.role==1}">
                                                     <button type = "submit" value = "UPDATE" onclick = "upd('${i.movID}')">UPDATE</button>
+                                                    <a href = "listMV"><button type = "submit" value = "LIST">LIST</button></a>
                                                     <button type = "submit" value = "DELETE" onclick = "dlt('${i.movID}', '${i.getMovName()}')">DELETE</button>
                                                 </c:if>
                                             </div>
                                             <div class = "bt2">
-                                                <c:if test="${sessionScope.account.role==3}">
+                                                <c:if test="${sessionScope.account.role==3 || sessionScope.account.role==1}">
                                                     <button type = "submit" value = "ADD SCHEDULE" onclick = "addSche('${i.movID}')">ADD SCHE</button>
                                                     <button type = "submit" value = "VIEW SCHEDULE" onclick = "viewSche('${i.movID}')">VIEW SCHE</button>
                                                 </c:if>
@@ -158,13 +159,13 @@
                                                 <button type = "submit" value = "MUA VÉ" onclick = "booking('${i.movID}')">MUA VÉ</button>
                                             </div>
                                             <div class = "bt2">
-                                                <c:if test="${sessionScope.account.role==3}">
+                                                <c:if test="${sessionScope.account.role==3 || sessionScope.account.role==1}">
                                                     <button type = "submit" value = "UPDATE"  onclick = "upd('${i.movID}')">UPDATE</button>
                                                     <button type = "submit" value = "DELETE" onclick = "dlt('${i.movID}', '${i.getMovName()}')">DELETE</button>
                                                 </c:if>
                                             </div>
                                             <div class = "bt2">
-                                                <c:if test="${sessionScope.account.role==3}">
+                                                <c:if test="${sessionScope.account.role==3 || sessionScope.account.role==1}">
                                                     <button type = "submit" value = "ADD SCHEDULE" onclick = "addSche('${i.movID}')">ADD SCHE</button>
                                                     <button type = "submit" value = "VIEW SCHEDULE" onclick = "viewSche('${i.movID}')">VIEW SCHE</button>
                                                 </c:if>

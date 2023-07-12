@@ -328,6 +328,10 @@
         <servlet-name>FoodOutOfOrder</servlet-name>
         <servlet-class>controller.FoodOutOfOrder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListMovie</servlet-name>
+        <servlet-class>controller.ListMovie</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -655,6 +659,10 @@
     <servlet-mapping>
         <servlet-name>FoodOutOfOrder</servlet-name>
         <url-pattern>/fooo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListMovie</servlet-name>
+        <url-pattern>/listMV</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

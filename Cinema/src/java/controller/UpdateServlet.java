@@ -4,7 +4,9 @@
  */
 package controller;
 
+import dal.DiStaGenreMovDAO;
 import dal.MovieDAO;
+import dal.RateDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,7 +14,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.text.DecimalFormat;
+import java.util.List;
+import model.DirectorInMov;
+import model.MovieGenre;
 import model.Movies;
+import model.Rate;
+import model.StarInMov;
 
 /**
  *
@@ -44,7 +52,7 @@ public class UpdateServlet extends HttpServlet {
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
-        request.getRequestDispatcher("update.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -65,6 +73,8 @@ public class UpdateServlet extends HttpServlet {
             MovieDAO mvd = new MovieDAO();
             Movies m = mvd.getMovieById(id);
             request.setAttribute("data", m);
+            List<MovieGenre> list = mvd.getAllGenre();
+            request.setAttribute("list", list);
             request.getRequestDispatcher("update.jsp").forward(request, response);
         } catch (Exception e) {
         }
@@ -82,6 +92,8 @@ public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("1");
+                
         //processRequest(request, response);
         String id_raw = request.getParameter("id");
         String name = request.getParameter("name");
@@ -112,7 +124,7 @@ public class UpdateServlet extends HttpServlet {
             Movies m = mvd.getMovieById(id);
             request.setAttribute("data", m);
             request.setAttribute("ms", ms);
-            processRequest(request, response);
+            request.getRequestDispatcher("update.jsp").forward(request, response);
         }
         try {
             time = Double.parseDouble(time_raw);
@@ -125,26 +137,87 @@ public class UpdateServlet extends HttpServlet {
             Movies m = mvd.getMovieById(id);
             request.setAttribute("data", m);
             request.setAttribute("ms", ms);
-            processRequest(request, response);
+            request.getRequestDispatcher("update.jsp").forward(request, response);
         }
+        
         if (status.equals("Đang chiếu") == false && status.equals("Dừng chiếu") == false && status.equals("Sắp chiếu") == false) {
             String ms = "Vui lòng nhập đúng tình trạng của phim (Dừng chiếu, đang chiếu hoặc sắp chiếu)";
             request.setAttribute("ms", ms);
             MovieDAO mvd = new MovieDAO();
             Movies m = mvd.getMovieById(id);
             request.setAttribute("data", m);
-            processRequest(request, response);
+            request.getRequestDispatcher("update.jsp").forward(request, response);
         }
 
         String ms = "Update Successfull";
         request.setAttribute("ms", ms);
         MovieDAO mvd = new MovieDAO();
-        
-        mvd.updateInfo(id, name, startdate, time, lang, org, status, studio, img);
-        Movies m = mvd.getMovieById(id);
-        request.setAttribute("data", m);
-        processRequest(request, response);
+        System.out.println("3");
+        String[] dir = request.getParameterValues("dir");
+        String[] star = request.getParameterValues("star");
+        String[] genre_raw = request.getParameterValues("genre");
 
+        String gN_raw = request.getParameter("gN");
+        String endDate_raw = request.getParameter("endDate");
+        int gN = Integer.parseInt(gN_raw);
+
+        int genre[] = new int[gN + 1];
+        MovieGenre genreName[] = new MovieGenre[gN + 1];
+        DiStaGenreMovDAO dsgm = new DiStaGenreMovDAO();
+        dsgm.dltAllDir(id);
+        dsgm.dltAllGenre(id);
+        dsgm.dltAllStar(id);
+            for (int i = 0; i <= gN; i++) {
+                genre[i] = Integer.parseInt(genre_raw[i]);
+                mvd.insertGenre(id, genre[i]);
+                genreName[i] = mvd.getGenreByID(genre[i]);
+            }
+            for (int i = 0; i < star.length; i++) {
+                mvd.insertStar(id, star[i]);
+            }
+            for (int i = 0; i < dir.length; i++) {
+                mvd.insertDirector(id, dir[i]);
+            }
+
+            mvd.updateInfo(id, name, startdate, time, lang, org, status, studio, img);
+            Movies m = mvd.getMovieById(id);
+            request.setAttribute("data", m);
+            
+            DirectorInMov dim = dsgm.getAllDirectorByMovID(id);
+                String dir1 = "", star1 = "",genre1 = "";
+                for (int i = 0; i < dim.getDirectorName().size(); i++) {
+                    dir1 += dim.getDirectorName().get(i);
+                    if (i != dim.getDirectorName().size() - 1) {
+                        dir1 += ", ";
+                    }
+                }
+                System.out.println("5");
+                StarInMov sim = dsgm.getAllStarByMovID(id);
+                for (int i = 0; i < sim.getStarName().size(); i++) {
+                    star1 += sim.getStarName().get(i);
+                    if (i != sim.getStarName().size() - 1) {
+                        star1 += ", ";
+                    }
+                }
+                MovieGenre mv = dsgm.getAllGenreByMovID(id);
+                for (int i = 0; i < mv.getGenreName().size(); i++) {
+                    genre1 += mv.getGenreName().get(i);
+                    if (i != mv.getGenreName().size() - 1) {
+                        genre1 += ", ";
+                    }
+                }
+        
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+          
+                
+                request.setAttribute("id", id);
+                request.setAttribute("data", m);
+                request.setAttribute("dir", dir1);
+                request.setAttribute("star", star1);
+                request.setAttribute("genre", genre1);
+                request.setAttribute("stt", 0);
+                request.getRequestDispatcher("detail.jsp").forward(request, response);
+        
     }
 
     /**

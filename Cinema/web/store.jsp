@@ -231,7 +231,7 @@
                                 <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${i.getPrice()}', '${i.getDiscount()}', '${sessionScope.account.getUserName()}')"/>
                             </div>
 
-                            <c:if test = "${sessionScope.account.getRole() == 3}">
+                            <c:if test = "${sessionScope.account.getRole() == 3 || sessionScope.account.role==1}">
                                 <div class = "cart">
                                     <a href = "viewf?id=${i.getProductCode()}"><input type ="button" value ="View"/></a>
                                 </div>

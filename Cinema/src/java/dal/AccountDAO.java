@@ -109,7 +109,7 @@ public class AccountDAO extends DBContext {
 
     public Account getAccountByUserName(String username) {
         try {
-            String sql = "SELECT Account.* FROM Acc JOIN Account ON Acc.UserName = Account.UserName WHERE Acc.UserName = ?";
+            String sql = "SELECT Account.* FROM Acc LEFT JOIN Account ON Acc.UserName = Account.UserName WHERE Acc.UserName = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();

@@ -118,7 +118,7 @@
                                 </div>
 
                                 <div class = "bt2">
-                                    <c:if test="${sessionScope.account.role==3}">
+                                    <c:if test="${sessionScope.account.role==3 || sessionScope.account.role==1}">
                                         <button type = "submit" value = "UPDATE" onclick = "upd('${i.movID}')">UPDATE</button>
                                         <button type = "submit" value = "DELETE">DELETE</button>
                                     </c:if>
@@ -179,7 +179,7 @@
                                 </div>
 
                                 <div class = "bt2">
-                                    <c:if test="${sessionScope.account.role==3}">
+                                    <c:if test="${sessionScope.account.role==3 || sessionScope.account.role==1}">
                                         <button type = "submit" value = "UPDATE" onclick = "upd('${i.movID}')">UPDATE</button>
                                         <button type = "submit" value = "DELETE">DELETE</button>
                                     </c:if>

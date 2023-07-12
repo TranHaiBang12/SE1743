@@ -22,8 +22,8 @@
             .bodyTitle{
                 color: black;
                 font-size: 40px;
-                border-bottom: 1px solid black;
                 padding: 15px;
+                padding-top: 40px;
             }
 
 
@@ -65,15 +65,15 @@
             .oInfo{
                 line-height: 35px;
             }
-            
+
             input{
                 font-size: 20px;
-                
+
             }
-            
+
             select{
                 font-size: 20px;
-                
+
             }
 
             .bodyContent .content button{
@@ -86,9 +86,171 @@
                 background-color: red;
                 color:white;
             }
-            
+
             #error{
                 color: red;
+            }
+
+            .uName{
+                font-size: 40px;
+                font-weight: bold;
+                text-align: center;
+                padding-top: 20px;
+                margin-bottom: 20px;
+            }
+            .ttle{
+                text-align: center;
+                padding-top: 40px;
+                font-size: 27px;
+                font-weight: bold;
+                margin-bottom: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown;
+            }
+            .rd{
+                color: red;
+            }
+
+            .uIn4 {
+                margin: 0 auto;
+                font-size: 20px;
+                margin-left: 550px;
+            }
+
+            .uIn4 div{
+                margin-top: 15px;
+            }
+
+            .uIn4 div input{
+                width: 200px;
+                height: 30px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+            }
+
+            #pass{
+                background-color: white;
+                color: black;
+            }
+
+            #t{
+                display: none;
+            }
+
+            #t input{
+                cursor: pointer;
+                padding-left: 10px;
+                margin-top: 15px;
+            }
+
+            #ms{
+                color: red;
+                margin-bottom: 15px;
+            }
+
+            .IN4 {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                ;
+
+            }
+
+            .IN4 img{
+                width: 470px;
+                height: 600px;
+            }
+
+            .eIN4 {
+                font-size: 20px;
+                margin-right: 20px;
+            }
+
+            .eIN4 div{
+                margin-bottom: 20px;
+            }
+
+            .t{
+                width: 200px;
+                height: 30px;
+                background-color: red;
+                color: white;
+                cursor: pointer;
+            }
+
+            #upd {
+                display: none;
+            }
+
+            #cngPass {
+                display: none;
+            }
+
+            input {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            select {
+                font-size: 20px;
+            }
+
+            .k{
+                margin-left: 10px;
+            }
+
+            .ms{
+                margin-top: 20px;
+                font-size: 20px;
+                color: red;
+            }
+
+            .newInputBox{
+                margin-left: 85px;
+            }
+
+            .eIN4 img{
+                width: 25px;
+                height: 25px;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+
+            #dir {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #dir input {
+                margin-left: 7px;
+            }
+
+            .insidedir{
+                display: flex;
+            }
+
+            #dir div{
+                margin-bottom: 3px;
+            }
+
+            #newdir{
+                margin-left: 77px;
+            }
+
+            #newstar{
+                margin-left: 77px;
+            }
+
+            #newgenre{
+                margin-left: 77px;
+            }
+
+            #newgenre select{
+                margin-top: 20px;
+            }
+
+            .eIN4{
             }
         </style>
 
@@ -103,7 +265,7 @@
             </div>
             <div class ="bodyContent">
                 <div class = "img">  
-                    <img src="${requestScope.data.getImg()}" alt="alt"/>
+                    <img class ="l" src="${requestScope.data.getImg()}" alt="alt"/>
                 </div>
 
                 <div class = "content">
@@ -116,12 +278,73 @@
                             <br/>
                             <span>Tên:  </span><input type ="text" required name ="name" placeholder ="${requestScope.data.getMovName()}"/>
                             <br/>
-                            <span>Đạo diễn:</span><input type ="text" required name ="director" placeholder =""/>
-                            <br/>
-                            <span>Diễn viên:  </span><input type ="text" required name ="star" placeholder =""/>
-                            <br/>
-                            <span>Thể loại:  </span><input type ="text" required name ="genre" placeholder =""/>
-                            <br/>
+                            <div class ="IN4">
+                                <div class = "eIN4">
+                                    <div id = "dir"> 
+                                        <div class = "insidedir">
+                                            Đạo diễn:
+                                            <input type ="text"  required value ="${requestScope.accE.getLastName()}" name ="dir"/>
+                                            <img onclick ="createNewDir()" src ="images/plusIcon.png"/>
+                                        </div>
+                                        <div id = "newdir">
+
+                                        </div>
+                                    </div>
+                                    <div id = "star">
+                                        <div class = "insidestar">
+                                            Diễn viên:
+                                            <input type ="text"  required value ="${requestScope.accE.getLastName()}" name ="star"/>
+                                            <img onclick ="createNewStar()" src ="images/plusIcon.png"/>
+                                        </div>
+                                        <div id = "newstar">
+
+                                        </div>
+                                    </div>
+
+                                    <div>Thể loại:
+                                        <select name ="genre">
+                                            <c:forEach items = "${requestScope.list}" var = "i">
+                                                <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                            </c:forEach>
+                                        </select>
+                                        <img onclick ="createNewGenre('${requestScope.list}')" src ="images/plusIcon.png"/>
+                                        <div id = "newgenre">
+                                            <select hidden id ="slt1" name ="genre">
+                                                <c:forEach items = "${requestScope.list}" var = "i">
+                                                    <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                                </c:forEach>
+                                            </select><!-- comment -->
+                                            <select hidden id ="slt2" name ="genre">
+                                                <c:forEach items = "${requestScope.list}" var = "i">
+                                                    <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select hidden id ="slt3" name ="genre">
+                                                <c:forEach items = "${requestScope.list}" var = "i">
+                                                    <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select hidden id ="slt4" name ="genre">
+                                                <c:forEach items = "${requestScope.list}" var = "i">
+                                                    <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select hidden id ="slt5" name ="genre">
+                                                <c:forEach items = "${requestScope.list}" var = "i">
+                                                    <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <select hidden id ="slt6" name ="genre">
+                                                <c:forEach items = "${requestScope.list}" var = "i">
+                                                    <option value = "${i.getGenreID()}">${i.getGenre()}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                                        <input hidden type ="text" id ="gN" name ="gN" value ="0"/>
                             <span>Khởi chiếu:  </span><input type ="text" required name ="startdate" placeholder ="${requestScope.data.getStartDate()}"/>
                             <br/>
                             <span>Thời lượng:  </span><input type ="text" required name ="time" placeholder ="${requestScope.data.getTime()}"/>
@@ -148,5 +371,49 @@
         <div class = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script>
+            var a = 0;
+            var b = 0;
+            var c = 0;
+            function createNewDir() {
+                if (a <= 5) {
+                    // First create a DIV element.
+                    var txtNewInputBox = document.createElement('div');
+
+                    // Then add the content (a new input box) of the element.
+                    txtNewInputBox.innerHTML = "<input type='text' id='newInputBox' name = 'dir'>";
+
+                    // Finally put it where it is supposed to appear.
+                    document.getElementById("newdir").appendChild(txtNewInputBox);
+                    a++;
+                } else {
+                    alert("Lượng đạo diễn tối đa bạn có thể thêm là 6");
+                }
+            }
+
+            function createNewStar() {
+                if (b <= 5) {
+                    // First create a DIV element.
+                    var txtNewInputBox = document.createElement('div');
+
+
+                    // Then add the content (a new input box) of the element.
+                    txtNewInputBox.innerHTML = "<input type='text' id='newInputBox' name = 'star'>";
+
+                    // Finally put it where it is supposed to appear.
+                    document.getElementById("newstar").appendChild(txtNewInputBox);
+                    b++;
+                } else {
+                    alert("Lượng đạo diễn tối đa bạn có thể thêm là 6");
+                }
+            }
+
+            function createNewGenre() {
+                c++;
+                document.getElementById("gN").value = c;
+                console.log(c);
+                document.getElementById("slt" + c).style.display = 'block';
+            }
+        </script>
     </body>
 </html>

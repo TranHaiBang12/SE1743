@@ -43,6 +43,7 @@ public class Movies {
     private int numTickSell;
     private int allNumTick;
     private String pcNumTickSell;
+    private String startDateS;
 
     public Movies() {
     }
@@ -77,6 +78,16 @@ public class Movies {
         this.img = img;
         this.endDate = endDate;
     }
+
+    public String getStartDateS() {
+        return startDateS;
+    }
+
+    public void setStartDateS(String startDateS) {
+        this.startDateS = startDateS;
+    }
+    
+    
 
     public int getNumTickSell() {
         return numTickSell;
