@@ -207,9 +207,9 @@ public class MovieDAO extends DBContext {
         return null;
     }
     
-    public void insertMovie(int id, String name, Date startDate, double time, String lang, String origin, double rate, String note, String stt, String studio, String img) {
+    public void insertMovie(int id, String name, Date startDate, double time, String lang, String origin, double rate, String note, String stt, String studio, String img, Date end) {
         try {
-            String sql = "INSERT INTO Movies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Movies VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
             st.setString(2, name);
@@ -222,6 +222,7 @@ public class MovieDAO extends DBContext {
             st.setString(9, stt);
             st.setString(10, studio);
             st.setString(11, img);
+            st.setDate(12, end);
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

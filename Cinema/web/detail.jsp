@@ -522,7 +522,13 @@
                     document.getElementById("frm").querySelector('input[type="submit"]').click();
                 }
             }
-
+                document.getElementById("tkEtChoice").style.color = 'white';
+                    document.getElementById("tkEtChoice").style.backgroundColor = 'black';
+                    ;
+                    document.getElementById("foodChoi").style.color = 'black';
+                    document.getElementById("foodChoi").style.backgroundColor = 'white';
+                    document.getElementById("rate").style.display = 'block';
+                    document.getElementById("comment").style.display = 'none';
             if (document.getElementById("stt") !== null) {
                 if(Number(document.getElementById("stt").value) === 1) {
                     document.getElementById("tkEtChoice").style.color = 'white';
@@ -539,8 +545,8 @@
                     ;
                     document.getElementById("tkEtChoice").style.color = 'black';
                     document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                    document.getElementById("rate").style.display = 'block';
-                    document.getElementById("comment").style.display = 'none';
+                    document.getElementById("rate").style.display = 'none';
+                    document.getElementById("comment").style.display = 'block';
                 }
             }
 
@@ -559,8 +565,8 @@
                     ;
                     document.getElementById("tkEtChoice").style.color = 'black';
                     document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                    document.getElementById("rate").style.display = 'block';
-                    document.getElementById("comment").style.display = 'none';
+                    document.getElementById("rate").style.display = 'none';
+                    document.getElementById("comment").style.display = 'block';
                 }
             }
 

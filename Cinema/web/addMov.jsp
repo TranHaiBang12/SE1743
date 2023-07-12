@@ -172,7 +172,9 @@
                 margin-top: 20px;
             }
             
-       
+            .eIN4{
+                margin-left: 20px;
+            }
         </style>
     </head>
     <body>
@@ -266,6 +268,10 @@
 
                             <div>Khởi chiếu: 
                                 <input type ="date" required  name ="startDate"/>
+                            </div>
+                            
+                            <div>Dừng chiếu: 
+                                <input type ="date" required  name ="endDate"/>
                             </div>
 
                             <div>Thời lượng: 

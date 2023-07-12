@@ -36,7 +36,7 @@ public class AccountDAO extends DBContext {
 
     public void insert(String user, String gender, Date dob, String phone, String email, String city, int role, String pass) {
         String sql = "INSERT INTO Account VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        String sql1 = "INSERT INTO Acc VALUES (?, ?, ?)";
+        String sql1 = "INSERT INTO Acc VALUES (?, ?, ?, 1)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             PreparedStatement st1 = connection.prepareStatement(sql1);

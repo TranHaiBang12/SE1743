@@ -97,7 +97,7 @@ public class AddMov extends HttpServlet {
         String img = request.getParameter("img");
         String note = request.getParameter("note");
         String gN_raw = request.getParameter("gN");
-
+        String endDate_raw = request.getParameter("endDate");
         int gN = Integer.parseInt(gN_raw);
         Double time = Double.parseDouble(time_raw);
         int id = Integer.parseInt(id_raw);
@@ -107,7 +107,7 @@ public class AddMov extends HttpServlet {
         MovieDAO mvd = new MovieDAO();
         if (mvd.checkID(id) == null) {
             String ms = "Add thành công";
-            mvd.insertMovie(id, name, Date.valueOf(startDate_raw), time, lang, org, 0, note, stt, studio, img);
+            mvd.insertMovie(id, name, Date.valueOf(startDate_raw), time, lang, org, 0, note, stt, studio, img, Date.valueOf(endDate_raw));
             for (int i = 0; i <= gN; i++) {
                 genre[i] = Integer.parseInt(genre_raw[i]);
                 mvd.insertGenre(id, genre[i]);
