@@ -316,6 +316,14 @@
         <servlet-name>DeleteTimekeeping</servlet-name>
         <servlet-class>controller.DeleteTimekeeping</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DltMov</servlet-name>
+        <servlet-class>controller.DltMov</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdAccountDeactive</servlet-name>
+        <servlet-class>controller.UpdAccountDeactive</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -631,6 +639,14 @@
     <servlet-mapping>
         <servlet-name>DeleteTimekeeping</servlet-name>
         <url-pattern>/dlttkp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DltMov</servlet-name>
+        <url-pattern>/dltmv</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdAccountDeactive</servlet-name>
+        <url-pattern>/deact</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

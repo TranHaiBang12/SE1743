@@ -55,7 +55,7 @@
                 margin-top: 10px;
                 padding-bottom: 10px;
             }
-            
+
             .SSttle {
                 font-size: 20px;
                 margin-top: 10px;
@@ -63,11 +63,11 @@
                 margin-left: 40px;
                 color: deeppink;
             }
-            
+
             .Sttle{
                 padding-top: 40px;
             }
-            
+
             .body{
                 padding-left: 70px;
                 padding-right: 80px;
@@ -92,6 +92,7 @@
                     <th>ĐIỂM ĐÃ DÙNG</th>
                     <th>TỈ LỆ DÙNG ĐIỂM</th>
                     <th>SỐ LẦN BÌNH LUẬN</th>
+                    <th>ACTIVE</th>
                     <th>HÀNH ĐỘNG</th>
                 </tr>
                 <c:forEach items = "${requestScope.list}" var = "i">
@@ -106,10 +107,16 @@
                         <td>${i.getPointUse()}</td>
                         <td>${i.getPcPointUse()}%</td><!-- comment -->
                         <td>${i.getNumRate()}</td>
+                        <td>${i.getActive()}</td>
                         <td>
                             <a href="acc?user=${i.getUserName()}">XEM CHI TIẾT</a>
                             /
-                            <a href = "#">XÓA</a>
+                            <c:if test = "${i.getActive() == 0}">
+                                <a  onclick="act('${i.getUserName()}', '${i.getActive()}')">ẨN</a>
+                            </c:if>
+                            <c:if test = "${i.getActive() == 1}">
+                                <a  onclick="act('${i.getUserName()}', '${i.getActive()}')">BỎ ẨN</a>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>
@@ -128,5 +135,17 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type="text/javascript">
+            function act(id, stt) {
+                if (confirm("Bạn có muốn thay đổi trạng thái ẩn của tài khoản này")) {
+                    if (Number(stt) === 1) {
+                        window.location = "deact?user=" + id + "&stt=" + 0;
+                    }
+                    else if (Number(stt) === 0) {
+                        window.location = "deact?user=" + id + "&stt=" + 1;
+                    }
+                }
+            }
+        </script>
     </body>
 </html>

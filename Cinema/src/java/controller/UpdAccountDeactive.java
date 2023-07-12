@@ -5,21 +5,19 @@
 
 package controller;
 
-import dal.MovieDAO;
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Movies;
 
 /**
  *
  * @author acer
  */
-public class HomeServlet extends HttpServlet {
+public class UpdAccountDeactive extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +34,10 @@ public class HomeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");  
+            out.println("<title>Servlet UpdAccountDeactive</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdAccountDeactive at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,17 +54,18 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        //processRequest(request, response);
-        if(request.getParameter("ms") != null) {
-            request.setAttribute("ms", request.getParameter("ms"));
+        System.out.println("4");
+        AccountDAO acd = new AccountDAO();
+        String username = request.getParameter("user");
+        String stt_raw = request.getParameter("stt");
+        int stt = 1;
+        try {
+            stt = Integer.parseInt(stt_raw);
+        } catch (Exception e) {
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-        MovieDAO mvd = new MovieDAO();
-        List<Movies> mvNS = mvd.getAllMoviesNowShowing();
-        List<Movies> mvNSY = mvd.getAllMoviesNotShownYet();
-        System.out.println(mvNSY.get(0).getMovName());
-        request.setAttribute("mvNS", mvNS);
-        request.setAttribute("mvNSY", mvNSY);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        acd.setActive(username, stt);
+        response.sendRedirect("arp");
     } 
 
     /** 

@@ -76,11 +76,13 @@
             .bodyTitle{
                 color: black;
                 font-size: 40px;
-                border-bottom: 1px solid black;
-                padding: 15px;
+                padding-top: 40px;
+                padding-left: 45px;
             }
 
-
+            .body{
+                padding-left: 40px;
+            }
             .bodyContent{
                 display: flex;
                 padding-top: 30px;
@@ -157,7 +159,7 @@
         </div><!-- comment -->
         <div class = "body">
             <div class = "bodyTitle">
-                Nội Dung Phim:
+                SỬA:
             </div>
 
             <div class ="bodyContent">

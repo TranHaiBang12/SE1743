@@ -19,7 +19,7 @@ public class AccountDAO extends DBContext {
 
     public Account check(String u, String p) {
         try {
-            String sql = "SELECT * FROM Acc WHERE (UserName = ?) AND Password = ?";
+            String sql = "SELECT * FROM Acc WHERE (UserName = ?) AND Password = ? AND Active = 1";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, u);
             st.setString(2, p);
@@ -248,17 +248,29 @@ public class AccountDAO extends DBContext {
     public List<Account> getAllAcount() {
         List<Account> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Account";
+            String sql = "SELECT Account.*, Acc.Active FROM Account JOIN Acc ON Account.UserName = Acc.UserName";
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"), rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"));
+                Account a = new Account(rs.getString("UserName"), rs.getString("Gender"), rs.getDate("Dob"), rs.getString("Phone"), rs.getString("Email"), rs.getString("City"), rs.getInt("Role"), rs.getString("Password"), rs.getInt("Active"));
                 list.add(a);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public void setActive(String username, int active) {
+        try {
+            String sql = "UPDATE Acc SET Active = ? WHERE UserName = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, active);
+            st.setString(2, username);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     
     public List<String> getCusCity() {

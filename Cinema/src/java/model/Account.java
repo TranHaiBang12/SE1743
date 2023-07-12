@@ -29,6 +29,8 @@ public class Account {
     private int pointUse;
     private String pcPointUse;
     private int numRate;
+    
+    private int active;
 
     public Account(String UserName, int numBuy, int numBuyOnl, int numBuyOff, String pcOnl, String pcOff, int point, int pointUse, String pcPointUse, int numRate) {
         this.UserName = UserName;
@@ -41,6 +43,20 @@ public class Account {
         this.pointUse = pointUse;
         this.pcPointUse = pcPointUse;
         this.numRate = numRate;
+    }
+    
+    public Account(String UserName, int numBuy, int numBuyOnl, int numBuyOff, String pcOnl, String pcOff, int point, int pointUse, String pcPointUse, int numRate, int active) {
+        this.UserName = UserName;
+        this.numBuy = numBuy;
+        this.numBuyOnl = numBuyOnl;
+        this.numBuyOff = numBuyOff;
+        this.pcOnl = pcOnl;
+        this.pcOff = pcOff;
+        this.point = point;
+        this.pointUse = pointUse;
+        this.pcPointUse = pcPointUse;
+        this.numRate = numRate;
+        this.active = active;
     }
     
     
@@ -61,7 +77,28 @@ public class Account {
         this.role = role;
         this.Password = Password;
     }
+    
+    public Account(String UserName, String Gender, Date Dob,  String Phone, String Email, String City, int role, String Password, int active) {
+        this.UserName = UserName;
+        this.Gender = Gender;
+        this.Dob = Dob;
+        this.Phone = Phone;
+        this.Email = Email;
+        this.City = City;
+        this.role = role;
+        this.Password = Password;
+        this.active = active;
+    }
 
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    
     public int getNumBuy() {
         return numBuy;
     }

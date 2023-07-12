@@ -1311,7 +1311,46 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-
+    public List<Movies> getAllMovSellTicketByMovID(int movID) {
+        List<Movies> list = new ArrayList<>();
+        try {
+            String sql = "SELECT Movies.*FROM (SELECT DISTINCT movID FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo\n" +
+"                   UNION\n" +
+"                   SELECT DISTINCT Schedule.movID FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo)\n" +
+"                   AS T JOIN Movies ON T.movID = Movies.movID WHERE T.movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            int i = 0;
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Movies m;
+                if (rs.getString("img").substring(0, 2).equals("??")) {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(2), rs.getDate("EndDate"));
+                } else if (rs.getString("img").substring(0, 1).equals("?")) {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img").substring(1), rs.getDate("EndDate"));
+                } else {
+                    m = new Movies(i, rs.getInt("movid"), rs.getString("movname"), rs.getDate("startdate"), rs.getDouble("time(min)"), rs.getString("language"), rs.getString("origin"), rs.getDouble("avrrate"), rs.getString("notes"), rs.getString("status"), rs.getString("studio"), rs.getString("img"), rs.getDate("EndDate"));
+                }
+                list.add(m);
+                i++;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public void dltAllTicket(int movID) {
+        try {
+            String sql = "DELETE FROM TickTypeInSche WHERE ProductCode IN(SELECT TickTypeInSche.ProductCode FROM TickTypeInSche JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE movID = ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.executeUpdate();
+          
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     public List<Movies> getAllMovSellTicketByDate(Date dS, Date eS) {
         List<Movies> list = new ArrayList<>();
         try {

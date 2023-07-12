@@ -110,7 +110,15 @@
                 margin-top: 20px;
                 padding-bottom: 20px;
             }
-
+            
+            .search{
+                padding-top: 40px;
+            }
+            
+            table{
+                margin-left: 80px;
+                margin-right: 80px;
+            }
 
         </style>
     </head>

@@ -139,8 +139,7 @@ public class DetailServlet extends HttpServlet {
                 double avr = (double) (sumRate) / (double) noRate;
                 if (!rd.getRateByPage(r, start, end).isEmpty()) {
                     request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
-                }
-                else {
+                } else {
                     request.setAttribute("msB", "Hiện bộ phim này chưa có bình luận nào");
                 }
                 request.setAttribute("page", page);
@@ -219,8 +218,7 @@ public class DetailServlet extends HttpServlet {
                 double avr = (double) (sumRate) / (double) noRate;
                 if (!rd.getRateByPage(r, start, end).isEmpty()) {
                     request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
-                }
-                else {
+                } else {
                     request.setAttribute("msB", "Hiện bộ phim này chưa có bình luận nào");
                 }
                 request.setAttribute("page", page);
@@ -320,6 +318,61 @@ public class DetailServlet extends HttpServlet {
             }
             Movies m = mvd.getMovieById(id);
             request.setAttribute("ms", "Đánh giá của bạn đang được nhân viên duyệt");
+            String page_raw = request.getParameter("page");
+            List<Rate> r = rd.getAllRate(id);
+            int stat;
+            if (a != null) {
+                if (rd.checkAccountRateByMovID(a.getUserName(), id) != null) {
+                    stat = 1;
+                } else {
+                    stat = 0;
+                }
+            }
+
+            int page = 1;
+            if (page_raw != null) {
+                page = Integer.parseInt(page_raw);
+            }
+            int numPerPage = 5;
+            int totalPage = (r.size() % numPerPage == 0) ? (r.size() / numPerPage) : (r.size() / numPerPage + 1);
+            int start = (page - 1) * 5;
+            int end = (page == totalPage) ? (r.size() - 1) : (page * numPerPage - 1);
+            m = mvd.getMovieById(id);
+            int noRate = rd.getNoRate(id);
+            int noRate5 = rd.getNoRate5(id);
+            int noRate4 = rd.getNoRate4(id);
+            int noRate3 = rd.getNoRate3(id);
+            int noRate2 = rd.getNoRate2(id);
+            int noRate1 = rd.getNoRate1(id);
+            int sumRate = rd.getSumRate(id);
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            double avr = (double) (sumRate) / (double) noRate;
+            if (!rd.getRateByPage(r, start, end).isEmpty()) {
+                request.setAttribute("listPerPage", rd.getRateByPage(r, start, end));
+            } else {
+                request.setAttribute("msB", "Hiện bộ phim này chưa có bình luận nào");
+            }
+            request.setAttribute("page", page);
+            if (noRate != 0) {
+                request.setAttribute("noRate5", decimalFormat.format((double) noRate5 / (double) noRate));
+                request.setAttribute("noRate4", decimalFormat.format((double) noRate4 / (double) noRate));
+                request.setAttribute("noRate3", decimalFormat.format((double) noRate3 / (double) noRate));
+                request.setAttribute("noRate2", decimalFormat.format((double) noRate2 / (double) noRate));
+                request.setAttribute("noRate1", decimalFormat.format((double) noRate1 / (double) noRate));
+            } else {
+                request.setAttribute("noRate5", "0");
+                request.setAttribute("noRate4", "0");
+                request.setAttribute("noRate3", "0");
+                request.setAttribute("noRate2", "0");
+                request.setAttribute("noRate1", "0");
+            }
+            request.setAttribute("totalPage", totalPage);
+            request.setAttribute("noRate", noRate);
+            if (noRate != 0) {
+                request.setAttribute("avrRate", decimalFormat.format(avr));
+            } else {
+                request.setAttribute("avrRate", "0");
+            }
             request.setAttribute("id", id);
             request.setAttribute("data", m);
             request.setAttribute("dir", dir);

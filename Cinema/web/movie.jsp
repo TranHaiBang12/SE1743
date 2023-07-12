@@ -78,10 +78,10 @@
             .ttle{
                 font-size: 25px;
                 font-weight: bold;
-                margin-left: 20px;
-                padding-top: 20px;
+                margin-left: 80px;
+                padding-top: 40px;
                 padding-bottom: 10px;
-                border-bottom: 3px solid black;
+                
             }
 
 

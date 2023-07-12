@@ -19,11 +19,22 @@ import model.Schedule;
  * @author acer
  */
 public class MovieDAO extends DBContext {
+    
+    public void dltMovByID(int id) {
+        try {
+            String sql = "DELETE FROM Movies WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public List<Movies> getAllMovies() {
         List<Movies> mv = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Movies";
+            String sql = "SELECT * FROM Movies WHERE Status != N'Dừng chiếu'";
             PreparedStatement st = connection.prepareStatement(sql);
             int i = 0;
             ResultSet rs = st.executeQuery();

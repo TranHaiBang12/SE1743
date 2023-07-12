@@ -35,7 +35,7 @@
             .bt2{
                 margin-top: 15px;
             }
-            
+
             .movieContent{
                 padding-right: 0px;
             }
@@ -52,7 +52,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div id = "wrapper">
-     
+
 
             <div class = "movieContent">
                 <div class = "title">
@@ -84,7 +84,7 @@
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
                                                     <button type = "submit" value = "UPDATE" onclick = "upd('${i.movID}')">UPDATE</button>
-                                                    <button type = "submit" value = "DELETE">DELETE</button>
+                                                    <button type = "submit" value = "DELETE" onclick = "dlt('${i.movID}', '${i.getMovName()}')">DELETE</button>
                                                 </c:if>
                                             </div>
                                             <div class = "bt2">
@@ -93,7 +93,7 @@
                                                     <button type = "submit" value = "VIEW SCHEDULE" onclick = "viewSche('${i.movID}')">VIEW SCHE</button>
                                                 </c:if>
                                             </div>
-                       
+
 
                                         </div>
                                         <div class="main-slider-img">
@@ -127,6 +127,9 @@
                     </div>
                 </div>
             </div>
+            <c:if test = "${requestScope.ms != null}">
+                <input type ="text" id ="ms" value ="${requestScope.ms}"/>
+            </c:if>
 
             <div class ="movieContent">
                 <div class = "title">
@@ -157,7 +160,7 @@
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3}">
                                                     <button type = "submit" value = "UPDATE"  onclick = "upd('${i.movID}')">UPDATE</button>
-                                                    <button type = "submit" value = "DELETE">DELETE</button>
+                                                    <button type = "submit" value = "DELETE" onclick = "dlt('${i.movID}', '${i.getMovName()}')">DELETE</button>
                                                 </c:if>
                                             </div>
                                             <div class = "bt2">
@@ -199,7 +202,7 @@
                 </div>
             </div>
 
-   
+
 
 
 
@@ -214,75 +217,84 @@
         <script src="index.js"></script>
         <script src="swiper-bundle.min.js"></script>
         <script>
-            var swiper = new Swiper(".mySwiper", {
-                slidesPerView: 1,
-                spaceBetween: 10,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    768: {
-                        slidesPerView: 4,
-                        spaceBetween: 40,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 50,
-                    },
-                },
-            });
+                                                        var swiper = new Swiper(".mySwiper", {
+                                                            slidesPerView: 1,
+                                                            spaceBetween: 10,
+                                                            pagination: {
+                                                                el: ".swiper-pagination",
+                                                                clickable: true,
+                                                            },
+                                                            breakpoints: {
+                                                                640: {
+                                                                    slidesPerView: 2,
+                                                                    spaceBetween: 20,
+                                                                },
+                                                                768: {
+                                                                    slidesPerView: 4,
+                                                                    spaceBetween: 40,
+                                                                },
+                                                                1024: {
+                                                                    slidesPerView: 3,
+                                                                    spaceBetween: 50,
+                                                                },
+                                                            },
+                                                        });
 
-            var swiper = new Swiper(".mySwiperEvent", {
-                slidesPerView: 1,
-                spaceBetween: 10,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                breakpoints: {
-                    640: {
-                        slidesPerView: 2,
-                        spaceBetween: 20,
-                    },
-                    768: {
-                        slidesPerView: 4,
-                        spaceBetween: 40,
-                    },
-                    1024: {
-                        slidesPerView: 3,
-                        spaceBetween: 50,
-                    },
-                },
-            });
+                                                        var swiper = new Swiper(".mySwiperEvent", {
+                                                            slidesPerView: 1,
+                                                            spaceBetween: 10,
+                                                            pagination: {
+                                                                el: ".swiper-pagination",
+                                                                clickable: true,
+                                                            },
+                                                            breakpoints: {
+                                                                640: {
+                                                                    slidesPerView: 2,
+                                                                    spaceBetween: 20,
+                                                                },
+                                                                768: {
+                                                                    slidesPerView: 4,
+                                                                    spaceBetween: 40,
+                                                                },
+                                                                1024: {
+                                                                    slidesPerView: 3,
+                                                                    spaceBetween: 50,
+                                                                },
+                                                            },
+                                                        });
 
 
         </script>
         <script>
+            if(document.getElementById("ms") !== null) {
+                alert(document.getElementById("ms").value);
+            }
             function addSche(id) {
                 window.location = "addsche?id=" + id;
             }
-            
+
+            function dlt(id, name) {
+                if (confirm("Bạn có chắc muốn xóa bộ phim " + name + ". Việc này sẽ xóa cả vé cũng như toàn bộ lịch chiếu của bộ phim này")) {
+                    window.location = "dltmv?id=" + id;
+                }
+            }
+
             function viewSche(id) {
                 window.location = "viewsche?id=" + id;
             }
-            
+
             function updSche(id) {
                 window.location = "updsche?id=" + id;
             }
-            
+
             function detail(id) {
                 window.location = "detail?id=" + id;
             }
-            
+
             function upd(id) {
                 window.location = "update?id=" + id;
             }
-            
+
             function booking(id) {
                 window.location = "booking?id=" + id;
             }

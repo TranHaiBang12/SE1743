@@ -17,6 +17,42 @@ import model.StarInMov;
  * @author acer
  */
 public class DiStaGenreMovDAO extends DBContext {
+    
+    public void dltAllDir(int movID) {
+        try {
+            String sql = "DELETE FROM Directors WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltAllStar(int movID) {
+        try {
+            String sql = "DELETE FROM Stars WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltAllGenre(int movID) {
+        try {
+            String sql = "DELETE FROM Genre WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public DirectorInMov getAllDirectorByMovID(int movID) {
         List<String> list = new ArrayList<>();

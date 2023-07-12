@@ -257,7 +257,21 @@ public class PickSeatServlet extends HttpServlet {
                     request.setAttribute("formName", formName);
                     request.setAttribute("dateFormat", date);
                     request.setAttribute("day", day);
-                } else {
+                }
+                else if(tk.isEmpty()) {
+                    request.setAttribute("ms", "Phim chưa bán vé");
+                    String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
+                    String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
+                    request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));
+                    request.setAttribute("sche", scd.getScheduleByID(id));
+                    request.setAttribute("room", rmd.getRoomByRoomIDAndCinID(scd.getScheduleByID(id).getRoomID(), scd.getScheduleByID(id).getCinID()));
+                    request.setAttribute("movName", movName);
+                    request.setAttribute("mov", mvd.getMovieById(scd.getScheduleByID(id).getMovID()));
+                    request.setAttribute("formName", formName);
+                    request.setAttribute("dateFormat", date);
+                    request.setAttribute("day", day);
+                }
+                else {
                     String movName = mvd.getMovieById(scd.getScheduleByID(id).getMovID()).getMovName();
                     String formName = fmd.getFormById(scd.getScheduleByID(id).getFormID()).getFormName();
                     request.setAttribute("cin", cnd.getCinemaByID(scd.getScheduleByID(id).getCinID()));

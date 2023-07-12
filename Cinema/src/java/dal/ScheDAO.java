@@ -138,6 +138,17 @@ public class ScheDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public void dltAllScheOfMov(int movID) {
+        try {
+            String sql = "DELETE FROM Schedule WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public void deleteSchedule(String scheNo) {
         try {
