@@ -373,9 +373,11 @@
                 console.log(id);
                 console.log(getCookie(user));
                 var value = getCookie(user);
-                let b = discount * 100; 
-                let c = Math.round(b); 
-                discount = c / 100;
+                if (Number(discount) !== 0) {
+                    let b = discount * 100;
+                    let c = Math.round(b);
+                    discount = c / 100;
+                }
                 if (id.includes("FD")) {
                     if (value.includes(id)) {
                         value = value.replace("/" + id + "p" + Number(document.getElementById(id).value) + "p" + price + "p" + discount, "");
@@ -406,9 +408,9 @@
             function a(cartNumber, op, user, quantity, price, discount) {
                 console.log(Number(price));
                 console.log(Number(discount));
-                
-                let b = discount * 100; 
-                let c = Math.round(b); 
+
+                let b = discount * 100;
+                let c = Math.round(b);
                 discount = c / 100;
                 console.log(cartNumber + " " + op + " " + user + " " + quantity + " " + price);
                 console.log(document.getElementById(cartNumber));

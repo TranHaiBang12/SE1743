@@ -385,7 +385,9 @@ public class PaymentServlet extends HttpServlet {
                 maxPointUse = Math.floor((tpt / 1000) * 90 / 100);
             }
             request.setAttribute("point", decimalFormat.format(point));
-
+            if (list.isEmpty()) {
+                request.setAttribute("noF", 1);
+            }
             request.setAttribute("maxPoint", decimalFormat.format(maxPointUse));
             request.setAttribute("price", decimalFormat.format(price));
             List<LocationCinMD> loc = cnd.getAllCinemaNameAndLoc();
@@ -409,9 +411,17 @@ public class PaymentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        System.out.println("10");
+        double p1 = 0;
+        if (request.getParameter("scroll") != null) {
+            System.out.println(request.getParameter("scroll"));
+            try {
+                p1 = Double.parseDouble(request.getParameter("scroll"));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        request.setAttribute("scroll", p1);
         if (request.getParameter("check") == null) {
-            System.out.println("nk");
             request.getRequestDispatcher("error.jsp").forward(request, response);
         } else {
             if (request.getParameter("check").equals("1")) {
@@ -708,6 +718,9 @@ public class PaymentServlet extends HttpServlet {
                         request.setAttribute("f", f);
                     }
                     double maxPointUse = Math.floor((price / 1000) * 90 / 100);
+                    if (list.isEmpty()) {
+                        request.setAttribute("noF", 1);
+                    }
                     request.setAttribute("point", decimalFormat.format(point));
                     request.setAttribute("cinID", cinID);
                     request.setAttribute("maxPoint", decimalFormat.format(maxPointUse));
@@ -1150,7 +1163,7 @@ public class PaymentServlet extends HttpServlet {
                                     }
                                     otd.insert(orderID, listT.get(i).getTicket().getProductCode(), listT.get(i).getSeat().substring(0, 1), Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getTicket().getDiscount(), listT.get(i).getTicket().getPrice(), sd.getTypeByCALCR(r.getRoomID(), cID, Integer.parseInt(listT.get(i).getSeat().substring(1, 2)), listT.get(i).getSeat().substring(0, 1)));
                                     price1 += (listT.get(i).getTicket().getPrice() - listT.get(i).getTicket().getPrice() * listT.get(i).getTicket().getDiscount());
-                                    
+
                                     if (listT.get(i).getTicket().getCinID() != cID) {
                                         tkCode = orderID + randomAlpha(20 - orderID.length());
                                         cID = listT.get(i).getTicket().getCinID();
@@ -1162,7 +1175,7 @@ public class PaymentServlet extends HttpServlet {
                             }
                             double b = Math.round(price1 * 100);
                             b = b / 100;
-                            int point1 = (int)b / 1000;
+                            int point1 = (int) b / 1000;
 
                             if (pd.checkAcc(a.getUserName()) != null) {
                                 if (!list.isEmpty() || !listT.isEmpty()) {

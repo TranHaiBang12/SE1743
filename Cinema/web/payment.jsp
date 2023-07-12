@@ -140,7 +140,7 @@
 
             .ttle {
                 text-align: center;
-                padding-top: 20px;
+                padding-top: 40px;
                 color: black;
                 font-size: 30px;
                 font-weight: bold;
@@ -364,6 +364,8 @@
         <div class = "body">
             <form action = "pay" method = "post" id = "frm">
                 <div class = "in4">
+                    <input type ="hidden" name ="scroll" id ="s" value ="0"/>
+                    <input type ="hidden" name ="scroll" id ="scroll" value ="${requestScope.scroll}"/>
                     <c:if test = "${requestScope.m != null}">
                         <div class = "m">${requestScope.m}</div>
                     </c:if>
@@ -407,7 +409,7 @@
 
                             <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
                             <input type ="text" required id ="strt" name ="strt"/>
-                            <c:if test = "${requestScope.listCart != null}">
+                            <c:if test = "${requestScope.noF == null}">
 
                                 <label for = "strt">Chọn ngày nhận đồ ăn(<span class = "rd">*</span>)</label>
                                 <div class = "containerNN">
@@ -431,14 +433,14 @@
                                                 <option value="${l.getId()}">${l.getLoc()}</option>
                                             </c:if>
                                             <c:if test = "${requestScope.cinID != null}">
-                                                 <option value = "${l.getId()}" ${requestScope.cinID == l.getId()?"selected":""}>${l.getLoc()}</option>
+                                                <option value = "${l.getId()}" ${requestScope.cinID == l.getId()?"selected":""}>${l.getLoc()}</option>
                                             </c:if>
 
                                         </c:forEach>
                                     </select>
-                       
+
                                 </div>
-                                
+
                                 <label for = "dist">Số điểm hiện có: <span class = "rd">${requestScope.point}</span></label>
 
                                 <div class = "PNT">
@@ -446,7 +448,7 @@
                                     <input type ="checkbox" id ="agr" onclick ="agree()"/>
                                 </div>
                                 <input type ="number" id ="pntUse" name ="pntUse" min ="0" max ="${requestScope.maxPoint}"/>
-                                
+
                                 <input type ="text" hidden id ="check" name ="check" value ="0"/>
                                 <input type ="text" id ="dateNhan" name ="dte" hidden/>
                             </c:if>
@@ -536,13 +538,13 @@
 
                             <label for = "strt">Số nhà, đường(<span class = "rd">*</span>)</label>
                             <input type ="text" readonly id ="strt" name ="strt" value = "${(requestScope.strt != null)?(requestScope.strt):""}"/>
+                            <c:if test = "${requestScope.noF == null}">
+                                <label for = "dte">Ngày nhận(<span class = "rd">*</span>)</label>
+                                <input type ="text" readonly id ="dte" name ="dte" value = "${(requestScope.datePick != null)?(requestScope.datePick):""}"/>
 
-                            <label for = "dte">Ngày nhận(<span class = "rd">*</span>)</label>
-                            <input type ="text" readonly id ="dte" name ="dte" value = "${(requestScope.datePick != null)?(requestScope.datePick):""}"/>
-
-                            <label for = "loc">Nơi nhận(<span class = "rd">*</span>)</label>
-                            <input type ="text" readonly id ="loc" name ="loc" value = "${(requestScope.locPick != null)?(requestScope.locPick):""}"/>
-
+                                <label for = "loc">Nơi nhận(<span class = "rd">*</span>)</label>
+                                <input type ="text" readonly id ="loc" name ="loc" value = "${(requestScope.locPick != null)?(requestScope.locPick):""}"/>
+                            </c:if>
 
                         </div>
                     </c:if>
@@ -620,6 +622,15 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type ="text/javascript">
+            var a = 0;
+
+            window.addEventListener("scroll", (event) => {
+                a = window.scrollY;
+                console.log(a);
+                document.getElementById("s").value = a;
+            });
+            window.scrollTo(0, document.getElementById("scroll").value);
+
             function sbmit() {
                 document.getElementById("check").value = 1;
                 document.getElementById("frm").submit();

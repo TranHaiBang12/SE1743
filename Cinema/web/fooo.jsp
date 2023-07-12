@@ -209,8 +209,8 @@
                     <img onclick="crt()" src ="images/shoppingCartIcon.png"/>
                 </div>
             </div>
-            <c:if test = "${requestScope.msDLT != null}">
-                <input type ="text" name ="msDLT" value ="${requestScope.msDLT}" id ="msDLT"/>
+            <c:if test = "${requestScope.ms != null}">
+                <input type ="text" hidden name ="msDLT" value ="${requestScope.ms}" id ="msDLT"/>
             </c:if>
             <c:if test = "${requestScope.ms == null}">
                 <div class = "item">
@@ -227,9 +227,7 @@
                                 </c:if>
 
                             </div>
-                            <div class = "cart">
-                                <input type ="submit" value ="Add to cart" onclick = "cart('${i.getProductCode()}', '${i.getPrice()}', '${i.getDiscount()}', '${sessionScope.account.getUserName()}')"/>
-                            </div>
+       
 
                             <c:if test = "${sessionScope.account.getRole() == 3}">
                                 <div class = "cart">
@@ -260,10 +258,7 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script>
-            var t = "";
-            if (document.getElementById("msDLT") !== null) {
-                alert(document.getElementById("msDLT").value)
-            }
+   
             function cnaGE() {
 
                 document.getElementById("srch").submit();
@@ -280,7 +275,6 @@
                 }
                 document.cookie = name + "=" + (value || "") + expires;
             }
-            
             function cart(id, price, discount, username) {
                 if (username == null || username === "") {
                     window.location = "login";

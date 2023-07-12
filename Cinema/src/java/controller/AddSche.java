@@ -68,6 +68,16 @@ public class AddSche extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
+        double a = 0;
+        if (request.getParameter("scroll") != null) {
+            System.out.println(request.getParameter("scroll"));
+            try {
+                a = Double.parseDouble(request.getParameter("scroll"));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        request.setAttribute("scroll", a);
         String id_raw = request.getParameter("id");
         List<Schedule> s = new ArrayList<>();
         ScheDAO sd = new ScheDAO();
@@ -141,6 +151,16 @@ public class AddSche extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        double a = 0;
+        if (request.getParameter("scroll") != null) {
+            System.out.println(request.getParameter("scroll"));
+            try {
+                a = Double.parseDouble(request.getParameter("scroll"));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        request.setAttribute("scroll", a);
         if (request.getParameter("room") == null) {
             String id_raw = request.getParameter("id");
             System.out.println(id_raw);
@@ -188,8 +208,7 @@ public class AddSche extends HttpServlet {
                 int numPerPage = 20;
                 int totalPage = (s.size() % numPerPage == 0) ? (s.size() / numPerPage) : (s.size() / numPerPage + 1);
                 if (page > totalPage) {
-                    System.out.println(page + " " + totalPage);
-                    System.out.println("ia");
+ 
                     request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
                 int start = (page - 1) * numPerPage;

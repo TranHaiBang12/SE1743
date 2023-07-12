@@ -345,20 +345,20 @@
                 border-radius: 18px;
                 background-color: black;
             }
-            
+
             .msB{
                 font-size: 22px;
             }
-            
+
             .ms{
                 font-size: 20px;
                 color: red;
             }
-            
+
             .rd{
                 color: red;
             }
-            
+
             .bodyTitle{
                 padding-top: 40px;
                 text-shadow: 10px 10px 5px #666666;
@@ -373,7 +373,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-    
+
             <div class = "bodyTitle">
                 Nội Dung Phim:
             </div>
@@ -448,9 +448,9 @@
                             <div class = "cmtIN4">
                                 <div class = "displayName">
                                     ${t.getDisplayName()} <span class = "rd"><c:if test = "${t.getUserName() == sessionScope.account.getUserName()}">(Tài khoản của bạn)</c:if></span>
-                                    
-                                </div>
-                                <div class = "CMT">
+
+                                    </div>
+                                    <div class = "CMT">
                                     ${t.getComments()}
                                 </div>
                             </div>
@@ -503,6 +503,7 @@
                     </div>
                 </form>
             </div>
+            <input type ="text" hidden id ="stt" value ="${requestScope.stt}"/>
         </div>
 
 
@@ -512,14 +513,34 @@
         </div>
         <script type="text/javascript">
             function sbmit() {
-                if(document.getElementById("cmt").innerHTML === null || String(document.getElementById("cmt").innerHTML) === " ") {
-                        alert("Vui lòng để lại bình luận");
+                if (document.getElementById("cmt").innerHTML === null || String(document.getElementById("cmt").innerHTML) === " ") {
+                    alert("Vui lòng để lại bình luận");
                 }
-                if(Number(document.getElementById("star").value) === 0) {
+                if (Number(document.getElementById("star").value) === 0) {
                     alert("Vui lòng đánh giá sao");
-                }
-                else {
+                } else {
                     document.getElementById("frm").querySelector('input[type="submit"]').click();
+                }
+            }
+
+            if (document.getElementById("stt") !== null) {
+                if(Number(document.getElementById("stt").value) === 1) {
+                    document.getElementById("tkEtChoice").style.color = 'white';
+                    document.getElementById("tkEtChoice").style.backgroundColor = 'black';
+                    ;
+                    document.getElementById("foodChoi").style.color = 'black';
+                    document.getElementById("foodChoi").style.backgroundColor = 'white';
+                    document.getElementById("rate").style.display = 'block';
+                    document.getElementById("comment").style.display = 'none';
+                }
+                else if(Number(document.getElementById("stt").value) === 0) {
+                    document.getElementById("foodChoi").style.color = 'white';
+                    document.getElementById("foodChoi").style.backgroundColor = 'black';
+                    ;
+                    document.getElementById("tkEtChoice").style.color = 'black';
+                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                    document.getElementById("rate").style.display = 'block';
+                    document.getElementById("comment").style.display = 'none';
                 }
             }
 
@@ -535,10 +556,11 @@
                 } else if (id === "foodChoi") {
                     document.getElementById(id).style.color = 'white';
                     document.getElementById(id).style.backgroundColor = 'black';
+                    ;
                     document.getElementById("tkEtChoice").style.color = 'black';
                     document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                    document.getElementById("comment").style.display = 'block';
-                    document.getElementById("rate").style.display = 'none';
+                    document.getElementById("rate").style.display = 'block';
+                    document.getElementById("comment").style.display = 'none';
                 }
             }
 

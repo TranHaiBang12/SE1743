@@ -13,8 +13,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action = "test" method = "post" enctype="multipart/form-data">
-            <input class ="downloadupaddinvoice" type ="file" id ="file" name ="file">
+        <form action = "test" method = "post" >
+            <input type ="file" id ="file" name ="file">
             <input type ="submit" value ="s" />
         </form>
         <script type="text/javascript">

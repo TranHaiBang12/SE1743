@@ -339,7 +339,8 @@
             console.log(a);
         });
         window.scrollTo(0, document.getElementById("scroll").value);
-        function pick(id, sche, lo, form) {
+
+    function pick(id, sche, lo, form) {
 //            let http = new XMLHttpRequest();
 //            console.log(id + " " + sche + " " + lo + " " + form);
 //            var url = "http://localhost:9999/cinema/booking";

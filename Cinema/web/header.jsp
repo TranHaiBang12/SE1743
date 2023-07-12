@@ -213,6 +213,7 @@
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="rpp?type=TK">Vé</a>
                                     <a class ="lnk" href="rpp?type=FD">Đồ Ăn</a>
+                                    <a class ="lnk" href="fooo">Danh Sách Đồ Ăn Hết Hàng</a>
                                 </div>
                             </div>
                         </div>

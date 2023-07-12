@@ -169,6 +169,7 @@ public class DetailServlet extends HttpServlet {
                 request.setAttribute("dir", dir);
                 request.setAttribute("star", star);
                 request.setAttribute("genre", genre);
+                request.setAttribute("stt", 0);
                 request.getRequestDispatcher("detail.jsp").forward(request, response);
             } else {
                 MovieDAO mvd = new MovieDAO();
@@ -248,6 +249,7 @@ public class DetailServlet extends HttpServlet {
                 request.setAttribute("dir", dir);
                 request.setAttribute("star", star);
                 request.setAttribute("genre", genre);
+                request.setAttribute("stt", 0);
                 request.getRequestDispatcher("detail.jsp").forward(request, response);
             }
         } catch (Exception e) {
@@ -373,6 +375,7 @@ public class DetailServlet extends HttpServlet {
             } else {
                 request.setAttribute("avrRate", "0");
             }
+            request.setAttribute("stt", 1);
             request.setAttribute("id", id);
             request.setAttribute("data", m);
             request.setAttribute("dir", dir);

@@ -16,7 +16,7 @@
             }
 
             table{
-                
+
                 text-align: center;
                 margin-top: 80px;
                 border: 1px solid black;
@@ -120,7 +120,7 @@
                 font-size: 25px;
                 padding-top: 40px;
             }
-            
+
             .body{
                 padding-left: 80px;
                 padding-right: 100px;
@@ -177,6 +177,7 @@
             </div>
             <div class = "frm">
                 <form id ="frm" action = "addsche" method = "post">
+                    <input type ="hidden" name ="scroll" id ="s" value ="0"/>
                     <c:if test = "${room != null}">
                         <div>
                             <label for = "scheNo">Nhập mã lịch chiếu: </label>
@@ -203,8 +204,8 @@
                         <input type ="text" id ="movName" name ="movName" readonly value = "${movName}"/>
                         <input type ="text" id ="movID" name ="movID" readonly hidden value = "${id}"/>
                     </div>
-                    
-                        <input type ="text" hidden id ="scroll" value ="${requestScope.scroll}"/>
+
+
 
                     <c:if test = "${form != null}">
                         <div>
@@ -246,7 +247,7 @@
                         <input type ="submit" value ="ADD"/>
                     </div>
                 </form>
-
+                    <input type ="text" id ="scroll" hidden value ="${requestScope.scroll}"/>
             </div>
 
         </div>
@@ -254,6 +255,14 @@
             <%@include file = "footer.jsp" %>
         </div>
         <script type = "text/javascript">
+            var a = 0;
+
+            window.addEventListener("scroll", (event) => {
+                a = window.scrollY;
+                console.log(a);
+                document.getElementById("s").value = a;
+            });
+            window.scrollTo(0, document.getElementById("scroll").value);
             function cnge() {
                 var selectedValue = document.getElementById("ciN").selectedIndex;
                 document.getElementById("check").value = 1;
