@@ -336,6 +336,26 @@
         <servlet-name>ListFood</servlet-name>
         <servlet-class>controller.ListFood</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteDeviceError</servlet-name>
+        <servlet-class>controller.DeleteDeviceError</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteDeviceImport</servlet-name>
+        <servlet-class>controller.DeleteDeviceImport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListCinema</servlet-name>
+        <servlet-class>controller.ListCinema</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdCin</servlet-name>
+        <servlet-class>controller.UpdCin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OpenCloseCinema</servlet-name>
+        <servlet-class>controller.OpenCloseCinema</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -671,6 +691,26 @@
     <servlet-mapping>
         <servlet-name>ListFood</servlet-name>
         <url-pattern>/listfd</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteDeviceError</servlet-name>
+        <url-pattern>/dde</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteDeviceImport</servlet-name>
+        <url-pattern>/ddvi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListCinema</servlet-name>
+        <url-pattern>/listcin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdCin</servlet-name>
+        <url-pattern>/updcin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OpenCloseCinema</servlet-name>
+        <url-pattern>/occ</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

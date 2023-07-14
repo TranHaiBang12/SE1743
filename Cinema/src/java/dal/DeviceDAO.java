@@ -22,6 +22,44 @@ import model.DeviceImport;
  * @author acer
  */
 public class DeviceDAO extends DBContext {
+    
+    public void dltDeViceImport(String dCode) {
+        try {
+            String sql = "DELETE FROM DeviceImport WHERE DeviceCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, dCode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltDeviceByDCode(String dcode) {
+        try {
+            String sql = "DELETE FROM DeviceError WHERE DeviceCode = ?";
+            String sql1 = "DELETE FROM DeviceDist WHERE DeviceCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, dcode);
+            st.executeUpdate();
+            st = connection.prepareStatement(sql1);
+            st.setString(1, dcode);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void dltDeViceError(String barCode, Timestamp t) {
+        try {
+            String sql = "DELETE FROM DeviceError WHERE DeviceBarCode = ? AND DateDetected = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, barCode);
+            st.setTimestamp(2, t);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public int getCostBuyDeviceByDate(Date dS, Date eS) {
         try {

@@ -28,7 +28,14 @@
                 border-radius: 12px;
                 margin-bottom: 20px;
             }
-
+            button{
+                margin-bottom: 20px;
+                font-size: 17px;
+                padding: 5px;
+                width: 80%;
+                background-color: red;
+                color: white;
+            }
             .ttle{
                 text-align: center;
                 font-size: 30px;
@@ -235,6 +242,15 @@
                 border: none;
                 background-color: white;
             }
+            
+            button{
+                margin-bottom: 20px;
+                font-size: 17px;
+                padding: 5px;
+                width: 80%;
+                background-color: red;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -295,9 +311,9 @@
                             <td>${i.getDeviceBarCode()}</td>
                             <td>${i.getStatus()}</td>
                             <td>
-                                <a href = "udbc?id=${i.getDeviceBarCode()}">SỬA</a>
-                                /
-                                <a onclick="dlt('${i.getDeviceBarCode()}')">XÓA</a>
+                                <a href = "udbc?id=${i.getDeviceBarCode()}"><button type = "button">SỬA</button></a>
+                                
+                                <a onclick="dlt('${i.getDeviceBarCode()}')"><button type = "button">XÓA</button></a>
                             </td>
                         </tr>
                     </c:forEach>

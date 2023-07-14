@@ -72,6 +72,15 @@
                 padding-left: 70px;
                 padding-right: 80px;
             }
+            
+            button{
+                margin-bottom: 20px;
+                font-size: 17px;
+                padding: 5px;
+                width: 80%;
+                background-color: red;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -109,13 +118,13 @@
                         <td>${i.getNumRate()}</td>
                         <td>${i.getActive()}</td>
                         <td>
-                            <a href="acc?user=${i.getUserName()}">XEM CHI TIẾT</a>
-                            /
-                            <c:if test = "${i.getActive() == 0}">
-                                <a  onclick="act('${i.getUserName()}', '${i.getActive()}')">ẨN</a>
-                            </c:if>
+                            <a href="acc?user=${i.getUserName()}"><button>XEM CHI TIẾT</button></a>
+                            
                             <c:if test = "${i.getActive() == 1}">
-                                <a  onclick="act('${i.getUserName()}', '${i.getActive()}')">BỎ ẨN</a>
+                                <a  onclick="act('${i.getUserName()}', '${i.getActive()}')"><button>ẨN</button></a>
+                            </c:if>
+                            <c:if test = "${i.getActive() == 0}">
+                                <a  onclick="act('${i.getUserName()}', '${i.getActive()}')"><button>BỎ ẨN</button></a>
                             </c:if>
                         </td>
                     </tr>

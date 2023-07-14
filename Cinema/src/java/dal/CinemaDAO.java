@@ -94,6 +94,40 @@ public class CinemaDAO extends DBContext {
         }
         return 0;
     }
+    
+    public void updCinema(int code, String name, int type, String city, String street, String address, int noroom, String fax, String hotline) {
+        try {
+            String sql = "UPDATE Cinema SET cinName = ?, cinType = ?, City = ?, Street = ?, Address = ?, NoRoom = ?, Fax = ?, Hotline = ? WHERE cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            st.setInt(2, type);
+            st.setString(3, city);
+            st.setString(4, street);
+            st.setString(5, address);
+            st.setInt(6, noroom);
+            st.setString(7, fax);
+            st.setString(8, hotline);
+            st.setInt(9, code);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public List<Cinema> getAllCinemaType() {
+        List<Cinema> list = new ArrayList<>();
+        try {
+            String sql = "SELECT DISTINCT CinemaType.ctypeID, ctypeName FROM CinemaType";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(new Cinema(rs.getInt("ctypeID"), rs.getString("ctypeName")));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public List<Cinema> getAllCinema() {
         List<Cinema> list = new ArrayList<>();
@@ -178,5 +212,17 @@ public class CinemaDAO extends DBContext {
             System.out.println(e);
         }
         return null;
+    }
+    
+    public void updCinemaStt(int id, String stt) {
+        try {
+            String sql = "UPDATE Cinema SET Status = ? WHERE cinID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, stt);
+            st.setInt(2, id);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

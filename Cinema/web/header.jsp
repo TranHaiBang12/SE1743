@@ -164,6 +164,9 @@
                                 <a class ="lnk" href="cin?id=1">Rạp Đặc Biệt</a>
                                 <a class ="lnk" href="cin?id=2">Rạp 2D</a>
                                 <a class ="lnk" href="cin?id=3">Rạp 3D</a>
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="listcin">Danh Sách Các Rạp</a>
+                                </c:if>
                             </div>
                         </div>
                     </div>

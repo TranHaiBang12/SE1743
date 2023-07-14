@@ -341,17 +341,17 @@
         window.scrollTo(0, document.getElementById("scroll").value);
 
     function pick(id, sche, lo, form) {
-            let http = new XMLHttpRequest();
-            console.log(id + " " + sche + " " + lo + " " + form);
-            var url = "http://localhost:9999/cinema/booking";
-            http.open('POST', url, true);
-            http.onload = function () {
-                console.log(1);
-            }
-            http.send("id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form)
-            http.send(id, sche, lo, form);
+//            let http = new XMLHttpRequest();
+//            console.log(id + " " + sche + " " + lo + " " + form);
+//            var url = "http://localhost:9999/cinema/booking";
+//            http.open('POST', url, true);
+//            http.onload = function () {
+//                console.log(1);
+//            }
+//            http.send("id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form)
+//            http.send(id, sche, lo, form);
 
-            //window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form + "&scroll=" + a;
+            window.location = "booking?id=" + id + "&schePick=" + sche + "&loPick=" + lo + "&formPick=" + form + "&scroll=" + a;
         }
 
         function seat(id) {

@@ -64,6 +64,15 @@
                 font-size: 20px;
             }
             
+            button{
+                margin-bottom: 20px;
+                font-size: 17px;
+                padding: 5px;
+                width: 80%;
+                background-color: red;
+                color: white;
+            }
+            
             td a{
                 text-decoration: none;
                 color: black;
@@ -93,9 +102,9 @@
                         <td>${i.getPrice()}</td>
                         <td>${i.getDescript()}</td><!-- comment -->                      
                         <td>
-                            <a href = "upddv?id=${i.getDeviceCode()}">SỬA</a>
-                            /
-                            <a href = "#">XÓA</a>
+                            <a href = "upddv?id=${i.getDeviceCode()}"><button type = "button">SỬA</button></a>
+                            
+                            <a href = "#"><button type = "button" onclick = "dltD('${i.getDeviceCode()}')">XÓA</button></a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -110,5 +119,12 @@
         <div id = "footer">
             <%@include file = "footer.jsp" %>
         </div>
+        <script type = "text/javascript">
+            function dltD(id) {
+                if(confirm("Bạn có chắc muốn xóa tất cả thiết bị với mã là " + id)) {
+                    window.location = "ddvi?id=" + id;
+                }
+            }
+        </script>
     </body>
 </html>
