@@ -91,6 +91,7 @@ body {
 .dropdown {
     position: relative;
     display: inline-block;
+    height: 200px;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -101,6 +102,7 @@ body {
     color: white;
     min-width: 220px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    height: 200px;
     z-index: 1;
 }
 
@@ -114,6 +116,7 @@ body {
 .insidedropdown-content{
     display: flex;
     flex-direction: column;
+    height: 200px;
 }
 
 
@@ -121,11 +124,13 @@ body {
 .dropdown-content a:hover {
 
     color: red;
+    
 }
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
     display: block;
+    height: 200px;
 }
 
 

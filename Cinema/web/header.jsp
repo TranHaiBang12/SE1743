@@ -134,9 +134,12 @@
                             <a class ="lnk" href="movie">PHIM</a>
                         </div>
                         <div class="dropdown-content">
-                            <div class=insidedropdown-content>
+                            <div class="insidedropdown-content">
                                 <a class ="lnk" href="nowshowing">Phim Đang Chiếu</a>
                                 <a class ="lnk" href="comingsoon">Phim Sắp Chiếu</a>
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="listMV">Danh Sách Phim</a>
+                                </c:if>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                                     <a class ="lnk" href="addmov">Thêm Phim Mới</a>
                                 </c:if>

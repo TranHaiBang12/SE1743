@@ -110,16 +110,28 @@
                 margin-top: 20px;
                 padding-bottom: 20px;
             }
-            
+
             .search{
                 padding-top: 40px;
             }
-            
+
             table{
                 margin-left: 80px;
                 margin-right: 80px;
             }
 
+            .ttle{
+                text-align: center;
+                padding-top: 40px;
+                font-size: 27px;
+                font-weight: bold;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
+            }
+            
+            .ms a{
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -127,6 +139,10 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
+            <div class = "ttle">
+                DANH SÁCH LỊCH CHIẾU PHIM ${requestScope.mname}
+
+            </div>
             <div class = "search">
                 <form action = "viewsche" method = "post">
                     <label for = "searchDate">Nhập ngày:</label>
@@ -140,16 +156,21 @@
                     </div>
                 </form>
             </div>
-            <div class = "ms">          
-                ${requestScope.ms}
-            </div>
+            <c:if test = "${ms != null}">
+                <div class = "ms">          
+                    ${requestScope.ms}
+
+                </div>
+                <div class = "ms">
+                    <a href = "addsche?id=${requestScope.id}">Bấm vào đây để thêm lịch chiếu</a>
+                </div>
+            </c:if>
             <c:if test = "${ms == null}">
                 <table>
                     <tr>
                         <th>MÃ LỊCH CHIẾU</th>
                         <th>NGÀY CHIẾU</th>
                         <th>GIỜ CHIẾU</th>
-                        <th>PHIM</th><!-- comment -->
                         <th>KIỂU CHIẾU</th><!-- comment -->
                         <th>RẠP</th>
                         <th>PHÒNG</th>
@@ -162,7 +183,6 @@
                             <td>${i.getScheNo()}</td>
                             <td>${i.getStart()}</td>
                             <td>${i.getStartTim()}</td>
-                            <td>${i.getMovName()}</td>
                             <td>${i.getFormName()}</td>
                             <td>${i.getCinName()}</td>
                             <td>${i.getRoomID()}</td>
@@ -220,7 +240,7 @@
 
             function directDlt(id, movID, tick) {
                 if (id.includes("sche") && String(tick) === "false") {
-                    if (id.includes("del")) { 
+                    if (id.includes("del")) {
                         if (confirm("Bạn có chắc muốn xóa lịch chiếu với id = " + id + ". Việc này đồng thời sẽ xóa tất cả vé của lịch chiếu này")) {
                             id = id.replace("delsche", "");
                             window.location = "dltsche?id=" + id + "&movid=" + movID;

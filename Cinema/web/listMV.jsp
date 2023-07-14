@@ -17,22 +17,21 @@
             }
             table{
                 margin-top: 20px;
-                border: 1px solid black;
+                border: 2px solid black;
                 margin: 0 auto;
             }
 
             tr{
                 text-align: center;
-                border: 1px solid black;
             }
 
             td{
                 padding: 20px;
-                border: 1px solid black;
+                border: 2px solid black;
             }
             th{
                 padding: 20px;
-                border: 1px solid black;
+                border: 2px solid black;
             }
 
             .m img{
@@ -103,6 +102,63 @@
             }
             .body{
                 padding-top: 40px;
+                padding-left: 90px;
+                padding-right: 110px;
+            }
+            
+            table{
+                width: 100%;
+                
+            }
+            
+            .k{
+                padding: 0px;
+                width: 150px;
+                height: 200px;
+            }
+            .k img{
+                width: 100%;
+                height: 100%;
+            }
+            
+            
+            .blk{
+                font-weight: bold;
+            }
+            
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+            
+            button{
+                margin-bottom: 20px;
+                font-size: 17px;
+                padding: 5px;
+                width: 80%;
+                background-color: red;
+                color: white;
+            }
+            
+            .ms{
+                margin-bottom: 20px;
+            }
+            
+            td{
+                font-size: 18px;
             }
         </style>
         <link rel="stylesheet" href="style.css"/>
@@ -112,24 +168,30 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
+            <div class = "ttle">
+                DANH SÁCH PHIM
+            </div>
+            <div class = "ms">
+                ${requestScope.ms}
+            </div>
             <table>
                 <tr>
-                    <th>IMG</th>
-                    <th>ID</th><!-- comment -->
-                    <th>NAME</th>
-                    <th>STARTDATE</th>
-                    <th>TIME</th>
-                    <th>LANGUAGE</th>
-                    <th>ORIGIN</th>
-                    <th>STATUS</th>
+                    <th>ẢNH</th>
+                    <th>MÃ</th><!-- comment -->
+                    <th>TÊN</th>
+                    <th>NGÀY CÔNG CHIẾU</th>
+                    <th>THỜI LƯỢNG</th>
+                    <th>NGÔN NGỮ</th>
+                    <th>XUẤT XỨ</th>
+                    <th>TÌNH TRẠNG</th>
                     <th>STUDIO</th>
-                    <th>ACTION</th>
+                    <th>HÀNH ĐỘNG</th>
                 </tr>
                 <c:forEach items = "${requestScope.list}" var = "i">
                     <tr>
-                        <td><img src = "${i.getImg()}"/></td>
-                        <td>${i.getMovID()}</td>
-                        <td>${i.getMovName()}</td><!-- <td></td> -->
+                        <td class = "k"><img src = "${i.getImg()}"/></td>
+                        <td class = "blk">${i.getMovID()}</td>
+                        <td class = "blk">${i.getMovName()}</td><!-- <td></td> -->
                         <td>${i.getStartDateS()}</td>
                         <td>${i.getTime()}</td>
                         <td>${i.getLanguage()}</td>
@@ -137,17 +199,20 @@
                         <td>${i.getStatus()}</td><!-- <td></td> -->
                         <td>${i.getStudio()}</td>
                         <td>
-                            <a href = "#" onclick = "upd('${i.movID}')">UPDATE</a>
-
-                            /
-                            <a class ="lnk" href="addmov">ADD</a>
-
-                            /
-                            <span class ="dlt" onclick =  "dlt('${i.movID}', '${i.getMovName()}')">DELETE</span>
+                            <button type = "button" onclick =  "upd('${i.movID}')">UPDATE</button>
+                            <a href = "detail?id=${i.movID}"><button type = "button">DETAIL</button></a>
+                            <button type = "button" onclick =  "dlt('${i.movID}', '${i.getMovName()}')">DELETE</button>
+                            <a href = "viewsche?id=${i.movID}"><button type = "button">SCHEDULE</button></a>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
+            <div class = "addE">
+                <div>
+                    <a href = "addmov"><img src ="images/plusIcon.png"/></a>
+                </div>
+
+            </div>
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

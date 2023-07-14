@@ -81,6 +81,10 @@ public class ListMovie extends HttpServlet {
             dateS = t.substring(cnt + 1);
             list.get(j).setStartDateS(dateS + "-" + monthS + "-" + yearS);
         }
+        if(request.getParameter("ms") != null) {
+            System.out.println("3");
+            request.setAttribute("ms", request.getParameter("ms"));
+        }
         request.setAttribute("list", list);
         request.getRequestDispatcher("listMV.jsp").forward(request, response);
     }

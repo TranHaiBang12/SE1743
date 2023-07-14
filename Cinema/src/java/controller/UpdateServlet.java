@@ -146,8 +146,7 @@ public class UpdateServlet extends HttpServlet {
             MovieDAO mvd = new MovieDAO();
             Movies m = mvd.getMovieById(id);
             request.setAttribute("data", m);
-            request.getRequestDispatcher("update.jsp").forward(request, response);
-        }
+request.getRequestDispatcher("update.jsp").forward(request, response);        }
 
         String ms = "Update Successfull";
         request.setAttribute("ms", ms);
@@ -209,14 +208,14 @@ public class UpdateServlet extends HttpServlet {
         
                 DecimalFormat decimalFormat = new DecimalFormat("#.##");
           
-                
+                request.setAttribute("check", 1);
                 request.setAttribute("id", id);
                 request.setAttribute("data", m);
                 request.setAttribute("dir", dir1);
                 request.setAttribute("star", star1);
                 request.setAttribute("genre", genre1);
                 request.setAttribute("stt", 0);
-                request.getRequestDispatcher("detail.jsp").forward(request, response);
+                request.getRequestDispatcher("update.jsp").forward(request, response);
         
     }
 

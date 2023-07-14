@@ -44,6 +44,14 @@
                 padding-top: 10px;
                 padding-bottom: 10px;
             }
+            
+            .movieContent{
+                margin-top: 100px;
+            }
+            
+            .title{
+                margin-bottom: 20px;
+            }
         </style>
     </head>
     <body>

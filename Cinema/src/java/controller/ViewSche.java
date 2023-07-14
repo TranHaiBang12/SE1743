@@ -5,6 +5,7 @@
 package controller;
 
 import dal.CinemaDAO;
+import dal.MovieDAO;
 import dal.ScheDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -67,16 +68,14 @@ public class ViewSche extends HttpServlet {
             List<Schedule> s = new ArrayList<>();
             ScheDAO sd = new ScheDAO();
             int id = 0;
-
+           
             try {
                 id = Integer.parseInt(id_raw);
-                s = sd.getAllScheduleByMovID(id);
-                if (s.isEmpty()) {
-                    throw new Exception("Loi");
-                }
+                
             } catch (Exception e) {
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
+             s = sd.getAllScheduleByMovID(id);
             List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
             for (int i = 0; i < s.size(); i++) {
                 s.get(i).setHasTick(false);
@@ -112,110 +111,37 @@ public class ViewSche extends HttpServlet {
                         throw new Exception("Loi");
                     }
                 } catch (Exception e) {
+                    System.out.println("n2");
                     request.getRequestDispatcher("error.jsp").forward(request, response);
                 }
             }
+
             int numPerPage = 20;
             int totalPage = (s.size() % numPerPage == 0) ? (s.size() / numPerPage) : (s.size() / numPerPage + 1);
-            if (page > totalPage) {
-
+            if (page > totalPage && !s.isEmpty()) {
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
+
             int start = (page - 1) * numPerPage;
             int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
+            System.out.println(s.size());
             CinemaDAO cnd = new CinemaDAO();
-            request.setAttribute("id", id);
-            request.setAttribute("s", sd.getScheduleByPage(s, start, end));
-            request.setAttribute("totalPage", totalPage);
-            request.setAttribute("page", page);
-            request.setAttribute("cin", cnd.getAllCinema());
-            request.getRequestDispatcher("viewSche.jsp").forward(request, response);
-        } else {
-            String date_raw = request.getParameter("searchDate");
-
-            String id_raw = request.getParameter("id");
-            List<Schedule> s = new ArrayList<>();
-            ScheDAO sd = new ScheDAO();
-            int id = 0;
-            if (date_raw == null) {
-                try {
-                    id = Integer.parseInt(id_raw);
-                    s = sd.getAllScheduleByMovID(id);
-                } catch (Exception e) {
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
-                }
+            MovieDAO mvd = new MovieDAO();
+            if (s.isEmpty()) {
+                request.setAttribute("id", id);
+                request.setAttribute("mname", mvd.getMovieById(id).getMovName());
+                request.setAttribute("ms", "Hiện chưa có bất kỳ lịch chiếu nào của bộ phim này");
+                request.getRequestDispatcher("viewSche.jsp").forward(request, response);
             } else {
-                try {
-                    id = Integer.parseInt(id_raw);
-                    Date date = Date.valueOf(date_raw);
-                    s = sd.getAllScheduleByDateAMov(date, id);
-                    if (s.isEmpty()) {
-
-                        throw new Exception("Loi");
-                    }
-                    request.setAttribute("searchDate", date);
-                } catch (Exception e) {
-                    System.out.println("1");
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
-                }
+                request.setAttribute("id", id);
+                request.setAttribute("mname", mvd.getMovieById(id).getMovName());
+                request.setAttribute("s", sd.getScheduleByPage(s, start, end));
+                request.setAttribute("totalPage", totalPage);
+                request.setAttribute("page", page);
+                request.setAttribute("cin", cnd.getAllCinema());
+                request.getRequestDispatcher("viewSche.jsp").forward(request, response);
             }
-            List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
-            for (int i = 0; i < s.size(); i++) {
-                s.get(i).setHasTick(false);
-                for (int j = 0; j < scheHasTicket.size(); j++) {
-                    if (s.get(i).getScheNo().equals(scheHasTicket.get(j))) {
-                        s.get(i).setHasTick(true);
-                        break;
-                    }
-                }
-            }
-            
-            List<String> scheHasSellTicket = sd.getAllScheduleHaveSellTicket();
-            for (int i = 0; i < s.size(); i++) {
-                s.get(i).setHasSellTick(false);
-                for (int j = 0; j < scheHasSellTicket.size(); j++) {
-                    if (s.get(i).getScheNo().equals(scheHasSellTicket.get(j))) {
-                        s.get(i).setHasSellTick(true);
-                        break;
-                    }
-                }
-            }
-            for (int i = 0; i < s.size(); i++) {
-                System.out.println(s.get(i).isHasSellTick());
-            }
-            String page_raw = request.getParameter("page");
-            int page = 0;
-
-            if (page_raw == null) {
-                page = 1;
-            } else {
-                try {
-                    page = Integer.parseInt(page_raw);
-                    if (page <= 0) {
-                        throw new Exception("Loi");
-                    }
-                } catch (Exception e) {
-                    System.out.println("2");
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
-                }
-            }
-            int numPerPage = 20;
-            int totalPage = (s.size() % numPerPage == 0) ? (s.size() / numPerPage) : (s.size() / numPerPage + 1);
-            if (page > totalPage) {
-
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-            }
-            int start = (page - 1) * numPerPage;
-            int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
-            CinemaDAO cnd = new CinemaDAO();
-            
-            request.setAttribute("id", id);
-            request.setAttribute("s", sd.getScheduleByPage(s, start, end));
-            request.setAttribute("totalPage", totalPage);
-            request.setAttribute("page", page);
-            request.setAttribute("cin", cnd.getAllCinema());
-            request.getRequestDispatcher("viewSche.jsp").forward(request, response);
-        }
+        } 
     }
 
     /**
@@ -259,7 +185,7 @@ public class ViewSche extends HttpServlet {
                     }
                 }
             }
-            
+
             List<String> scheHasSellTicket = sd.getAllScheduleHaveSellTicket();
             for (int i = 0; i < s.size(); i++) {
                 s.get(i).setHasSellTick(false);
