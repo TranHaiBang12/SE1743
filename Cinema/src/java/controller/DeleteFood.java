@@ -68,11 +68,12 @@ public class DeleteFood extends HttpServlet {
         }
         if (check == 0) {
             fd.deleteFoodByID(id);
-            response.sendRedirect("store");
+            response.sendRedirect("listfd");
         }
         else {
-            request.setAttribute("msDLT", "Đã có người mua sản phẩm này, không thể xóa");
-            request.getRequestDispatcher("store").forward(request, response);
+            System.out.println("kda");
+            request.setAttribute("ms", "Đã có người mua sản phẩm này, không thể xóa");
+            request.getRequestDispatcher("listfd").forward(request, response);
         }
         
     }

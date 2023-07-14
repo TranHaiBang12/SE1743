@@ -74,6 +74,10 @@ public class ViewTick extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
         String id = request.getParameter("id");
+        String ms = request.getParameter("ms");
+        if(ms != null) {
+            request.setAttribute("ms", ms);
+        }
         ScheDAO scd = new ScheDAO();
         if (scd.getScheduleByID(id) == null) {
             request.getRequestDispatcher("error.jsp").forward(request, response);

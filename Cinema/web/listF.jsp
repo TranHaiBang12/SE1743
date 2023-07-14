@@ -187,7 +187,7 @@
                 border-radius: 18px;
                 background-color: black;
             }
-            
+
             .rd{
                 color: crimson;
             }
@@ -206,9 +206,11 @@
             <div class = "ttle">
                 DANH SÁCH ĐỒ ĂN
             </div>
-            <div class = "ms">
-                ${requestScope.ms}
-            </div>
+            <c:if test = "${requestScope.ms != null}">
+                <div class = "ms">
+                    ${requestScope.ms}
+                </div>
+            </c:if>
             <table>
                 <tr>
                     <th>ẢNH</th>
@@ -235,6 +237,7 @@
                         <td>
                             <a href = "updf?id=${i.getProductCode()}"><button type = "button">UPDATE</button></a>
                             <a href = "viewf?id=${i.getProductCode()}"><button type ="button">VIEW</button></a>
+                            <button type ="button" value ="DELETE" onclick ="delF('${i.getProductCode()}')">DELETE</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -308,6 +311,12 @@
                 document.getElementById("gN").value = c;
                 console.log(c);
                 document.getElementById("slt" + c).style.display = 'block';
+            }
+
+            function delF(id) {
+                if (confirm("Bạn có chắc muốn xóa sản phẩm với id = " + id)) {
+                    window.location = "delf?id=" + id;
+                }
             }
 
         </script>

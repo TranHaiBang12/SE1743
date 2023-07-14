@@ -37,6 +37,25 @@ public class FoodDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<Food> getAllAllFood() {
+        List<Food> list = new ArrayList<>();
+        int i = 1;
+        try {
+            String sql = "SELECT Food.*, Product.Price, Product.Discout, FoodType.ftName FROM Food JOIN Product ON Food.ProductCode = Product.ProductCode JOIN FoodType ON Food.FoodType = FoodType.ftID";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+
+                Food f = new Food(i, rs.getString("ProductCode"), rs.getString("FoodDescription"), rs.getString("FoodType"), rs.getString("Status"), rs.getDouble("Discout"), rs.getDouble("Price"), rs.getString("Img"), rs.getString("ftName"));
+                list.add(f);
+                i++;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public List<Food> getAllFood() {
         List<Food> list = new ArrayList<>();

@@ -92,7 +92,6 @@
                                             <div class = "bt2">
                                                 <c:if test="${sessionScope.account.role==3 || sessionScope.account.role==1}">
                                                     <button type = "submit" value = "UPDATE" onclick = "upd('${i.movID}')">UPDATE</button>
-                                                    <a href = "listMV"><button type = "submit" value = "LIST">LIST</button></a>
                                                     <button type = "submit" value = "DELETE" onclick = "dlt('${i.movID}', '${i.getMovName()}')">DELETE</button>
                                                 </c:if>
                                             </div>

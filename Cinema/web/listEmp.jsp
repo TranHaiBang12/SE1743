@@ -100,6 +100,15 @@
                 text-shadow: 10px 10px 5px #666666;
                 color: brown
             }
+            
+            button{
+                margin-bottom: 20px;
+                font-size: 17px;
+                padding: 5px;
+                width: 80%;
+                background-color: red;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -147,13 +156,13 @@
                             <td>${i.getPosition()}</td><!-- comment -->
                             <td>${i.getCinName()}</td>
                             <td>
-                                <a href = "empdt?id=${i.getEmpID()}">XEM CHI TIẾT</a>
+                                <a href = "empdt?id=${i.getEmpID()}"><button type ="button">XEM CHI TIẾT</button></a>
 
-                                /
-                                <a href = "emprp?id=${i.getEmpID()}">XEM BÁO CÁO</a>
+                                
+                                <a href = "emprp?id=${i.getEmpID()}"><button type ="button">XEM BÁO CÁO</button></a>
 
-                                /
-                                <span class ="dlt" onclick = "dlt('${i.getEmpID()}')">XÓA</span>
+                                
+                                <button type ="button" class ="dlt" onclick = "dlt('${i.getEmpID()}')">XÓA</button>
                             </td>
                         </tr>
                     </c:forEach>

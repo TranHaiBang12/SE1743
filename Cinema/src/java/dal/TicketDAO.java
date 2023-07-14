@@ -22,6 +22,26 @@ import model.Ticket;
  */
 public class TicketDAO extends DBContext {
 
+    public List<String> checkTicketByCode(String ProductCode) {
+        List<String> list = new ArrayList<>();
+        try {
+            String sql = "SELECT ProductCode FROM TicketOnlDetail WHERE ProductCode = ?\n"
+                    + "UNION\n"
+                    + "SELECT ProductCode FROM TicketOffDetail WHERE ProductCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, ProductCode);
+            st.setString(2, ProductCode);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                list.add(rs.getString("ProductCode"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            
+        }
+        return list;
+    }
+
     public List<Ticket> getTicketBySchedule(String sche) {
         List<Ticket> list = new ArrayList<>();
         try {
@@ -353,7 +373,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTicketSellByTimeAC(Date dS, Date eS, int movID, int cinID) {
         try {
             String sql = "SELECT COUNT(*) AS [T] FROM\n"
@@ -397,7 +417,7 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<String> getAllTickTypeByTimeAC(Date dS, Date eS, int movID, int cinID) {
         List<String> list = new ArrayList<>();
         try {
@@ -462,7 +482,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickTypeSellByTimeAC(Date dS, Date eS, int movID, String type, int cinID) {
         try {
             String sql = "";
@@ -512,7 +532,6 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
 
     public int getNumTickTypeSellByDateEXCTLY(Date dS, int movID, String type) {
         try {
@@ -555,7 +574,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickTypeSellByDateEXCTLYAC(Date dS, int movID, String type, int cinID) {
         try {
             String sql = "";
@@ -627,7 +646,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickFormByTimeAC(Date dS, Date eS, int movID, int formID, int cinID) {
         try {
             String sql = "SELECT COUNT(*) AS [T] FROM\n"
@@ -699,7 +718,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickByDateAC(Date dS, Date eS, int movID, Date nS, int cinID) {
         try {
             String sql = "";
@@ -798,7 +817,7 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<TIcketDate> getAllTicketBoughtDateByTimeAC(Date dS, Date eS, int movID, int cinID) {
         List<TIcketDate> list = new ArrayList<>();
         try {
@@ -873,7 +892,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickByMovIDAC(int movID, int cinID) {
         try {
             String sql = "SELECT COUNT(*) AS [T] FROM\n"
@@ -916,7 +935,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickSellByDateAC(Date dS, Date eS, int cinID) {
         try {
             String sql = "SELECT\n"
@@ -957,7 +976,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickSellOfAllTimeAC(int cinID) {
         try {
             String sql = "SELECT\n"
@@ -997,7 +1016,7 @@ public class TicketDAO extends DBContext {
         }
         return listS;
     }
-    
+
     public List<String> getAllTickTypeByDateAC(Date dS, Date eS, int cinID) {
         List<String> listS = new ArrayList<>();
         try {
@@ -1055,7 +1074,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickSellByDayAC(List<Date> day, int cinID) {
 
         try {
@@ -1130,7 +1149,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickTypeSellByDayAC(List<Date> day, String type, int cinID) {
 
         try {
@@ -1192,14 +1211,14 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickByHourAC(Date dS, Date eS, Time t1, Time t2, int cinID) {
         try {
             System.out.println(t1 + " " + t2);
             String sql = "SELECT \n"
-                    + "(SELECT COUNT(*) AS T FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON TransactionCode.OrderID = OrderOnline.OrderID WHERE TransactionCode.Type = 2 AND cinID = " + cinID +  " AND (PaymentDate BETWEEN ? AND ?) AND (PaymentTime BETWEEN '" + t1 + "' AND '" + t2 + "'))\n"
+                    + "(SELECT COUNT(*) AS T FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON TransactionCode.OrderID = OrderOnline.OrderID WHERE TransactionCode.Type = 2 AND cinID = " + cinID + " AND (PaymentDate BETWEEN ? AND ?) AND (PaymentTime BETWEEN '" + t1 + "' AND '" + t2 + "'))\n"
                     + "+\n"
-                    + "(SELECT COUNT(*) AS T FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE cinID = " + cinID +  " AND (Date BETWEEN ? AND ?) AND (Time BETWEEN '" + t1 + "' AND '" + t2 + "')) AS T\n";
+                    + "(SELECT COUNT(*) AS T FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE cinID = " + cinID + " AND (Date BETWEEN ? AND ?) AND (Time BETWEEN '" + t1 + "' AND '" + t2 + "')) AS T\n";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setDate(1, dS);
             st.setDate(2, eS);
@@ -1251,7 +1270,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickByHADAC(List<Date> day, Time t1, Time t2, int cinID) {
         try {
             String sql = "(SELECT COUNT(*) AS T FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON TransactionCode.OrderID = OrderOnline.OrderID WHERE TransactionCode.Type = 2 AND cinID = " + cinID + " AND PaymentDate IN(";
@@ -1311,13 +1330,14 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
+
     public List<Movies> getAllMovSellTicketByMovID(int movID) {
         List<Movies> list = new ArrayList<>();
         try {
-            String sql = "SELECT Movies.*FROM (SELECT DISTINCT movID FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo\n" +
-"                   UNION\n" +
-"                   SELECT DISTINCT Schedule.movID FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo)\n" +
-"                   AS T JOIN Movies ON T.movID = Movies.movID WHERE T.movID = ?";
+            String sql = "SELECT Movies.*FROM (SELECT DISTINCT movID FROM TicketOnlDetail JOIN TickTypeInSche ON TicketOnlDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo\n"
+                    + "                   UNION\n"
+                    + "                   SELECT DISTINCT Schedule.movID FROM TicketOffDetail JOIN TickTypeInSche ON TicketOffDetail.ProductCode = TickTypeInSche.ProductCode JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo)\n"
+                    + "                   AS T JOIN Movies ON T.movID = Movies.movID WHERE T.movID = ?";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             int i = 0;
@@ -1339,18 +1359,19 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-    
+
     public void dltAllTicket(int movID) {
         try {
             String sql = "DELETE FROM TickTypeInSche WHERE ProductCode IN(SELECT TickTypeInSche.ProductCode FROM TickTypeInSche JOIN Schedule ON TickTypeInSche.scheNo = Schedule.scheNo WHERE movID = ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, movID);
             st.executeUpdate();
-          
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
+
     public List<Movies> getAllMovSellTicketByDate(Date dS, Date eS) {
         List<Movies> list = new ArrayList<>();
         try {
@@ -1382,7 +1403,7 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Movies> getAllMovSellTicketByDateAC(Date dS, Date eS, int cinID) {
         List<Movies> list = new ArrayList<>();
         try {
@@ -1438,9 +1459,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
-    
-    
+
     public int getNumTickSellByCADMV(Date dS, Date eS, int cinID, int movID) {
         try {
             String sql = "SELECT \n"
@@ -1489,7 +1508,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getNumTickSellByOOADAC(Date dS, Date eS, String tt, int cinID) {
         try {
             String sql = "";
@@ -1548,7 +1567,7 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Movies> getAllMoviesSellTicketButNotBAC(Date dS, Date eS, int cinID) {
         List<Movies> list = new ArrayList<>();
         try {
@@ -1587,7 +1606,7 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
-    
+
     public int getAllNumTickOfMovies(Date dS, Date eS, int movID) {
         try {
             String sql = "SELECT COUNT(*) AS T FROM Schedule JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo JOIN Seat ON Schedule.cinID = Seat.cinID AND Schedule.roomID = Seat.roomID JOIN SeatType ON TickTypeInSche.Type = SeatType.typeNameEN WHERE (Schedule.startDate BETWEEN ? AND ?) AND movID = ?";
@@ -1596,7 +1615,7 @@ public class TicketDAO extends DBContext {
             st.setDate(2, eS);
             st.setInt(3, movID);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -1604,7 +1623,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getAllNumTickOfMoviesAC(Date dS, Date eS, int movID, int cinID) {
         try {
             String sql = "SELECT COUNT(*) AS T FROM Schedule JOIN TickTypeInSche ON Schedule.scheNo = TickTypeInSche.scheNo JOIN Seat ON Schedule.cinID = Seat.cinID AND Schedule.roomID = Seat.roomID JOIN SeatType ON TickTypeInSche.Type = SeatType.typeNameEN WHERE Schedule.cinID = ? AND (Schedule.startDate BETWEEN ? AND ?) AND movID = ?";
@@ -1614,7 +1633,7 @@ public class TicketDAO extends DBContext {
             st.setDate(3, eS);
             st.setInt(4, movID);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -1622,7 +1641,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getOfflineIncomeByCinAD(Date dS, Date eS, int cinID) {
         try {
             String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOffDetail JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE cinID = ? AND (Date BETWEEN ? AND ?)";
@@ -1631,7 +1650,7 @@ public class TicketDAO extends DBContext {
             st.setDate(2, dS);
             st.setDate(3, eS);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -1639,7 +1658,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getOfflineIncome(Date dS, Date eS) {
         try {
             String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOffDetail JOIN OrderOffline ON TicketOffDetail.OrderID = OrderOffline.OrderID WHERE Date BETWEEN ? AND ?";
@@ -1647,7 +1666,7 @@ public class TicketDAO extends DBContext {
             st.setDate(1, dS);
             st.setDate(2, eS);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -1655,7 +1674,7 @@ public class TicketDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public int getOnlineIncomeByCinAD(Date dS, Date eS, int cinID) {
         try {
             String sql = "SELECT SUM(Price - Price * Discount) AS T FROM TicketOnlDetail JOIN OrderOnline ON TicketOnlDetail.OrderID = OrderOnline.OrderID JOIN TransactionCode ON OrderOnline.OrderID = TransactionCode.OrderID WHERE TransactionCode.Type = 2 AND (PaymentDate BETWEEN ? AND ?) AND cinID = ?";
@@ -1664,7 +1683,7 @@ public class TicketDAO extends DBContext {
             st.setDate(2, eS);
             st.setInt(3, cinID);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {
@@ -1680,7 +1699,7 @@ public class TicketDAO extends DBContext {
             st.setDate(1, dS);
             st.setDate(2, eS);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {

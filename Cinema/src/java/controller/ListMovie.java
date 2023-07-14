@@ -60,11 +60,9 @@ public class ListMovie extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         MovieDAO mvd = new MovieDAO();
-        for (int i = 0; i < mvd.getAllMovies().size(); i++) {
-            System.out.println(mvd.getAllMovies().get(i).getMovID());
-        }
+   
         List<Movies> list = new ArrayList<>();
-        list = mvd.getAllMovies();
+        list = mvd.getAllAllMovies();
         for (int j = 0; j < list.size(); j++) {
             String dateS = "", monthS = "", yearS = "";
             String t = list.get(j).getStartDate().toString();

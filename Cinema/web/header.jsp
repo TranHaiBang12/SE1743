@@ -29,7 +29,7 @@
             }
 
             .menu{
-                
+
                 border-top: 3px solid black;
                 padding-top: 20px;
                 padding-bottom: 20px;
@@ -37,16 +37,16 @@
                 padding-left: 0px;
                 margin-left: 0px;
             }
-            
+
             body{
                 border-bottom: 3px solid black;
             }
-            
+
             .wrapper_menu{
                 padding-left: 50px;
                 padding-right: 85px;
             }
-            
+
             .menu{
                 justify-content: space-between;
             }
@@ -216,6 +216,7 @@
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="rpp?type=TK">Vé</a>
                                     <a class ="lnk" href="rpp?type=FD">Đồ Ăn</a>
+                                    <a class ="lnk" href="listfd">Danh Sách Đồ Ăn</a>
                                     <a class ="lnk" href="fooo">Danh Sách Đồ Ăn Hết Hàng</a>
                                 </div>
                             </div>

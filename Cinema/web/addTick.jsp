@@ -32,15 +32,16 @@
                 background-color: white;
                 border-bottom: 2px dashed red;
                 padding-bottom: 50px;
-                padding-top: 15px;
+
                 width: 100%;
             }
 
             .ttle{
                 text-align: center;
                 font-size: 30px;
+                margin-top: 100px;
                 margin-bottom: 25px;
-                padding-top: 40px;
+                
             }
 
             .urSelection{
@@ -398,9 +399,9 @@
                 color: red;
                 margin-right: 300px;
             }
-
-
-
+            .ttle{
+                margin-top: 60px;
+            }
 
         </style>
     </head>
@@ -409,7 +410,7 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-            <h3 class = "ttle">THÊM VÉ</h3>
+            <div class = "ttle">THÊM VÉ</div>
             <div class = "urSelection">
                 PHIM: <span class = "mvName">${requestScope.movName}, </span> <span class = "fName">${requestScope.formName}</span>
             </div>

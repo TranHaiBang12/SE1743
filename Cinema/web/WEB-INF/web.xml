@@ -332,6 +332,10 @@
         <servlet-name>ListMovie</servlet-name>
         <servlet-class>controller.ListMovie</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListFood</servlet-name>
+        <servlet-class>controller.ListFood</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -663,6 +667,10 @@
     <servlet-mapping>
         <servlet-name>ListMovie</servlet-name>
         <url-pattern>/listMV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListFood</servlet-name>
+        <url-pattern>/listfd</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

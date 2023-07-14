@@ -128,6 +128,33 @@
                 text-shadow: 10px 10px 5px #666666;
                 color: brown
             }
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+            
+            button{
+                margin-bottom: 20px;
+                font-size: 17px;
+                padding: 5px;
+                width: 80%;
+                background-color: red;
+                color: white;
+            }
+
             
             .ms a{
                 color: red;
@@ -189,11 +216,11 @@
                             <td>${i.getEnd()}</td>
                             <td>${i.getEndTim()}</td>
                             <td id ="" class ="tket">
-                                <label id = "tick${i.getScheNo()}" onclick ="direct('tick${i.getScheNo()}')" class = "t">VIEW TICKET</label>
-                                /
-                                <label id = "sche${i.getScheNo()}" onclick ="directSche('sche${i.getScheNo()}', '${i.isHasSellTick()}')" class = "t">UPDATE SCHEDULE</label>
-                                /<!-- comment -->
-                                <label id = "delsche${i.getScheNo()}" onclick ="directDlt('delsche${i.getScheNo()}', '${requestScope.id}', '${i.isHasSellTick()}')"  class = "t">DELETE SCHEDULE</label>
+                                <button type ="button" id = "tick${i.getScheNo()}" onclick ="direct('tick${i.getScheNo()}')" class = "t">VIEW TICKET</button>
+                                
+                                <button type ="button" id = "sche${i.getScheNo()}" onclick ="directSche('sche${i.getScheNo()}', '${i.isHasSellTick()}')" class = "t">UPDATE SCHEDULE</button>
+                                <!-- comment -->
+                                <button type ="button" id = "delsche${i.getScheNo()}" onclick ="directDlt('delsche${i.getScheNo()}', '${requestScope.id}', '${i.isHasSellTick()}')"  class = "t">DELETE SCHEDULE</button>
                             </td>
                             <c:set var="movName" value="${i.getMovName()}"/>
                             <c:set var="movID" value="${i.getMovID()}"/>
@@ -222,6 +249,12 @@
                         <a href ="viewsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
                     </c:if>
                 </div>
+                <div class = "addE">
+                <div>
+                    <a href = "addsche?id=${requestScope.id}"><img src ="images/plusIcon.png"/></a>
+                </div>
+
+            </div>
             </c:if>
         </div>
         <div id = "footer">

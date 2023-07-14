@@ -411,7 +411,9 @@
             .msTKET{
                 margin-bottom: 20px;
             }
-
+            .ms{
+                text-align: center;
+            }
 
 
         </style>
@@ -510,7 +512,9 @@
                             </c:forEach>
                         </div>
                     </div>
-
+                    <div class = "ms">
+                        ${requestScope.ms}
+                    </div>
                     <div class = "frm">
 
                         <div class = "insideForm">
