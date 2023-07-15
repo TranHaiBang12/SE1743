@@ -36,7 +36,7 @@ public class ShiftDAO extends DBContext{
     public List<Shift> getAllShiftByEmpAMAY(int empID, int month, int year) {
         List<Shift> list = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM Shift WHERE EmpID = ? AND (YEAR(startDate) = ? AND MONTH(startDate) = ?) OR (YEAR(endDate) = ? AND MONTH(endDate) = ?)";
+            String sql = "SELECT * FROM Shift WHERE EmpID = ? AND ((YEAR(startDate) = ? AND MONTH(startDate) = ?) OR (YEAR(endDate) = ? AND MONTH(endDate) = ?))";
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, empID);
             st.setInt(2, year);

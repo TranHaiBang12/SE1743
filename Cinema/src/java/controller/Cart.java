@@ -138,7 +138,6 @@ public class Cart extends HttpServlet {
                             }
                             k = 0;
                             cnt = 0;
-                            System.out.println(code + " " + quantity + " " + discount + " " + price);
                             list.add(new CartItemFood(fda.getFoodById(code), quantity, discount, price));
                         }
                     } else if (cart.charAt(i + 1) == 'T' && cart.charAt(i + 2) == 'K') {

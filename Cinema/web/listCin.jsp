@@ -161,7 +161,7 @@
                 font-size: 18px;
             }
         </style>
-        <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="style.css?version=1"/>
     </head>
     <body>
         <div id = "header">

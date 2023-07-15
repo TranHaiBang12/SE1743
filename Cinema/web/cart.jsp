@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="style.css?version=1"/>
         <style>
 
             .ttle{
@@ -388,7 +388,7 @@
                     }
                     document.getElementById("nm").innerHTML -= (Number(more));
                     document.getElementById("list" + id).style.display = 'none';
-                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - (Number(price) * Number(document.getElementById(id).value));
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - ((Number(price) - Number(price) * Number(discount)) * Number(document.getElementById(id).value));
                 } else {
                     if (value.includes(id)) {
                         value = value.replace("/" + id + "p" + more + "p" + price + "d" + discount, "");
@@ -399,7 +399,7 @@
                     }
                     document.getElementById("nm").innerHTML--;
                     document.getElementById("list" + id + more).style.display = 'none';
-                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - Number(price);
+                    document.getElementById("ttAm").innerHTML = Number(document.getElementById("ttAm").innerHTML) - (Number(price) - Number(price) * Number(discount));
                 }
 
 

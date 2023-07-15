@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Nội Dung Phim</title>
-        <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="style.css?version=1"/>
         <style>
             .body{
                 background-color: white;
@@ -274,10 +274,9 @@
                 width: 100%;
             }
             
-            td img{
-                width: 100%;
-                height: 100%;
-            }
+            
+            
+            
         </style>
 
     </head>

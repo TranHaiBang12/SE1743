@@ -16,7 +16,7 @@
 
         <link rel="shortcut icon" href="images/cinemaFavIcon.png" />
 
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css?version=1">
         <script src="https://kit.fontawesome.com/8157308f93.js" crossorigin="anonymous"></script>
 
         <link rel="stylesheet" href="swiper-bundle.min.css">

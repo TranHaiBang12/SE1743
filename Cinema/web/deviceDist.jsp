@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <link rel="stylesheet" href="style.css"/>
+        <link rel="stylesheet" href="style.css?version=1"/>
         <script src="https://kit.fontawesome.com/8157308f93.js" crossorigin="anonymous"></script>
         <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         <link rel="stylesheet" href="swiper-bundle.min.css">
