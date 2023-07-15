@@ -360,6 +360,10 @@
         <servlet-name>AddF</servlet-name>
         <servlet-class>controller.AddF</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AllSche</servlet-name>
+        <servlet-class>controller.AllSche</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -719,6 +723,10 @@
     <servlet-mapping>
         <servlet-name>AddF</servlet-name>
         <url-pattern>/addf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AllSche</servlet-name>
+        <url-pattern>/allsche</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

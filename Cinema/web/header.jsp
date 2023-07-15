@@ -155,6 +155,27 @@
                 <li>
                     <div class="dropdown">
                         <div class="dropbtn">
+                            <a class ="lnk" href="movie">LỊCH CHIẾU & VÉ</a>
+                        </div>
+                        <div class="dropdown-content">
+                            <div class="insidedropdown-content">
+      
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="allsche">Danh Sách Lịch Chiếu</a>
+                                </c:if>
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="addmov">Danh Sách Vé</a>
+                                </c:if>
+           
+
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <div class="dropbtn">
                             <img class="cinemaIcon" src="images/cinemaIcon.png" />
                             <a class ="lnk" href="cin">RẠP</a>
                         </div>

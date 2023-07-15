@@ -160,6 +160,25 @@ public class ScheDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public List<Schedule> getAllSchedule() {
+        List<Schedule> list = new ArrayList<>();
+        MovieDAO mvd = new MovieDAO();
+        FormDAO fmd = new FormDAO();
+        CinemaDAO cnd = new CinemaDAO();
+        try {
+            String sql = "SELECT * FROM Schedule ORDER BY startDate, startTim";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Schedule s = new Schedule(rs.getString("scheNo"), rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim").toString(), rs.getTime("endTim").toString(), mvd.getMovieById(rs.getInt("movID")).getMovName(), fmd.getFormById(rs.getInt("formID")).getFormName(), cnd.getCinemaByID(rs.getInt("cinID")).getCinName(), mvd.getMovieById(rs.getInt("movID")).getImg());
+                list.add(s);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
 
     public List<Schedule> getAllScheduleByMovID(int movID) {
         List<Schedule> list = new ArrayList<>();
@@ -283,6 +302,26 @@ public class ScheDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 list.add(rs.getString("scheNo"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    public List<Schedule> getAllScheduleByDate(Date start) {
+        List<Schedule> list = new ArrayList<>();
+        MovieDAO mvd = new MovieDAO();
+        FormDAO fmd = new FormDAO();
+        CinemaDAO cnd = new CinemaDAO();
+        try {
+            String sql = "SELECT * FROM Schedule WHERE startDate = ? ORDER BY startDate, startTim";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setDate(1, start);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Schedule s = new Schedule(rs.getString("scheNo"), rs.getInt("movID"), rs.getInt("formID"), rs.getInt("cinID"), rs.getInt("roomID"), rs.getDate("startDate"), rs.getDate("endDate"), rs.getTime("startTim").toString(), rs.getTime("endTim").toString(), mvd.getMovieById(rs.getInt("movID")).getMovName(), fmd.getFormById(rs.getInt("formID")).getFormName(), cnd.getCinemaByID(rs.getInt("cinID")).getCinName(), mvd.getMovieById(rs.getInt("movID")).getImg());
+                list.add(s);
             }
         } catch (Exception e) {
             System.out.println(e);

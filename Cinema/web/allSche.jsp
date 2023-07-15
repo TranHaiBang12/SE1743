@@ -145,7 +145,7 @@
                 padding-bottom: 20px;
                 font-size: 20px;
             }
-            
+
             button{
                 margin-bottom: 20px;
                 font-size: 17px;
@@ -155,11 +155,11 @@
                 color: white;
             }
 
-            
+
             .ms a{
                 color: red;
             }
-            
+
             table{
                 margin-top: 20px;
                 margin: 0 auto;
@@ -365,7 +365,7 @@
                 border-right: 1px solid crimson;
                 border-radius: 0px 12px 0px 0px;
             }
-            
+
             th{
                 border: none;
                 border-bottom: 1px solid black;
@@ -374,6 +374,15 @@
             td{
                 border: none;
                 border-bottom: 1px solid black;
+            }
+
+            .ms{
+                margin-bottom: 0px;
+                padding-bottom: 20px;
+            }
+
+            select{
+                font-size: 20px;
             }
         </style>
     </head>
@@ -387,15 +396,20 @@
 
             </div>
             <div class = "search">
-                <form action = "viewsche" method = "post">
+                <form action = "allsche" method = "post">
                     <label for = "searchDate">Nhập ngày:</label>
                     <input type ="date" name ="searchDate" id ="searchDate"/>
-                    <input type ="text" hidden name ="id" value ="${requestScope.id}"/>
+                    <label for = "searchDate">Nhập phim:</label>
+                    <select name ="mov">
+                        <c:forEach items = "${requestScope.mov}" var = "i">
+                            <option value = "${i.getMovID()}">${i.getMovName()}</option>
+                        </c:forEach>
+                    </select>
                     <div class = "searchBar">
                         <input type="submit" name ="key" value="Tìm kiếm..."/>
                     </div>
                     <div class = "searchBar">
-                        <a href = "viewsche?id=${requestScope.id}"><input type="button" name ="key" value="Bỏ ngày tìm kiếm"/></a>
+                        <a href = "allsche"><input type="button" name ="key" value="Bỏ ngày tìm kiếm"/></a>
                     </div>
                 </form>
             </div>
@@ -433,7 +447,7 @@
                             <td>${i.getEndTim()}</td>
                             <td id ="" class ="tket">
                                 <button type ="button" id = "tick${i.getScheNo()}" onclick ="direct('tick${i.getScheNo()}')" class = "t">VIEW TICKET</button>
-                                
+
                                 <button type ="button" id = "sche${i.getScheNo()}" onclick ="directSche('sche${i.getScheNo()}', '${i.isHasSellTick()}')" class = "t">UPDATE SCHEDULE</button>
                                 <!-- comment -->
                                 <button type ="button" id = "delsche${i.getScheNo()}" onclick ="directDlt('delsche${i.getScheNo()}', '${requestScope.id}', '${i.isHasSellTick()}')"  class = "t">DELETE SCHEDULE</button>
@@ -445,32 +459,62 @@
                 </table>
                 <div class = "pagination">
                     <c:if test = "${requestScope.searchDate != null}">
-                        <a href ="viewsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}"><</a>
+                        <c:if test = "${requestScope.mov != null}">
+                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&searchDate=${requestScope.searchDate}&mov=${requestScope.mov}"><</a>
+                        </c:if>
+                        <c:if test = "${requestScope.mov == null}">
+                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&searchDate=${requestScope.searchDate}"><</a>
+                        </c:if>
                     </c:if>
                     <c:if test = "${requestScope.searchDate == null}">
-                        <a href ="viewsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
+                        <c:if test = "${requestScope.mov != null}">
+                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&mov=${requestScope.mov}"><</a>
+                        </c:if>
+                        <c:if test = "${requestScope.mov == null}">
+                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}"><</a>
+                        </c:if>
                     </c:if>
                     <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
                         <c:if test = "${requestScope.searchDate != null}">
-                            <a class ="${i == page ? "active":"noActive"}" href ="viewsche?page=${i}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">${i}</a>
+                            <c:if test = "${requestScope.mov != null}">
+                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&searchDate=${requestScope.searchDate}&mov=${requestScope.mov}">${i}</a>
+                            </c:if>
+                            <c:if test = "${requestScope.mov == null}">
+                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&searchDate=${requestScope.searchDate}">${i}</a>
+                            </c:if>
                         </c:if>
                         <c:if test = "${requestScope.searchDate == null}">
-                            <a class ="${i == page ? "active":"noActive"}" href ="viewsche?page=${i}&id=${requestScope.id}">${i}</a>
+                            <c:if test = "${requestScope.mov != null}">
+                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&mov=${requestScope.mov}">${i}</a>
+                            </c:if>
+                            <c:if test = "${requestScope.mov == null}">
+                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}">${i}</a>
+                            </c:if>
                         </c:if>
                     </c:forEach>
                     <c:if test = "${requestScope.searchDate != null}">
-                        <a href ="viewsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}&searchDate=${requestScope.searchDate}">></a>
+                        <c:if test = "${requestScope.mov != null}">
+                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&searchDate=${requestScope.searchDate}&mov=${requestScope.mov}">></a>
+                        </c:if>
+                        <c:if test = "${requestScope.mov == null}">
+                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&searchDate=${requestScope.searchDate}">></a>
+                        </c:if>
                     </c:if>
                     <c:if test = "${requestScope.searchDate == null}">
-                        <a href ="viewsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
+                        <c:if test = "${requestScope.mov != null}">
+                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&mov=${requestScope.mov}">></a>
+                        </c:if>
+                        <c:if test = "${requestScope.mov == null}">
+                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}">></a>
+                        </c:if>
                     </c:if>
                 </div>
                 <div class = "addE">
-                <div>
-                    <a href = "addsche?id=${requestScope.id}"><img src ="images/plusIcon.png"/></a>
-                </div>
+                    <div>
+                        <a href = "addsche?id=${requestScope.id}"><img src ="images/plusIcon.png"/></a>
+                    </div>
 
-            </div>
+                </div>
             </c:if>
         </div>
         <div id = "footer">

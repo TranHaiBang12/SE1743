@@ -373,7 +373,7 @@
                                 <input hidden type ="text" id ="gN" name ="gN" value ="0"/>
                                 <span>Khởi chiếu:  </span><input type ="date" required name ="startdate" placeholder ="${requestScope.data.getStartDate()}"/>
                                 <br/>
-                                <span>Thời lượng:  </span><input type ="text" required name ="time" placeholder ="${requestScope.data.getTime()}"/>
+                                <span>Thời lượng:  </span><input type ="text" required name ="time" placeholder ="${requestScope.data.getTime().intValue()}"/>
                                 <br/>
                                 <span>Ngôn ngữ:  </span><input type ="text" required name ="lang" placeholder ="${requestScope.data.getLanguage()}"/>
                                 <br/>
