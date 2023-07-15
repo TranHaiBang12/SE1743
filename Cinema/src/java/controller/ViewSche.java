@@ -171,6 +171,8 @@ public class ViewSche extends HttpServlet {
                     throw new Exception("Loi");
                 }
             } catch (Exception e) {
+                System.out.println("3");
+                        
                 request.setAttribute("id", id);
                 request.setAttribute("ms", "Không có bất kỳ lịch chiếu nào của bộ phim này trong ngày bạn lựa chọn");
                 request.getRequestDispatcher("viewSche.jsp").forward(request, response);

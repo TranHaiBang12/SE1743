@@ -251,7 +251,7 @@
             </div>
             <div class = "addE">
                 <div>
-                    <a href = "addmov"><img src ="images/plusIcon.png"/></a>
+                    <a href = "addf"><img src ="images/plusIcon.png"/></a>
                 </div>
 
             </div>

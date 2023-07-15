@@ -356,6 +356,10 @@
         <servlet-name>OpenCloseCinema</servlet-name>
         <servlet-class>controller.OpenCloseCinema</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddF</servlet-name>
+        <servlet-class>controller.AddF</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -711,6 +715,10 @@
     <servlet-mapping>
         <servlet-name>OpenCloseCinema</servlet-name>
         <url-pattern>/occ</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddF</servlet-name>
+        <url-pattern>/addf</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

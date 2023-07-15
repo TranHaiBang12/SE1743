@@ -246,12 +246,7 @@
                 </c:forEach>
                 <a href ="listfd?page=${(page + 1) > totalPage?(1):(page+1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}">></a>
             </div>
-            <div class = "addE">
-                <div>
-                    <a href = "addmov"><img src ="images/plusIcon.png"/></a>
-                </div>
-
-            </div>
+     
         </div>
         <div id = "footer">
             <%@include file = "footer.jsp" %>

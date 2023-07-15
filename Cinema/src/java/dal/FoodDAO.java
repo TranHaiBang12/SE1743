@@ -7,6 +7,8 @@ package dal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import model.Cinema;
@@ -36,6 +38,41 @@ public class FoodDAO extends DBContext {
             System.out.println(e);
         }
         return list;
+    }
+    
+    public void insertFood(String productCode, String fd, String tl, String stt, int dis, String img) {
+        try {
+            String sql = "INSERT INTO Food VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, productCode);
+            st.setString(2, fd);
+            st.setString(3, tl);
+            st.setString(4, stt);
+            st.setInt(5, dis);
+            st.setString(6, img);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    public int insertProductFood(double price, double discount) {
+        int id = 0;
+        try {
+            String sql = "INSERT INTO Product VALUES (?, ?, ?)";
+            PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, "FD");
+            st.setDouble(2, discount);
+            st.setDouble(3, price);
+            st.executeUpdate();
+            ResultSet rs = st.getGeneratedKeys();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return id;
     }
     
     public List<Food> getAllAllFood() {
