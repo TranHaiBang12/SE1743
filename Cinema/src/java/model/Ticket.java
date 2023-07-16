@@ -50,6 +50,17 @@ public class Ticket {
         this.row = row;
         this.col = col;
     }
+
+    public Ticket(String productCode, String type, String scheNo, double price, double discount, String status) {
+        this.productCode = productCode;
+        this.type = type;
+        this.scheNo = scheNo;
+        this.price = price;
+        this.discount = discount;
+        this.status = status;
+    }
+    
+    
     
     public Ticket(String productCode, String type, String scheNo, int numberLeft, String status) {
         this.productCode = productCode;

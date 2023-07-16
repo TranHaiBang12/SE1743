@@ -163,7 +163,9 @@
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                                     <a class ="lnk" href="allsche">Danh Sách Lịch Chiếu</a>
                                 </c:if>
-                     
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="allt">Danh Sách Vé</a>
+                                </c:if>
            
 
 

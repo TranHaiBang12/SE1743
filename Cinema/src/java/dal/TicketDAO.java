@@ -59,6 +59,49 @@ public class TicketDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<Ticket> getAllTicket() {
+        List<Ticket> list = new ArrayList<>();
+        try {
+            String sql = "SELECT TickTypeInSche.*, TicketType.ttName, Product.Price, Product.Discout FROM TickTypeInSche JOIN TicketType ON TickTypeInSche.Type = TicketType.ttID JOIN Product ON TickTypeInSche.ProductCode = Product.ProductCode";
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                Ticket t = new Ticket(rs.getString("ProductCode"), rs.getString("ttName"), rs.getString("scheNo"), rs.getDouble("Price"), rs.getDouble("Discout"), rs.getString("Status"));
+                list.add(t);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+    
+    
+    
+    public List<Ticket> getTicketByPage(List<Ticket> t, int start, int end) {
+        List<Ticket> list = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            list.add(t.get(i));
+        }
+        return list;
+    }
+    
+    public Ticket getTicketByCode(String productCode) {
+        try {
+            String sql = "SELECT * FROM TickTypeInSche WHERE ProductCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, productCode);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Ticket t = new Ticket(rs.getString("ProductCode"), rs.getString("Type"), rs.getString("scheNo"), rs.getInt("NumberLeft"), rs.getString("Status"));
+                return t;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 
     public Ticket getTicketBySchedule(String sche, String type) {
         try {

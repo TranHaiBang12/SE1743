@@ -4,6 +4,14 @@
         <servlet-name>allTicket</servlet-name>
         <servlet-class>controller.allTicket</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Upd1Tick</servlet-name>
+        <servlet-class>controller.Upd1Tick</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Del1Tick</servlet-name>
+        <servlet-class>controller.Del1Tick</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>allTicket</servlet-name>
         <url-pattern>/allt</url-pattern>
@@ -735,6 +743,14 @@
     <servlet-mapping>
         <servlet-name>AllSche</servlet-name>
         <url-pattern>/allsche</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Upd1Tick</servlet-name>
+        <url-pattern>/upd1t</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Del1Tick</servlet-name>
+        <url-pattern>/dlt1t</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
