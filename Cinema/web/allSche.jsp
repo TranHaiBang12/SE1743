@@ -400,9 +400,15 @@
                     <label for = "searchDate">Nhập ngày:</label>
                     <input type ="date" name ="searchDate" id ="searchDate"/>
                     <label for = "searchDate">Nhập phim:</label>
-                    <select name ="mov">
+                    <select name ="id">
                         <c:forEach items = "${requestScope.mov}" var = "i">
-                            <option value = "${i.getMovID()}">${i.getMovName()}</option>
+                            <option value = "${i.getMovID()}" ${i.getMovID() == requestScope.id?"selected":""}>${i.getMovName()}</option>
+                        </c:forEach>
+                    </select>
+                    <label for = "searchDate">Nhập Rạp:</label>
+                    <select name ="cin">
+                        <c:forEach items = "${requestScope.cin}" var = "i">
+                            <option value = "${i.getCinID()}" ${i.getCinID() == requestScope.cinID?"selected":""}>${i.getCinName()}</option>
                         </c:forEach>
                     </select>
                     <div class = "searchBar">
@@ -426,6 +432,7 @@
                 <table>
                     <tr class = "ttr">
                         <th class = "first">MÃ LỊCH CHIẾU</th>
+                        <th>PHIM</th>
                         <th>NGÀY CHIẾU</th>
                         <th>GIỜ CHIẾU</th>
                         <th>KIỂU CHIẾU</th><!-- comment -->
@@ -435,9 +442,11 @@
                         <th>GIỜ CHIẾU XONG</th>
                         <th class = "last">VÉ</th>
                     </tr>
+                    
                     <c:forEach items = "${requestScope.s}" var = "i">
                         <tr>
                             <td>${i.getScheNo()}</td>
+                            <td>${i.getMovName()}</td>
                             <td>${i.getStart()}</td>
                             <td>${i.getStartTim()}</td>
                             <td>${i.getFormName()}</td>
@@ -448,9 +457,9 @@
                             <td id ="" class ="tket">
                                 <button type ="button" id = "tick${i.getScheNo()}" onclick ="direct('tick${i.getScheNo()}')" class = "t">VIEW TICKET</button>
 
-                                <button type ="button" id = "sche${i.getScheNo()}" onclick ="directSche('sche${i.getScheNo()}', '${i.isHasSellTick()}')" class = "t">UPDATE SCHEDULE</button>
+                                <button type ="button" id = "sche${i.getScheNo()}" onclick ="directSche('sche${i.getScheNo()}', '${i.isHasSellTick()}')" class = "t">UPDATE</button>
                                 <!-- comment -->
-                                <button type ="button" id = "delsche${i.getScheNo()}" onclick ="directDlt('delsche${i.getScheNo()}', '${requestScope.id}', '${i.isHasSellTick()}')"  class = "t">DELETE SCHEDULE</button>
+                                <button type ="button" id = "delsche${i.getScheNo()}" onclick ="directDlt('delsche${i.getScheNo()}', '${i.getMovID()}', '${i.isHasSellTick()}')"  class = "t">DELETE</button>
                             </td>
                             <c:set var="movName" value="${i.getMovName()}"/>
                             <c:set var="movID" value="${i.getMovID()}"/>
@@ -460,7 +469,7 @@
                 <div class = "pagination">
                     <c:if test = "${requestScope.searchDate != null}">
                         <c:if test = "${requestScope.mov != null}">
-                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&searchDate=${requestScope.searchDate}&mov=${requestScope.mov}"><</a>
+                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&searchDate=${requestScope.searchDate}&id=${requestScope.id}"><</a>
                         </c:if>
                         <c:if test = "${requestScope.mov == null}">
                             <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&searchDate=${requestScope.searchDate}"><</a>
@@ -468,7 +477,7 @@
                     </c:if>
                     <c:if test = "${requestScope.searchDate == null}">
                         <c:if test = "${requestScope.mov != null}">
-                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&mov=${requestScope.mov}"><</a>
+                            <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}&id=${requestScope.id}"><</a>
                         </c:if>
                         <c:if test = "${requestScope.mov == null}">
                             <a href ="allsche?page=${(page - 1) < 1?(1):(page-1)}"><</a>
@@ -477,7 +486,7 @@
                     <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
                         <c:if test = "${requestScope.searchDate != null}">
                             <c:if test = "${requestScope.mov != null}">
-                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&searchDate=${requestScope.searchDate}&mov=${requestScope.mov}">${i}</a>
+                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&searchDate=${requestScope.searchDate}&id=${requestScope.id}">${i}</a>
                             </c:if>
                             <c:if test = "${requestScope.mov == null}">
                                 <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&searchDate=${requestScope.searchDate}">${i}</a>
@@ -485,7 +494,7 @@
                         </c:if>
                         <c:if test = "${requestScope.searchDate == null}">
                             <c:if test = "${requestScope.mov != null}">
-                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&mov=${requestScope.mov}">${i}</a>
+                                <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}&id=${requestScope.id}">${i}</a>
                             </c:if>
                             <c:if test = "${requestScope.mov == null}">
                                 <a class ="${i == page ? "active":"noActive"}" href ="allsche?page=${i}">${i}</a>
@@ -494,7 +503,7 @@
                     </c:forEach>
                     <c:if test = "${requestScope.searchDate != null}">
                         <c:if test = "${requestScope.mov != null}">
-                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&searchDate=${requestScope.searchDate}&mov=${requestScope.mov}">></a>
+                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&searchDate=${requestScope.searchDate}&id=${requestScope.id}">></a>
                         </c:if>
                         <c:if test = "${requestScope.mov == null}">
                             <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&searchDate=${requestScope.searchDate}">></a>
@@ -502,7 +511,7 @@
                     </c:if>
                     <c:if test = "${requestScope.searchDate == null}">
                         <c:if test = "${requestScope.mov != null}">
-                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&mov=${requestScope.mov}">></a>
+                            <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}&id=${requestScope.id}">></a>
                         </c:if>
                         <c:if test = "${requestScope.mov == null}">
                             <a href ="allsche?page=${(page + 1) > totalPage?(1):(page+1)}">></a>
@@ -511,7 +520,7 @@
                 </div>
                 <div class = "addE">
                     <div>
-                        <a href = "addsche?id=${requestScope.id}"><img src ="images/plusIcon.png"/></a>
+                        <a href = "addsche?id=${requestScope.mov}"><img src ="images/plusIcon.png"/></a>
                     </div>
 
                 </div>

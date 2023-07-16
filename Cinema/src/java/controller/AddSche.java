@@ -321,7 +321,6 @@ public class AddSche extends HttpServlet {
                 }
             } else {
                 String id_raw = request.getParameter("id");
-                System.out.println(id_raw);
                 List<Schedule> s = new ArrayList<>();
                 ScheDAO sd = new ScheDAO();
                 int id = 0;

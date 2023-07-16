@@ -116,15 +116,15 @@ public class AllSche extends HttpServlet {
             System.out.println(s.size());
             CinemaDAO cnd = new CinemaDAO();
             MovieDAO mvd = new MovieDAO();
-
             if (s.isEmpty()) {
                 request.setAttribute("ms", "Hiện chưa có bất kỳ lịch chiếu nào của bộ phim này");
+                request.setAttribute("cin", cnd.getAllCinema());
+                request.setAttribute("mov", mvd.getAllAllMovies());
                 request.getRequestDispatcher("allSche.jsp").forward(request, response);
             } else {
+
                 request.setAttribute("mov", mvd.getAllAllMovies());
-                for (int i = 0; i < mvd.getAllAllMovies().size(); i++) {
-                    System.out.println(mvd.getAllAllMovies().get(i).getMovID());
-                }
+                request.setAttribute("cin", cnd.getAllCinema());
                 request.setAttribute("s", sd.getScheduleByPage(s, start, end));
                 request.setAttribute("totalPage", totalPage);
                 request.setAttribute("page", page);
@@ -146,13 +146,21 @@ public class AllSche extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getParameter("searchDate") != null && !request.getParameter("searchDate").equals("") && (request.getParameter("id") == null || request.getParameter("id").equals(""))) {
-
+            String cin_raw = request.getParameter("cin");
+            int cin = 0;
+            if (cin_raw != null) {
+                try {
+                    cin = Integer.parseInt(cin_raw);
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+            }
             String date_raw = request.getParameter("searchDate");
             Date date = Date.valueOf(date_raw);
             List<Schedule> s = new ArrayList<>();
             ScheDAO sd = new ScheDAO();
 
-            s = sd.getAllScheduleByDate(date);
+            s = sd.getAllScheduleByDateAC(date, cin);
 
             List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
             for (int i = 0; i < s.size(); i++) {
@@ -199,35 +207,54 @@ public class AllSche extends HttpServlet {
             int start = (page - 1) * numPerPage;
             int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
             CinemaDAO cnd = new CinemaDAO();
-            System.out.println("31313");
+            MovieDAO mvd = new MovieDAO();
             if (s.isEmpty()) {
+                request.setAttribute("cin", cnd.getAllCinema());
                 request.setAttribute("ms", "Hiện chưa có bất kỳ lịch chiếu nào của bộ phim này");
+                request.setAttribute("mov", mvd.getAllAllMovies());
                 request.getRequestDispatcher("allSche.jsp").forward(request, response);
             } else {
+                request.setAttribute("cinID", cin);
+                request.setAttribute("cin", cnd.getAllCinema());
                 request.setAttribute("searchDate", date);
+                request.setAttribute("mov", mvd.getAllAllMovies());
                 request.setAttribute("s", sd.getScheduleByPage(s, start, end));
                 request.setAttribute("totalPage", totalPage);
                 request.setAttribute("page", page);
                 request.setAttribute("cin", cnd.getAllCinema());
                 request.getRequestDispatcher("allSche.jsp").forward(request, response);
             }
+        } else if (request.getParameter("searchDate") != null && (request.getParameter("id") == null || request.getParameter("id").equals(""))) {
+            MovieDAO mvd = new MovieDAO();
+            CinemaDAO cnd = new CinemaDAO();
+            request.setAttribute("cin", cnd.getAllCinema());
+            request.setAttribute("mov", mvd.getAllAllMovies());
+            request.getRequestDispatcher("allSche.jsp").forward(request, response);
         } else if (request.getParameter("searchDate") != null && !request.getParameter("searchDate").equals("") && (!request.getParameter("id").equals(""))) {
-
             String date_raw = request.getParameter("searchDate");
             Date date = Date.valueOf(date_raw);
             List<Schedule> s = new ArrayList<>();
             ScheDAO sd = new ScheDAO();
-            
-            String id_raw = request.getParameter("mov");
+
+            String id_raw = request.getParameter("id");
             int id = 0;
             try {
                 id = Integer.parseInt(id_raw);
             } catch (Exception e) {
                 request.getRequestDispatcher("error.jsp").forward(request, response);
             }
+            
+            String cin_raw = request.getParameter("cin");
+            int cin = 0;
+            if(cin_raw != null) {
+                try {
+                    cin = Integer.parseInt(cin_raw);
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+            }
 
-            s = sd.getAllScheduleByDateAMov(date, id);
-
+            s = sd.getAllScheduleByDateAMovAC(date, id, cin);
             List<String> scheHasTicket = sd.getAllScheduleHaveTicket();
             for (int i = 0; i < s.size(); i++) {
                 s.get(i).setHasTick(false);
@@ -273,12 +300,18 @@ public class AllSche extends HttpServlet {
             int start = (page - 1) * numPerPage;
             int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
             CinemaDAO cnd = new CinemaDAO();
-            System.out.println("31313");
             if (s.isEmpty()) {
+                MovieDAO mvd = new MovieDAO();
+                request.setAttribute("cin", cnd.getAllCinema());
+                request.setAttribute("mov", mvd.getAllAllMovies());
                 request.setAttribute("ms", "Hiện chưa có bất kỳ lịch chiếu nào của bộ phim này");
                 request.getRequestDispatcher("allSche.jsp").forward(request, response);
             } else {
-                request.setAttribute("mov", id);
+                MovieDAO mvd = new MovieDAO();
+                request.setAttribute("id", id);
+                request.setAttribute("cinID", cin);
+                request.setAttribute("cin", cnd.getAllCinema());
+                request.setAttribute("mov", mvd.getAllAllMovies());
                 request.setAttribute("searchDate", date);
                 request.setAttribute("s", sd.getScheduleByPage(s, start, end));
                 request.setAttribute("totalPage", totalPage);
@@ -287,6 +320,8 @@ public class AllSche extends HttpServlet {
                 request.getRequestDispatcher("allSche.jsp").forward(request, response);
             }
 
+        } else {
+            response.sendRedirect("allsche");
         }
 
     }

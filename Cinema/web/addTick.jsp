@@ -399,8 +399,12 @@
                 color: red;
                 margin-right: 300px;
             }
+            
+            .body{
+                margin: 0px;
+            }
             .ttle{
-                margin-top: 60px;
+                padding-top: 60px;
             }
 
         </style>

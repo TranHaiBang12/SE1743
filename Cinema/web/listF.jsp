@@ -432,11 +432,12 @@
                     <th class = "first">MÃ</th><!-- comment -->
                     <th>TÊN</th>
                     <th>LOẠI</th>
-
-                    <th>GIÁ</th>
-                    <th>KHUYẾN MẠI</th>
                     <th>TÌNH TRẠNG</th>
                     <th>KHÔNG TIẾP TỤC</th>
+                    
+                    <th>GIÁ</th>
+                    <th>KHUYẾN MẠI</th>
+                    
                     <th class = "last">HÀNH ĐỘNG</th>
                 </tr>
                 <c:forEach items = "${requestScope.listPerPage}" var = "i">
@@ -446,7 +447,7 @@
                         <td>${i.getTypeName()}</td>
                         <td>${i.getStatus()}</td>
                         <td>${i.getDiscontinued()}</td>
-                        <td class = "rd">${i.getPrice()}đ</td>
+                        <td class = "rd">${i.getPrice().intValue()}đ</td>
                         <td class = "rd">${i.getDiscount()}%</td><!-- <td></td> -->
                         <td>
                             <a href = "updf?id=${i.getProductCode()}"><button type = "button">UPDATE</button></a>
