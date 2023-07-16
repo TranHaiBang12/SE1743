@@ -265,12 +265,12 @@ public class EmployeeDAO extends DBContext {
     public List<Employee> getAllEmployee() {
         List<Employee> list = new ArrayList<>();
         try {
-            String sql = "SELECT Employee.*, Acc.Role, Acc.Password FROM Employee JOIN Acc ON Employee.Account = Acc.UserName";
+            String sql = "SELECT Employee.*, Acc.Role, Acc.Password, Acc.Active FROM Employee JOIN Acc ON Employee.Account = Acc.UserName";
             PreparedStatement st = connection.prepareStatement(sql);
             CinemaDAO cnd = new CinemaDAO();
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"), rs.getString("Account"), rs.getInt("Role"), rs.getString("Password"), cnd.getCinemaByID(rs.getInt("cinID")).getCinName());
+                Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"), rs.getString("Account"), rs.getInt("Role"), rs.getString("Password"), cnd.getCinemaByID(rs.getInt("cinID")).getCinName(), rs.getInt("Active"));
                 list.add(e);
             }
         } catch (Exception e) {
@@ -393,7 +393,7 @@ public class EmployeeDAO extends DBContext {
             st.setString(1, cccd);
             st.setInt(2, empID);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"));
                 return e;
             }
@@ -402,7 +402,7 @@ public class EmployeeDAO extends DBContext {
         }
         return null;
     }
-    
+
     public void deleteEmp(int id) {
         try {
             String sql = "DELETE FROM Employee WHERE EmpID = ?";
@@ -413,7 +413,7 @@ public class EmployeeDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public List<Employee> getEmpByCin(int cinID) {
         List<Employee> list = new ArrayList<>();
         try {
@@ -431,22 +431,20 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
-    
+
     public List<Employee> getEmpByCinAD(int cinID, Date dS, Date eS) {
         List<Employee> list = new ArrayList<>();
         System.out.println(cinID);
         try {
-            String sql = "SELECT Employee.*, Acc.Role, Acc.Password FROM Employee JOIN Acc ON Employee.Account = Acc.UserName WHERE cinID = ? AND (HiredDate BETWEEN ? AND ?)";
+            String sql = "SELECT Employee.*, Acc.Role, Acc.Password, Acc.Active FROM Employee JOIN Acc ON Employee.Account = Acc.UserName WHERE cinID = ? AND (HiredDate BETWEEN ? AND ?)";
             PreparedStatement st = connection.prepareStatement(sql);
             CinemaDAO cnd = new CinemaDAO();
-            
-            System.out.println(cinID);
             st.setInt(1, cinID);
             st.setDate(2, dS);
             st.setDate(3, eS);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"), rs.getString("Account"), rs.getInt("Role"), rs.getString("Password"), cnd.getCinemaByID(rs.getInt("cinID")).getCinName());
+                Employee e = new Employee(rs.getInt("EmpID"), rs.getString("LastName"), rs.getString("FirstName"), rs.getString("Gender"), rs.getDate("Dob").toString(), rs.getString("Address"), rs.getString("CCCD"), rs.getString("Phone"), rs.getString("Email"), rs.getDate("HiredDate").toString(), rs.getString("Position"), rs.getInt("cinID"), rs.getInt("ManagerID"), rs.getString("Img"), rs.getDouble("Salary"), rs.getString("Account"), rs.getInt("Role"), rs.getString("Password"), cnd.getCinemaByID(rs.getInt("cinID")).getCinName(), rs.getInt("Active"));
                 list.add(e);
             }
         } catch (Exception e) {
@@ -456,6 +454,21 @@ public class EmployeeDAO extends DBContext {
         return list;
     }
     
+    public String getAccountByEmpID(int id) {
+        try {
+            String sql = "SELECT * FROM Employee WHERE EmpID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                return rs.getString("Account");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public int getNumEmpByCin(int cinID, Date dS, Date eS) {
         try {
             String sql = "SELECT COUNT(*) AS T FROM Employee WHERE cinID = ? AND (HiredDate BETWEEN ? AND ?)";
@@ -464,7 +477,7 @@ public class EmployeeDAO extends DBContext {
             st.setDate(2, dS);
             st.setDate(3, eS);
             ResultSet rs = st.executeQuery();
-            if(rs.next()) {
+            if (rs.next()) {
                 return rs.getInt("T");
             }
         } catch (Exception e) {

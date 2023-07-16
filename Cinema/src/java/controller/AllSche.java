@@ -113,7 +113,6 @@ public class AllSche extends HttpServlet {
 
             int start = (page - 1) * numPerPage;
             int end = (page * numPerPage > s.size()) ? (s.size() - 1) : (page * numPerPage - 1);
-            System.out.println(s.size());
             CinemaDAO cnd = new CinemaDAO();
             MovieDAO mvd = new MovieDAO();
             if (s.isEmpty()) {

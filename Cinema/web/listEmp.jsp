@@ -354,6 +354,7 @@
                         <th>GIỚI TÍNH</th>
                         <th>VỊ TRÍ CÔNG VIỆC</th>
                         <th>RẠP LÀM VIỆC</th>
+                        <th>TÌNH TRẠNG</th>
                         <th class = "last">ACTION</th>
                     </tr>
                     <c:forEach items = "${requestScope.listE}" var = "i">
@@ -364,6 +365,7 @@
                             <td>${i.getGender()}</td>
                             <td>${i.getPosition()}</td><!-- comment -->
                             <td>${i.getCinName()}</td>
+                            <td>${i.getActive()}</td>
                             <td>
                                 <a href = "empdt?id=${i.getEmpID()}"><button type ="button">XEM CHI TIẾT</button></a>
 
@@ -371,7 +373,12 @@
                                 <a href = "emprp?id=${i.getEmpID()}"><button type ="button">XEM BÁO CÁO</button></a>
 
                                 
-                                <button type ="button" class ="dlt" onclick = "dlt('${i.getEmpID()}')">XÓA</button>
+                                <c:if test = "${i.getActive() == 1}">
+                                <a  onclick="act('${i.getEmpID()}', '${i.getActive()}')"><button>ẨN</button></a>
+                            </c:if>
+                            <c:if test = "${i.getActive() == 0}">
+                                <a  onclick="act('${i.getEmpID()}', '${i.getActive()}')"><button>BỎ ẨN</button></a>
+                            </c:if>
                             </td>
                         </tr>
                     </c:forEach>
@@ -391,6 +398,20 @@
             function dlt(id) {
                 if (confirm("Bạn có chắc muốn xóa nhân viên với id = " + id)) {
                     window.location = "dele?id=" + id;
+                }
+            }
+        </script>
+        <script type="text/javascript">
+
+            
+            function act(id, stt) {
+                if (confirm("Bạn có muốn thay đổi trạng thái ẩn của tài khoản này")) {
+                    if (Number(stt) === 1) {
+                        window.location = "deact?id=" + id + "&stt=" + 0;
+                    }
+                    else if (Number(stt) === 0) {
+                        window.location = "deact?id=" + id + "&stt=" + 1;
+                    }
                 }
             }
         </script>

@@ -31,6 +31,8 @@ public class Employee {
     private String password;
     private String cinName;
     private String roleName;
+    
+    private int active;
 
     public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary) {
         this.empID = empID;
@@ -94,10 +96,43 @@ public class Employee {
         this.password = password;
         this.cinName = cinName;
     }
+    
+    public Employee(int empID, String lastName, String firstName, String gender, String dob, String address, String cccd, String phone, String email, String hiredDate, String position, int cinID, int managerID, String img, double salary, String username, int role, String password, String cinName, int active) {
+        this.empID = empID;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.gender = gender;
+        this.dob = dob;
+        this.address = address;
+        this.cccd = cccd;
+        this.phone = phone;
+        this.email = email;
+        this.hiredDate = hiredDate;
+        this.position = position;
+        this.cinID = cinID;
+        this.managerID = managerID;
+        this.img = img;
+        this.salary = salary;
+        this.username = username;
+        this.role = role;
+        this.password = password;
+        this.cinName = cinName;
+        this.active = active;
+    }
+    
+    
 
     public Employee(int role, String roleName) {
         this.role = role;
         this.roleName = roleName;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     
