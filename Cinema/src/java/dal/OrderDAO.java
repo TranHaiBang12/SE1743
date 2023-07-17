@@ -96,6 +96,22 @@ public class OrderDAO extends DBContext {
         }
         return list;
     }
+    
+    public List<OrderOnlByDate> getOrderByPage(List<OrderOnlByDate> t, int start, int end) {
+        List<OrderOnlByDate> list = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            list.add(t.get(i));
+        }
+        return list;
+    }
+    
+    public List<OrderOffByDate> getOrderOffByPage(List<OrderOffByDate> t, int start, int end) {
+        List<OrderOffByDate> list = new ArrayList<>();
+        for (int i = start; i < end; i++) {
+            list.add(t.get(i));
+        }
+        return list;
+    }
 
     public List<OrderOnl> getAllOrderOnlByUserName(String userName) {
         List<OrderOnl> list = new ArrayList<>();

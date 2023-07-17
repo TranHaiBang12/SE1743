@@ -377,6 +377,9 @@
                         <div><!-- comment -->
                             <a href = "addmov"><input type ="button" class ="t"  value ="ADD AGAIN"/></a>
                         </div>
+                        <div><!-- comment -->
+                            <a href = "listMV"><input type ="button" class ="t"  value ="SEE LIST"/></a>
+                        </div>
                     </div>
                 </div>
             </c:if>

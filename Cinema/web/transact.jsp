@@ -140,6 +140,227 @@
 
             .choice{
             }
+            
+            table{
+                margin-top: 20px;
+                margin: 0 auto;
+                border: 2px solid black;
+                border-radius: 12px;
+                border-spacing: 0px;
+            }
+
+            tr{
+                border-bottom: 2px solid black;
+            }
+
+            td{
+                padding: 20px;
+            }
+            th{
+                padding: 20px;
+                border-bottom: 2px solid black;
+            }
+
+            .th{
+
+            }
+
+            .ttr{
+                background-color: crimson;
+                color: white;
+            }
+
+            tr{
+                border-bottom: 2px solid black;
+            }
+
+            .m img{
+                width: 100px;
+            }
+
+            td{
+                border-bottom: 1px solid black;
+            }
+
+            td a{
+                text-decoration: none;
+                color: black;
+            }
+
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+
+            .dlt{
+                cursor: pointer;
+            }
+
+            .dteS{
+                display: flex;
+                justify-content: center;
+                font-size: 19px;
+                margin-bottom: 20px;
+            }
+
+            .dteS div{
+                margin-right: 15px;
+            }
+
+            .blk{
+                font-weight: bold;
+            }
+
+            .rd{
+                color: red;
+            }
+
+            .ms{
+                font-weight: bold;
+                color: red;
+                font-size: 25px;
+                text-align: center;
+            }
+
+            .ttle{
+                text-align: center;
+                padding-top: 40px;
+                font-size: 27px;
+                font-weight: bold;
+                margin-bottom: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
+            }
+            .body{
+                padding-top: 40px;
+                padding-left: 90px;
+                padding-right: 110px;
+            }
+
+            table{
+                width: 100%;
+
+            }
+
+            .k{
+                padding: 0px;
+                width: 150px;
+                height: 270px;
+            }
+            .k img{
+                width: 100%;
+                height: 100%;
+            }
+
+
+            .blk{
+                font-weight: bold;
+            }
+
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+
+            button{
+                margin-bottom: 20px;
+                font-size: 15px;
+                padding: 5px;
+                width: 80%;
+                border-radius: 12px;
+                cursor: pointer;
+                background-color: red;
+                color: #faebee;
+            }
+
+            button:hover{
+                color:white;
+                background-color: red;
+            }
+
+            .ms{
+                margin-bottom: 20px;
+            }
+
+            th{
+                padding-left: 20px;
+                margin-left: 0px;
+                text-align: left;
+            }
+
+            td{
+                text-align: left;
+                font-size: 18px;
+                padding-left: 20px;
+            }
+
+            tr:hover{
+                background-color: rgba(70,70,70,0.2);
+            }
+
+            .ttr:hover{
+                background-color: crimson;
+
+            }
+
+            .ttr{
+
+                border: 1px solid crimson;
+                border-radius: 12px;
+                padding: 5px;
+                background-color: crimson;
+            }
+
+            .first{
+                border-left: 1px solid black;
+                border-radius: 12px 0px 0px 0px;
+            }
+
+            .last{
+                border-right: 1px solid black;
+                border-radius: 0px 12px 0px 0px;
+            }
+
+            th{
+                border: none;
+                border-bottom: 1px solid black;
+            }
+
+            td{
+                border: none;
+                border-bottom: 1px solid black;
+            }
+            
+            .oDate{
+                margin-bottom: 20px;
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
@@ -165,13 +386,13 @@
                                   <div class = "outsiteO">
                                       <div class = "oDate">${i.getDate()}</div>
                                       <table>
-                                          <tr>
-                                              <th>MÃ HÓA ĐƠN</th>
+                                          <tr class = "ttr">
+                                              <th class = "first">MÃ HÓA ĐƠN</th>
                                               <th>KIỂU THANH TOÁN</th>
                                               <th>NGÀY THANH TOÁN</th>
                                               <th>THỜI GIAN THANH TOÁN</th>
                                               <th>TỔNG TIỀN</th>
-                                              <th>XEM CHI TIẾT</th>
+                                              <th class = "last">XEM CHI TIẾT</th>
                                           </tr>
                                           <c:forEach items = "${i.getO()}" var = "k">
                                               <tr>
@@ -180,7 +401,7 @@
                                                   <td>${k.getPaymentDate()}</td>
                                                   <td>${k.getPaymentTime()}</td>
                                                   <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
-                                                  <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/></td>
+                                                  <td><button type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')">XEM CHI TIẾT</button></td>
                                               </tr>
                                           </c:forEach>
                                       </table>
@@ -199,13 +420,13 @@
                                   <div class = "outsiteO">
                                       <div class = "oDate">${j.getDate()}</div>
                                       <table>
-                                          <tr>
-                                              <th>MÃ HÓA ĐƠN</th>
+                                          <tr class = "ttr">
+                                              <th class = "first">MÃ HÓA ĐƠN</th>
                                               <th>KIỂU THANH TOÁN</th>
                                               <th>NGÀY THANH TOÁN</th>
                                               <th>THỜI GIAN THANH TOÁN</th>
                                               <th>TỔNG TIỀN</th>
-                                              <th>XEM CHI TIẾT</th>
+                                              <th class = "last">XEM CHI TIẾT</th>
                                           </tr>
 
 
@@ -216,7 +437,7 @@
                                                   <td>${q.getPaymentDate()}</td>
                                                   <td>${q.getPaymentTime()}</td>
                                                   <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
-                                                  <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
+                                                  <td><button type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')">XEM CHI TIẾT</button></td>
                                               </tr>
                                           </c:forEach>
 

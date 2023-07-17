@@ -128,7 +128,7 @@
             #tt{
                 display: none;
             }
-            
+
             .ms{
                 text-align: center;
                 margin-top: 40px;
@@ -136,9 +136,230 @@
                 font-size: 30px;
                 color: red;
             }
-            
+
             .body{
                 padding-top: 40px;
+            }
+            
+            table{
+                margin-top: 20px;
+                margin: 0 auto;
+                border: 2px solid black;
+                border-radius: 12px;
+                border-spacing: 0px;
+            }
+
+            tr{
+                border-bottom: 2px solid black;
+            }
+
+            td{
+                padding: 20px;
+            }
+            th{
+                padding: 20px;
+                border-bottom: 2px solid black;
+            }
+
+            .th{
+
+            }
+
+            .ttr{
+                background-color: crimson;
+                color: white;
+            }
+
+            tr{
+                border-bottom: 2px solid black;
+            }
+
+            .m img{
+                width: 100px;
+            }
+
+            td{
+                border-bottom: 1px solid black;
+            }
+
+            td a{
+                text-decoration: none;
+                color: black;
+            }
+
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+
+            .dlt{
+                cursor: pointer;
+            }
+
+            .dteS{
+                display: flex;
+                justify-content: center;
+                font-size: 19px;
+                margin-bottom: 20px;
+            }
+
+            .dteS div{
+                margin-right: 15px;
+            }
+
+            .blk{
+                font-weight: bold;
+            }
+
+            .rd{
+                color: red;
+            }
+
+            .ms{
+                font-weight: bold;
+                color: red;
+                font-size: 25px;
+                text-align: center;
+            }
+
+            .ttle{
+                text-align: center;
+                padding-top: 40px;
+                font-size: 27px;
+                font-weight: bold;
+                margin-bottom: 40px;
+                text-shadow: 10px 10px 5px #666666;
+                color: brown
+            }
+            .body{
+                padding-top: 40px;
+                padding-left: 90px;
+                padding-right: 110px;
+            }
+
+            table{
+                width: 100%;
+
+            }
+
+            .k{
+                padding: 0px;
+                width: 150px;
+                height: 270px;
+            }
+            .k img{
+                width: 100%;
+                height: 100%;
+            }
+
+
+            .blk{
+                font-weight: bold;
+            }
+
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+
+            button{
+                margin-bottom: 20px;
+                font-size: 15px;
+                padding: 5px;
+                width: 80%;
+                border-radius: 12px;
+                cursor: pointer;
+                background-color: red;
+                color: #faebee;
+            }
+
+            button:hover{
+                color:white;
+                background-color: red;
+            }
+
+            .ms{
+                margin-bottom: 20px;
+            }
+
+            th{
+                padding-left: 20px;
+                margin-left: 0px;
+                text-align: left;
+            }
+
+            td{
+                text-align: left;
+                font-size: 18px;
+                padding-left: 20px;
+            }
+
+            tr:hover{
+                background-color: rgba(70,70,70,0.2);
+            }
+
+            .ttr:hover{
+                background-color: crimson;
+
+            }
+
+            .ttr{
+
+                border: 1px solid crimson;
+                border-radius: 12px;
+                padding: 5px;
+                background-color: crimson;
+            }
+
+            .first{
+                border-left: 1px solid black;
+                border-radius: 12px 0px 0px 0px;
+            }
+
+            .last{
+                border-right: 1px solid black;
+                border-radius: 0px 12px 0px 0px;
+            }
+
+            th{
+                border: none;
+                border-bottom: 1px solid black;
+            }
+
+            td{
+                border: none;
+                border-bottom: 1px solid black;
+            }
+            
+            .oDate{
+                margin-bottom: 20px;
+                margin-top: 20px;
             }
         </style>
     </head>
@@ -147,141 +368,148 @@
             <%@include file = "header.jsp" %>
         </div>
         <div class = "body">
-                        <div class = "choice">
-                            <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">MUA QUA WEB</div>
-                            <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">MUA TRỰC TIẾP</div>
+            <div class = "choice">
+                <div id ="tkEtChoice" class = "tkEtChoice" onclick = "bActive('tkEtChoice')">MUA QUA WEB</div>
+                <div id ="foodChoi" class = "foodChoi" onclick = "bActive('foodChoi')">MUA TRỰC TIẾP</div>
 
-                        </div>
-                        <div id ="web">
-                            <c:if test = "${requestScope.msONL == null}">
-                                <c:forEach items = "${requestScope.listOBD}" var = "i">
-                                    <div class = "outsiteO">
-                                        <div class = "oDate">${i.getDate()}</div>
-                                        <table>
-                                            <tr>
-                                                <th>MÃ HÓA ĐƠN</th>
-                                                <th>KIỂU THANH TOÁN</th>
-                                                <th>NGÀY THANH TOÁN</th>
-                                                <th>THỜI GIAN THANH TOÁN</th>
-                                                <th>TỔNG TIỀN</th>
-                                                <th>HÀNH ĐỘNG</th>
-                                            </tr>
-                                            <c:forEach items = "${i.getO()}" var = "k">
-                                                <tr>
-                                                    <td>${k.getOrderID()}</td>
-                                                    <td>${k.getPaymentType()}</td><!-- <td></td> -->
-                                                    <td>${k.getPaymentDate()}</td>
-                                                    <td>${k.getPaymentTime()}</td>
-                                                    <td><span class = "rd">${k.getTotalAmount()}đ</span></td>
-                                                    <td>
-                                                        <input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${k.getOrderID()}')"/>
-                                                        
-                                                        <input type ="button" value = "XÓA"/>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
-                                    </div>
+            </div>
+            <div id ="web">
+                <c:if test = "${requestScope.msONL == null}">
+                    <c:forEach items = "${requestScope.listOBD}" var = "i">
+                        <div class = "outsiteO">
+                            <div class = "oDate">${i.getDate()}</div>
+                            <table>
+                                <tr class = "ttr">
+                                    <th class = "first">MÃ HÓA ĐƠN</th>
+                                    <th>KIỂU THANH TOÁN</th>
+                                    <th>NGÀY THANH TOÁN</th>
+                                    <th>THỜI GIAN THANH TOÁN</th>
+                                    <th>TỔNG TIỀN</th>
+                                    <th class = "last">HÀNH ĐỘNG</th>
+                                </tr>
+                                <c:forEach items = "${i.getO()}" var = "k">
+                                    <tr>
+                                        <td>${k.getOrderID()}</td>
+                                        <td>${k.getPaymentType()}</td><!-- <td></td> -->
+                                        <td>${k.getPaymentDate()}</td>
+                                        <td>${k.getPaymentTime()}</td>
+                                        <td><span class = "rd">${k.getTotalAmount().intValue()}đ</span></td>
+                                        <td>
+                                            <button onclick = "in4detail('${k.getOrderID()}')">XEM CHI TIẾT</button>
+
+                                            <button >XÓA</button>
+                                        </td>
+                                    </tr>
                                 </c:forEach>
-                            </c:if>
-                            <c:if test = "${requestScope.msONL != null}">
-                                <div class = "ms">
-                                    ${requestScope.msONL}
-                                </div>
-                            </c:if>
+                            </table>
                         </div>
-                        <div id = "tt">
-                            <c:if test = "${requestScope.msOFF == null}">
-                                <c:forEach items = "${requestScope.listOFBD}" var = "j">
-                                    <div class = "outsiteO">
-                                        <div class = "oDate">${j.getDate()}</div>
-                                        <table>
-                                            <tr>
-                                                <th>MÃ HÓA ĐƠN</th>
-                                                <th>KIỂU THANH TOÁN</th>
-                                                <th>NGÀY THANH TOÁN</th>
-                                                <th>THỜI GIAN THANH TOÁN</th>
-                                                <th>TỔNG TIỀN</th>
-                                                <th>XEM CHI TIẾT</th>
-                                            </tr>
+                    </c:forEach>
+                </c:if>
+                <c:if test = "${requestScope.msONL != null}">
+                    <div class = "ms">
+                        ${requestScope.msONL}
+                    </div>
+                </c:if>
+            </div>
+            <div id = "tt">
+                <c:if test = "${requestScope.msOFF == null}">
+                    <c:forEach items = "${requestScope.listOFBD}" var = "j">
+                        <div class = "outsiteO">
+                            <div class = "oDate">${j.getDate()}</div>
+                            <table>
+                                <tr class = "ttr">
+                                    <th class = "first">MÃ HÓA ĐƠN</th>
+                                    <th>KIỂU THANH TOÁN</th>
+                                    <th>NGÀY THANH TOÁN</th>
+                                    <th>THỜI GIAN THANH TOÁN</th>
+                                    <th>TỔNG TIỀN</th>
+                                    <th class = "last">XEM CHI TIẾT</th>
+                                </tr>
 
 
-                                            <c:forEach items = "${j.getOf()}" var = "q">
-                                                <tr>
-                                                    <td>${q.getOrderID()}</td>
-                                                    <td>${q.getPaymentType()}</td>
-                                                    <td>${q.getPaymentDate()}</td>
-                                                    <td>${q.getPaymentTime()}</td>
-                                                    <td><span class = "rd">${q.getTotalAmount()}đ</span></td>
-                                                    <td><input type ="button" value = "XEM CHI TIẾT"onclick = "in4detail('${q.getOrderID()}')"/></td>
-                                                </tr>
-                                            </c:forEach>
-
-                                        </table>
-                                    </div>
+                                <c:forEach items = "${j.getOf()}" var = "q">
+                                    <tr>
+                                        <td>${q.getOrderID()}</td>
+                                        <td>${q.getPaymentType()}</td>
+                                        <td>${q.getPaymentDate()}</td>
+                                        <td>${q.getPaymentTime()}</td>
+                                        <td><span class = "rd">${q.getTotalAmount().intValue()}đ</span></td>
+                                        <td><button type ="button" onclick = "in4detail('${q.getOrderID()}')">XEM CHI TIẾT</button></td>
+                                    </tr>
                                 </c:forEach>
-                            </c:if>
-                            <c:if test = "${requestScope.msOFF != null}">
-                                <div class = "ms">
-                                    ${requestScope.msOFF}
-                                </div>
-                            </c:if>
-                        </div>
-                        <!--
-                        private String orderID;
-                private String userName;
-                private String firstName;
-                private String lastName;
-                private String phone;
-                private String email;
-                private String country;
-                private String street;
-                private String district;
-                private String city;
-                private String paymentType;
-                private Date paymentDate;
-                private Time paymentTime;
-                        <div class = "trsct">
-                            <div class = "ve"></div>
-                            <div class = "doan"></div>
-                        </div>
-                        -->
 
+                            </table>
                         </div>
-                        <div id = "footer">
-                            <%@include file = "footer.jsp" %>
-                        </div>
-                        <script type = "text/javascript">
-                            function in4detail(id) {
-                                window.location = "info?id=" + id;
-                            }
+                    </c:forEach>
+                </c:if>
+                <c:if test = "${requestScope.msOFF != null}">
+                    <div class = "ms">
+                        ${requestScope.msOFF}
+                    </div>
+                </c:if>
+                <div class = "pagination">
+                    <a href ="ordr?p=1&page=${(page - 1) < 1?(1):(page-1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}"><</a>
+                    <c:forEach begin = "${1}" end = "${totalPage}" var = "i">
+                        <a class ="${i == page ? "active":"noActive"}" href ="ordr?p=1&page=${i}&type=${requestScope.type}&key=${requestScope.key}">${i}</a>
+                    </c:forEach>
+                    <a href ="ordr?p=1&page=${(page + 1) > totalPage?(1):(page+1)}&type=${requestScope.type != null ?requestScope.type:""}&key=${requestScope.key?requestScope.key:""}">></a>
+                </div>
+            </div>
+            <!--
+            private String orderID;
+    private String userName;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String email;
+    private String country;
+    private String street;
+    private String district;
+    private String city;
+    private String paymentType;
+    private Date paymentDate;
+    private Time paymentTime;
+            <div class = "trsct">
+                <div class = "ve"></div>
+                <div class = "doan"></div>
+            </div>
+            -->
 
-                            function bActive(id) {
-                                if (id === "tkEtChoice") {
-                                    document.getElementById(id).style.color = 'white';
-                                    document.getElementById(id).style.backgroundColor = 'black';
-                                    document.getElementById("foodChoi").style.color = 'black';
-                                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                                    document.getElementById("web").style.display = 'block';
-                                    document.getElementById("tt").style.display = 'none';
-                                } else if (id === "foodChoi") {
-                                    document.getElementById(id).style.color = 'white';
-                                    document.getElementById(id).style.backgroundColor = 'black';
+        </div>
+        <div id = "footer">
+            <%@include file = "footer.jsp" %>
+        </div>
+        <script type = "text/javascript">
+            function in4detail(id) {
+                window.location = "info?id=" + id;
+            }
 
-                                    document.getElementById("tkEtChoice").style.color = 'black';
-                                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
-                                    document.getElementById("tt").style.display = 'block';
-                                    document.getElementById("web").style.display = 'none';
-                                } else {
-                                    document.getElementById(id).style.color = 'white';
-                                    document.getElementById(id).style.backgroundColor = 'black';
-                                    document.getElementById("foodChoi").style.color = 'black';
-                                    document.getElementById("foodChoi").style.backgroundColor = 'white';
-                                    document.getElementById("web").style.display = 'block';
-                                    document.getElementById("tt").style.display = 'none';
-                                }
-                            }
+            function bActive(id) {
+                if (id === "tkEtChoice") {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
+                    document.getElementById("foodChoi").style.color = 'black';
+                    document.getElementById("foodChoi").style.backgroundColor = 'white';
+                    document.getElementById("web").style.display = 'block';
+                    document.getElementById("tt").style.display = 'none';
+                } else if (id === "foodChoi") {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
 
-                        </script>
-                        </body>
-                        </html>
+                    document.getElementById("tkEtChoice").style.color = 'black';
+                    document.getElementById("tkEtChoice").style.backgroundColor = 'white';
+                    document.getElementById("tt").style.display = 'block';
+                    document.getElementById("web").style.display = 'none';
+                } else {
+                    document.getElementById(id).style.color = 'white';
+                    document.getElementById(id).style.backgroundColor = 'black';
+                    document.getElementById("foodChoi").style.color = 'black';
+                    document.getElementById("foodChoi").style.backgroundColor = 'white';
+                    document.getElementById("web").style.display = 'block';
+                    document.getElementById("tt").style.display = 'none';
+                }
+            }
+
+        </script>
+    </body>
+</html>

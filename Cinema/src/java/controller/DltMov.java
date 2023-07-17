@@ -5,7 +5,9 @@
 package controller;
 
 import dal.DiStaGenreMovDAO;
+import dal.EventDAO;
 import dal.MovieDAO;
+import dal.RateDAO;
 import dal.ScheDAO;
 import dal.TicketDAO;
 import java.io.IOException;
@@ -82,6 +84,22 @@ public class DltMov extends HttpServlet {
             dsg.dltAllDir(id);
             dsg.dltAllGenre(id);
             dsg.dltAllStar(id);
+            RateDAO rd = new RateDAO();
+            rd.dltRate(id);
+            EventDAO ed = new EventDAO();
+            int b[] = ed.getEventMovByMovID(id);
+            for (int i = 0; i < b.length; i++) {
+                if(ed.checkEventOrder(b[i]) == true) {
+                    response.sendRedirect("listMV?ms=" + "Bộ phim đã bán vé, không thể xóa");
+                }
+            }
+            for (int i = 0; i < b.length; i++) {
+                ed.dltCinApplyEvent(b[i]);
+                ed.dltEventDiscount(b[i]);
+                ed.dltEventGift(b[i]);
+                ed.dltEventMovie(b[i]);
+                ed.dltEventOrder(b[i]);
+            }
             mvd.dltMovByID(id);
 //        request.setAttribute("id", Integer.parseInt(request.getParameter("movid")));
 //        request.getRequestDispatcher("viewsche").forward(request, response);

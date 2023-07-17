@@ -135,14 +135,18 @@
                         </div>
                         <div class="dropdown-content">
                             <div class="insidedropdown-content">
-                                <a class ="lnk" href="nowshowing">Phim Đang Chiếu</a>
-                                <a class ="lnk" href="comingsoon">Phim Sắp Chiếu</a>
-                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
-                                    <a class ="lnk" href="listMV">Danh Sách Phim</a>
+                                <c:if test="${sessionScope.account==null || (sessionScope.account!=null && sessionScope.account.getRole() == 2)}">
+                                    <a class ="lnk" href="nowshowing">Phim Đang Chiếu</a>
+                                    <a class ="lnk" href="comingsoon">Phim Sắp Chiếu</a>
                                 </c:if>
+                                <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
+                                    <a class ="lnk" href="listMV">Quản Lý Phim</a>
+                                </c:if>
+                                <!--
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                                     <a class ="lnk" href="addmov">Thêm Phim Mới</a>
                                 </c:if>
+                                -->
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
                                     <a class ="lnk" href="rpm">Thống Kê Phim</a>
                                 </c:if>
@@ -159,14 +163,14 @@
                         </div>
                         <div class="dropdown-content">
                             <div class="insidedropdown-content">
-      
+
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
-                                    <a class ="lnk" href="allsche">Danh Sách Lịch Chiếu</a>
+                                    <a class ="lnk" href="allsche">Quản Lý Lịch Chiếu</a>
                                 </c:if>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
-                                    <a class ="lnk" href="allt">Danh Sách Vé</a>
+                                    <a class ="lnk" href="allt">Quản Lý Vé</a>
                                 </c:if>
-           
+
 
 
                             </div>
@@ -181,12 +185,14 @@
                         </div>
                         <div class="dropdown-content">
                             <div class=insidedropdown-content>
-                                <a class ="lnk" href="cin">Tất Cả Các Rạp</a>
-                                <a class ="lnk" href="cin?id=1">Rạp Đặc Biệt</a>
-                                <a class ="lnk" href="cin?id=2">Rạp 2D</a>
-                                <a class ="lnk" href="cin?id=3">Rạp 3D</a>
+                                <c:if test="${sessionScope.account==null || (sessionScope.account!=null && sessionScope.account.getRole() == 2)}">
+                                    <a class ="lnk" href="cin">Tất Cả Các Rạp</a>
+                                    <a class ="lnk" href="cin?id=1">Rạp Đặc Biệt</a>
+                                    <a class ="lnk" href="cin?id=2">Rạp 2D</a>
+                                    <a class ="lnk" href="cin?id=3">Rạp 3D</a>
+                                </c:if>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
-                                    <a class ="lnk" href="listcin">Danh Sách Các Rạp</a>
+                                    <a class ="lnk" href="listcin">Quản Lý Rạp</a>
                                 </c:if>
                             </div>
                         </div>
@@ -205,7 +211,7 @@
                                     <a class ="lnk" href="emprp?acc=${sessionScope.account.getUserName()}">Xem Báo Cáo</a>
                                 </c:if>
                                 <c:if test="${sessionScope.account!=null && sessionScope.account.getRole() == 3}">
-                                    <a class ="lnk" href="arp">Danh Sách Khách Hàng</a>
+                                    <a class ="lnk" href="arp">Quản Lý Khách Hàng</a>
                                     <a class ="lnk" href="ordr?p=1">Danh Sách Hóa Đơn</a>
                                     <a class ="lnk" href="orl">Thống Kê Hóa Đơn</a>
                                 </c:if>
@@ -243,8 +249,8 @@
                                 <div class=insidedropdown-content>
                                     <a class ="lnk" href="rpp?type=TK">Vé</a>
                                     <a class ="lnk" href="rpp?type=FD">Đồ Ăn</a>
-                                    <a class ="lnk" href="listfd">Danh Sách Đồ Ăn</a>
-                                    <a class ="lnk" href="fooo">Danh Sách Đồ Ăn Hết Hàng</a>
+                                    <a class ="lnk" href="listfd">Quản Lý Đồ Ăn</a>
+                                    <a class ="lnk" href="fooo">Quản Lý Đồ Ăn Hết Hàng</a>
                                 </div>
                             </div>
                         </div>
@@ -259,7 +265,7 @@
                             </div>
                             <div class="dropdown-content">
                                 <div class=insidedropdown-content>
-                                    <a class ="lnk" href="sr">Xem Đánh Giá</a>
+                                    <a class ="lnk" href="sr">Quản Lý Đánh Giá</a>
                                     <a class ="lnk" href="rrp">Thống Kê</a>
                                 </div>
                             </div>

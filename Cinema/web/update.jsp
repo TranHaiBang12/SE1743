@@ -423,6 +423,9 @@
                         <div>
                             <a href = "update?id=${requestScope.id}"><button type ="button" value ="MUA VÉ">UPDATE</button></a>
                         </div>
+                        <div><!-- comment -->
+                            <a href = "listMV"><button type ="button" value ="SEE LIST">SEE LIST</button></a>
+                        </div>
                     </div>
                 </c:if>
             </div><!-- comment -->

@@ -231,8 +231,33 @@ public class OrderReport extends HttpServlet {
                 listOFBD.add(ord.getAllOrderOffByUserNameAPDate(null, dte2.get(i)));
             }
 
-        
+            String page_rawONL = request.getParameter("pageONL");
+            int pageONL = 0;
 
+            if (page_rawONL == null) {
+                pageONL = 1;
+            } else {
+                try {
+                    pageONL = Integer.parseInt(page_rawONL);
+                    if (pageONL <= 0) {
+                        throw new Exception("Loi");
+                    }
+                } catch (Exception e) {
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
+                }
+            }
+
+            int numPerPageONL = 20;
+            int totalPageONL = (listOBD.size() % numPerPageONL == 0) ? (listOBD.size() / numPerPageONL) : (listOBD.size() / numPerPageONL + 1);
+            if (pageONL > totalPageONL && !listOBD.isEmpty()) {
+                request.getRequestDispatcher("error.jsp").forward(request, response);
+            }
+
+            int start = (pageONL - 1) * numPerPageONL;
+            int end = (pageONL * numPerPageONL > listOBD.size()) ? (listOBD.size() - 1) : (pageONL * numPerPageONL - 1);
+            
+            request.setAttribute("page", pageONL);
+            request.setAttribute("totalPage", totalPageONL);
             request.setAttribute("listOBD", listOBD);
             request.setAttribute("listOFBD", listOFBD);
             request.getRequestDispatcher("ordr.jsp").forward(request, response);

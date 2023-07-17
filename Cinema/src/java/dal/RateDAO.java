@@ -33,6 +33,17 @@ public class RateDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public void dltRate(int movID) {
+        try {
+            String sql = "DELETE FROM Rate WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public Rate checkAccountRateByMovID(String username, int movID) {
         try {

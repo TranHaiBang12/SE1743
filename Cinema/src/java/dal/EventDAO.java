@@ -18,6 +18,23 @@ import model.Event;
  */
 public class EventDAO extends DBContext {
 
+    public boolean checkEventOrder(int eventID) {
+        try {
+            String sql = "SELECT * FROM (SELECT DISTINCT EventCode FROM EventOrderOnline\n"
+                    + "UNION\n"
+                    + "SELECT DISTINCT EventCode FROM EventOrderOffline) AS [T] WHERE T.EventCode = ?";
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, eventID);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
     public List<Event> getAllEventContinued() {
         List<Event> list = new ArrayList<>();
         try {
@@ -85,7 +102,7 @@ public class EventDAO extends DBContext {
         }
         return list;
     }
-    
+
     public void updEventMov(int code, int mov) {
         try {
             String sql = "UPDATE EventApplyMovie SET movID = ? WHERE EventCode = ?";
@@ -97,7 +114,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void dltCinApplyEvent(int code) {
         try {
             String sql = "DELETE FROM CinApplyEvent WHERE EventCode = ?";
@@ -108,7 +125,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void insertCinApplyEvent(int code, int cinID) {
         try {
             String sql = "INSERT INTO CinApplyEvent VALUES (?, ?)";
@@ -120,7 +137,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void insertEventOrder(int code, double price, String type) {
         try {
             String sql = "INSERT INTO EventApplyOrder VALUES (?, ?, ?)";
@@ -133,7 +150,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void insertEventMovie(int code, int movID) {
         try {
             String sql = "INSERT INTO EventApplyMovie VALUES (?, ?)";
@@ -145,7 +162,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void dltEventMovie(int code) {
         try {
             String sql = "DELETE FROM EventApplyMovie WHERE EventCode = ?";
@@ -153,12 +170,12 @@ public class EventDAO extends DBContext {
 
             st.setInt(1, code);
             st.executeQuery();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
+
     public void dltEventOrder(int code) {
         try {
             String sql = "DELETE FROM EventApplyOrder WHERE EventCode = ?";
@@ -166,12 +183,12 @@ public class EventDAO extends DBContext {
 
             st.setInt(1, code);
             st.executeQuery();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
+
     public void updEventOrder(int code, double price, String type) {
         try {
             String sql = "UPDATE EventApplyOrder SET Price = ?, Type = ? WHERE EventCode = ?";
@@ -180,7 +197,7 @@ public class EventDAO extends DBContext {
             st.setString(2, type);
             st.setInt(3, code);
             st.executeUpdate();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -333,6 +350,34 @@ public class EventDAO extends DBContext {
         }
         return b;
     }
+    
+     public int[] getEventMovByMovID(int movID) {
+        int b[] = new int[0];
+        int i = 0;
+        int a = 0;
+        try {
+            String sql = "SELECT * FROM EventApplyMovie WHERE movID = ?";
+            String sql1 = "SELECT COUNT(*) AS T FROM EventApplyMovie WHERE movID = ?";
+            PreparedStatement st = connection.prepareStatement(sql1);
+            st.setInt(1, movID);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                a = rs.getInt("T");
+            }
+            st = connection.prepareStatement(sql);
+            st.setInt(1, movID);
+            rs = st.executeQuery();
+
+            b = new int[a];
+            while (rs.next()) {
+                b[i] = rs.getInt("EventCode");
+                i++;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return b;
+    }
 
     public int[] checkEventMov(int movID, int code) {
         int b[] = new int[0];
@@ -362,7 +407,6 @@ public class EventDAO extends DBContext {
                 i++;
             }
         } catch (Exception e) {
-            System.out.println("3");
             System.out.println(e);
         }
         return b;
@@ -395,7 +439,7 @@ public class EventDAO extends DBContext {
         }
         return b;
     }
-    
+
     public void insertEvent(int code, String name, String content, int type, Timestamp start, Timestamp end, int appO, String img, int discontinued, int date) {
         try {
             String sql = "INSERT INTO Event VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -436,7 +480,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void updEventDiscount(double discount, int code) {
         try {
             String sql = "UPDATE EventDiscount SET Discount = ? WHERE EventCode = ?";
@@ -448,7 +492,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void insertEventDiscount(double discount, int code) {
         try {
             String sql = "INSERT INTO EventDiscount VALUES (?, ?)";
@@ -460,7 +504,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void dltEventDiscount(int code) {
         try {
             String sql = "DELETE FROM EventDiscount WHERE EventCode = ?";
@@ -471,7 +515,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void dltEventGift(int code) {
         try {
             String sql = "DELETE FROM EventGift WHERE EventCode = ?";
@@ -482,7 +526,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void updEventGift(int code, String prCode) {
         try {
             String sql = "UPDATE EventGift SET ProductCode = ? WHERE EventCode = ?";
@@ -494,7 +538,7 @@ public class EventDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public void insertEventGift(int code, String prCode) {
         try {
             String sql = "INSERT INTO EventGift VALUES (?, ?)";
