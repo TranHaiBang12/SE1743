@@ -401,6 +401,18 @@
                 border-right: 1px solid crimson;
                 border-radius: 0px 12px 0px 0px;
             }
+            
+            th{
+                border: none;
+            }
+                    
+            td{
+                border: none;
+            }
+            
+            td{
+                border-bottom: 1px solid black;
+            }
         </style>
         <link rel="stylesheet" href="style.css?version=1"/>
     </head>

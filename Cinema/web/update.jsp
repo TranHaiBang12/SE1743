@@ -274,7 +274,13 @@
                 width: 100%;
             }
             
+            #newstar{
+                margin-left: 90px;
+            }
             
+            #newdir{
+                margin-left: 90px;
+            }
             
             
         </style>

@@ -371,6 +371,18 @@
                 border: none;
                 border-bottom: 1px solid black;
             }
+            
+            th{
+                border: none;
+            }
+                    
+            td{
+                border: none;
+            }
+            
+            td{
+                border-bottom: 1px solid black;
+            }
         </style>
         <link rel="stylesheet" href="style.css?version=1"/>
     </head>

@@ -442,6 +442,122 @@
             .ttle{
                 padding-top: 40px;
             }
+            
+            table{
+                width: 100%;
+
+            }
+
+            .k{
+                padding: 0px;
+                width: 150px;
+                height: 270px;
+            }
+            .k img{
+                width: 100%;
+                height: 100%;
+            }
+
+
+            .blk{
+                font-weight: bold;
+            }
+
+            .addE img{
+                width: 30px;
+                cursor: pointer;
+            }
+
+            .addE div{
+                margin-left: 20px;
+            }
+
+            .addE {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                padding-bottom: 20px;
+                font-size: 20px;
+            }
+
+            button{
+                margin-bottom: 20px;
+                font-size: 15px;
+                padding: 5px;
+                width: 80%;
+                border-radius: 12px;
+                cursor: pointer;
+                background-color: red;
+                color: #faebee;
+            }
+
+            button:hover{
+                color:white;
+                background-color: red;
+            }
+
+            .ms{
+                margin-bottom: 20px;
+            }
+
+            th{
+                padding-left: 20px;
+                margin-left: 0px;
+                text-align: left;
+            }
+
+            td{
+                text-align: left;
+                font-size: 18px;
+                padding-left: 20px;
+            }
+
+            tr:hover{
+                background-color: rgba(70,70,70,0.2);
+            }
+
+            .ttr:hover{
+                background-color: crimson;
+
+            }
+
+            .ttr{
+
+                border: 1px solid crimson;
+                border-radius: 12px;
+                padding: 5px;
+                background-color: crimson;
+            }
+
+            .first{
+                border-left: 1px solid crimson;
+                border-radius: 12px 0px 0px 0px;
+            }
+
+            .last{
+                border-right: 1px solid crimson;
+                border-radius: 0px 12px 0px 0px;
+            }
+            
+            th{
+                border: none;
+            }
+                    
+            td{
+                border: none;
+            }
+            
+            td{
+                border-bottom: 1px solid black;
+            }
+            
+            table{
+                border-spacing: 0px;
+                border-radius: 12px;
+            }
+            
+     
         </style>
     </head>
     <body>
@@ -546,9 +662,8 @@
             <div class = "ttle">Thiết Bị</div>
             <c:if test = "${requestScope.listDevice != null && requestScope.ms == null}">
                 <table>
-                    <tr>
-                        <th>ẢNH</th>
-                        <th>MÃ THIẾT BỊ</th>
+                    <tr class = "ttr">
+                        <th class = "first">MÃ THIẾT BỊ</th>
                         <th>LOẠI THIẾT BỊ</th><!-- comment -->
                         <th>GIÁ THIẾT BỊ</th>
                         <th>MÔ TẢ</th>    
@@ -556,11 +671,10 @@
                         <th>THỜI GIAN PHÂN BỐ</th>
                         <th>BAR CODE</th>
                         <th>TÌNH TRẠNG</th>
-                        <th>HÀNH ĐỘNG</th>
+                        <th class = "last">HÀNH ĐỘNG</th>
                     </tr>
                     <c:forEach items = "${requestScope.listDevice}" var = "i">
                         <tr>
-                            <td><img src = "${i.getImg()}"/></td>
                             <td>${i.getDeviceCode()}</td>
                             <td>${i.getTypeName()}</td>
                             <td>${i.getPrice()}</td>
@@ -570,9 +684,9 @@
                             <td>${i.getDeviceBarCode()}</td>
                             <td>${i.getStatus()}</td>
                             <td>
-                                <a href = "udbc?id=${i.getDeviceBarCode()}">SỬA</a>
-                                /
-                                <a onclick="dlt('${i.getDeviceBarCode()}')">XÓA</a>
+                                <a href = "udbc?id=${i.getDeviceBarCode()}"><button type = "button">SỬA</button></a>
+                                
+                                <a onclick="dlt('${i.getDeviceBarCode()}')"><button type = "button">XÓA</button></a>
                             </td>
                         </tr>
                     </c:forEach>

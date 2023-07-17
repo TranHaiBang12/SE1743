@@ -291,6 +291,18 @@
             .Sttle{
                 margin-bottom: 20px;
             }
+            
+            th{
+                border: none;
+            }
+                    
+            td{
+                border: none;
+            }
+            
+            td{
+                border-bottom: 1px solid black;
+            }
         </style>
     </head>
     <body>

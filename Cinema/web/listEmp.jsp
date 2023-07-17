@@ -320,6 +320,18 @@
                 border: none;
                 border-bottom: 1px solid black;
             }
+            
+            th{
+                border: none;
+            }
+                    
+            td{
+                border: none;
+            }
+            
+            td{
+                border-bottom: 1px solid black;
+            }
         </style>
     </head>
     <body>
