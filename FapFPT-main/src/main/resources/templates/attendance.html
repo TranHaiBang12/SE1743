@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<htmlxmlns:th="http://www.thymeleaf.org">
+
+    <!--
+    Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+    Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+    -->
+
+
+    <html>
+        <head>
+            <title>TODO supply a title</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+            <style>
+                .body{
+                    margin-left: 30%;
+                }
+
+                th{
+                    padding: 20px;
+                }
+
+                table{
+                    width: 60%;
+                    border: 1px solid black;
+                }
+
+                form{
+                    width: 30%;
+                }
+
+                td{
+                    padding: 10px;
+                    text-align: left;
+                    width: 50px;
+                }
+                th{
+                    text-align: left;
+                    width: 50px;
+                }
+
+                tr{
+                    height: 20px;
+                }
+
+                .cls{
+
+                }
+
+                .cls:hover{
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+
+                tr{
+                    border-bottom: 1px solid black;
+                    border-top: 1px solid black;
+                }
+
+                th{
+                    border-bottom: 1px solid black;
+                }
+
+                select{
+                    margin-top: 15px;
+                }
+
+                .btn{
+                    background-color: red;
+                    width: 150px;
+                    color: white;
+                    font-weight: bold;
+                    margin-top: 20px;
+                    margin-left: 80%;
+                    text-align: center;
+                }
+            </style>
+        </head>
+        <body>
+            <div class = "body">
+                <th:block th:switch="${message}">
+                    <div th:text="${message}">
+                        
+                    </div>
+                    <div th:case = null>
+                        <th:block th:switch="${attend}">
+                            <div th:case=true>
+                                <!-- print object is not active -->
+                                <table>
+                                    <thead>
+                                        <tr>
+                                    <input type ="hidden" id ="lecture" th:value="${lecture.teacherID}"/>
+                                    <th>ID
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+
+
+                                        <tr th:each="data : ${listA}">
+                                            <td th:text="${data.student.studentID}"></td>
+                                            <td th:text="${data.student.firstName + ' ' + data.student.lastName}"></td><!-- comment -->
+                                            <td>
+
+                                    <th:block th:switch="${data.status}">
+                                        <div th:case=true>
+                                            <input th:id ="${data.student.studentID} + 'itrue'" checked="true" th:name ="${data.student.studentID} + 'attend'" class ="s" type ="radio" th:value ="${data.student.studentID} + 's1'"/> Attend
+                                            <input th:id ="${data.student.studentID} + 'ifalse'" th:name ="${data.student.studentID} + 'attend'"  class ="s" type ="radio" th:value ="${data.student.studentID} + 's0'"/> Absent
+
+                                        </div>
+                                        <div th:case =false>
+                                            <input th:id ="${data.student.studentID} + 'itrue'"  th:name ="${data.student.studentID} + 'attend'" class ="s" type ="radio" th:value ="${data.student.studentID} + 's1'"/> Attend
+                                            <input th:id ="${data.student.studentID} + 'ifalse'" th:name ="${data.student.studentID} + 'attend'" checked="" class ="s" type ="radio" th:value ="${data.student.studentID} + 's0'"/> Absent
+                                        </div>
+                                    </th:block>
+
+                                    </td><!-- comment -->
+
+                                    </tr>
+
+
+                                    </form>
+
+                                    </tbody>
+
+                                </table>
+                                <form th:id ="frmUpd" th:action = "update" th:method = "post">
+                                    <input type ="hidden" id ="lecture" name ="lecture" th:value ="${lecture.teacherID}"/>
+                                    <input type ="hidden" id ="timetable" name ="timetable" th:value ="${timetableID}"/>
+                                    <input type ="hidden" id ="id" name ="id" value ="1"/>
+                                    <input class = "btn" type ="button" onclick ="sbmitU()" value = "Save"/>
+                                </form>
+                            </div>
+                            <div th:case=false>
+                                <!-- print object is not active -->
+
+                                <table>
+                                    <thead>
+                                        <tr>
+                                    <input type ="hidden" id ="lecture" th:value="${lecture.teacherID}"/>
+                                    <th>ID
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+
+
+                                        <tr th:each="data : ${listS}">
+                                            <td th:text="${data.student.studentID}"></td>
+                                            <td th:text="${data.student.firstName + ' ' + data.student.lastName}"></td><!-- comment -->
+                                            <td>
+
+
+                                                <input th:id ="${data.student.studentID} + 'itrue'"th:name ="${data.student.studentID} + 'attend'" class ="s" type ="radio" th:value ="${data.student.studentID} + 's1'"/> Attend
+                                                <input th:id ="${data.student.studentID} + 'ifalse'" th:name ="${data.student.studentID} + 'attend'" checked="" class ="s" type ="radio" th:value ="${data.student.studentID} + 's0'"/> Absent
+
+
+
+                                            </td><!-- comment -->
+
+                                        </tr>
+
+
+                                        </form>
+
+                                    </tbody>
+
+                                </table>
+                                <form th:id ="frm" th:action = "add" th:method = "post">
+                                    <input type ="hidden" id ="lecture" name ="lecture" th:value ="${lecture.teacherID}"/>
+                                    <input type ="hidden" id ="timetable" name ="timetable" th:value ="${timetableID}"/>
+                                    <input type ="hidden" id ="id" name ="id" value ="1"/>
+                                    <input class = "btn" type ="button" onclick ="sbmit()" value = "Save"/>
+                                </form>
+
+                            </div>
+
+                        </th:block>
+                    </div>
+                </th:block>
+            </div>
+            <script type = "text/javascript">
+                var txt = "";
+                function sbmitU() {
+                    txt = "";
+                    arr = document.getElementsByClassName("s");
+                    for (var i = 0; i < arr.length; i++) {
+                        if (document.getElementById(arr[i].id).checked) {
+                            if (arr[i].id.includes('true')) {
+                                txt += arr[i].id;
+                            } else if (arr[i].id.includes('false')) {
+                                txt += arr[i].id;
+                            }
+                        }
+                    }
+                    document.getElementById("id").value = txt;
+
+                    document.getElementById("frmUpd").submit();
+                }
+                function sbmit() {
+                    txt = "";
+                    arr = document.getElementsByClassName("s");
+                    for (var i = 0; i < arr.length; i++) {
+                        if (document.getElementById(arr[i].id).checked) {
+                            if (arr[i].id.includes('true')) {
+                                txt += arr[i].id;
+                            } else if (arr[i].id.includes('false')) {
+                                txt += arr[i].id;
+                            }
+                        }
+                    }
+                    document.getElementById("id").value = txt;
+
+                    document.getElementById("frm").submit();
+                }
+            </script>
+        </body>
+    </html>

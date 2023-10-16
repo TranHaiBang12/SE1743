@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>FunctionFAP Manager</title>
+</head>
+<body>
+<div align="center">	
+	<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+	
+	<h1>FunctionFAP Manager</h1>
+	<a href="new">Create new option FAP</a>
+<br/>
+	<input type = "hidden" id = "name" th:value = "${#httpServletRequest.remoteUser}"/>
+		<div onclick = "fap()" sec:authorize="hasAuthority('Teacher')"><a href = "#" onclick = "fap()">View your timetable</a></div>
+	<br/><br/>
+	<table border="1" cellpadding="10">
+		<thead>
+			<tr>
+				<th>NO</th>
+				<th>Name</th>
+				
+				<th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+
+				
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="FunctionFAP : ${listFunctionFAPs}">
+				<td th:text="${FunctionFAP.id}">TÊN CH?C N?NG</td>
+				<td th:text="${FunctionFAP.name}">Name</td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')">
+					<a th:href="@{'/edit/' + ${FunctionFAP.id}}">Edit</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<a th:href="@{'/delete/' + ${FunctionFAP.id}}">Delete</a>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script type = "text/javascript">
+function fap() {
+	var a = document.getElementById("name").value;
+	var url = "http://localhost:9201/project/teacher/timetable/" + a;
+	window.location = url;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<htmlxmlns:th="http://www.thymeleaf.org">
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .body{
+            text-align: center;
+            margin-left: 10%;
+            margin-right: 10%;
+
+        }
+
+
+        th{
+            padding: 20px;
+        }
+
+        table{
+            width: 100%;
+            border: 1px solid black;
+        }
+
+        td{
+            padding: 10px;
+            text-align: left;
+            width: 80px;
+        }
+        th{
+            text-align: left;
+            width: 80px;
+        }
+
+        tr{
+            height: 50px;
+        }
+
+        .cls{
+
+        }
+
+        .cls:hover{
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        tr{
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+        }
+
+        th{
+            border-bottom: 1px solid black;
+            margin-bottom: 15px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class = "body">
+    <h2>Timetable</h2>
+    <table>
+        <thead>
+        <tr>
+            <input type ="hidden" id ="lecture" th:value="${lecture}"/>
+            <th>WEEK
+                <select id ="slt" onchange = "sbmit()">
+                    <option th:each="date : ${week}" th:text = "${date.startS} + ' to ' + ${date.endS}" th:selected="${date.start} eq ${start}">
+                    </option>
+                </select></th>
+            <th>MON</th>
+            <th>TUE</th>
+            <th>WED</th>
+            <th>THU</th>
+            <th>FRI</th>
+            <th>SAT</th>
+            <th>SUN</th>
+        </tr>
+
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>Slot 1:</td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}" th:if="${data.slot==1&&data.day=='Mon'}" th:text="${data.subject.subjectName} at ${data.room}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}" th:if="${data.slot==1&&data.day=='Tue'}" th:text="${data.subject.subjectName} at ${data.room}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}" th:if="${data.slot==1&&data.day=='Wed'}" th:text="${data.subject.subjectName} at ${data.room}"></td><!-- comment -->
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}" th:if="${data.slot==1&&data.day=='Thu'}" th:text="${data.subject.subjectName} at ${data.room}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}" th:if="${data.slot==1&&data.day=='Fri'}" th:text="${data.subject.subjectName} at ${data.room}"></td><!-- comment -->
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}" th:if="${data.slot==1&&data.day=='Sat'}" th:text="${data.subject.subjectName} at ${data.room}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}" th:if="${data.slot==1&&data.day=='Sun'}" th:text="${data.subject.subjectName} at ${data.room}"></td>
+
+
+        </tr>
+        <tr>
+            <td>Slot 2:</td>
+            <td th:data-name="${data.timetableID}"  th:onclick="detail(this.getAttribute('data-name'))" class ="cls" th:each="data : ${list}" th:if="${data.slot==2&&data.day=='Mon'}" th:text="${data.subject.subjectName} +  ' at ' + ${data.department} + '-' + ${data.room}"></td>
+            <td th:data-name="${data.timetableID}"  th:onclick="detail(this.getAttribute('data-name'))" class ="cls" th:each="data : ${list}" th:if="${data.slot==2&&data.day=='Tue'}" th:text="${data.subject.subjectName} +  ' at ' + ${data.department} + '-' + ${data.room}"></td>
+            <td th:data-name="${data.timetableID}"  th:onclick="detail(this.getAttribute('data-name'))" class ="cls" th:each="data : ${list}" th:if="${data.slot==2&&data.day=='Wed'}" th:text="${data.subject.subjectName} +  ' at ' + ${data.department} + '-' + ${data.room}"></td><!-- comment -->
+            <td th:data-name="${data.timetableID}"  th:onclick="detail(this.getAttribute('data-name'))" class ="cls" th:each="data : ${list}" th:if="${data.slot==2&&data.day=='Thu'}" th:text="${data.subject.subjectName} +  ' at ' + ${data.department} + '-' + ${data.room}"></td>
+            <td th:data-name="${data.timetableID}"  th:onclick="detail(this.getAttribute('data-name'))" class ="cls" th:each="data : ${list}" th:if="${data.slot==2&&data.day=='Fri'}" th:text="${data.subject.subjectName} +  ' at ' + ${data.department} + '-' + ${data.room}"></td><!-- comment -->
+            <td th:data-name="${data.timetableID}"  th:onclick="detail(this.getAttribute('data-name'))" class ="cls"  th:each="data : ${list}" th:if="${data.slot==2&&data.day=='Sat'}" th:text="${data.subject.subjectName} +  'at ' + ${data.department} + '-' + ${data.room}"></td>
+            <td  th:data-name="${data.timetableID}" th:onclick="detail(this.getAttribute('data-name'))" class ="cls"  th:each="data : ${list}" th:if="${data.slot==2&&data.day=='Sun'}" th:text="${data.subject.subjectName} +  ' at ' + ${data.department} + '-' + ${data.room}"></td>
+
+
+        </tr>
+        <tr>
+            <td>Slot 3:</td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==3&&data.day=='Mon'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==3&&data.day=='Tue'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==3&&data.day=='Wed'}" th:text="${data.subject.subjectName}"></td><!-- comment -->
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==3&&data.day=='Thu'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls"  th:each="data : ${list}" th:if="${data.slot==3&&data.day=='Fri'}" th:text="${data.subject.subjectName}"></td><!-- comment -->
+            <td onclick="detail('${data.clss.classID}')" class ="cls"  th:each="data : ${list}" th:if="${data.slot==3&&data.day=='Sat'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==3&&data.day=='Sun'}" th:text="${data.subject.subjectName}"></td>
+
+
+
+        </tr>
+        <tr>
+            <td>Slot 4:</td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==4&&data.day=='Mon'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==4&&data.day=='Tue'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==4&&data.day=='Wed'}" th:text="${data.subject.subjectName}"></td><!-- comment -->
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==4&&data.day=='Thu'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls"  th:each="data : ${list}" th:if="${data.slot==4&&data.day=='Fri'}" th:text="${data.subject.subjectName}"></td><!-- comment -->
+            <td onclick="detail('${data.clss.classID}')" class ="cls"  th:each="data : ${list}" th:if="${data.slot==4&&data.day=='Sat'}" th:text="${data.subject.subjectName}"></td>
+            <td onclick="detail('${data.clss.classID}')" class ="cls" th:each="data : ${list}"  th:if="${data.slot==4&&data.day=='Sun'}" th:text="${data.subject.subjectName}"></td>
+
+
+
+        </tr>
+
+
+        </tbody>
+    </table>
+</div>
+<script type = "text/javascript">
+    function getDatesInRange(startDate, endDate) {
+        const date = new Date(startDate.getTime());
+        const dates = [];
+        while (date <= endDate) {
+            dates.push(new Date(date));
+            date.setDate(date.getDate() + 1);
+        }
+
+        return dates;
+    }
+
+
+    function sbmit() {
+        var str = document.getElementById("slt").selectedOptions[0].text;
+        var s1 = "", s2 = "";
+        for (var i = 0; i < str.length; i++) {
+            if (str.substring(i, i + 4) == ' to ') {
+                s1 = str.substring(0, i);
+                s2 = str.substring(i + 4);
+            }
+        }
+        var t = s1;
+        var date = "", month = "", year = "";
+        var k = 0, count = 0;
+        for (var i = 0; i < t.length; i++) {
+            if (t.charAt(i) == '-' && count == 0) {
+                year = t.substring(k, i);
+                count++;
+                k = i;
+            } else if (t.charAt(i) == '-' && count == 1) {
+                month = t.substring(k + 1, i);
+                count++;
+                k = i;
+            } else if (i == t.length - 1) {
+                date = t.substring(k + 1, i + 1);
+            }
+        }
+        s1 = date + "-" + month + "-" + year;
+
+        t = s2;
+        date = "", month = "", year = "";
+        k = 0, count = 0;
+        for (var i = 0; i < t.length; i++) {
+            if (t.charAt(i) == '-' && count == 0) {
+                year = t.substring(k, i);
+                count++;
+                k = i;
+            } else if (t.charAt(i) == '-' && count == 1) {
+                month = t.substring(k + 1, i);
+                count++;
+                k = i;
+            } else if (i == t.length - 1) {
+                date = t.substring(k + 1, i + 1);
+            }
+        }
+        s2 = date + "-" + month + "-" + year;
+        window.location = "http://localhost:9201/project/teacher/timetable/" + s1 + "/" + s2 + "/" + document.getElementById("lecture").value;
+    }
+
+    function detail(id) {
+        window.location = "http://localhost:9201/project/teacher/timetable/" + id + "/" + document.getElementById("lecture").value;
+    }
+</script>
+</body>
+</html>

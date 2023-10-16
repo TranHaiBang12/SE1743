@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<htmlxmlns:th="http://www.thymeleaf.org">
+
+    <!--
+    Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+    Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+    -->
+    <html>
+        <head>
+            <title>TODO supply a title</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                .body{
+                    margin-left: 40%;
+                    margin-right: 10%;
+                    font-size: 20px;
+                }
+
+                h2{
+                    margin-left: 40%;
+                    margin-right: 10%;
+                }
+
+                .body div{
+                    margin-bottom: 15px;
+                }
+
+            </style>
+        </head>
+        <body>
+        <h2>Class Detail</h2>
+            <div class = "body">
+
+                <div th:text = "'Class Name: ' + ${c.className}">
+                </div>
+                <div th:text = "'Lecture: ' + ${lecture.firstName} + ' ' + ${lecture.lastName}">
+                </div>
+                <div th:text = "'Start date: ' + ${t.startTime} + ' ' + ${t.startDate}">
+                </div><!-- comment -->
+                <div th:text = "'End date: ' + ${t.endTime} + ' ' + ${t.endDate}">
+                </div>
+
+                <input type ="hidden" id ="msg" th:value ="${message}"/>
+
+                <th:block th:switch="${t.attend}">
+                    <div th:case=false>
+                        <a th:href="@{'/teacher/attendance/'+ ${t.timetableID}}">Take attendance</a>
+                    </div>
+                    <div th:case=true>
+                        <a th:href="@{'/teacher/attendance/'+ ${t.timetableID}}">Edit attendance</a>
+                    </div>
+                </th:block>
+                <a href="http://localhost:9201/project/teacher/timetable/admin"> Back to timetable</a>
+            </div>
+            <script type = "text/javascript">
+
+            </script>
+        </body>
+    </html>
